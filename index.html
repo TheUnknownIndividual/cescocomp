@@ -276,7 +276,12 @@
                                 current_mw: 230,
                                 pipeline_mw: 240,
                                 remaining_gw: 2.5,
-                                notes: "High wind on Absheron coast; Garadagh 230 MW PV; Khizi–Absheron 240 MW wind; Caspian offshore wind ~2 GW potential"
+                                notes: "Absheron Peninsula hosts 2,170+ MW across multiple medium-to-high suitability sites. Cheyildagh (44.6 km²) represents largest single site with 2,128 MW capacity and 1,527 kWh/m²/year insolation. Hybrid solar-wind systems can generate 1.95 billion kWh/year, addressing 36% of local electricity demand. Caspian offshore wind ~2 GW potential in shallow waters.",
+                                projects: [
+                                        { name: "Garadagh Solar PV", company: "State-owned", capacity_mw: 230, status: "Operational", type: "Solar" },
+                                        { name: "Khizi-Absheron Wind Farm", company: "ACWA Power", capacity_mw: 240, status: "Under Construction", type: "Wind", details: "37 turbines across Chayli and Sitalchay villages, generating 907 GWh annually, reducing natural gas consumption by 220 million m³" },
+                                        { name: "Caspian Offshore Wind Zone", company: "Caspian Breeze Consortium (Masdar, ACWA Power, SOCAR Green)", capacity_mw: 600, status: "Planned", type: "Offshore Wind", details: "200 MW initial phase, shallow water (0-30m) fixed-foundation platforms, 6.4 m/s average wind speed at 50m height" }
+                                ]
                         },
                         "Qobustan": {
                                 group: "Gobustan Zone",
@@ -287,7 +292,11 @@
                                 current_mw: 5.5,
                                 pipeline_mw: 100,
                                 remaining_gw: 0.3,
-                                notes: "Hybrid test polygon and 100 MW PV project; strong onshore wind"
+                                notes: "Gobustan District (40.47°N, 49.06°E) offers 226+ MW capacity with wind power density of 226-267 W/m², suitable for utility-scale turbine deployment. Wind speeds of 7.199 m/s at 100m AGL create favorable conditions.",
+                                projects: [
+                                        { name: "Experimental Polygon", company: "State Research Facility", capacity_mw: 5.5, status: "Operational", type: "Hybrid", details: "Training and testing facility for wind-solar hybrid systems" },
+                                        { name: "Gobustan Solar PV", company: "TBD", capacity_mw: 100, status: "Planned (2026)", type: "Solar" }
+                                ]
                         },
                         "Cəbrayıl": {
                                 group: "East Zangazur",
@@ -298,7 +307,13 @@
                                 current_mw: 0,
                                 pipeline_mw: 340,
                                 remaining_gw: 0.9,
-                                notes: "Part of Green Energy Zone; Shafag 240 + Ufuq 50 + Şams 50 MW solar"
+                                notes: "East Zangazur (Green Energy Zone) hosts three flagship projects totaling 340 MW of solar capacity. Together with hydropower development, these address the region's ~400 MW renewable target by 2030. Jabrayil Substation (240 MW capacity) provides interconnection. Zangezur Corridor integration with 330 kV Jabrail-Nakhchivan line enables export via Türkiye to European markets.",
+                                projects: [
+                                        { name: "Shafag Solar", company: "State Project", capacity_mw: 240, status: "Under Construction (40% panel delivery as of Dec 2025)", type: "Solar" },
+                                        { name: "Ufuq Solar", company: "State Project", capacity_mw: 50, status: "Planned", type: "Solar" },
+                                        { name: "Shams Solar", company: "State Project", capacity_mw: 50, status: "Planned", type: "Solar" },
+                                        { name: "Small HPP Cascade", company: "State Development", capacity_mw: 100, status: "Planned", type: "Hydro", details: "Mountain river cascade development" }
+                                ]
                         },
                         "Zəngilan": {
                                 group: "East Zangazur",
@@ -342,7 +357,14 @@
                                 current_mw: 130,
                                 pipeline_mw: 530,
                                 remaining_gw: 4.8,
-                                notes: "High‑irradiation exclave; several >2 GW solar sites identified"
+                                notes: "Nakhchivan Autonomous Republic stands as the solar leader with 5.2 GW identified capacity spanning 109.2 km² of high-suitability sites. Eight specifically mapped locations offer solar radiation above 1,700 kWh/m²/year. Sites receive direct solar radiation of 1,730-1,755 kWh/m²/year, significantly exceeding the 1,400 kWh/m² threshold for economically viable photovoltaic installation. Geothermal: Daridag field (10 MW), Ilisu and Oglanbulag wells at 41.2°C. Hydropower: 38.1 MW capacity generating 215.5 million kWh/year from mountain river systems.",
+                                projects: [
+                                        { name: "Boyukduz Plain Solar (Babek)", company: "TBD", capacity_mw: 2170, status: "Identified Site", type: "Solar", details: "39.29°N, 45.32°E - Largest opportunity with 45.5 km², generating 3,256 million kWh annually" },
+                                        { name: "Tananam Solar (Sharur)", company: "TBD", capacity_mw: 507, status: "Identified Site", type: "Solar", details: "39.48°N, 45.13°E - Economically viable site" },
+                                        { name: "Diza Village Solar (Julfa)", company: "TBD", capacity_mw: 440, status: "Identified Site", type: "Solar", details: "38.97°N, 45.65°E - 9.2 km² site" },
+                                        { name: "Existing Solar Facilities", company: "State-owned", capacity_mw: 130, status: "Operational", type: "Solar" },
+                                        { name: "Daridag Geothermal", company: "State-owned", capacity_mw: 10, status: "Operational", type: "Geothermal", details: "Largest geothermal field in region" }
+                                ]
                         },
                         "Sumqayıt": {
                                 group: "Absheron Peninsula + Caspian",
@@ -530,6 +552,39 @@
                 `;
                         }
 
+                        // Build projects section if available
+                        let projectsHTML = '';
+                        if (energyData.projects && energyData.projects.length > 0) {
+                                projectsHTML = `
+                    <div class="projects-section">
+                        <h4 style="margin: 12px 0 8px 0; font-size: 14px; color: #2c3e50;">🏗️ Projects & Companies:</h4>
+                        <div class="projects-list">`;
+
+                                energyData.projects.forEach(project => {
+                                        const statusColor = project.status.includes('Operational') ? '#27ae60' :
+                                                project.status.includes('Construction') ? '#f39c12' : '#3498db';
+
+                                        projectsHTML += `
+                            <div class="project-item" style="margin-bottom: 10px; padding: 8px; background: rgba(255,255,255,0.5); border-radius: 6px; border-left: 3px solid ${statusColor};">
+                                <div style="font-weight: 600; font-size: 13px; margin-bottom: 3px;">${project.name}</div>
+                                <div style="font-size: 11px; color: #555; margin-bottom: 2px;">
+                                    <span style="background: rgba(52, 152, 219, 0.15); padding: 2px 6px; border-radius: 3px; margin-right: 4px;">${project.company}</span>
+                                    <span style="background: rgba(46, 204, 113, 0.15); padding: 2px 6px; border-radius: 3px; margin-right: 4px;">${project.capacity_mw} MW</span>
+                                    <span style="background: rgba(${statusColor === '#27ae60' ? '46, 204, 113' : statusColor === '#f39c12' ? '243, 156, 18' : '52, 152, 219'}, 0.15); padding: 2px 6px; border-radius: 3px;">${project.status}</span>
+                                </div>`;
+
+                                        if (project.details) {
+                                                projectsHTML += `<div style="font-size: 11px; color: #666; margin-top: 4px; font-style: italic;">${project.details}</div>`;
+                                        }
+
+                                        projectsHTML += `</div>`;
+                                });
+
+                                projectsHTML += `
+                        </div>
+                    </div>`;
+                        }
+
                         return `
                 <div class="rayon-popup">
                     <h3>${rayonName} – ${energyData.group}</h3>
@@ -542,6 +597,7 @@
                         <div class="stat">📈 <strong>Remaining potential:</strong> ${energyData.remaining_gw.toFixed(2)} GW</div>
                         <div class="stat">📝 <strong>Notes:</strong> ${energyData.notes}</div>
                     </div>
+                    ${projectsHTML}
                     <div class="sources">
                         <small>📚 <strong>Sources:</strong> Imamverdiyev 2024 (renewable geography of Azerbaijan), Ministry of Energy & AREN renewable statistics 2023–2025, World Bank Azerbaijan assessments</small>
                     </div>
