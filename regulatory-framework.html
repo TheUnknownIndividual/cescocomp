@@ -4,22 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🇦🇿 Azerbaijan Green Energy Regulatory Framework</title>
+    <title>🇦🇿 Azerbaijan Green Energy Framework</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
 
     <style>
         :root {
-            --az-blue: #0099CC;
-            --az-red: #E30A17;
-            --az-green: #27AE60;
-            --bg-dark: #0A1628;
-            --bg-panel: rgba(255, 255, 255, 0.08);
-            --text-primary: #FFFFFF;
-            --text-muted: rgba(255, 255, 255, 0.7);
-            --border-glass: rgba(255, 255, 255, 0.1);
+            --green-primary: #27AE60;
+            --green-light: #2ECC71;
+            --green-dark: #1E8449;
+            --white: #FFFFFF;
+            --off-white: #F8F9FA;
+            --black: #000000;
+            --gray-dark: #1A1A1A;
+            --gray-medium: #6B7280;
+            --gray-light: #E5E7EB;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
         }
 
         * {
@@ -30,83 +34,76 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0A1628 0%, #1a2942 50%, #0A1628 100%);
-            color: var(--text-primary);
+            background: var(--off-white);
+            color: var(--gray-dark);
             min-height: 100vh;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* Header */
         .header {
-            background: var(--bg-panel);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-glass);
-            padding: 24px 32px;
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-light);
+            padding: 20px 32px;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: var(--shadow-sm);
         }
 
         .header-content {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 16px;
         }
 
         .header h1 {
-            font-size: 28px;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--az-blue), var(--az-green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--black);
+            letter-spacing: -0.5px;
         }
 
         .header p {
             font-size: 14px;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 16px;
-            align-items: center;
+            color: var(--gray-medium);
+            margin-top: 2px;
+            font-weight: 400;
         }
 
         .nav-link {
             padding: 10px 20px;
-            background: var(--bg-panel);
-            border: 1px solid var(--border-glass);
-            border-radius: 12px;
-            color: var(--text-primary);
+            background: var(--green-primary);
+            border-radius: 10px;
+            color: var(--white);
             text-decoration: none;
             font-size: 14px;
             font-weight: 600;
-            transition: all 0.3s ease;
-            display: flex;
+            transition: all 0.2s ease;
+            display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .nav-link:hover {
-            background: linear-gradient(135deg, var(--az-blue), var(--az-green));
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0, 153, 204, 0.3);
+            background: var(--green-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
 
         /* Filter Bar */
         .filter-bar {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 32px auto;
             padding: 0 32px;
             display: flex;
-            gap: 16px;
+            gap: 12px;
             flex-wrap: wrap;
             align-items: center;
         }
@@ -119,96 +116,89 @@
 
         .search-box input {
             width: 100%;
-            padding: 14px 20px 14px 48px;
-            background: var(--bg-panel);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border-glass);
-            border-radius: 12px;
-            color: var(--text-primary);
+            padding: 12px 20px 12px 44px;
+            background: var(--white);
+            border: 1px solid var(--gray-light);
+            border-radius: 10px;
+            color: var(--gray-dark);
             font-size: 14px;
             font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .search-box input:focus {
             outline: none;
-            border-color: var(--az-blue);
-            box-shadow: 0 0 0 3px rgba(0, 153, 204, 0.2);
+            border-color: var(--green-primary);
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
         }
 
         .search-box::before {
             content: '🔍';
             position: absolute;
-            left: 18px;
+            left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 18px;
+            font-size: 16px;
         }
 
         .filter-buttons {
             display: flex;
-            gap: 12px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
         .filter-btn {
-            padding: 12px 20px;
-            background: var(--bg-panel);
-            border: 1px solid var(--border-glass);
-            border-radius: 12px;
-            color: var(--text-muted);
+            padding: 10px 18px;
+            background: var(--white);
+            border: 1px solid var(--gray-light);
+            border-radius: 10px;
+            color: var(--gray-medium);
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             font-family: 'Inter', sans-serif;
         }
 
         .filter-btn:hover {
-            color: var(--text-primary);
-            border-color: var(--az-blue);
+            color: var(--gray-dark);
+            border-color: var(--green-primary);
         }
 
         .filter-btn.active {
-            background: linear-gradient(135deg, var(--az-blue), var(--az-green));
-            color: white;
-            border-color: transparent;
+            background: var(--green-primary);
+            color: var(--white);
+            border-color: var(--green-primary);
         }
 
         /* Card Grid */
         .card-grid {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto 60px;
             padding: 0 32px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 20px;
         }
 
         /* Knowledge Card */
         .knowledge-card {
-            background: var(--bg-panel);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border-glass);
-            border-radius: 20px;
+            background: var(--white);
+            border: 1px solid var(--gray-light);
+            border-radius: 16px;
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
-            position: relative;
         }
 
         .knowledge-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 40px rgba(0, 153, 204, 0.3);
-            border-color: var(--az-blue);
-        }
-
-        .knowledge-card.expanded {
-            grid-column: span 2;
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--green-primary);
         }
 
         .card-header {
-            background: linear-gradient(135deg, var(--az-blue), var(--az-green));
+            background: var(--green-primary);
             padding: 20px 24px;
             display: flex;
             align-items: flex-start;
@@ -216,7 +206,7 @@
         }
 
         .card-icon {
-            font-size: 32px;
+            font-size: 28px;
             line-height: 1;
         }
 
@@ -225,29 +215,30 @@
         }
 
         .card-title {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
-            color: white;
+            color: var(--white);
             margin-bottom: 4px;
             line-height: 1.3;
+            letter-spacing: -0.3px;
         }
 
         .card-date {
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.85);
             font-weight: 500;
         }
 
         .card-category {
             display: inline-block;
-            padding: 6px 12px;
+            padding: 5px 12px;
             background: rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 600;
-            color: white;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--white);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
         }
 
         .card-body {
@@ -255,9 +246,9 @@
         }
 
         .card-focus {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
-            color: var(--az-blue);
+            color: var(--green-dark);
             margin-bottom: 16px;
         }
 
@@ -267,12 +258,12 @@
         }
 
         .card-points li {
-            padding: 10px 0 10px 28px;
+            padding: 10px 0 10px 24px;
             position: relative;
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.6;
-            color: var(--text-muted);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--gray-medium);
+            border-bottom: 1px solid var(--gray-light);
         }
 
         .card-points li:last-child {
@@ -283,9 +274,9 @@
             content: '✓';
             position: absolute;
             left: 0;
-            color: var(--az-green);
+            color: var(--green-primary);
             font-weight: 700;
-            font-size: 16px;
+            font-size: 14px;
         }
 
         .card-points.collapsed li:nth-child(n+4) {
@@ -294,28 +285,29 @@
 
         .expand-btn {
             margin-top: 16px;
-            padding: 10px 20px;
-            background: rgba(0, 153, 204, 0.1);
-            border: 1px solid var(--az-blue);
-            border-radius: 10px;
-            color: var(--az-blue);
+            padding: 10px 18px;
+            background: var(--off-white);
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            color: var(--green-dark);
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             width: 100%;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             font-family: 'Inter', sans-serif;
         }
 
         .expand-btn:hover {
-            background: var(--az-blue);
-            color: white;
+            background: var(--green-primary);
+            color: var(--white);
+            border-color: var(--green-primary);
         }
 
         .card-footer {
             padding: 16px 24px;
-            background: rgba(0, 0, 0, 0.2);
-            border-top: 1px solid var(--border-glass);
+            background: var(--off-white);
+            border-top: 1px solid var(--gray-light);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -324,46 +316,44 @@
         }
 
         .status-badge {
-            padding: 6px 14px;
-            border-radius: 8px;
+            padding: 5px 12px;
+            border-radius: 6px;
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .status-active {
-            background: rgba(39, 174, 96, 0.2);
-            color: var(--az-green);
-            border: 1px solid var(--az-green);
+            background: rgba(39, 174, 96, 0.1);
+            color: var(--green-dark);
         }
 
         .status-planned {
-            background: rgba(243, 156, 18, 0.2);
-            color: #F39C12;
-            border: 1px solid #F39C12;
+            background: rgba(243, 156, 18, 0.1);
+            color: #D68910;
         }
 
         .card-link {
-            color: var(--az-blue);
+            color: var(--green-primary);
             text-decoration: none;
             font-size: 12px;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 4px;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .card-link:hover {
-            color: var(--az-green);
+            color: var(--green-dark);
         }
 
         /* Empty State */
         .empty-state {
             text-align: center;
             padding: 80px 32px;
-            color: var(--text-muted);
+            color: var(--gray-medium);
         }
 
         .empty-state-icon {
@@ -374,7 +364,8 @@
         .empty-state h3 {
             font-size: 20px;
             margin-bottom: 8px;
-            color: var(--text-primary);
+            color: var(--gray-dark);
+            font-weight: 600;
         }
 
         /* Responsive */
@@ -382,19 +373,15 @@
             .card-grid {
                 grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             }
-
-            .knowledge-card.expanded {
-                grid-column: span 1;
-            }
         }
 
         @media (max-width: 768px) {
             .header {
-                padding: 20px 20px;
+                padding: 16px 20px;
             }
 
             .header h1 {
-                font-size: 22px;
+                font-size: 20px;
             }
 
             .filter-bar {
@@ -405,7 +392,7 @@
             .card-grid {
                 padding: 0 20px;
                 grid-template-columns: 1fr;
-                gap: 20px;
+                gap: 16px;
             }
 
             .filter-buttons {
@@ -415,7 +402,7 @@
             .filter-btn {
                 flex: 1;
                 min-width: 0;
-                padding: 10px 12px;
+                padding: 9px 12px;
                 font-size: 12px;
             }
         }
@@ -427,12 +414,10 @@
     <div class="header">
         <div class="header-content">
             <div>
-                <h1>🇦🇿 Azerbaijan Green Energy Regulatory Framework</h1>
-                <p>Legal, policy, and institutional landscape for renewable energy development</p>
+                <h1>🇦🇿 Green Energy Regulatory Framework</h1>
+                <p>Legal, policy, and institutional landscape</p>
             </div>
-            <div class="nav-links">
-                <a href="index.html" class="nav-link">🗺️ Energy Map</a>
-            </div>
+            <a href="index.html" class="nav-link">🗺️ Energy Map</a>
         </div>
     </div>
 
