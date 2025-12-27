@@ -679,6 +679,9 @@
                                 opacity: 0.7
                         },
                         onEachFeature: function (feature, layer) {
+                                // Track whether this popup was clicked
+                                let wasClicked = false;
+
                                 layer.on({
                                         mouseover: function (e) {
                                                 e.target.setStyle({
@@ -686,20 +689,27 @@
                                                         weight: 3
                                                 });
                                                 const props = feature.properties;
-                                                layer.bindPopup(createPopupContent("Caspian Sea", props), {
-                                                        maxWidth: 400,
-                                                        closeButton: true,
-                                                        autoClose: false,
-                                                        closeOnClick: false
-                                                }).openPopup();
+                                                if (!wasClicked) {
+                                                        layer.bindPopup(createPopupContent("Caspian Sea", props), {
+                                                                maxWidth: 400,
+                                                                closeButton: true,
+                                                                autoClose: false,
+                                                                closeOnClick: false
+                                                        }).openPopup();
+                                                }
                                         },
                                         mouseout: function (e) {
                                                 e.target.setStyle({
                                                         fillOpacity: 0.35,
                                                         weight: 2
                                                 });
+                                                // Close popup on mouseout only if it wasn't clicked
+                                                if (!wasClicked) {
+                                                        layer.closePopup();
+                                                }
                                         },
                                         click: function (e) {
+                                                wasClicked = true;
                                                 const props = feature.properties;
                                                 layer.bindPopup(createPopupContent("Caspian Sea", props), {
                                                         maxWidth: 400,
@@ -708,6 +718,11 @@
                                                         closeOnClick: false
                                                 }).openPopup();
                                         }
+                                });
+
+                                // Reset wasClicked when popup is closed
+                                layer.on('popupclose', function () {
+                                        wasClicked = false;
                                 });
                         }
                 }).addTo(map);
@@ -20037,6 +20052,9 @@
                                 const rayonName = feature.properties.name;
                                 const energyData = energyByRayon[rayonName];
 
+                                // Track whether this popup was clicked (to keep it open) or just hovered
+                                let wasClicked = false;
+
                                 layer.on({
                                         mouseover: function (e) {
                                                 const layer = e.target;
@@ -20047,8 +20065,8 @@
                                                 });
                                                 layer.bringToFront();
 
-                                                // Open popup on hover (will auto-close unless clicked)
-                                                if (energyData) {
+                                                // Open popup on hover (will auto-close on mouseout unless clicked)
+                                                if (energyData && !wasClicked) {
                                                         layer.bindPopup(createPopupContent(rayonName, energyData), {
                                                                 maxWidth: 400,
                                                                 closeButton: true,
@@ -20073,9 +20091,15 @@
                                                                 fillOpacity: 0.3
                                                         });
                                                 }
+
+                                                // Close popup on mouseout only if it wasn't clicked
+                                                if (!wasClicked) {
+                                                        layer.closePopup();
+                                                }
                                         },
                                         click: function (e) {
-                                                // Click keeps the popup open persistently
+                                                // Mark as clicked and keep the popup open persistently
+                                                wasClicked = true;
                                                 if (energyData) {
                                                         layer.bindPopup(createPopupContent(rayonName, energyData), {
                                                                 maxWidth: 400,
@@ -20085,6 +20109,11 @@
                                                         }).openPopup();
                                                 }
                                         }
+                                });
+
+                                // Reset wasClicked when popup is closed
+                                layer.on('popupclose', function () {
+                                        wasClicked = false;
                                 });
                         }
                 }).addTo(map);
