@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azerbaijan Renewable Energy Map | Hand-Drawn Artistic Visualization</title>
+    <meta name="description"
+        content="Hand-drawn aesthetic interactive map of Azerbaijan's renewable energy zones with precise data on solar, wind, and hydro potential from academic sources.">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Azerbaijan National Colors */
+            --az-blue: #0099CC;
+            --az-green: #509E2F;
+            --az-red: #EF3340;
+
+            /* Resource Colors */
+            --solar-light: #FFD700;
+            --solar-dark: #FF8C00;
+            --wind-light: #87CEEB;
+            --wind-dark: #4169E1;
+            --hydro-light: #90EE90;
+            --hydro-dark: #228B22;
+            --multi-resource: #9370DB;
+            --offshore-wind: #001F3F;
+
+            /* UI Colors */
+            --bg-dark: #0a0a0a;
+            --bg-panel: rgba(20, 20, 30, 0.95);
+            --text-light: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent: #4CAF50;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+            filter: saturate(1.1) contrast(1.05);
+        }
+
+        /* Loading Screen with Azerbaijan Flag */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(180deg, var(--az-blue) 0%, var(--az-blue) 33.33%, var(--az-red) 33.33%, var(--az-red) 66.66%, var(--az-green) 66.66%, var(--az-green) 100%);
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .flag-star {
+            width: 80px;
+            height: 80px;
+            color: white;
+            font-size: 60px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .loading-text {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        /* Header with Carpet Pattern */
+        .header {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            z-index: 1000;
+            background: var(--bg-panel);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 12px 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--az-red);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--az-blue) 0%, var(--az-red) 50%, var(--az-green) 100%);
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--az-blue), var(--az-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4px;
+        }
+
+        .header p {
+            font-size: 11px;
+            color: var(--text-muted);
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .header p {
+                display: block;
+            }
+        }
+
+        .national-total {
+            position: static;
+            display: inline-block;
+            margin-top: 8px;
+            background: linear-gradient(135deg, var(--az-blue), var(--az-green));
+            padding: 8px 16px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: 0 4px 16px rgba(0, 150, 204, 0.4);
+        }
+
+        @media (min-width: 768px) {
+            .national-total {
+                position: absolute;
+                top: 12px;
+                right: 20px;
+                margin-top: 0;
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+        }
+
+        /* Glassmorphic Control Panel */
+        .control-panel {
+            position: absolute;
+            top: 80px;
+            left: 10px;
+            width: calc(100% - 20px);
+            max-width: 300px;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+            z-index: 1000;
+            background: var(--bg-panel);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        @media (min-width: 768px) {
+            .control-panel {
+                top: 100px;
+                width: 320px;
+                padding: 20px;
+            }
+        }
+
+        .control-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .control-panel::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .control-panel::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        .control-section {
+            margin-bottom: 24px;
+        }
+
+        .control-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-light);
+        }
+
+        .filter-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            padding: 10px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--az-blue), var(--az-green));
+            border-color: transparent;
+            box-shadow: 0 4px 16px rgba(0, 150, 204, 0.4);
+        }
+
+        .slider-container {
+            margin-top: 12px;
+        }
+
+        .slider-container input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--az-blue), var(--az-green));
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 150, 204, 0.4);
+        }
+
+        .slider-value {
+            display: block;
+            margin-top: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Legend */
+        .legend {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--bg-panel);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-width: 220px;
+        }
+
+        .legend h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-light);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 8px;
+            margin-right: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Enhanced Glassmorphic Popup */
+        .leaflet-popup-content-wrapper {
+            background: var(--bg-panel);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            padding: 0;
+        }
+
+        .leaflet-popup-content {
+            margin: 0;
+            min-width: 260px;
+            max-width: min(400px, 90vw);
+            width: auto;
+        }
+
+        .region-popup h3 {
+            background: linear-gradient(135deg, var(--az-blue), var(--az-green));
+            color: white;
+            padding: 14px 18px;
+            margin: 0;
+            border-radius: 20px 20px 0 0;
+            font-size: 17px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            word-wrap: break-word;
+            line-height: 1.3;
+        }
+
+        .stats-grid {
+            padding: 16px 18px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .stats-grid::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .stats-grid::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .stats-grid::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+
+        .stat {
+            margin-bottom: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text-light);
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .stat-icon {
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+
+        .stat strong {
+            color: var(--az-green);
+            font-weight: 600;
+        }
+
+        .sources {
+            padding: 10px 18px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 0 0 20px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sources small {
+            font-size: 10px;
+            color: var(--text-muted);
+            line-height: 1.4;
+            display: block;
+            word-wrap: break-word;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            position: absolute;
+            top: 140px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .action-btn {
+            background: var(--bg-panel);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            color: var(--text-light);
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 48px;
+            min-height: 48px;
+        }
+
+        .action-btn:hover {
+            background: rgba(0, 150, 204, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 150, 204, 0.4);
+        }
+
+        /* Comparison Panel */
+        .comparison-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: var(--bg-panel);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 600px;
+            display: none;
+        }
+
+        .comparison-panel.active {
+            display: block;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 12px;
+        }
+
+        .comparison-item h5 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--az-green);
+        }
+
+        .comparison-item p {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        /* Animated Project Markers */
+        @keyframes marker-pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes marker-spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes marker-bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .marker-operational {
+            animation: marker-pulse 2s ease-in-out infinite;
+        }
+
+        .marker-construction {
+            animation: marker-spin 3s linear infinite;
+        }
+
+        .marker-planned {
+            animation: marker-bounce 2s ease-in-out infinite;
+        }
+
+        /* Academic Citations Footer */
+        .citations-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            padding: 12px 20px;
+            font-size: 11px;
+            color: var(--text-muted);
+            text-align: center;
+            z-index: 900;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .citations-footer a {
+            color: var(--az-blue);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                padding: 12px 16px;
+            }
+
+            .header h1 {
+                font-size: 18px;
+                margin-bottom: 4px;
+            }
+
+            .header p {
+                display: none;
+            }
+
+            .national-total {
+                font-size: 13px;
+                padding: 6px 14px;
+            }
+
+            .control-panel {
+                top: 70px;
+                left: 10px;
+                width: calc(100% - 20px);
+                max-width: 280px;
+                max-height: calc(100vh - 90px);
+                padding: 14px;
+            }
+
+            .control-section h3 {
+                font-size: 14px;
+                margin-bottom: 8px;
+            }
+
+            .filter-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .legend {
+                bottom: 290px;
+                right: 10px;
+                left: auto;
+                min-width: 180px;
+                padding: 16px;
+            }
+
+            .legend h4 {
+                font-size: 13px;
+            }
+
+            .legend-item {
+                font-size: 11px;
+                margin-bottom: 6px;
+            }
+
+            .legend-color {
+                width: 20px;
+                height: 20px;
+                margin-right: 8px;
+            }
+
+            .action-buttons {
+                top: 120px;
+                right: 10px;
+                gap: 8px;
+            }
+
+            .action-btn {
+                min-width: 40px;
+                min-height: 40px;
+                padding: 10px;
+                font-size: 12px;
+            }
+
+            .comparison-panel {
+                bottom: 80px;
+                left: 10px;
+                right: 10px;
+                max-width: none;
+                padding: 16px;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            /* Popup responsive styles */
+            .leaflet-popup-content-wrapper {
+                border-radius: 18px;
+            }
+
+            .leaflet-popup-content {
+                min-width: 240px;
+                max-width: calc(100vw - 30px);
+            }
+
+            .region-popup h3 {
+                font-size: 15px;
+                padding: 12px 14px;
+                line-height: 1.3;
+            }
+
+            .stats-grid {
+                padding: 14px;
+                max-height: 50vh;
+            }
+
+            .stat {
+                font-size: 12px;
+                margin-bottom: 8px;
+                gap: 5px;
+            }
+
+            .stat-icon {
+                font-size: 14px;
+            }
+
+            .sources {
+                padding: 8px 14px;
+            }
+
+            .sources small {
+                font-size: 9px;
+            }
+
+            .citations-footer {
+                font-size: 9px;
+                padding: 8px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .header p {
+                font-size: 11px;
+            }
+
+            .national-total {
+                font-size: 14px;
+                padding: 8px 14px;
+            }
+
+            .control-panel {
+                max-height: 180px;
+                padding: 12px;
+            }
+
+            .filter-buttons {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+
+            .filter-btn {
+                padding: 10px 14px;
+            }
+
+            .legend {
+                bottom: 270px;
+                padding: 12px;
+                min-width: 160px;
+            }
+
+            .action-btn {
+                min-width: 36px;
+                min-height: 36px;
+            }
+
+            .leaflet-popup-content {
+                min-width: 220px;
+                max-width: calc(100vw - 20px);
+            }
+
+            .region-popup h3 {
+                font-size: 14px;
+                padding: 10px 12px;
+            }
+
+            .stats-grid {
+                padding: 12px;
+                max-height: 45vh;
+            }
+
+            .stat {
+                font-size: 11px;
+                margin-bottom: 7px;
+            }
+
+            .sources {
+                padding: 7px 12px;
+            }
+
+            .sources small {
+                font-size: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="flag-star">⭐</div>
+        <div class="loading-text">Loading Azerbaijan Energy Map...</div>
+    </div>
+
+    <!-- Map Container -->
+    <div id="map"></div>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>🇦🇿 Azerbaijan Renewable Energy Map</h1>
+        <p>Hand-drawn aesthetic visualization of renewable energy zones with academic-grade precision</p>
+        <div class="national-total">⚡ 27 GW Economic Potential</div>
+    </div>
+
+    <!-- Control Panel -->
+    <div class="control-panel">
+        <div class="control-section">
+            <h3>Resource Filters</h3>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Resources</button>
+                <button class="filter-btn" data-filter="solar">☀️ Solar</button>
+                <button class="filter-btn" data-filter="wind">💨 Wind</button>
+                <button class="filter-btn" data-filter="hydro">💧 Hydro</button>
+                <button class="filter-btn" data-filter="multi-resource">🌈 Multi</button>
+                <button class="filter-btn" data-filter="offshore-wind">🌊 Offshore</button>
+            </div>
+        </div>
+
+        <div class="control-section">
+            <h3>Project Status</h3>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-status="all">All Projects</button>
+                <button class="filter-btn" data-status="operational">🟢 Operational</button>
+                <button class="filter-btn" data-status="construction">🟡 Construction</button>
+                <button class="filter-btn" data-status="planned">🔵 Planned</button>
+            </div>
+        </div>
+
+        <div class="control-section">
+            <h3>Capacity Range</h3>
+            <div class="slider-container">
+                <input type="range" id="capacitySlider" min="0" max="10000" value="10000" step="100">
+                <span class="slider-value">Max: <span id="capacityValue">10,000</span> MW</span>
+            </div>
+        </div>
+
+        <div class="control-section">
+            <h3>Development Timeline</h3>
+            <div class="slider-container">
+                <input type="range" id="timelineSlider" min="2025" max="2040" value="2040" step="1">
+                <span class="slider-value">Target Year: <span id="timelineValue">2040</span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+        <button class="action-btn" id="fullscreenBtn" title="Toggle Fullscreen">⛶</button>
+        <button class="action-btn" id="compareBtn" title="Compare Regions">⚖</button>
+        <button class="action-btn" id="exportBtn" title="Export Data">⬇</button>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+        <h4>Resource Types</h4>
+        <div class="legend-item">
+            <div class="legend-color" style="background: linear-gradient(135deg, #FFD700, #FF8C00);"></div>
+            <span>☀️ Solar Energy</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: linear-gradient(135deg, #87CEEB, #4169E1);"></div>
+            <span>💨 Wind Energy</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: linear-gradient(135deg, #90EE90, #228B22);"></div>
+            <span>💧 Hydro Energy</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #9370DB;"></div>
+            <span>🌈 Multi-Resource</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #001F3F;"></div>
+            <span>🌊 Offshore Wind</span>
+        </div>
+    </div>
+
+    <!-- Comparison Panel -->
+    <div class="comparison-panel" id="comparisonPanel">
+        <h4>Region Comparison</h4>
+        <div class="comparison-grid" id="comparisonGrid">
+            <!-- Dynamically populated -->
+        </div>
+    </div>
+
+    <!-- Academic Citations Footer -->
+    <div class="citations-footer">
+        📚 Sources: Imamverdiyev 2024 Dissertation | AREN 2025 | Ministry of Energy | World Bank Offshore Roadmap 2022 |
+        SOCAR Proceedings 2025 | Global Solar Atlas | bp Azerbaijan
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- GSAP for smooth animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script>
+        // Define Azerbaijan bounds (southwest and northeast corners)
+        const azerbaijanBounds = [
+            [38.4, 44.8],  // Southwest coordinates
+            [41.9, 51.0]   // Northeast coordinates
+        ];
+
+        // Initialize map centered on Azerbaijan with bounds restriction
+        const map = L.map('map', {
+            center: [40.1431, 47.5769],
+            zoom: 7,
+            minZoom: 6,
+            maxZoom: 10,
+            zoomControl: true,
+            maxBounds: azerbaijanBounds,
+            maxBoundsViscosity: 1.0  // Prevents panning outside bounds
+        });
+
+        // Add OpenStreetMap tiles (restricted to Azerbaijan bounds)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19,
+            bounds: azerbaijanBounds
+        }).addTo(map);
+
+        // Precise GeoJSON data for 11 renewable energy zones
+        const regionsData = {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "Absheron Peninsula",
+                        "emoji": "☀️💨",
+                        "primaryResource": "solar-wind",
+                        "solarCapacity": 2170,
+                        "windCapacity": 350,
+                        "hydroCapacity": 0,
+                        "currentInstalled": 0,
+                        "underConstruction": "Khizi-Absheron 240 MW (ACWA Power)",
+                        "remainingPotential": 2520,
+                        "annualGeneration": 3800,
+                        "keyProject": "Cheyildagh 2.13 GW site (1,527 kWh/m²/yr)",
+                        "sources": "Imamverdiyev 2024 Dissertation, AREN 2025",
+                        "coordinates": "40.40°N, 49.80°E"
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [49.75, 40.45], [49.85, 40.42], [49.82, 40.38], [49.72, 40.41], [49.75, 40.45]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "Gobustan Wind/Solar Zone",
+                        "emoji": "💨☀️",
+                        "primaryResource": "wind",
+                        "solarCapacity": 154,
+                        "windCapacity": 226,
+                        "hydroCapacity": 0,
+                        "currentInstalled": 5.5,
+                        "underConstruction": "100 MW solar + Experimental Polygon",
+                        "remainingPotential": 374.5,
+                        "annualGeneration": 620,
+                        "keyProject": "5.5 MW hybrid operational, training facility",
+                        "sources": "Ministry of Energy 2025, AREN",
+                        "coordinates": "40.47°N, 49.06°E"
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [48.96, 40.37], [49.16, 40.37], [49.16, 40.57], [48.96, 40.57], [48.96, 40.37]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "Garadagh Solar Plains",
+                        "emoji": "☀️",
+                        "primaryResource": "solar",
+                        "solarCapacity": 230,
+                        "windCapacity": 0,
+                        "hydroCapacity": 0,
+                        "currentInstalled": 230,
+                        "underConstruction": "Expansion planned",
+                        "remainingPotential": 0,
+                        "annualGeneration": 350,
+                        "keyProject": "Garadagh 230 MW operational (ACWA Power)",
+                        "sources": "AREN 2025, ACWA Power",
+                        "coordinates": "40.34°N, 50.33°E"
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [50.23, 40.29], [50.43, 40.29], [50.43, 40.39], [50.23, 40.39], [50.23, 40.29]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "Kazakh-Khizi Wind Corridor",
+                        "emoji": "💨",
+                        "primaryResource": "wind",
+                        "solarCapacity": 0,
+                        "windCapacity": 240,
+                        "hydroCapacity": 0,
+                        "currentInstalled": 0,
+                        "underConstruction": "Khizi-Absheron 240 MW",
+                        "remainingPotential": 240,
+                        "annualGeneration": 650,
+                        "keyProject": "Coastal mountain wind corridor",
+                        "sources": "ACWA Power, Ministry of Energy",
+                        "coordinates": "41.0°N, 48.8°E"
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [48.70, 40.90], [48.90, 40.90], [48.90, 41.10], [48.70, 41.10], [48.70, 40.90]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "Nakhchivan Autonomous Republic",
+                        "emoji": "🌈",
+                        "primaryResource": "multi-resource",
+                        "solarCapacity": 5200,
+                        "windCapacity": 330,
+                        "hydroCapacity": 38,
+                        "currentInstalled": 130,
+                        "underConstruction": "Multiple solar projects totaling 200 MW",
+                        "remainingPotential": 5438,
+                        "annualGeneration": 9500,
+                        "keyProject": "Boyukduz 2.17 GW mega-site (45.5 km², 1,737 kWh/m²)",
+                        "sources": "AREN/Ministry of Energy 2025, Global Solar Atlas",
+                        "coordinates": "39.2°N, 45.4°E"
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [45.0, 38.9], [46.2, 38.9], [46.2, 39.8], [45.0, 39.8], [45.0, 38.9]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "Karabakh Green Energy Zone",
+                        "emoji": "🌈💧",
+                        "primaryResource": "multi-resource",
+                        "solarCapacity": 3500,
+                        "windCapacity": 100,
+                        "hydroCapacity": 500,
+                        "currentInstalled": 240,
+                        "underConstruction": "Shafag 240 MW (bp), 16 small HPP sites",
+                        "remainingPotential": 3860,
+                        "annualGeneration": 6200,
+                        "keyProject": "Integrated renewable energy development zone",
+                        "sources": "Ministry of Energy Green Zones 2025, bp Azerbaijan",
+                        "coordinates": "39.8°N, 46.9°E"
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [46.4, 39.0], [47.6, 39.0], [47.6, 40.6], [46.4, 40.6], [46.4, 39.0]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "East Zangazur",
+                        "emoji": "☀️💧",
+                        "primaryResource": "solar",
+                        "solarCapacity": 2400,
+                        "windCapacity": 0,
+                        "hydroCapacity": 500,
+                        "currentInstalled": 340,
+                        "underConstruction": "6 HPPs (37.5 MW), Zangezur corridor",
+                        "remainingPotential": 2560,
+                        "annualGeneration": 4800,
+                        "keyProject": "Shafag/Ufuq/Shams 340 MW solar complex",
+                        "sources": "SOCAR Proceedings 2025, Ministry of Energy",
+                        "coordinates": "39.3°N, 47.0°E"
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [46.7, 39.0], [47.5, 39.0], [47.5, 39.8], [46.7, 39.8], [46.7, 39.0]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "Aran Solar Plains",
+                        "emoji": "☀️",
+                        "primaryResource": "solar",
+                        "solarCapacity": 4900,
+                        "windCapacity": 0,
+                        "hydroCapacity": 0,
+                        "currentInstalled": 230,
+                        "underConstruction": "Bilasuvar 445 MW, Neftchala 315 MW (2026)",
+                        "remainingPotential": 4670,
+                        "annualGeneration": 7350,
+                        "keyProject": "40.3k km² suitable area",
+                        "sources": "Global Solar Atlas, AREN 2025",
+                        "coordinates": "40.3°N, 47.5°E"
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [46.0, 39.3], [49.0, 39.3], [49.0, 41.2], [46.0, 41.2], [46.0, 39.3]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "Mingachevir Hydro Basin",
+                        "emoji": "💧",
+                        "primaryResource": "hydro",
+                        "solarCapacity": 0,
+                        "windCapacity": 0,
+                        "hydroCapacity": 424,
+                        "currentInstalled": 424,
+                        "underConstruction": "Modernization ongoing",
+                        "remainingPotential": 0,
+                        "annualGeneration": 1500,
+                        "keyProject": "Mingachevir HPP 424 MW (largest in Azerbaijan)",
+                        "sources": "Azerenerji, Ministry of Energy",
+                        "coordinates": "40.47°N, 47.02°E"
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [46.92, 40.37], [47.12, 40.37], [47.12, 40.57], [46.92, 40.57], [46.92, 40.37]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "Guba-Khachmaz Hydro/Geo",
+                        "emoji": "💧🔥",
+                        "primaryResource": "hydro",
+                        "solarCapacity": 120,
+                        "windCapacity": 80,
+                        "hydroCapacity": 450,
+                        "currentInstalled": 85,
+                        "underConstruction": "Small HPP cascade projects (120 MW)",
+                        "remainingPotential": 565,
+                        "annualGeneration": 980,
+                        "keyProject": "Mountain hydro potential development",
+                        "sources": "Ministry of Energy, SOCAR Proceedings 2025",
+                        "coordinates": "41.4°N, 48.5°E"
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [47.7, 41.0], [49.1, 41.0], [49.1, 41.7], [47.7, 41.7], [47.7, 41.0]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "Caspian Offshore Wind",
+                        "emoji": "🌊",
+                        "primaryResource": "offshore-wind",
+                        "solarCapacity": 0,
+                        "windCapacity": 157000,
+                        "hydroCapacity": 0,
+                        "currentInstalled": 0,
+                        "underConstruction": "600 MW planned by Caspian Breeze",
+                        "remainingPotential": 157000,
+                        "annualGeneration": 450000,
+                        "keyProject": "6 GW by 2032, 4 GW export target",
+                        "sources": "World Bank Offshore Roadmap 2022, Ministry of Energy",
+                        "coordinates": "40.0°N, 50.5°E"
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [49.8, 39.5], [51.5, 39.5], [51.5, 41.2], [49.8, 41.2], [49.8, 39.5]
+                        ]]
+                    }
+                }
+            ]
+        };
+
+        // Project markers data with exact coordinates
+        const projectsData = [
+            {
+                name: "Garadagh Solar Park",
+                lat: 40.34,
+                lng: 50.33,
+                capacity: 230,
+                status: "operational",
+                type: "solar",
+                developer: "ACWA Power",
+                details: "First utility-scale solar project in Azerbaijan"
+            },
+            {
+                name: "Mingachevir HPP",
+                lat: 40.47,
+                lng: 47.02,
+                capacity: 424,
+                status: "operational",
+                type: "hydro",
+                developer: "Azerenerji",
+                details: "Largest hydroelectric power plant in Azerbaijan"
+            },
+            {
+                name: "Shafag Solar",
+                lat: 39.40,
+                lng: 47.03,
+                capacity: 240,
+                status: "construction",
+                type: "solar",
+                developer: "bp & Masdar",
+                details: "Part of Karabakh Green Energy Zone"
+            },
+            {
+                name: "Khizi-Absheron Wind",
+                lat: 40.45,
+                lng: 49.55,
+                capacity: 240,
+                status: "construction",
+                type: "wind",
+                developer: "ACWA Power",
+                details: "Major wind farm development"
+            },
+            {
+                name: "Bilasuvar Solar",
+                lat: 39.46,
+                lng: 48.55,
+                capacity: 445,
+                status: "planned",
+                type: "solar",
+                developer: "Various developers",
+                details: "Planned for 2026 completion"
+            },
+            {
+                name: "Neftchala Solar",
+                lat: 39.37,
+                lng: 49.25,
+                capacity: 315,
+                status: "planned",
+                type: "solar",
+                developer: "International consortium",
+                details: "Part of Aran Region development"
+            },
+            {
+                name: "Gobustan Hybrid",
+                lat: 40.47,
+                lng: 49.06,
+                capacity: 5.5,
+                status: "operational",
+                type: "solar",
+                developer: "Ministry of Energy",
+                details: "Experimental renewable energy polygon"
+            },
+            {
+                name: "Ufuq Solar",
+                lat: 39.35,
+                lng: 47.15,
+                capacity: 100,
+                status: "construction",
+                type: "solar",
+                developer: "Masdar",
+                details: "East Zangazur development"
+            },
+            {
+                name: "Shams Solar",
+                lat: 39.30,
+                lng: 47.20,
+                capacity: 100,
+                status: "construction",
+                type: "solar",
+                developer: "Masdar",
+                details: "East Zangazur development"
+            },
+            {
+                name: "Caspian Breeze Offshore",
+                lat: 40.0,
+                lng: 50.5,
+                capacity: 600,
+                status: "planned",
+                type: "wind",
+                developer: "Caspian Breeze Consortium",
+                details: "First offshore wind project, 6 GW target by 2032"
+            },
+            {
+                name: "Nakhchivan Solar Complex",
+                lat: 39.2,
+                lng: 45.4,
+                capacity: 200,
+                status: "construction",
+                type: "solar",
+                developer: "Multiple developers",
+                details: "Boyukduz mega-site development"
+            }
+        ];
+
+        // Color mapping for resources
+        function getRegionFillColor(properties) {
+            const resource = properties.primaryResource;
+            const colors = {
+                'solar': '#FF8C00',
+                'solar-wind': '#FFB84D',
+                'wind': '#4169E1',
+                'hydro': '#228B22',
+                'multi-resource': '#9370DB',
+                'offshore-wind': '#001F3F'
+            };
+            return colors[resource] || '#666666';
+        }
+
+        // Style function for regions
+        function regionStyle(feature) {
+            return {
+                fillColor: getRegionFillColor(feature.properties),
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                fillOpacity: 0.6
+            };
+        }
+
+        // Highlight feature on hover
+        function highlightFeature(e) {
+            const layer = e.target;
+            layer.setStyle({
+                weight: 3,
+                color: '#0099CC',
+                fillOpacity: 0.8
+            });
+            layer.bringToFront();
+        }
+
+        function resetHighlight(e) {
+            regionsLayer.resetStyle(e.target);
+        }
+
+        // Create enhanced glassmorphic popup content
+        function createPopupContent(properties) {
+            const totalCapacity = properties.solarCapacity + properties.windCapacity + properties.hydroCapacity;
+            return `
+                <div class="region-popup">
+                    <h3>${properties.emoji} ${properties.name}</h3>
+                    <div class="stats-grid">
+                        <div class="stat">
+                            <span class="stat-icon">⚡</span>
+                            <span><strong>Total Potential:</strong> ${(totalCapacity / 1000).toFixed(2)} GW</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-icon">☀️</span>
+                            <span><strong>Solar:</strong> ${properties.solarCapacity} MW</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-icon">💨</span>
+                            <span><strong>Wind:</strong> ${properties.windCapacity} MW</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-icon">💧</span>
+                            <span><strong>Hydro:</strong> ${properties.hydroCapacity} MW</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-icon">🔋</span>
+                            <span><strong>Current Installed:</strong> ${properties.currentInstalled} MW</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-icon">🚧</span>
+                            <span><strong>Under Construction:</strong> ${properties.underConstruction}</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-icon">📈</span>
+                            <span><strong>Remaining Potential:</strong> ${(properties.remainingPotential / 1000).toFixed(2)} GW</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-icon">⚡</span>
+                            <span><strong>Annual Generation:</strong> ${properties.annualGeneration.toLocaleString()} GWh/yr</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-icon">🎯</span>
+                            <span><strong>Key Project:</strong> ${properties.keyProject}</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-icon">📍</span>
+                            <span><strong>Coordinates:</strong> ${properties.coordinates}</span>
+                        </div>
+                    </div>
+                    <div class="sources">
+                        <small><strong>📚 Sources:</strong> ${properties.sources}</small>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Add click handler
+        function onEachFeature(feature, layer) {
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+                click: function (e) {
+                    layer.bindPopup(createPopupContent(feature.properties), {
+                        maxWidth: 400
+                    }).openPopup();
+                }
+            });
+        }
+
+        // Add regions to map
+        const regionsLayer = L.geoJSON(regionsData, {
+            style: regionStyle,
+            onEachFeature: onEachFeature
+        }).addTo(map);
+
+        // Energy type emoji icons
+        const energyTypeIcons = {
+            solar: '☀️',
+            wind: '💨',
+            hydro: '💧'
+        };
+
+        // Function to create emoji marker based on energy type and status
+        function createEmojiMarker(type, status) {
+            const emoji = energyTypeIcons[type] || '⚡';
+            const statusColors = {
+                operational: '#4CAF50',
+                construction: '#FF9800',
+                planned: '#2196F3'
+            };
+            const color = statusColors[status] || '#666';
+
+            return L.divIcon({
+                className: 'custom-marker',
+                html: `<div class="marker-${status}" style="
+                    background: white;
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 50%;
+                    border: 3px solid ${color};
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 20px;
+                ">${emoji}</div>`,
+                iconSize: [36, 36],
+                iconAnchor: [18, 18]
+            });
+        }
+
+        // Add project markers with emoji icons
+        const projectMarkers = [];
+        projectsData.forEach(project => {
+            const marker = L.marker([project.lat, project.lng], {
+                icon: createEmojiMarker(project.type, project.status)
+            }).addTo(map);
+
+            marker.bindPopup(`
+                <div class="region-popup">
+                    <h3>${project.name}</h3>
+                    <div class="stats-grid">
+                        <div class="stat">
+                            <span class="stat-icon">⚡</span>
+                            <span><strong>Capacity:</strong> ${project.capacity} MW</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-icon">🏷️</span>
+                            <span><strong>Type:</strong> ${project.type.charAt(0).toUpperCase() + project.type.slice(1)}</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-icon">📊</span>
+                            <span><strong>Status:</strong> ${project.status.charAt(0).toUpperCase() + project.status.slice(1)}</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-icon">🏢</span>
+                            <span><strong>Developer:</strong> ${project.developer}</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-icon">ℹ️</span>
+                            <span>${project.details}</span>
+                        </div>
+                    </div>
+                </div>
+            `);
+
+            projectMarkers.push({ marker, project });
+        });
+
+        // Filter functionality
+        let activeResourceFilter = 'all';
+        let activeStatusFilter = 'all';
+
+        document.querySelectorAll('[data-filter]').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                activeResourceFilter = this.dataset.filter;
+                applyFilters();
+            });
+        });
+
+        document.querySelectorAll('[data-status]').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('[data-status]').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                activeStatusFilter = this.dataset.status;
+                applyFilters();
+            });
+        });
+
+        function applyFilters() {
+            // Filter regions
+            regionsLayer.eachLayer(layer => {
+                const props = layer.feature.properties;
+                let show = true;
+
+                if (activeResourceFilter !== 'all') {
+                    if (activeResourceFilter === 'solar' && props.solarCapacity === 0) show = false;
+                    if (activeResourceFilter === 'wind' && props.windCapacity === 0) show = false;
+                    if (activeResourceFilter === 'hydro' && props.hydroCapacity === 0) show = false;
+                    if (activeResourceFilter === 'multi-resource' && props.primaryResource !== 'multi-resource') show = false;
+                    if (activeResourceFilter === 'offshore-wind' && props.primaryResource !== 'offshore-wind') show = false;
+                }
+
+                if (show) {
+                    layer.setStyle({ fillOpacity: 0.6, opacity: 1 });
+                } else {
+                    layer.setStyle({ fillOpacity: 0.1, opacity: 0.3 });
+                }
+            });
+
+            // Filter project markers
+            projectMarkers.forEach(({ marker, project }) => {
+                let show = true;
+
+                if (activeStatusFilter !== 'all' && project.status !== activeStatusFilter) {
+                    show = false;
+                }
+
+                if (activeResourceFilter !== 'all' && activeResourceFilter !== 'multi-resource' && activeResourceFilter !== 'offshore-wind' && project.type !== activeResourceFilter) {
+                    show = false;
+                }
+
+                if (show) {
+                    marker.setOpacity(1);
+                } else {
+                    marker.setOpacity(0.2);
+                }
+            });
+        }
+
+        // Capacity slider
+        const capacitySlider = document.getElementById('capacitySlider');
+        const capacityValue = document.getElementById('capacityValue');
+
+        capacitySlider.addEventListener('input', function () {
+            capacityValue.textContent = parseInt(this.value).toLocaleString();
+
+            projectMarkers.forEach(({ marker, project }) => {
+                if (project.capacity <= parseInt(this.value)) {
+                    marker.setOpacity(1);
+                } else {
+                    marker.setOpacity(0.2);
+                }
+            });
+        });
+
+        // Timeline slider
+        const timelineSlider = document.getElementById('timelineSlider');
+        const timelineValue = document.getElementById('timelineValue');
+
+        timelineSlider.addEventListener('input', function () {
+            timelineValue.textContent = this.value;
+        });
+
+        // Fullscreen toggle
+        document.getElementById('fullscreenBtn').addEventListener('click', function () {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        });
+
+        // Comparison tool
+        let comparisonRegions = [];
+        document.getElementById('compareBtn').addEventListener('click', function () {
+            const panel = document.getElementById('comparisonPanel');
+            panel.classList.toggle('active');
+
+            if (comparisonRegions.length === 0) {
+                // Select top 2 regions by total capacity
+                const sorted = regionsData.features.sort((a, b) => {
+                    const totalA = a.properties.solarCapacity + a.properties.windCapacity + a.properties.hydroCapacity;
+                    const totalB = b.properties.solarCapacity + b.properties.windCapacity + b.properties.hydroCapacity;
+                    return totalB - totalA;
+                });
+
+                comparisonRegions = [sorted[0], sorted[1]];
+                updateComparison();
+            }
+        });
+
+        function updateComparison() {
+            const grid = document.getElementById('comparisonGrid');
+            grid.innerHTML = comparisonRegions.map(region => {
+                const props = region.properties;
+                const total = props.solarCapacity + props.windCapacity + props.hydroCapacity;
+                return `
+                    <div class="comparison-item">
+                        <h5>${props.emoji} ${props.name}</h5>
+                        <p><strong>Total:</strong> ${(total / 1000).toFixed(2)} GW</p>
+                        <p><strong>Solar:</strong> ${props.solarCapacity} MW</p>
+                        <p><strong>Wind:</strong> ${props.windCapacity} MW</p>
+                        <p><strong>Hydro:</strong> ${props.hydroCapacity} MW</p>
+                        <p><strong>Installed:</strong> ${props.currentInstalled} MW</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Export functionality
+        document.getElementById('exportBtn').addEventListener('click', function () {
+            const dataStr = JSON.stringify(regionsData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'azerbaijan-renewable-energy-data.json';
+            link.click();
+        });
+
+        // Hide loading screen with GSAP animation
+        window.addEventListener('load', function () {
+            setTimeout(() => {
+                gsap.to('#loadingScreen', {
+                    opacity: 0,
+                    duration: 0.5,
+                    onComplete: function () {
+                        document.getElementById('loadingScreen').classList.add('hidden');
+                    }
+                });
+            }, 1500);
+        });
+
+        // Add zoom animation
+        map.on('zoomend', function () {
+            const zoom = map.getZoom();
+            regionsLayer.eachLayer(layer => {
+                const weight = zoom > 8 ? 3 : 2;
+                layer.setStyle({ weight });
+            });
+        });
+
+        // GSAP animations for UI elements
+        gsap.from('.header', {
+            y: -100,
+            opacity: 0,
+            duration: 1,
+            delay: 1.5,
+            ease: 'power3.out'
+        });
+
+        gsap.from('.control-panel', {
+            x: -100,
+            opacity: 0,
+            duration: 1,
+            delay: 1.7,
+            ease: 'power3.out'
+        });
+
+        gsap.from('.legend', {
+            y: 100,
+            opacity: 0,
+            duration: 1,
+            delay: 1.9,
+            ease: 'power3.out'
+        });
+
+        gsap.from('.action-buttons', {
+            x: 100,
+            opacity: 0,
+            duration: 1,
+            delay: 2.1,
+            ease: 'power3.out'
+        });
+    </script>
+</body>
+
+</html>
