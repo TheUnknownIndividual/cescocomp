@@ -20043,8 +20043,8 @@
                         const labelText = rayonName;
 
                         // Calculate font size based on zoom (smaller when zoomed out)
-                        // At zoom 7: 7px, zoom 8: 8px, zoom 9: 9px, zoom 10+: 10px
-                        const fontSize = Math.min(10, Math.max(7, zoom));
+                        // At zoom 7: 9px, zoom 8: 10px, zoom 9: 11px, zoom 10+: 12px
+                        const fontSize = Math.min(12, Math.max(9, zoom + 2));
 
                         const marker = L.marker([centerLat, centerLng], {
                             icon: L.divIcon({
