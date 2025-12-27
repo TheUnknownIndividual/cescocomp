@@ -20005,36 +20005,73 @@
             }
         }).addTo(map);
 
-        // Add labels to rayons with energy data
-        L.geoJSON(azerbaijanGeoJSON, {
-            onEachFeature: function (feature, layer) {
-                const rayonName = feature.properties.name;
-                const energyData = energyByRayon[rayonName];
+        // Add labels to rayons with energy data (zoom-responsive)
+        const labelLayers = [];
 
-                if (energyData) {
-                    const bounds = layer.getBounds();
-                    const center = bounds.getCenter();
+        function updateLabels() {
+            // Remove existing labels
+            labelLayers.forEach(layer => map.removeLayer(layer));
+            labelLayers.length = 0;
 
-                    const labelText = `${rayonName} – ${energyData.group}`;
+            const zoom = map.getZoom();
 
-                    L.marker(center, {
-                        icon: L.divIcon({
-                            className: 'rayon-label',
-                            html: `<div style="
-                                font-size: 11px;
-                                font-weight: 600;
-                                color: #333;
-                                text-align: center;
-                                white-space: nowrap;
-                                text-shadow: 1px 1px 2px rgba(255,255,255,0.9), -1px -1px 2px rgba(255,255,255,0.9);
-                                pointer-events: none;
-                            ">${labelText}</div>`,
-                            iconSize: [0, 0]
-                        })
-                    }).addTo(map);
-                }
+            // Only show labels at zoom level 7 or higher
+            if (zoom >= 7) {
+                azerbaijanGeoJSON.features.forEach(feature => {
+                    const rayonName = feature.properties.name;
+                    const energyData = energyByRayon[rayonName];
+
+                    if (energyData) {
+                        const coordinates = feature.geometry.coordinates;
+                        let allCoords = [];
+
+                        // Extract all coordinates from MultiPolygon or Polygon
+                        if (feature.geometry.type === 'MultiPolygon') {
+                            coordinates.forEach(polygon => {
+                                polygon[0].forEach(coord => allCoords.push(coord));
+                            });
+                        } else if (feature.geometry.type === 'Polygon') {
+                            coordinates[0].forEach(coord => allCoords.push(coord));
+                        }
+
+                        // Calculate centroid
+                        const lats = allCoords.map(c => c[1]);
+                        const lngs = allCoords.map(c => c[0]);
+                        const centerLat = (Math.min(...lats) + Math.max(...lats)) / 2;
+                        const centerLng = (Math.min(...lngs) + Math.max(...lngs)) / 2;
+
+                        const labelText = `${rayonName} – ${energyData.group}`;
+
+                        // Calculate font size based on zoom (smaller at lower zoom)
+                        const fontSize = Math.max(8, Math.min(11, 6 + zoom));
+
+                        const marker = L.marker([centerLat, centerLng], {
+                            icon: L.divIcon({
+                                className: 'rayon-label',
+                                html: `<div style="
+                                    font-size: ${fontSize}px;
+                                    font-weight: 600;
+                                    color: #333;
+                                    text-align: center;
+                                    white-space: nowrap;
+                                    text-shadow: 1px 1px 2px rgba(255,255,255,0.9), -1px -1px 2px rgba(255,255,255,0.9);
+                                    pointer-events: none;
+                                ">${labelText}</div>`,
+                                iconSize: [0, 0]
+                            })
+                        }).addTo(map);
+
+                        labelLayers.push(marker);
+                    }
+                });
             }
-        });
+        }
+
+        // Initial label rendering
+        updateLabels();
+
+        // Update labels on zoom
+        map.on('zoomend', updateLabels);
     </script>
 </body>
 
