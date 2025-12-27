@@ -164,6 +164,9 @@
                         margin: 0;
                         min-width: 260px;
                         max-width: min(400px, 90vw);
+                        max-height: min(70vh, 600px);
+                        overflow-y: auto;
+                        overflow-x: hidden;
                         width: auto;
                 }
 
@@ -181,8 +184,6 @@
 
                 .stats-grid {
                         padding: 16px 18px;
-                        max-height: 60vh;
-                        overflow-y: auto;
                 }
 
                 .stat {
@@ -223,7 +224,8 @@
 
                         .leaflet-popup-content {
                                 min-width: 240px;
-                                max-width: calc(100vw - 30px);
+                                max-width: calc(100vw - 40px);
+                                max-height: calc(100vh - 120px);
                         }
                 }
         </style>
@@ -668,7 +670,7 @@
                         }
                 };
 
-                L.geoJSON(caspianSeaPolygon, {
+                const caspianLayer = L.geoJSON(caspianSeaPolygon, {
                         style: {
                                 fillColor: '#4A90E2',
                                 fillOpacity: 0.35,
@@ -683,22 +685,27 @@
                                                         fillOpacity: 0.6,
                                                         weight: 3
                                                 });
+                                                const props = feature.properties;
+                                                layer.bindPopup(createPopupContent("Caspian Sea", props), {
+                                                        maxWidth: 400,
+                                                        closeButton: false,
+                                                        autoClose: true,
+                                                        closeOnClick: false
+                                                }).openPopup();
                                         },
                                         mouseout: function (e) {
                                                 e.target.setStyle({
                                                         fillOpacity: 0.35,
                                                         weight: 2
                                                 });
-                                        },
-                                        click: function (e) {
-                                                const props = feature.properties;
-                                                layer.bindPopup(createPopupContent("Caspian Sea", props), {
-                                                        maxWidth: 400
-                                                }).openPopup();
+                                                layer.closePopup();
                                         }
                                 });
                         }
                 }).addTo(map);
+
+                // Send Caspian Sea layer to back so it doesn't overlay land rayons
+                caspianLayer.bringToBack();
 
                 // Embedded az.json data (to avoid CORS issues)
                 const azerbaijanGeoJSON = {
@@ -20034,6 +20041,16 @@
                                                         fillOpacity: 0.9
                                                 });
                                                 layer.bringToFront();
+
+                                                // Open popup on hover
+                                                if (energyData) {
+                                                        layer.bindPopup(createPopupContent(rayonName, energyData), {
+                                                                maxWidth: 400,
+                                                                closeButton: false,
+                                                                autoClose: true,
+                                                                closeOnClick: false
+                                                        }).openPopup();
+                                                }
                                         },
                                         mouseout: function (e) {
                                                 const layer = e.target;
@@ -20051,11 +20068,9 @@
                                                                 fillOpacity: 0.3
                                                         });
                                                 }
-                                        },
-                                        click: function (e) {
-                                                layer.bindPopup(createPopupContent(rayonName, energyData), {
-                                                        maxWidth: 400
-                                                }).openPopup();
+
+                                                // Close popup on mouseout
+                                                layer.closePopup();
                                         }
                                 });
                         }
