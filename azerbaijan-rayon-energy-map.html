@@ -268,15 +268,15 @@
         // Energy metadata by rayon name
         const energyByRayon = {
             "Bakı": {
-                group: "Absheron Peninsula",
+                group: "Absheron Peninsula + Caspian",
                 primary: "wind_solar",
                 solar_gw: 0.5,
-                wind_gw: 0.4,
+                wind_gw: 2.4,
                 hydro_gw: 0,
                 current_mw: 230,
                 pipeline_mw: 240,
-                remaining_gw: 0.7,
-                notes: "High wind on Absheron coast; Garadagh 230 MW PV; Khizi–Absheron 240 MW wind"
+                remaining_gw: 2.5,
+                notes: "High wind on Absheron coast; Garadagh 230 MW PV; Khizi–Absheron 240 MW wind; Caspian offshore wind ~2 GW potential"
             },
             "Qobustan": {
                 group: "Gobustan Zone",
@@ -345,15 +345,15 @@
                 notes: "High‑irradiation exclave; several >2 GW solar sites identified"
             },
             "Sumqayıt": {
-                group: "Absheron Peninsula",
+                group: "Absheron Peninsula + Caspian",
                 primary: "wind_solar",
                 solar_gw: 0.3,
-                wind_gw: 0.2,
+                wind_gw: 0.8,
                 hydro_gw: 0,
                 current_mw: 0,
                 pipeline_mw: 0,
-                remaining_gw: 0.5,
-                notes: "Coastal wind and solar potential near industrial zone"
+                remaining_gw: 1.1,
+                notes: "Coastal wind and solar potential near industrial zone; Caspian offshore wind access"
             },
             "Xızı": {
                 group: "Wind Corridor",
@@ -486,6 +486,17 @@
                 pipeline_mw: 0,
                 remaining_gw: 0.5,
                 notes: "Agricultural zone with solar potential"
+            },
+            "Salyan": {
+                group: "Caspian Coast",
+                primary: "wind",
+                solar_gw: 0.2,
+                wind_gw: 1.5,
+                hydro_gw: 0,
+                current_mw: 0,
+                pipeline_mw: 0,
+                remaining_gw: 1.7,
+                notes: "Major Caspian offshore wind potential; shallow waters ideal for fixed-bottom turbines"
             }
         };
 
