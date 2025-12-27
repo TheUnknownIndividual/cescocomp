@@ -168,6 +168,13 @@
                         overflow-y: auto;
                         overflow-x: hidden;
                         width: auto;
+                        /* Prevent map dragging when scrolling inside popup */
+                        touch-action: pan-y;
+                }
+
+                /* Stop map drag propagation when interacting with popup */
+                .leaflet-popup-content-wrapper {
+                        pointer-events: auto;
                 }
 
                 .rayon-popup h3 {
@@ -711,12 +718,15 @@
                                         click: function (e) {
                                                 wasClicked = true;
                                                 const props = feature.properties;
-                                                layer.bindPopup(createPopupContent("Caspian Sea", props), {
-                                                        maxWidth: 400,
-                                                        closeButton: true,
-                                                        autoClose: false,
-                                                        closeOnClick: false
-                                                }).openPopup();
+                                                // If popup isn't already open, open it now
+                                                if (!layer.isPopupOpen()) {
+                                                        layer.bindPopup(createPopupContent("Caspian Sea", props), {
+                                                                maxWidth: 400,
+                                                                closeButton: true,
+                                                                autoClose: false,
+                                                                closeOnClick: false
+                                                        }).openPopup();
+                                                }
                                         }
                                 });
 
@@ -20098,9 +20108,10 @@
                                                 }
                                         },
                                         click: function (e) {
-                                                // Mark as clicked and keep the popup open persistently
+                                                // Mark as clicked to lock the popup in place
                                                 wasClicked = true;
-                                                if (energyData) {
+                                                // If popup isn't already open, open it now
+                                                if (energyData && !layer.isPopupOpen()) {
                                                         layer.bindPopup(createPopupContent(rayonName, energyData), {
                                                                 maxWidth: 400,
                                                                 closeButton: true,
