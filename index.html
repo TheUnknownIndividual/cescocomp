@@ -20042,8 +20042,9 @@
 
                                                 const labelText = `${rayonName} – ${energyData.group}`;
 
-                                                // Calculate font size based on zoom (smaller at lower zoom)
-                                                const fontSize = Math.max(8, Math.min(11, 6 + zoom));
+                                                // Calculate font size based on zoom (smaller when zoomed out)
+                                                // At zoom 7: 7px, zoom 8: 8px, zoom 9: 9px, zoom 10+: 10px
+                                                const fontSize = Math.min(10, Math.max(7, zoom));
 
                                                 const marker = L.marker([centerLat, centerLng], {
                                                         icon: L.divIcon({
