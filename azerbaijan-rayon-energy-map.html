@@ -568,81 +568,14 @@
             tileSize: 256
         }).addTo(map);
 
-        // Add beige background for map area
+        // Add white background for map area
         L.rectangle(azerbaijanBounds, {
             color: 'transparent',
-            fillColor: '#F5F1E8',
+            fillColor: '#FFFFFF',
             fillOpacity: 1,
             weight: 0,
             interactive: false
         }).addTo(map).bringToBack();
-
-        // Add Caspian Sea offshore wind zone
-        const caspianSeaPolygon = {
-            type: "Feature",
-            properties: {
-                name: "Caspian Sea Offshore Wind Zone",
-                group: "Offshore",
-                primary: "wind",
-                solar_gw: 0,
-                wind_gw: 4.0,
-                hydro_gw: 0,
-                current_mw: 0,
-                pipeline_mw: 0,
-                remaining_gw: 4.0,
-                notes: "Azerbaijan's Caspian Sea sector: ~4 GW offshore wind potential in shallow waters (10-50m depth); fixed-bottom turbines feasible"
-            },
-            geometry: {
-                type: "Polygon",
-                coordinates: [[
-                    [50.2, 41.2],
-                    [50.8, 41.2],
-                    [51.0, 40.8],
-                    [51.0, 40.3],
-                    [50.9, 39.8],
-                    [50.7, 39.3],
-                    [50.4, 39.0],
-                    [50.0, 38.9],
-                    [49.8, 39.1],
-                    [49.7, 39.5],
-                    [49.8, 40.0],
-                    [50.0, 40.7],
-                    [50.2, 41.2]
-                ]]
-            }
-        };
-
-        L.geoJSON(caspianSeaPolygon, {
-            style: {
-                fillColor: '#4A90E2',
-                fillOpacity: 0.35,
-                color: '#2E5C8A',
-                weight: 2,
-                opacity: 0.7
-            },
-            onEachFeature: function (feature, layer) {
-                layer.on({
-                    mouseover: function (e) {
-                        e.target.setStyle({
-                            fillOpacity: 0.6,
-                            weight: 3
-                        });
-                    },
-                    mouseout: function (e) {
-                        e.target.setStyle({
-                            fillOpacity: 0.35,
-                            weight: 2
-                        });
-                    },
-                    click: function (e) {
-                        const props = feature.properties;
-                        layer.bindPopup(createPopupContent("Caspian Sea", props), {
-                            maxWidth: 400
-                        }).openPopup();
-                    }
-                });
-            }
-        }).addTo(map);
 
         // Embedded az.json data (to avoid CORS issues)
         const azerbaijanGeoJSON = {
@@ -20004,6 +19937,37 @@
                 });
             }
         }).addTo(map);
+
+        // Add labels to rayons with energy data
+        L.geoJSON(azerbaijanGeoJSON, {
+            onEachFeature: function (feature, layer) {
+                const rayonName = feature.properties.name;
+                const energyData = energyByRayon[rayonName];
+
+                if (energyData) {
+                    const bounds = layer.getBounds();
+                    const center = bounds.getCenter();
+
+                    const labelText = `${rayonName} – ${energyData.group}`;
+
+                    L.marker(center, {
+                        icon: L.divIcon({
+                            className: 'rayon-label',
+                            html: `<div style="
+                                font-size: 11px;
+                                font-weight: 600;
+                                color: #333;
+                                text-align: center;
+                                white-space: nowrap;
+                                text-shadow: 1px 1px 2px rgba(255,255,255,0.9), -1px -1px 2px rgba(255,255,255,0.9);
+                                pointer-events: none;
+                            ">${labelText}</div>`,
+                            iconSize: [0, 0]
+                        })
+                    }).addTo(map);
+                }
+            }
+        });
     </script>
 </body>
 
