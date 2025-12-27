@@ -588,22 +588,22 @@
                         }
 
                         return `
-                <div class="rayon-popup">
-                    <h3>${rayonName} – ${energyData.group}</h3>
-                    <div class="stats-grid">
-                        <div class="stat">☀️ <strong>Solar potential:</strong> ${energyData.solar_gw.toFixed(2)} GW</div>
-                        <div class="stat">💨 <strong>Wind potential:</strong> ${energyData.wind_gw.toFixed(2)} GW</div>
-                        <div class="stat">💧 <strong>Hydro potential:</strong> ${energyData.hydro_gw.toFixed(2)} GW</div>
-                        <div class="stat">🔋 <strong>Current installed:</strong> ${energyData.current_mw} MW</div>
-                        <div class="stat">🚧 <strong>In development:</strong> ${energyData.pipeline_mw} MW</div>
-                        <div class="stat">📈 <strong>Remaining potential:</strong> ${energyData.remaining_gw.toFixed(2)} GW</div>
-                        <div class="stat">📝 <strong>Notes:</strong> ${energyData.notes}</div>
-                    </div>
+                \u003cdiv class=\"rayon-popup\"\u003e
+                    \u003ch3\u003e${rayonName} – ${energyData.group}\u003c/h3\u003e
+                    \u003cdiv class=\"stats-grid\"\u003e
+                        ${energyData.solar_gw > 0 ? `\u003cdiv class=\"stat\"\u003e☀️ \u003cstrong\u003eSolar potential:\u003c/strong\u003e ${energyData.solar_gw.toFixed(2)} GW\u003c/div\u003e` : ''}
+                        ${energyData.wind_gw > 0 ? `\u003cdiv class=\"stat\"\u003e💨 \u003cstrong\u003eWind potential:\u003c/strong\u003e ${energyData.wind_gw.toFixed(2)} GW\u003c/div\u003e` : ''}
+                        ${energyData.hydro_gw > 0 ? `\u003cdiv class=\"stat\"\u003e💧 \u003cstrong\u003eHydro potential:\u003c/strong\u003e ${energyData.hydro_gw.toFixed(2)} GW\u003c/div\u003e` : ''}
+                        \u003cdiv class=\"stat\"\u003e🔋 \u003cstrong\u003eCurrent installed:\u003c/strong\u003e ${energyData.current_mw} MW\u003c/div\u003e
+                        \u003cdiv class=\"stat\"\u003e🚧 \u003cstrong\u003eIn development:\u003c/strong\u003e ${energyData.pipeline_mw} MW\u003c/div\u003e
+                        \u003cdiv class=\"stat\"\u003e📈 \u003cstrong\u003eRemaining potential:\u003c/strong\u003e ${energyData.remaining_gw.toFixed(2)} GW\u003c/div\u003e
+                        \u003cdiv class=\"stat\"\u003e📝 \u003cstrong\u003eNotes:\u003c/strong\u003e ${energyData.notes}\u003c/div\u003e
+                    \u003c/div\u003e
                     ${projectsHTML}
-                    <div class="sources">
-                        <small>📚 <strong>Sources:</strong> Imamverdiyev 2024 (renewable geography of Azerbaijan), Ministry of Energy & AREN renewable statistics 2023–2025, World Bank Azerbaijan assessments</small>
-                    </div>
-                </div>
+                    \u003cdiv class=\"sources\"\u003e
+                        \u003csmall\u003e📚 \u003cstrong\u003eSources:\u003c/strong\u003e Imamverdiyev 2024 (renewable geography of Azerbaijan), Ministry of Energy \u0026 AREN renewable statistics 2023–2025, World Bank Azerbaijan assessments\u003c/small\u003e
+                    \u003c/div\u003e
+                \u003c/div\u003e
             `;
                 }
 
@@ -688,8 +688,8 @@
                                                 const props = feature.properties;
                                                 layer.bindPopup(createPopupContent("Caspian Sea", props), {
                                                         maxWidth: 400,
-                                                        closeButton: false,
-                                                        autoClose: true,
+                                                        closeButton: true,
+                                                        autoClose: false,
                                                         closeOnClick: false
                                                 }).openPopup();
                                         },
@@ -698,14 +698,19 @@
                                                         fillOpacity: 0.35,
                                                         weight: 2
                                                 });
-                                                layer.closePopup();
+                                        },
+                                        click: function (e) {
+                                                const props = feature.properties;
+                                                layer.bindPopup(createPopupContent("Caspian Sea", props), {
+                                                        maxWidth: 400,
+                                                        closeButton: true,
+                                                        autoClose: false,
+                                                        closeOnClick: false
+                                                }).openPopup();
                                         }
                                 });
                         }
                 }).addTo(map);
-
-                // Send Caspian Sea layer to back so it doesn't overlay land rayons
-                caspianLayer.bringToBack();
 
                 // Embedded az.json data (to avoid CORS issues)
                 const azerbaijanGeoJSON = {
@@ -20042,12 +20047,12 @@
                                                 });
                                                 layer.bringToFront();
 
-                                                // Open popup on hover
+                                                // Open popup on hover (will auto-close unless clicked)
                                                 if (energyData) {
                                                         layer.bindPopup(createPopupContent(rayonName, energyData), {
                                                                 maxWidth: 400,
-                                                                closeButton: false,
-                                                                autoClose: true,
+                                                                closeButton: true,
+                                                                autoClose: false,
                                                                 closeOnClick: false
                                                         }).openPopup();
                                                 }
@@ -20068,9 +20073,17 @@
                                                                 fillOpacity: 0.3
                                                         });
                                                 }
-
-                                                // Close popup on mouseout
-                                                layer.closePopup();
+                                        },
+                                        click: function (e) {
+                                                // Click keeps the popup open persistently
+                                                if (energyData) {
+                                                        layer.bindPopup(createPopupContent(rayonName, energyData), {
+                                                                maxWidth: 400,
+                                                                closeButton: true,
+                                                                autoClose: false,
+                                                                closeOnClick: false
+                                                        }).openPopup();
+                                                }
                                         }
                                 });
                         }
