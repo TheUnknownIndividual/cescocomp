@@ -577,6 +577,72 @@
             interactive: false
         }).addTo(map).bringToBack();
 
+        // Add Caspian Sea offshore wind zone
+        const caspianSeaPolygon = {
+            type: "Feature",
+            properties: {
+                name: "Caspian Sea Offshore Wind Zone",
+                group: "Offshore",
+                primary: "wind",
+                solar_gw: 0,
+                wind_gw: 4.0,
+                hydro_gw: 0,
+                current_mw: 0,
+                pipeline_mw: 0,
+                remaining_gw: 4.0,
+                notes: "Azerbaijan's Caspian Sea sector: ~4 GW offshore wind potential in shallow waters (10-50m depth); fixed-bottom turbines feasible"
+            },
+            geometry: {
+                type: "Polygon",
+                coordinates: [[
+                    [49.8, 41.0],
+                    [50.5, 41.0],
+                    [50.8, 40.5],
+                    [51.0, 40.0],
+                    [50.8, 39.5],
+                    [50.5, 39.0],
+                    [50.0, 38.8],
+                    [49.5, 38.8],
+                    [49.2, 39.2],
+                    [49.0, 39.8],
+                    [49.2, 40.5],
+                    [49.8, 41.0]
+                ]]
+            }
+        };
+
+        L.geoJSON(caspianSeaPolygon, {
+            style: {
+                fillColor: '#4A90E2',
+                fillOpacity: 0.35,
+                color: '#2E5C8A',
+                weight: 2,
+                opacity: 0.7
+            },
+            onEachFeature: function (feature, layer) {
+                layer.on({
+                    mouseover: function (e) {
+                        e.target.setStyle({
+                            fillOpacity: 0.6,
+                            weight: 3
+                        });
+                    },
+                    mouseout: function (e) {
+                        e.target.setStyle({
+                            fillOpacity: 0.35,
+                            weight: 2
+                        });
+                    },
+                    click: function (e) {
+                        const props = feature.properties;
+                        layer.bindPopup(createPopupContent("Caspian Sea", props), {
+                            maxWidth: 400
+                        }).openPopup();
+                    }
+                });
+            }
+        }).addTo(map);
+
         // Embedded az.json data (to avoid CORS issues)
         const azerbaijanGeoJSON = {
             "type": "FeatureCollection",
