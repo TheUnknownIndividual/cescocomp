@@ -700,16 +700,13 @@
                 }
 
                 // Initialize map
-                const azerbaijanBounds = [[38.4, 44.8], [41.9, 51.0]];
 
                 const map = L.map('map', {
                         center: [40.1431, 47.5769],
                         zoom: 7,
                         minZoom: 6,
                         maxZoom: 10,
-                        zoomControl: true,
-                        maxBounds: azerbaijanBounds,
-                        maxBoundsViscosity: 1.0
+                        zoomControl: true
                 });
 
                 // Create white tile layer background
