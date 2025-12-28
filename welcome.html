@@ -747,26 +747,29 @@
 
         /* Custom Icons for Stats */
         .stat-card-icon img {
-            width: 2rem;
-            height: 2rem;
+            width: 5rem;
+            height: 5rem;
             display: block;
             margin: 0 auto;
         }
 
-        body.light-mode .dark-icon {
-            display: none;
-        }
-
-        body.light-mode .light-icon {
-            display: block;
-        }
-
-        .dark-icon {
-            display: block;
-        }
-
+        /* Hide light mode icon by default (dark mode) */
         .light-icon {
-            display: none;
+            display: none !important;
+        }
+
+        /* Show dark mode icon by default */
+        .dark-icon {
+            display: block !important;
+        }
+
+        /* In light mode, show light icon and hide dark icon */
+        body.light-mode .light-icon {
+            display: block !important;
+        }
+
+        body.light-mode .dark-icon {
+            display: none !important;
         }
 
         /* Energy Statistics Dashboard */
@@ -1194,80 +1197,81 @@
                     Learn More →
                 </a>
             </div>
-<!-- Duplicate cards for seamless infinite loop -->
-<div class="feature-card">
-    <span class="feature-icon">🗺️</span>
-    <h3 class="feature-title">Interactive Energy Atlas</h3>
-    <p class="feature-description">
-        Rayon-level mapping of Azerbaijan's 27 GW renewable potential with detailed solar, wind, and hydro
-        data.
-        Explore project pipelines, existing installations, and untapped opportunities.
-    </p>
-    <a href="#map" class="feature-link">
-        Explore Map →
-    </a>
-</div>
+            <!-- Duplicate cards for seamless infinite loop -->
+            <div class="feature-card">
+                <span class="feature-icon">🗺️</span>
+                <h3 class="feature-title">Interactive Energy Atlas</h3>
+                <p class="feature-description">
+                    Rayon-level mapping of Azerbaijan's 27 GW renewable potential with detailed solar, wind, and hydro
+                    data.
+                    Explore project pipelines, existing installations, and untapped opportunities.
+                </p>
+                <a href="#map" class="feature-link">
+                    Explore Map →
+                </a>
+            </div>
 
-<div class="feature-card">
-    <span class="feature-icon">📜</span>
-    <h3 class="feature-title">Regulatory Framework Hub</h3>
-    <p class="feature-description">
-        Comprehensive database of Azerbaijan's green energy laws, presidential orders, NDC commitments,
-        and investment mechanisms. Stay updated on policy evolution.
-    </p>
-    <a href="regulatory-framework.html" class="feature-link">
-        View Frameworks →
-    </a>
-</div>
+            <div class="feature-card">
+                <span class="feature-icon">📜</span>
+                <h3 class="feature-title">Regulatory Framework Hub</h3>
+                <p class="feature-description">
+                    Comprehensive database of Azerbaijan's green energy laws, presidential orders, NDC commitments,
+                    and investment mechanisms. Stay updated on policy evolution.
+                </p>
+                <a href="regulatory-framework.html" class="feature-link">
+                    View Frameworks →
+                </a>
+            </div>
 
-<div class="feature-card">
-    <span class="feature-icon">💼</span>
-    <h3 class="feature-title">Investment Intelligence</h3>
-    <p class="feature-description">
-        Track major renewable projects, PPAs, auction frameworks, and GW-scale MoUs with international
-        partners
-        like Masdar, ACWA Power, and bp.
-    </p>
-    <a href="#map" class="feature-link">
-        Explore Projects →
-    </a>
-</div>
+            <div class="feature-card">
+                <span class="feature-icon">💼</span>
+                <h3 class="feature-title">Investment Intelligence</h3>
+                <p class="feature-description">
+                    Track major renewable projects, PPAs, auction frameworks, and GW-scale MoUs with international
+                    partners
+                    like Masdar, ACWA Power, and bp.
+                </p>
+                <a href="#map" class="feature-link">
+                    Explore Projects →
+                </a>
+            </div>
 
-<div class="feature-card">
-    <span class="feature-icon">🎯</span>
-    <h3 class="feature-title">Strategic Planning Tools</h3>
-    <p class="feature-description">
-        Access data on green energy zones (East Zangazur, Karabakh), infrastructure capacity,
-        grid connections, and regional export corridors.
-    </p>
-    <a href="index.html" class="feature-link">
-        View Details →
-    </a>
-</div>
+            <div class="feature-card">
+                <span class="feature-icon">🎯</span>
+                <h3 class="feature-title">Strategic Planning Tools</h3>
+                <p class="feature-description">
+                    Access data on green energy zones (East Zangazur, Karabakh), infrastructure capacity,
+                    grid connections, and regional export corridors.
+                </p>
+                <a href="index.html" class="feature-link">
+                    View Details →
+                </a>
+            </div>
 
-<div class="feature-card">
-    <span class="feature-icon">📊</span>
-    <h3 class="feature-title">Academic-Grade Data</h3>
-    <p class="feature-description">
-        All energy assessments backed by peer-reviewed research, Ministry of Energy data,
-        and World Bank reports. Verified, transparent, and actionable.
-    </p>
-    <a href="index.html" class="feature-link">
-        See Sources →
-    </a>
-</div>
+            <div class="feature-card">
+                <span class="feature-icon">📊</span>
+                <h3 class="feature-title">Academic-Grade Data</h3>
+                <p class="feature-description">
+                    All energy assessments backed by peer-reviewed research, Ministry of Energy data,
+                    and World Bank reports. Verified, transparent, and actionable.
+                </p>
+                <a href="index.html" class="feature-link">
+                    See Sources →
+                </a>
+            </div>
 
-<div class="feature-card">
-    <span class="feature-icon">🌍</span>
-    <h3 class="feature-title">COP29 Leadership</h3>
-    <p class="feature-description">
-        Showcasing Azerbaijan's commitment to tripling global renewables by 2030 and establishing
-        Karabakh/East Zangazur as a green recovery showcase.
-    </p>
-    <a href="regulatory-framework.html#commitments" class="feature-link">
-        Learn More →
-    </a>
-</div>        </div>
+            <div class="feature-card">
+                <span class="feature-icon">🌍</span>
+                <h3 class="feature-title">COP29 Leadership</h3>
+                <p class="feature-description">
+                    Showcasing Azerbaijan's commitment to tripling global renewables by 2030 and establishing
+                    Karabakh/East Zangazur as a green recovery showcase.
+                </p>
+                <a href="regulatory-framework.html#commitments" class="feature-link">
+                    Learn More →
+                </a>
+            </div>
+        </div>
     </section>
 
     <!-- Map Section -->
