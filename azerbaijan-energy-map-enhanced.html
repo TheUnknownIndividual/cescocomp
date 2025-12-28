@@ -1915,11 +1915,30 @@
                         map.closePopup(lockedPopup);
                     }
 
-                    // Open and lock the new popup
+                    // Calculate which side has more space
+                    const clickPoint = map.latLngToContainerPoint(e.latlng);
+                    const mapWidth = map.getSize().x;
+                    const spaceOnRight = mapWidth - clickPoint.x;
+                    const spaceOnLeft = clickPoint.x;
+
+                    // Determine offset based on available space
+                    let offset;
+                    if (spaceOnRight > spaceOnLeft) {
+                        // More space on right - position popup to the right
+                        offset = [150, 0];
+                    } else {
+                        // More space on left - position popup to the left
+                        offset = [-150, 0];
+                    }
+
+                    // Open and lock the new popup with smart positioning
                     const popup = layer.bindPopup(createPopupContent(feature.properties), {
                         maxWidth: 400,
                         closeOnClick: false,
-                        autoClose: false
+                        autoClose: false,
+                        offset: offset,
+                        autoPan: true,
+                        autoPanPadding: [50, 50]
                     }).openPopup();
 
                     lockedPopup = popup.getPopup();
