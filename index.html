@@ -43,6 +43,7 @@
                         width: 100%;
                         height: 100vh;
                         z-index: 1;
+                        background-color: #FFFFFF;
                 }
 
                 .header {
@@ -630,11 +631,13 @@
                         maxBoundsViscosity: 1.0
                 });
 
-                // Create blank tile layer (no external map provider - only az.json)
-                L.tileLayer('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==', {
+                // Create white tile layer background
+                L.tileLayer('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=', {
                         attribution: 'Azerbaijan Renewable Energy Map',
-                        tileSize: 256
+                        tileSize: 256,
+                        bounds: [[-90, -180], [90, 180]]
                 }).addTo(map);
+
 
                 // Add white background for map area
                 L.rectangle(azerbaijanBounds, {
@@ -644,6 +647,36 @@
                         weight: 0,
                         interactive: false
                 }).addTo(map).bringToBack();
+
+                // Function to get popup max width based on zoom level
+                function getPopupMaxWidth() {
+                        const zoom = map.getZoom();
+                        // Scale values based on zoom: zoom 6 = 280px, zoom 10 = 450px
+                        const minWidth = 280;
+                        const maxWidth = 450;
+                        const minZoom = 6;
+                        const maxZoom = 10;
+
+                        const scale = (zoom - minZoom) / (maxZoom - minZoom);
+                        return Math.round(minWidth + (maxWidth - minWidth) * scale);
+                }
+
+                // Store all popups to update them on zoom
+                let allPopupLayers = [];
+
+                // Update popup sizes on zoom
+                map.on('zoomend', function () {
+                        const newMaxWidth = getPopupMaxWidth();
+                        allPopupLayers.forEach(layer => {
+                                if (layer._popup) {
+                                        layer._popup.options.maxWidth = newMaxWidth;
+                                        if (layer._popup._isOpen) {
+                                                layer._popup.update();
+                                        }
+                                }
+                        });
+                });
+
 
                 // Add Caspian Sea offshore wind zone
                 const caspianSeaPolygon = {
@@ -692,6 +725,9 @@
                                 // Track whether this popup was clicked
                                 let wasClicked = false;
 
+                                // Add to tracked layers for zoom updates
+                                allPopupLayers.push(layer);
+
                                 layer.on({
                                         mouseover: function (e) {
                                                 e.target.setStyle({
@@ -701,7 +737,7 @@
                                                 const props = feature.properties;
                                                 if (!wasClicked) {
                                                         layer.bindPopup(createPopupContent("Caspian Sea", props), {
-                                                                maxWidth: 400,
+                                                                maxWidth: getPopupMaxWidth(),
                                                                 closeButton: true,
                                                                 autoClose: false,
                                                                 closeOnClick: false
@@ -724,7 +760,7 @@
                                                 // If popup isn't already open, open it now
                                                 if (!layer.isPopupOpen()) {
                                                         layer.bindPopup(createPopupContent("Caspian Sea", props), {
-                                                                maxWidth: 400,
+                                                                maxWidth: getPopupMaxWidth(),
                                                                 closeButton: true,
                                                                 autoClose: false,
                                                                 closeOnClick: false
@@ -20068,6 +20104,11 @@
                                 // Track whether this popup was clicked (to keep it open) or just hovered
                                 let wasClicked = false;
 
+                                // Add to tracked layers for zoom updates
+                                if (energyData) {
+                                        allPopupLayers.push(layer);
+                                }
+
                                 layer.on({
                                         mouseover: function (e) {
                                                 const layer = e.target;
@@ -20081,7 +20122,7 @@
                                                 // Open popup on hover (will auto-close on mouseout unless clicked)
                                                 if (energyData && !wasClicked) {
                                                         layer.bindPopup(createPopupContent(rayonName, energyData), {
-                                                                maxWidth: 400,
+                                                                maxWidth: getPopupMaxWidth(),
                                                                 closeButton: true,
                                                                 autoClose: false,
                                                                 closeOnClick: false
@@ -20116,7 +20157,7 @@
                                                 // If popup isn't already open, open it now
                                                 if (energyData && !layer.isPopupOpen()) {
                                                         layer.bindPopup(createPopupContent(rayonName, energyData), {
-                                                                maxWidth: 400,
+                                                                maxWidth: getPopupMaxWidth(),
                                                                 closeButton: true,
                                                                 autoClose: false,
                                                                 closeOnClick: false
