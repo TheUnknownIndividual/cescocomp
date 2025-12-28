@@ -1614,6 +1614,17 @@
             dashboardObserver.observe(dashboard);
         }
 
+        // Infinite Carousel Logic
+        const featuresGrid = document.querySelector('.features-grid');
+        if (featuresGrid) {
+            // Clone all feature cards for seamless loop
+            const cards = Array.from(featuresGrid.querySelectorAll('.feature-card'));
+            cards.forEach(card => {
+                const clone = card.cloneNode(true);
+                featuresGrid.appendChild(clone);
+            });
+        }
+
     </script>
 </body>
 
