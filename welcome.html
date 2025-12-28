@@ -753,6 +753,12 @@
             margin: 0 auto;
         }
 
+        /* Special sizing for Under Development icon */
+        .stat-card:nth-child(3) .stat-card-icon img {
+            width: 2rem;
+            height: 3rem;
+        }
+
         /* Hide light mode icon by default (dark mode) */
         .light-icon {
             display: none !important;
@@ -781,6 +787,14 @@
         .dashboard-container {
             max-width: 1200px;
             margin: 0 auto;
+        }
+
+        /* Side by side layout for breakdowns */
+        .breakdowns-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
 
         .stats-grid-dashboard {
@@ -1020,6 +1034,11 @@
 
             .energy-breakdown {
                 padding: 1.25rem;
+            }
+
+            .breakdowns-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
 
             .energy-breakdown h3 {
@@ -1347,128 +1366,131 @@
                 </div>
             </div>
 
-            <div class="energy-breakdown">
-                <h3>🔋 Energy Type Distribution</h3>
 
-                <div class="energy-type-item">
-                    <div class="energy-type-left">
-                        <div class="energy-type-icon">☀️</div>
-                        <div class="energy-type-name">Solar Energy</div>
-                    </div>
-                    <div class="energy-type-right">
-                        <div class="energy-type-value">
-                            <span data-target="18674">0</span>
-                            <span class="stat-unit">MW</span>
-                            <span class="energy-percentage">(72.3%)</span>
+            <div class="breakdowns-grid">
+                <div class="energy-breakdown">
+                    <h3>🔋 Energy Type Distribution</h3>
+
+                    <div class="energy-type-item">
+                        <div class="energy-type-left">
+                            <div class="energy-type-icon">☀️</div>
+                            <div class="energy-type-name">Solar Energy</div>
                         </div>
-                        <div class="energy-bar-container">
-                            <div class="energy-bar high" data-percentage="72.3"></div>
+                        <div class="energy-type-right">
+                            <div class="energy-type-value">
+                                <span data-target="18674">0</span>
+                                <span class="stat-unit">MW</span>
+                                <span class="energy-percentage">(72.3%)</span>
+                            </div>
+                            <div class="energy-bar-container">
+                                <div class="energy-bar high" data-percentage="72.3"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="energy-type-item">
+                        <div class="energy-type-left">
+                            <div class="energy-type-icon">💨</div>
+                            <div class="energy-type-name">Wind Energy</div>
+                        </div>
+                        <div class="energy-type-right">
+                            <div class="energy-type-value">
+                                <span data-target="1226">0</span>
+                                <span class="stat-unit">MW</span>
+                                <span class="energy-percentage">(4.7%)</span>
+                            </div>
+                            <div class="energy-bar-container">
+                                <div class="energy-bar low" data-percentage="4.7"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="energy-type-item">
+                        <div class="energy-type-left">
+                            <div class="energy-type-icon">🌊</div>
+                            <div class="energy-type-name">Offshore Wind</div>
+                        </div>
+                        <div class="energy-type-right">
+                            <div class="energy-type-value">
+                                <span data-target="4000">0</span>
+                                <span class="stat-unit">MW</span>
+                                <span class="energy-percentage">(15.5%)</span>
+                            </div>
+                            <div class="energy-bar-container">
+                                <div class="energy-bar medium" data-percentage="15.5"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="energy-type-item">
+                        <div class="energy-type-left">
+                            <div class="energy-type-icon">💧</div>
+                            <div class="energy-type-name">Hydro Energy</div>
+                        </div>
+                        <div class="energy-type-right">
+                            <div class="energy-type-value">
+                                <span data-target="1912">0</span>
+                                <span class="stat-unit">MW</span>
+                                <span class="energy-percentage">(7.4%)</span>
+                            </div>
+                            <div class="energy-bar-container">
+                                <div class="energy-bar medium" data-percentage="7.4"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="energy-type-item">
-                    <div class="energy-type-left">
-                        <div class="energy-type-icon">💨</div>
-                        <div class="energy-type-name">Wind Energy</div>
-                    </div>
-                    <div class="energy-type-right">
-                        <div class="energy-type-value">
-                            <span data-target="1226">0</span>
-                            <span class="stat-unit">MW</span>
-                            <span class="energy-percentage">(4.7%)</span>
-                        </div>
-                        <div class="energy-bar-container">
-                            <div class="energy-bar low" data-percentage="4.7"></div>
-                        </div>
-                    </div>
-                </div>
+                <div class="energy-breakdown">
+                    <h3>📊 Development Status Breakdown</h3>
 
-                <div class="energy-type-item">
-                    <div class="energy-type-left">
-                        <div class="energy-type-icon">🌊</div>
-                        <div class="energy-type-name">Offshore Wind</div>
-                    </div>
-                    <div class="energy-type-right">
-                        <div class="energy-type-value">
-                            <span data-target="4000">0</span>
-                            <span class="stat-unit">MW</span>
-                            <span class="energy-percentage">(15.5%)</span>
+                    <div class="energy-type-item">
+                        <div class="energy-type-left">
+                            <div class="energy-type-icon">🚗</div>
+                            <div class="energy-type-name">Operational</div>
                         </div>
-                        <div class="energy-bar-container">
-                            <div class="energy-bar medium" data-percentage="15.5"></div>
+                        <div class="energy-type-right">
+                            <div class="energy-type-value">
+                                <span data-target="1684.5">0</span>
+                                <span class="stat-unit">MW</span>
+                                <span class="energy-percentage">(6.2%)</span>
+                            </div>
+                            <div class="energy-bar-container">
+                                <div class="energy-bar low" data-percentage="6.2"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="energy-type-item">
-                    <div class="energy-type-left">
-                        <div class="energy-type-icon">💧</div>
-                        <div class="energy-type-name">Hydro Energy</div>
-                    </div>
-                    <div class="energy-type-right">
-                        <div class="energy-type-value">
-                            <span data-target="1912">0</span>
-                            <span class="stat-unit">MW</span>
-                            <span class="energy-percentage">(7.4%)</span>
+                    <div class="energy-type-item">
+                        <div class="energy-type-left">
+                            <div class="energy-type-icon">🚧</div>
+                            <div class="energy-type-name">In Development</div>
                         </div>
-                        <div class="energy-bar-container">
-                            <div class="energy-bar medium" data-percentage="7.4"></div>
+                        <div class="energy-type-right">
+                            <div class="energy-type-value">
+                                <span data-target="1240">0</span>
+                                <span class="stat-unit">MW</span>
+                                <span class="energy-percentage">(4.6%)</span>
+                            </div>
+                            <div class="energy-bar-container">
+                                <div class="energy-bar low" data-percentage="4.6"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="energy-breakdown">
-                <h3>📊 Development Status Breakdown</h3>
-
-                <div class="energy-type-item">
-                    <div class="energy-type-left">
-                        <div class="energy-type-icon">🟢</div>
-                        <div class="energy-type-name">Operational</div>
-                    </div>
-                    <div class="energy-type-right">
-                        <div class="energy-type-value">
-                            <span data-target="1684.5">0</span>
-                            <span class="stat-unit">MW</span>
-                            <span class="energy-percentage">(6.2%)</span>
+                    <div class="energy-type-item">
+                        <div class="energy-type-left">
+                            <div class="energy-type-icon">🎯</div>
+                            <div class="energy-type-name">Remaining Potential</div>
                         </div>
-                        <div class="energy-bar-container">
-                            <div class="energy-bar low" data-percentage="6.2"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="energy-type-item">
-                    <div class="energy-type-left">
-                        <div class="energy-type-icon">🟡</div>
-                        <div class="energy-type-name">In Development</div>
-                    </div>
-                    <div class="energy-type-right">
-                        <div class="energy-type-value">
-                            <span data-target="1240">0</span>
-                            <span class="stat-unit">MW</span>
-                            <span class="energy-percentage">(4.6%)</span>
-                        </div>
-                        <div class="energy-bar-container">
-                            <div class="energy-bar low" data-percentage="4.6"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="energy-type-item">
-                    <div class="energy-type-left">
-                        <div class="energy-type-icon">🔵</div>
-                        <div class="energy-type-name">Remaining Potential</div>
-                    </div>
-                    <div class="energy-type-right">
-                        <div class="energy-type-value">
-                            <span data-target="22887.5">0</span>
-                            <span class="stat-unit">MW</span>
-                            <span class="energy-percentage">(88.7%)</span>
-                        </div>
-                        <div class="energy-bar-container">
-                            <div class="energy-bar high" data-percentage="88.7"></div>
+                        <div class="energy-type-right">
+                            <div class="energy-type-value">
+                                <span data-target="22887.5">0</span>
+                                <span class="stat-unit">MW</span>
+                                <span class="energy-percentage">(88.7%)</span>
+                            </div>
+                            <div class="energy-bar-container">
+                                <div class="energy-bar high" data-percentage="88.7"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
