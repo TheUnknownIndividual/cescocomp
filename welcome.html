@@ -328,6 +328,47 @@
             background-clip: text;
         }
 
+        .typewriter-wrapper {
+            display: inline-block;
+            position: relative;
+        }
+
+        .typewriter-text {
+            display: inline-block;
+            border-right: 3px solid var(--text-primary);
+            padding-right: 4px;
+            animation: blink-caret 0.75s step-end infinite;
+            min-width: 20px;
+        }
+
+        @keyframes blink-caret {
+
+            from,
+            to {
+                border-color: transparent;
+            }
+
+            50% {
+                border-color: var(--text-primary);
+            }
+        }
+
+        /* Different styles for rotating phrases */
+        .typewriter-text.style-italic {
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        .typewriter-text.style-bold {
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .typewriter-text.style-light {
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
         .hero-subtitle {
             font-size: clamp(0.95rem, 1.8vw, 1.1rem);
             color: var(--text-secondary);
@@ -701,7 +742,9 @@
             </div>
             <h1 class="hero-title">
                 Azerbaijan's <span class="gradient-text">Clean Energy</span><br>
-                Knowledge Hub
+                <span class="typewriter-wrapper">
+                    <span class="typewriter-text" id="typewriter"></span>
+                </span>
             </h1>
             <p class="hero-subtitle">
                 A comprehensive digital platform connecting renewable energy stakeholders with data-driven insights,
@@ -928,6 +971,68 @@
                 document.body.classList.add('light-mode');
             }
         })();
+
+        // Typewriter Effect
+        (function initTypewriter() {
+            const typewriterElement = document.getElementById('typewriter');
+
+            // Array of phrases to cycle through with their styles
+            const phrases = [
+                { text: 'Knowledge Hub', style: '' },
+                { text: 'Green Energy Map', style: 'style-italic' },
+                { text: 'Data Platform', style: 'style-bold' },
+                { text: 'Investment Portal', style: 'style-italic' },
+                { text: 'Policy Framework', style: 'style-light' },
+                { text: 'Strategic Observatory', style: 'style-bold' }
+            ];
+
+            let phraseIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            let isPaused = false;
+
+            function type() {
+                const currentPhrase = phrases[phraseIndex];
+
+                if (isPaused) {
+                    setTimeout(type, 1500); // Pause before deleting
+                    isPaused = false;
+                    isDeleting = true;
+                    return;
+                }
+
+                if (isDeleting) {
+                    // Delete character
+                    typewriterElement.textContent = currentPhrase.text.substring(0, charIndex - 1);
+                    charIndex--;
+
+                    if (charIndex === 0) {
+                        isDeleting = false;
+                        phraseIndex = (phraseIndex + 1) % phrases.length;
+                        // Update style class
+                        typewriterElement.className = 'typewriter-text ' + phrases[phraseIndex].style;
+                        setTimeout(type, 500); // Pause before typing next phrase
+                        return;
+                    }
+                } else {
+                    // Type character
+                    typewriterElement.textContent = currentPhrase.text.substring(0, charIndex + 1);
+                    charIndex++;
+
+                    if (charIndex === currentPhrase.text.length) {
+                        isPaused = true;
+                    }
+                }
+
+                // Typing speed: faster when deleting
+                const speed = isDeleting ? 50 : 100;
+                setTimeout(type, speed);
+            }
+
+            // Start the typewriter effect after a short delay
+            setTimeout(type, 1000);
+        })();
+
     </script>
 </body>
 
