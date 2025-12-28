@@ -355,18 +355,35 @@
 
         /* Different styles for rotating phrases */
         .typewriter-text.style-italic {
+            font-family: 'Georgia', serif;
             font-style: italic;
             font-weight: 600;
         }
 
         .typewriter-text.style-bold {
+            font-family: 'Space Grotesk', sans-serif;
             font-weight: 800;
             letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
         .typewriter-text.style-light {
-            font-weight: 400;
-            opacity: 0.9;
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-weight: 300;
+            opacity: 0.95;
+            letter-spacing: 1px;
+        }
+
+        .typewriter-text.style-mono {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .typewriter-text.style-condensed {
+            font-family: 'Arial Narrow', 'Arial', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
         .hero-subtitle {
@@ -981,9 +998,9 @@
                 { text: 'Knowledge Hub', style: '' },
                 { text: 'Green Energy Map', style: 'style-italic' },
                 { text: 'Data Platform', style: 'style-bold' },
-                { text: 'Investment Portal', style: 'style-italic' },
-                { text: 'Policy Framework', style: 'style-light' },
-                { text: 'Strategic Observatory', style: 'style-bold' }
+                { text: 'Investment Portal', style: 'style-light' },
+                { text: 'Policy Tracker', style: 'style-mono' },
+                { text: 'Strategic Observatory', style: 'style-condensed' }
             ];
 
             let phraseIndex = 0;
