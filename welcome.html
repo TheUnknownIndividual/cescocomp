@@ -575,8 +575,7 @@
             display: flex;
             gap: 1.5rem;
             padding: 0 2rem;
-            animation: scroll-carousel 40s linear infinite;
-            will-change: transform;
+            animation: scroll-carousel 30s linear infinite;
         }
 
         .features-grid:hover {
@@ -589,7 +588,7 @@
             }
 
             100% {
-                transform: translateX(calc(-320px * 6 - 1.5rem * 6));
+                transform: translateX(-50%);
             }
         }
 
@@ -744,6 +743,30 @@
             color: var(--accent-green);
             font-weight: bold;
             font-size: 1.2rem;
+        }
+
+        /* Custom Icons for Stats */
+        .stat-card-icon img {
+            width: 2rem;
+            height: 2rem;
+            display: block;
+            margin: 0 auto;
+        }
+
+        body.light-mode .dark-icon {
+            display: none;
+        }
+
+        body.light-mode .light-icon {
+            display: block;
+        }
+
+        .dark-icon {
+            display: block;
+        }
+
+        .light-icon {
+            display: none;
         }
 
         /* Energy Statistics Dashboard */
@@ -1202,7 +1225,10 @@
 
             <div class="stats-grid-dashboard">
                 <div class="stat-card">
-                    <div class="stat-card-icon">🌍</div>
+                    <div class="stat-card-icon">
+                        <img src="darkmodehousep.png" alt="Total Potential" class="dark-icon">
+                        <img src="lightmodehousep.png" alt="Total Potential" class="light-icon">
+                    </div>
                     <div class="stat-card-value">
                         <span data-target="25812">0</span>
                         <span class="stat-unit">MW</span>
@@ -1612,17 +1638,6 @@
         const dashboard = document.getElementById('statistics');
         if (dashboard) {
             dashboardObserver.observe(dashboard);
-        }
-
-        // Infinite Carousel Logic
-        const featuresGrid = document.querySelector('.features-grid');
-        if (featuresGrid) {
-            // Clone all feature cards for seamless loop
-            const cards = Array.from(featuresGrid.querySelectorAll('.feature-card'));
-            cards.forEach(card => {
-                const clone = card.cloneNode(true);
-                featuresGrid.appendChild(clone);
-            });
         }
 
     </script>
