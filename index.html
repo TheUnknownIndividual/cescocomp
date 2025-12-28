@@ -717,15 +717,6 @@
                 }).addTo(map);
 
 
-                // Add white background for map area
-                L.rectangle(azerbaijanBounds, {
-                        color: 'transparent',
-                        fillColor: '#FFFFFF',
-                        fillOpacity: 1,
-                        weight: 0,
-                        interactive: false
-                }).addTo(map).bringToBack();
-
                 // Function to get popup max width based on zoom level
                 function getPopupMaxWidth() {
                         const zoom = map.getZoom();
