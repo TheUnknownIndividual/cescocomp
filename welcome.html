@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CECSO - Clean Energy Knowledge Hub | Azerbaijan</title>
+    <meta name="description"
+        content="Digital knowledge hub for Azerbaijan's renewable energy potential, policy frameworks, and strategic planning - Competition submission for COP29 Clean Energy Challenge">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Azerbaijan National Colors */
+            --az-blue: #0099CC;
+            --az-green: #509E2F;
+            --az-red: #EF3340;
+
+            /* Modern Color Palette */
+            --bg-dark: #0a0b0d;
+            --bg-darker: #050506;
+            --card-bg: #161719;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --accent-green: #27AE60;
+            --accent-blue: #3498db;
+            --gradient-primary: linear-gradient(135deg, var(--az-blue) 0%, var(--az-green) 100%);
+            --gradient-secondary: linear-gradient(135deg, #1a1d23 0%, #2d3748 100%);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 11, 13, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 153, 204, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 153, 204, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(0, 153, 204, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(80, 158, 47, 0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(0, 153, 204, 0.15);
+            border: 1px solid rgba(0, 153, 204, 0.3);
+            color: var(--az-blue);
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-title .gradient-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 30px rgba(0, 153, 204, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 153, 204, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-3px);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 4rem 2rem;
+            background: var(--bg-darker);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stats-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 6rem 2rem;
+            background: var(--bg-dark);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        .features-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 153, 204, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 153, 204, 0.15);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-link {
+            color: var(--az-blue);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-link:hover {
+            gap: 0.75rem;
+        }
+
+        /* Map Section */
+        .map-section {
+            padding: 6rem 2rem;
+            background: var(--bg-darker);
+        }
+
+        .map-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .map-wrapper {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            margin-top: 3rem;
+        }
+
+        .map-frame {
+            width: 100%;
+            height: 700px;
+            border: none;
+        }
+
+        /* Competition Theme */
+        .theme-section {
+            padding: 6rem 2rem;
+            background: var(--bg-dark);
+        }
+
+        .theme-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem;
+            border-left: 4px solid var(--az-green);
+        }
+
+        .theme-badge {
+            display: inline-block;
+            background: rgba(39, 174, 96, 0.15);
+            border: 1px solid rgba(39, 174, 96, 0.3);
+            color: var(--accent-green);
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .theme-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .theme-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .theme-list li {
+            padding-left: 2rem;
+            position: relative;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .theme-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-darker);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 6rem 1.5rem 3rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .stats-container {
+                gap: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .theme-content {
+                padding: 2rem;
+            }
+
+            .map-frame {
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <span>🇦🇿</span>
+                <span>CECSO</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#features">Features</a>
+                <a href="#map">Interactive Map</a>
+                <a href="#about">About</a>
+                <a href="regulatory-framework.html" class="cta-button">Regulatory Framework</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-badge">
+                🏆 COP29 Clean Energy Challenge Submission
+            </div>
+            <h1 class="hero-title">
+                Azerbaijan's <span class="gradient-text">Clean Energy</span><br>
+                Knowledge Hub
+            </h1>
+            <p class="hero-subtitle">
+                A comprehensive digital platform connecting renewable energy stakeholders with data-driven insights,
+                policy frameworks, and investment opportunities across Azerbaijan's energy landscape.
+            </p>
+            <div class="hero-buttons">
+                <a href="#map" class="btn-primary">
+                    <span>🗺️</span>
+                    <span>Explore Energy Map</span>
+                </a>
+                <a href="regulatory-framework.html" class="btn-secondary">
+                    <span>📜</span>
+                    <span>View Policies</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-value">27 GW</div>
+                <div class="stat-label">Economic Renewable Potential</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">6.5 GW</div>
+                <div class="stat-label">Target Capacity by 2030</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">35%</div>
+                <div class="stat-label">RES Share Goal</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">11+</div>
+                <div class="stat-label">Policy Frameworks</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="section-header">
+            <h2 class="section-title">Empowering Clean Energy Innovation</h2>
+            <p class="section-subtitle">
+                Data-driven tools and resources for policymakers, investors, and renewable energy stakeholders
+            </p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-icon">🗺️</span>
+                <h3 class="feature-title">Interactive Energy Atlas</h3>
+                <p class="feature-description">
+                    Rayon-level mapping of Azerbaijan's 27 GW renewable potential with detailed solar, wind, and hydro
+                    data.
+                    Explore project pipelines, existing installations, and untapped opportunities.
+                </p>
+                <a href="#map" class="feature-link">
+                    Explore Map →
+                </a>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">📜</span>
+                <h3 class="feature-title">Regulatory Framework Hub</h3>
+                <p class="feature-description">
+                    Comprehensive database of Azerbaijan's green energy laws, presidential orders, NDC commitments,
+                    and investment mechanisms. Stay updated on policy evolution.
+                </p>
+                <a href="regulatory-framework.html" class="feature-link">
+                    View Frameworks →
+                </a>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">💼</span>
+                <h3 class="feature-title">Investment Intelligence</h3>
+                <p class="feature-description">
+                    Track major renewable projects, PPAs, auction frameworks, and GW-scale MoUs with international
+                    partners
+                    like Masdar, ACWA Power, and bp.
+                </p>
+                <a href="#map" class="feature-link">
+                    Explore Projects →
+                </a>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">🎯</span>
+                <h3 class="feature-title">Strategic Planning Tools</h3>
+                <p class="feature-description">
+                    Access data on green energy zones (East Zangazur, Karabakh), infrastructure capacity,
+                    grid connections, and regional export corridors.
+                </p>
+                <a href="index.html" class="feature-link">
+                    View Details →
+                </a>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">📊</span>
+                <h3 class="feature-title">Academic-Grade Data</h3>
+                <p class="feature-description">
+                    All energy assessments backed by peer-reviewed research, Ministry of Energy data,
+                    and World Bank reports. Verified, transparent, and actionable.
+                </p>
+                <a href="index.html" class="feature-link">
+                    See Sources →
+                </a>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">🌍</span>
+                <h3 class="feature-title">COP29 Leadership</h3>
+                <p class="feature-description">
+                    Showcasing Azerbaijan's commitment to tripling global renewables by 2030 and establishing
+                    Karabakh/East Zangazur as a green recovery showcase.
+                </p>
+                <a href="regulatory-framework.html#commitments" class="feature-link">
+                    Learn More →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section" id="map">
+        <div class="map-container">
+            <div class="section-header">
+                <h2 class="section-title">Explore Azerbaijan's Energy Landscape</h2>
+                <p class="section-subtitle">
+                    Interactive rayon-level map with detailed renewable energy potential, projects, and infrastructure
+                </p>
+            </div>
+            <div class="map-wrapper">
+                <iframe src="index.html" class="map-frame" title="Azerbaijan Renewable Energy Map" loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competition Theme Section -->
+    <section class="theme-section" id="about">
+        <div class="theme-content">
+            <span class="theme-badge">Competition Theme</span>
+            <h2 class="theme-title">Data for Policy, Planning & Implementation</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                This platform addresses the competition's second theme by creating a comprehensive knowledge hub that:
+            </p>
+            <ul class="theme-list">
+                <li>
+                    <strong style="color: var(--text-primary);">Connects Stakeholders:</strong> Digital platform linking
+                    renewable energy
+                    startups, investors, and strategic partners with actionable data
+                </li>
+                <li>
+                    <strong style="color: var(--text-primary);">Showcases Clean Energy Potential:</strong> National and
+                    regional visualization
+                    of Azerbaijan's 27 GW renewable capacity across solar, wind, and hydro
+                </li>
+                <li>
+                    <strong style="color: var(--text-primary);">Provides Regulatory Clarity:</strong> Comprehensive
+                    database of laws, action plans,
+                    NDC commitments, and investment frameworks
+                </li>
+                <li>
+                    <strong style="color: var(--text-primary);">Enables Strategic Planning:</strong> Rayon-level data
+                    for policymakers to identify
+                    priority zones and infrastructure gaps
+                </li>
+                <li>
+                    <strong style="color: var(--text-primary);">Accelerates Implementation:</strong> Real-time tracking
+                    of operational projects,
+                    construction pipelines, and remaining potential
+                </li>
+                <li>
+                    <strong style="color: var(--text-primary);">Promotes Youth Leadership:</strong> Open-access platform
+                    empowering young entrepreneurs
+                    and innovators with data-driven insights
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p class="footer-text">
+                🇦🇿 CECSO - Clean Energy Capacity & Strategy Observatory
+            </p>
+            <p class="footer-text">
+                Built for COP29 Clean Energy Challenge | Data sources: Ministry of Energy, World Bank, Academic Research
+            </p>
+            <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 1rem;">
+                © 2025 | Empowering Azerbaijan's renewable energy transition through data and innovation
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>
