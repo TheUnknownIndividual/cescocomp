@@ -19,19 +19,20 @@
 
         :root {
             /* Azerbaijan National Colors */
-            --az-blue: #0099CC;
+            --az-blue: #6f91a8;
             --az-green: #509E2F;
             --az-red: #EF3340;
+            --accent-bronze: #c68661;
 
             /* Modern Color Palette - Dark Mode */
             --bg-dark: #0a0b0d;
-            --bg-darker: #050506;
+            --bg-darker: #0f1116;
             --card-bg: #161719;
             --text-primary: #ffffff;
             --text-secondary: #a0a0a0;
             --text-muted: #6b6b6b;
             --accent-green: #27AE60;
-            --accent-blue: #3498db;
+            --accent-blue: #6f91a8;
             --gradient-primary: linear-gradient(135deg, var(--az-blue) 0%, var(--az-green) 100%);
             --gradient-secondary: linear-gradient(135deg, #1a1d23 0%, #2d3748 100%);
         }
@@ -510,7 +511,7 @@
         /* Stats Section */
         .stats-section {
             padding: 4rem 2rem;
-            background: var(--bg-darker);
+            background: #0f1116;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
@@ -544,46 +545,65 @@
             font-weight: 500;
         }
 
-        /* Features Section */
+        /* Features Section - Horizontal Carousel */
         .features-section {
-            padding: 6rem 2rem;
+            padding: 4rem 0;
             background: var(--bg-dark);
+            overflow: hidden;
         }
 
         .section-header {
             text-align: center;
             max-width: 800px;
-            margin: 0 auto 4rem;
+            margin: 0 auto 3rem;
+            padding: 0 2rem;
         }
 
         .section-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2rem, 4vw, 3rem);
+            font-size: clamp(1.75rem, 3.5vw, 2.5rem);
             font-weight: 700;
             margin-bottom: 1rem;
         }
 
         .section-subtitle {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: var(--text-secondary);
         }
 
         .features-grid {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            padding: 0 2rem;
+            animation: scroll-carousel 40s linear infinite;
+            will-change: transform;
+        }
+
+        .features-grid:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll-carousel {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(calc(-320px * 6 - 1.5rem * 6));
+            }
         }
 
         .feature-card {
+            min-width: 320px;
+            max-width: 320px;
             background: var(--card-bg);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 2.5rem;
+            border-radius: 16px;
+            padding: 1.75rem;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            flex-shrink: 0;
         }
 
         .feature-card::before {
@@ -592,16 +612,17 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: var(--gradient-primary);
+            height: 3px;
+            background: linear-gradient(90deg, #c68661 0%, #6f91a8 50%, #0f1116 100%);
             transform: scaleX(0);
+            transform-origin: left;
             transition: transform 0.4s ease;
         }
 
         .feature-card:hover {
             transform: translateY(-8px);
-            border-color: rgba(0, 153, 204, 0.3);
-            box-shadow: 0 20px 50px rgba(0, 153, 204, 0.15);
+            border-color: rgba(111, 145, 168, 0.3);
+            box-shadow: 0 20px 50px rgba(111, 145, 168, 0.15);
         }
 
         .feature-card:hover::before {
@@ -609,21 +630,22 @@
         }
 
         .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            margin-bottom: 1.25rem;
             display: block;
         }
 
         .feature-title {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 0.875rem;
         }
 
         .feature-description {
             color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+            font-size: 0.95rem;
         }
 
         .feature-link {
@@ -634,10 +656,12 @@
             align-items: center;
             gap: 0.5rem;
             transition: all 0.3s ease;
+            font-size: 0.95rem;
         }
 
         .feature-link:hover {
             gap: 0.75rem;
+            color: #c68661;
         }
 
         /* Map Section */
