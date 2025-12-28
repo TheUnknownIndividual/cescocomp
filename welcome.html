@@ -670,6 +670,174 @@
             font-size: 1.2rem;
         }
 
+        /* Energy Statistics Dashboard */
+        .energy-dashboard {
+            padding: 4rem 2rem;
+            background: var(--bg-dark);
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stats-grid-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 153, 204, 0.15);
+            border-color: rgba(0, 153, 204, 0.3);
+        }
+
+        .stat-card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-card-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-variant-numeric: tabular-nums;
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 0.25rem;
+        }
+
+        .stat-unit {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-left: 0.25rem;
+        }
+
+        .stat-card-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .energy-breakdown {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .energy-breakdown h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            text-align: center;
+        }
+
+        .energy-type-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 0.875rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .energy-type-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(3px);
+        }
+
+        .energy-type-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .energy-type-icon {
+            font-size: 1.5rem;
+        }
+
+        .energy-type-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .energy-type-right {
+            text-align: right;
+        }
+
+        .energy-type-value {
+            font-weight: 600;
+            font-size: 1.125rem;
+            color: var(--text-primary);
+            margin-bottom: 0.375rem;
+            display: flex;
+            align-items: baseline;
+            justify-content: flex-end;
+            gap: 0.25rem;
+        }
+
+        .energy-percentage {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-left: 0.5rem;
+        }
+
+        .energy-bar-container {
+            width: 180px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        body.light-mode .energy-bar-container {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        .energy-bar {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+            width: 0;
+        }
+
+        /* Color-coded progress bars */
+        .energy-bar.low {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+        }
+
+        .energy-bar.medium {
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+        }
+
+        .energy-bar.high {
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+
+        .energy-bar.full {
+            background: linear-gradient(90deg, #3b82f6, #2563eb);
+        }
+
         /* Footer */
         footer {
             background: var(--bg-darker);
@@ -722,6 +890,50 @@
 
             .map-frame {
                 height: 500px;
+            }
+
+            .energy-dashboard {
+                padding: 3rem 1.5rem;
+            }
+
+            .stats-grid-dashboard {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+
+            .stat-card {
+                padding: 1.25rem;
+            }
+
+            .stat-card-icon {
+                font-size: 1.75rem;
+            }
+
+            .stat-card-value {
+                font-size: 1.5rem;
+            }
+
+            .energy-breakdown {
+                padding: 1.25rem;
+            }
+
+            .energy-breakdown h3 {
+                font-size: 1.125rem;
+            }
+
+            .energy-type-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+                padding: 0.75rem;
+            }
+
+            .energy-type-right {
+                width: 100%;
+            }
+
+            .energy-bar-container {
+                width: 100%;
             }
         }
     </style>
@@ -903,6 +1115,216 @@
         </div>
     </section>
 
+    <!-- Energy Statistics Dashboard -->
+    <section class="energy-dashboard" id="statistics">
+        <div class="dashboard-container">
+            <div class="section-header">
+                <h2 class="section-title">⚡ Azerbaijan Energy Overview</h2>
+                <p class="section-subtitle">
+                    Comprehensive renewable energy statistics and development progress
+                </p>
+            </div>
+
+            <div class="stats-grid-dashboard">
+                <div class="stat-card">
+                    <div class="stat-card-icon">🌍</div>
+                    <div class="stat-card-value">
+                        <span data-target="25812">0</span>
+                        <span class="stat-unit">MW</span>
+                    </div>
+                    <div class="stat-card-label">Total Potential</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon">✅</div>
+                    <div class="stat-card-value">
+                        <span data-target="1684.5">0</span>
+                        <span class="stat-unit">MW</span>
+                    </div>
+                    <div class="stat-card-label">Currently Installed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon">🚧</div>
+                    <div class="stat-card-value">
+                        <span data-target="1240">0</span>
+                        <span class="stat-unit">MW</span>
+                    </div>
+                    <div class="stat-card-label">Under Development</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon">🎯</div>
+                    <div class="stat-card-value">
+                        <span data-target="22887.5">0</span>
+                        <span class="stat-unit">MW</span>
+                    </div>
+                    <div class="stat-card-label">Remaining Potential</div>
+                </div>
+            </div>
+
+            <div class="energy-breakdown">
+                <h3>🔋 Energy Type Distribution</h3>
+
+                <div class="energy-type-item">
+                    <div class="energy-type-left">
+                        <div class="energy-type-icon">☀️</div>
+                        <div class="energy-type-name">Solar Energy</div>
+                    </div>
+                    <div class="energy-type-right">
+                        <div class="energy-type-value">
+                            <span data-target="18674">0</span>
+                            <span class="stat-unit">MW</span>
+                            <span class="energy-percentage">(72.3%)</span>
+                        </div>
+                        <div class="energy-bar-container">
+                            <div class="energy-bar high" data-percentage="72.3"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="energy-type-item">
+                    <div class="energy-type-left">
+                        <div class="energy-type-icon">💨</div>
+                        <div class="energy-type-name">Wind Energy</div>
+                    </div>
+                    <div class="energy-type-right">
+                        <div class="energy-type-value">
+                            <span data-target="1226">0</span>
+                            <span class="stat-unit">MW</span>
+                            <span class="energy-percentage">(4.7%)</span>
+                        </div>
+                        <div class="energy-bar-container">
+                            <div class="energy-bar low" data-percentage="4.7"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="energy-type-item">
+                    <div class="energy-type-left">
+                        <div class="energy-type-icon">🌊</div>
+                        <div class="energy-type-name">Offshore Wind</div>
+                    </div>
+                    <div class="energy-type-right">
+                        <div class="energy-type-value">
+                            <span data-target="4000">0</span>
+                            <span class="stat-unit">MW</span>
+                            <span class="energy-percentage">(15.5%)</span>
+                        </div>
+                        <div class="energy-bar-container">
+                            <div class="energy-bar medium" data-percentage="15.5"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="energy-type-item">
+                    <div class="energy-type-left">
+                        <div class="energy-type-icon">💧</div>
+                        <div class="energy-type-name">Hydro Energy</div>
+                    </div>
+                    <div class="energy-type-right">
+                        <div class="energy-type-value">
+                            <span data-target="1912">0</span>
+                            <span class="stat-unit">MW</span>
+                            <span class="energy-percentage">(7.4%)</span>
+                        </div>
+                        <div class="energy-bar-container">
+                            <div class="energy-bar medium" data-percentage="7.4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="energy-breakdown">
+                <h3>📊 Development Status Breakdown</h3>
+
+                <div class="energy-type-item">
+                    <div class="energy-type-left">
+                        <div class="energy-type-icon">🟢</div>
+                        <div class="energy-type-name">Operational</div>
+                    </div>
+                    <div class="energy-type-right">
+                        <div class="energy-type-value">
+                            <span data-target="1684.5">0</span>
+                            <span class="stat-unit">MW</span>
+                            <span class="energy-percentage">(6.2%)</span>
+                        </div>
+                        <div class="energy-bar-container">
+                            <div class="energy-bar low" data-percentage="6.2"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="energy-type-item">
+                    <div class="energy-type-left">
+                        <div class="energy-type-icon">🟡</div>
+                        <div class="energy-type-name">In Development</div>
+                    </div>
+                    <div class="energy-type-right">
+                        <div class="energy-type-value">
+                            <span data-target="1240">0</span>
+                            <span class="stat-unit">MW</span>
+                            <span class="energy-percentage">(4.6%)</span>
+                        </div>
+                        <div class="energy-bar-container">
+                            <div class="energy-bar low" data-percentage="4.6"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="energy-type-item">
+                    <div class="energy-type-left">
+                        <div class="energy-type-icon">🔵</div>
+                        <div class="energy-type-name">Remaining Potential</div>
+                    </div>
+                    <div class="energy-type-right">
+                        <div class="energy-type-value">
+                            <span data-target="22887.5">0</span>
+                            <span class="stat-unit">MW</span>
+                            <span class="energy-percentage">(88.7%)</span>
+                        </div>
+                        <div class="energy-bar-container">
+                            <div class="energy-bar high" data-percentage="88.7"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="energy-breakdown">
+                <h3>🌟 Future Utilization Opportunities</h3>
+
+                <div class="energy-type-item">
+                    <div class="energy-type-left">
+                        <div class="energy-type-icon">☀️</div>
+                        <div class="energy-type-name">Solar Development Zones</div>
+                    </div>
+                    <div class="energy-type-value">5 Major Regions</div>
+                </div>
+
+                <div class="energy-type-item">
+                    <div class="energy-type-left">
+                        <div class="energy-type-icon">🌊</div>
+                        <div class="energy-type-name">Offshore Wind Expansion</div>
+                    </div>
+                    <div class="energy-type-value">6 GW by 2032</div>
+                </div>
+
+                <div class="energy-type-item">
+                    <div class="energy-type-left">
+                        <div class="energy-type-icon">💧</div>
+                        <div class="energy-type-name">Small Hydro Projects</div>
+                    </div>
+                    <div class="energy-type-value">158 MW Pipeline</div>
+                </div>
+
+                <div class="energy-type-item">
+                    <div class="energy-type-left">
+                        <div class="energy-type-icon">🔋</div>
+                        <div class="energy-type-name">Green Hydrogen Potential</div>
+                    </div>
+                    <div class="energy-type-value">Export Ready</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Competition Theme Section -->
     <section class="theme-section" id="about">
         <div class="theme-content">
@@ -1049,6 +1471,73 @@
             // Start the typewriter effect after a short delay
             setTimeout(type, 1000);
         })();
+
+        // Animated Counter Function
+        function animateCounter(element, target, duration = 2000, decimals = 0) {
+            let start = 0;
+            const increment = target / (duration / 16); // 60fps
+            const timer = setInterval(() => {
+                start += increment;
+                if (start >= target) {
+                    element.textContent = decimals > 0 ? target.toFixed(decimals) : Math.round(target).toLocaleString();
+                    clearInterval(timer);
+                } else {
+                    element.textContent = decimals > 0 ? start.toFixed(decimals) : Math.round(start).toLocaleString();
+                }
+            }, 16);
+        }
+
+        // Intersection Observer for Dashboard Animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const dashboardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Animate stat cards - find spans with data-target inside stat-card-value
+                    const statCards = entry.target.querySelectorAll('.stat-card-value span[data-target]');
+                    statCards.forEach((span, index) => {
+                        const target = parseFloat(span.dataset.target);
+                        const decimals = target % 1 !== 0 ? 1 : 0;
+
+                        setTimeout(() => {
+                            animateCounter(span, target, 2000, decimals);
+                        }, index * 100);
+                    });
+
+                    // Animate energy type counters
+                    const energyValues = entry.target.querySelectorAll('.energy-type-value span[data-target]');
+                    energyValues.forEach((valueSpan, index) => {
+                        const target = parseFloat(valueSpan.dataset.target);
+                        const decimals = target % 1 !== 0 ? 1 : 0;
+
+                        setTimeout(() => {
+                            animateCounter(valueSpan, target, 2000, decimals);
+                        }, index * 150);
+                    });
+
+                    // Animate progress bars
+                    const progressBars = entry.target.querySelectorAll('.energy-bar');
+                    progressBars.forEach((bar, index) => {
+                        setTimeout(() => {
+                            const percentage = bar.dataset.percentage;
+                            bar.style.width = percentage + '%';
+                        }, index * 150);
+                    });
+
+                    // Only animate once
+                    dashboardObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe the dashboard
+        const dashboard = document.getElementById('statistics');
+        if (dashboard) {
+            dashboardObserver.observe(dashboard);
+        }
 
     </script>
 </body>
