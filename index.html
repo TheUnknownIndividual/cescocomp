@@ -118,38 +118,77 @@
 
                 .legend {
                         position: absolute;
-                        bottom: 20px;
-                        right: 20px;
+                        bottom: 10px;
+                        right: 10px;
                         z-index: 1000;
                         background: var(--bg-panel);
                         backdrop-filter: blur(20px);
-                        border-radius: 24px;
-                        padding: 20px;
+                        border-radius: 12px;
+                        padding: 10px;
                         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
                         border: 1px solid rgba(255, 255, 255, 0.1);
-                        min-width: 220px;
+                        min-width: 140px;
+                        max-width: 200px;
+                        transition: all 0.3s ease;
+                }
+
+                .legend.collapsed {
+                        min-width: auto;
+                        padding: 4px;
+                }
+
+                .legend.collapsed .legend-content {
+                        display: none;
+                }
+
+                .legend-toggle {
+                        position: absolute;
+                        top: 4px;
+                        right: 4px;
+                        background: rgba(255, 255, 255, 0.1);
+                        border: 1px solid rgba(255, 255, 255, 0.2);
+                        color: white;
+                        border-radius: 6px;
+                        width: 20px;
+                        height: 20px;
+                        cursor: pointer;
+                        font-size: 14px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        transition: all 0.2s ease;
+                        padding: 0;
+                        line-height: 1;
+                }
+
+                .legend-toggle:hover {
+                        background: rgba(255, 255, 255, 0.2);
                 }
 
                 .legend h4 {
-                        font-size: 14px;
+                        font-size: 11px;
                         font-weight: 600;
-                        margin-bottom: 12px;
+                        margin-bottom: 8px;
+                        margin-top: 20px;
                         color: var(--text-light);
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
                 }
 
                 .legend-item {
                         display: flex;
                         align-items: center;
-                        margin-bottom: 8px;
-                        font-size: 12px;
+                        margin-bottom: 6px;
+                        font-size: 10px;
                 }
 
                 .legend-color {
-                        width: 24px;
-                        height: 24px;
-                        border-radius: 8px;
-                        margin-right: 10px;
+                        width: 16px;
+                        height: 16px;
+                        border-radius: 4px;
+                        margin-right: 8px;
                         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+                        flex-shrink: 0;
                 }
 
                 .leaflet-popup-content-wrapper {
@@ -224,10 +263,23 @@
 
                 @media (max-width: 768px) {
                         .legend {
-                                bottom: 10px;
-                                right: 10px;
-                                padding: 16px;
-                                min-width: 180px;
+                                bottom: 8px;
+                                right: 8px;
+                                padding: 8px;
+                                min-width: 120px;
+                        }
+
+                        .legend h4 {
+                                font-size: 10px;
+                        }
+
+                        .legend-item {
+                                font-size: 9px;
+                        }
+
+                        .legend-color {
+                                width: 14px;
+                                height: 14px;
                         }
 
                         .leaflet-popup-content {
@@ -242,42 +294,49 @@
 <body>
         <div id="map"></div>
 
-        <div class="header">
-                <h1>🇦🇿 Azerbaijan Renewable Energy Map</h1>
-                <p>Rayon-level analysis of solar, wind, and hydro potential</p>
-                <div class="national-total">⚡ 27 GW Economic Potential</div>
-                <a href="regulatory-framework.html"
-                        style="position: absolute; top: 24px; right: 32px; padding: 10px 20px; background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; color: white; text-decoration: none; font-size: 14px; font-weight: 600; transition: all 0.3s ease;">📜
-                        Regulatory Framework</a>
-        </div>
 
-        <div class="legend">
-                <h4>Energy Types</h4>
-                <div class="legend-item">
-                        <div class="legend-color" style="background: linear-gradient(135deg, #FFD700, #FF8C00);"></div>
-                        <span>☀️ Solar</span>
-                </div>
-                <div class="legend-item">
-                        <div class="legend-color" style="background: linear-gradient(135deg, #87CEEB, #4169E1);"></div>
-                        <span>💨 Wind</span>
-                </div>
-                <div class="legend-item">
-                        <div class="legend-color" style="background: linear-gradient(135deg, #90EE90, #228B22);"></div>
-                        <span>💧 Hydro</span>
-                </div>
-                <div class="legend-item">
-                        <div class="legend-color" style="background: #9370DB;"></div>
-                        <span>🌈 Multi-Resource</span>
-                </div>
-                <div class="legend-item">
-                        <div class="legend-color" style="background: #E0E0E0;"></div>
-                        <span>No Data</span>
+
+        <div class="legend" id="legend">
+                <button class="legend-toggle" onclick="toggleLegend()" title="Toggle Legend">−</button>
+                <div class="legend-content">
+                        <h4>Energy Types</h4>
+                        <div class="legend-item">
+                                <div class="legend-color"
+                                        style="background: linear-gradient(135deg, #FFD700, #FF8C00);"></div>
+                                <span>Solar</span>
+                        </div>
+                        <div class="legend-item">
+                                <div class="legend-color"
+                                        style="background: linear-gradient(135deg, #87CEEB, #4169E1);"></div>
+                                <span>Wind</span>
+                        </div>
+                        <div class="legend-item">
+                                <div class="legend-color"
+                                        style="background: linear-gradient(135deg, #90EE90, #228B22);"></div>
+                                <span>Hydro</span>
+                        </div>
+                        <div class="legend-item">
+                                <div class="legend-color" style="background: #9370DB;"></div>
+                                <span>Multisource (Solar, Wind, Hydro)</span>
+                        </div>
+                        <div class="legend-item">
+                                <div class="legend-color" style="background: #E0E0E0;"></div>
+                                <span>No Data</span>
+                        </div>
                 </div>
         </div>
 
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
         <script>
+                // Toggle legend visibility
+                function toggleLegend() {
+                        const legend = document.getElementById('legend');
+                        const toggle = legend.querySelector('.legend-toggle');
+                        legend.classList.toggle('collapsed');
+                        toggle.textContent = legend.classList.contains('collapsed') ? '+' : '−';
+                }
+
                 // Energy metadata by rayon name
                 const energyByRayon = {
                         "Bakı": {
@@ -740,7 +799,9 @@
                                                                 maxWidth: getPopupMaxWidth(),
                                                                 closeButton: true,
                                                                 autoClose: false,
-                                                                closeOnClick: false
+                                                                closeOnClick: false,
+                                                                autoPan: true,
+                                                                autoPanPadding: [50, 50]
                                                         }).openPopup();
                                                 }
                                         },
@@ -763,7 +824,9 @@
                                                                 maxWidth: getPopupMaxWidth(),
                                                                 closeButton: true,
                                                                 autoClose: false,
-                                                                closeOnClick: false
+                                                                closeOnClick: false,
+                                                                autoPan: true,
+                                                                autoPanPadding: [50, 50]
                                                         }).openPopup();
                                                 }
                                         }
@@ -20125,7 +20188,9 @@
                                                                 maxWidth: getPopupMaxWidth(),
                                                                 closeButton: true,
                                                                 autoClose: false,
-                                                                closeOnClick: false
+                                                                closeOnClick: false,
+                                                                autoPan: true,
+                                                                autoPanPadding: [50, 50]
                                                         }).openPopup();
                                                 }
                                         },
@@ -20160,7 +20225,9 @@
                                                                 maxWidth: getPopupMaxWidth(),
                                                                 closeButton: true,
                                                                 autoClose: false,
-                                                                closeOnClick: false
+                                                                closeOnClick: false,
+                                                                autoPan: true,
+                                                                autoPanPadding: [50, 50]
                                                         }).openPopup();
                                                 }
                                         }
