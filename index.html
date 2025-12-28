@@ -204,12 +204,34 @@
                         margin: 0;
                         min-width: 260px;
                         max-width: min(400px, 90vw);
-                        max-height: min(70vh, 600px);
+                        max-height: min(50vh, 400px);
                         overflow-y: auto;
                         overflow-x: hidden;
                         width: auto;
                         /* Prevent map dragging when scrolling inside popup */
                         touch-action: pan-y;
+                        /* Smooth scrolling */
+                        scroll-behavior: smooth;
+                        /* Custom scrollbar styling */
+                        scrollbar-width: thin;
+                        scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+                }
+
+                .leaflet-popup-content::-webkit-scrollbar {
+                        width: 6px;
+                }
+
+                .leaflet-popup-content::-webkit-scrollbar-track {
+                        background: transparent;
+                }
+
+                .leaflet-popup-content::-webkit-scrollbar-thumb {
+                        background: rgba(255, 255, 255, 0.3);
+                        border-radius: 3px;
+                }
+
+                .leaflet-popup-content::-webkit-scrollbar-thumb:hover {
+                        background: rgba(255, 255, 255, 0.5);
                 }
 
                 /* Stop map drag propagation when interacting with popup */
@@ -799,9 +821,7 @@
                                                                 maxWidth: getPopupMaxWidth(),
                                                                 closeButton: true,
                                                                 autoClose: false,
-                                                                closeOnClick: false,
-                                                                autoPan: true,
-                                                                autoPanPadding: [50, 50]
+                                                                closeOnClick: false
                                                         }).openPopup();
                                                 }
                                         },
