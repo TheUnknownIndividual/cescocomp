@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,18 +8,38 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-green: #27AE60;
-            --dark-green: #1e8449;
-            --light-green: #d5f4e6;
-            --black: #000000;
-            --white: #FFFFFF;
-            --gray-50: #fafafa;
-            --gray-100: #f5f5f5;
-            --gray-200: #e5e5e5;
-            --gray-300: #d4d4d4;
-            --gray-600: #525252;
-            --gray-800: #262626;
+            /* Azerbaijan National Colors */
+            --az-blue: #6f91a8;
+            --az-green: #509E2F;
+            --az-red: #EF3340;
+            --accent-bronze: #c68661;
+
+            /* Modern Color Palette - Dark Mode */
+            --bg-dark: #0a0b0d;
+            --bg-darker: #0f1116;
+            --card-bg: #161719;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --accent-green: #27AE60;
+            --accent-blue: #6f91a8;
+            --gradient-primary: linear-gradient(135deg, var(--az-blue) 0%, var(--az-green) 100%);
+            --gradient-secondary: linear-gradient(135deg, #1a1d23 0%, #2d3748 100%);
+
+            /* Shadows */
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        body.light-mode {
+            --bg-dark: #ffffff;
+            --bg-darker: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --text-muted: #999999;
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
@@ -32,16 +53,17 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
-            color: var(--gray-800);
+            background: var(--bg-dark);
+            color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         /* Header */
         .header {
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
-            color: var(--white);
+            background: linear-gradient(135deg, #c68661 0%, #6f91a8 100%);
+            color: #ffffff;
             padding: 2.5rem 2rem;
             box-shadow: var(--shadow-lg);
             position: sticky;
@@ -101,7 +123,7 @@
 
         /* Controls */
         .controls {
-            background: var(--white);
+            background: var(--card-bg);
             padding: 1.5rem;
             border-radius: 16px;
             box-shadow: var(--shadow-md);
@@ -110,6 +132,7 @@
             flex-wrap: wrap;
             gap: 1rem;
             align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .search-box {
@@ -120,17 +143,25 @@
         .search-box input {
             width: 100%;
             padding: 0.75rem 1rem;
-            border: 2px solid var(--gray-200);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
             border-radius: 10px;
             font-size: 1rem;
             font-family: inherit;
             transition: all 0.3s ease;
         }
 
+        body.light-mode .search-box input {
+            border: 2px solid #e5e5e5;
+            background: #ffffff;
+            color: #1a1a1a;
+        }
+
         .search-box input:focus {
             outline: none;
-            border-color: var(--primary-green);
-            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
+            border-color: var(--az-blue);
+            box-shadow: 0 0 0 3px rgba(111, 145, 168, 0.1);
         }
 
         .filter-buttons {
@@ -141,9 +172,9 @@
 
         .filter-btn {
             padding: 0.625rem 1.125rem;
-            border: 2px solid var(--gray-200);
-            background: var(--white);
-            color: var(--gray-600);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
             border-radius: 10px;
             cursor: pointer;
             font-size: 0.9rem;
@@ -152,13 +183,19 @@
             font-family: inherit;
         }
 
+        body.light-mode .filter-btn {
+            border: 2px solid #e5e5e5;
+            background: #ffffff;
+            color: #525252;
+        }
+
         .filter-btn:hover {
-            border-color: var(--primary-green);
-            color: var(--primary-green);
+            border-color: var(--az-blue);
+            color: var(--az-blue);
         }
 
         .filter-btn.active {
-            background: var(--primary-green);
+            background: var(--az-blue);
             color: var(--white);
             border-color: var(--primary-green);
         }
@@ -173,7 +210,7 @@
 
         /* Card */
         .card {
-            background: var(--white);
+            background: var(--card-bg);
             border-radius: 16px;
             padding: 2rem;
             box-shadow: var(--shadow-md);
@@ -181,7 +218,7 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            border: 1px solid var(--gray-200);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .card::before {
@@ -190,16 +227,17 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-green), var(--dark-green));
+            height: 3px;
+            background: linear-gradient(90deg, #c68661 0%, #6f91a8 50%, #0f1116 100%);
             transform: scaleX(0);
+            transform-origin: left;
             transition: transform 0.4s ease;
         }
 
         .card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-xl);
-            border-color: var(--primary-green);
+            border-color: rgba(111, 145, 168, 0.3);
         }
 
         .card:hover::before {
@@ -482,6 +520,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -492,14 +531,32 @@
             animation: fadeIn 0.5s ease forwards;
         }
 
-        .card:nth-child(1) { animation-delay: 0.05s; }
-        .card:nth-child(2) { animation-delay: 0.1s; }
-        .card:nth-child(3) { animation-delay: 0.15s; }
-        .card:nth-child(4) { animation-delay: 0.2s; }
-        .card:nth-child(5) { animation-delay: 0.25s; }
-        .card:nth-child(6) { animation-delay: 0.3s; }
+        .card:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .card:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .card:nth-child(4) {
+            animation-delay: 0.2s;
+        }
+
+        .card:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+
+        .card:nth-child(6) {
+            animation-delay: 0.3s;
+        }
     </style>
 </head>
+
 <body>
     <header class="header">
         <div class="header-content">
@@ -974,7 +1031,7 @@
             cards.forEach(card => {
                 const category = card.dataset.category;
                 const text = card.textContent.toLowerCase();
-                
+
                 const matchesFilter = currentFilter === 'all' || category === currentFilter;
                 const matchesSearch = searchTerm === '' || text.includes(searchTerm);
 
@@ -999,7 +1056,7 @@
         function toggleCard(button) {
             const card = button.closest('.card');
             card.classList.toggle('expanded');
-            
+
             if (card.classList.contains('expanded')) {
                 button.textContent = 'Show Less';
             } else {
@@ -1036,4 +1093,5 @@
         filterCards();
     </script>
 </body>
+
 </html>
