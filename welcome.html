@@ -267,47 +267,73 @@
         }
 
         .hero-content {
-            max-width: 1400px;
+            max-width: 900px;
             width: 100%;
             position: relative;
             z-index: 1;
+            text-align: center;
+            margin: 0 auto;
         }
 
         .hero-badge {
-            display: inline-block;
-            background: rgba(0, 153, 204, 0.15);
-            border: 1px solid rgba(0, 153, 204, 0.3);
-            color: var(--az-blue);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(39, 174, 96, 0.15);
+            border: 1px solid rgba(39, 174, 96, 0.4);
+            color: var(--accent-green);
             padding: 0.5rem 1.25rem;
             border-radius: 50px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             margin-bottom: 2rem;
             animation: fadeInUp 0.8s ease;
         }
 
+        .pulsating-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulsate 2s ease-in-out infinite;
+        }
+
+        @keyframes pulsate {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(1.2);
+            }
+        }
+
         .hero-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 700;
-            line-height: 1.1;
+            line-height: 1.2;
             margin-bottom: 1.5rem;
             animation: fadeInUp 0.8s ease 0.2s both;
         }
 
         .hero-title .gradient-text {
-            background: var(--gradient-primary);
+            background: linear-gradient(135deg, #b0ff39 0%, #33ad00 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
         .hero-subtitle {
-            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            font-size: clamp(0.95rem, 1.8vw, 1.1rem);
             color: var(--text-secondary);
-            max-width: 800px;
-            margin-bottom: 3rem;
-            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.7;
             animation: fadeInUp 0.8s ease 0.4s both;
         }
 
@@ -315,6 +341,7 @@
             display: flex;
             gap: 1.5rem;
             flex-wrap: wrap;
+            justify-content: center;
             animation: fadeInUp 0.8s ease 0.6s both;
         }
 
@@ -331,15 +358,15 @@
         }
 
         .btn-primary {
-            background: var(--gradient-primary);
+            background: #27AE60;
             color: white;
-            padding: 1rem 2.5rem;
-            border-radius: 14px;
+            padding: 0.85rem 2rem;
+            border-radius: 12px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1rem;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 30px rgba(0, 153, 204, 0.3);
+            box-shadow: 0 6px 25px rgba(39, 174, 96, 0.3);
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
@@ -347,7 +374,7 @@
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(0, 153, 204, 0.4);
+            box-shadow: 0 10px 35px rgba(39, 174, 96, 0.4);
         }
 
         .btn-secondary {
@@ -669,7 +696,8 @@
     <section class="hero" id="home">
         <div class="hero-content">
             <div class="hero-badge">
-                🏆 COP29 Clean Energy Challenge Submission
+                <span class="pulsating-dot"></span>
+                CECECO Hackathon 2026
             </div>
             <h1 class="hero-title">
                 Azerbaijan's <span class="gradient-text">Clean Energy</span><br>
