@@ -45,11 +45,12 @@
             transition: background 0.5s ease, color 0.5s ease;
         }
 
-        /* EXACT NAVIGATION FROM SITE */
+        /* REFINED COMPACT NAVIGATION */
         nav {
             background: transparent;
             backdrop-filter: blur(10px);
-            padding: 1rem 0;
+            padding: 0.6rem 0;
+            /* Reduced padding */
             position: fixed;
             top: 0;
             width: 100%;
@@ -63,17 +64,28 @@
         }
 
         .nav-container {
-            max-width: 1400px;
+            max-width: 1200px;
+            /* Reduced width from 1400px */
             margin: 0 auto;
-            padding: 1rem 2rem;
+            padding: 0 1.5rem;
+            /* Reduced side padding */
             display: flex;
             justify-content: space-between;
             align-items: center;
+            height: 50px;
+            /* Fixed compact height */
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
         }
 
         .logo {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
+            /* Slightly smaller */
             font-weight: 700;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
@@ -81,48 +93,37 @@
             text-decoration: none;
         }
 
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-links a {
+        .back-link {
             color: var(--text-secondary);
             text-decoration: none;
+            font-size: 0.9rem;
             font-weight: 500;
-            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             transition: all 0.3s ease;
             position: relative;
         }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gradient-primary);
-            transition: width 0.3s ease;
+        .back-link:hover {
+            color: var(--az-blue);
+            transform: translateX(-3px);
         }
 
-        .nav-links a:hover {
-            color: var(--text-primary);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
+        .back-link i {
+            display: inline-block;
+            transition: transform 0.3s ease;
         }
 
         /* Language Switcher */
         .lang-switcher {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.25rem;
+            /* Compact gap */
             margin-right: 1.5rem;
             background: rgba(255, 255, 255, 0.05);
-            padding: 0.25rem;
-            border-radius: 20px;
+            padding: 0.2rem;
+            border-radius: 18px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -135,10 +136,10 @@
             background: none;
             border: none;
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
-            padding: 0.25rem 0.75rem;
-            border-radius: 15px;
+            padding: 0.25rem 0.6rem;
+            border-radius: 14px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -157,10 +158,11 @@
             align-items: center;
         }
 
-        /* Dark Mode Toggle - EXACT COPY */
+        /* Dark Mode Toggle - EXACT COPY BUT COMPACT */
         .dark-mode-toggle {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            /* Slightly smaller */
+            height: 36px;
             border-radius: 50%;
             border: 2px solid rgba(255, 255, 255, 0.2);
             background: rgba(255, 255, 255, 0.05);
@@ -473,10 +475,15 @@
 </head>
 
 <body>
-    <!-- EXACT NAVIGATION -->
+    <!-- COMPACT NAVIGATION WITH BACK LINK -->
     <nav>
         <div class="nav-container">
-            <a href="index.html" class="logo">CECSO</a>
+            <div class="nav-left">
+                <a href="regulatory-framework.html" class="back-link">
+                    <i>←</i> Back to Regulatory Framework
+                </a>
+            </div>
+
             <div class="btn-group">
                 <div class="lang-switcher">
                     <button class="lang-btn active" onclick="switchLang('en')">EN</button>
