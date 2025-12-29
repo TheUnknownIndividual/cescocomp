@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Law on Energy Efficiency | Republic of Azerbaijan</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* SAME STYLES AS electric-power-law.html */
+        :root {
+            --az-blue: #6f91a8;
+            --az-green: #509E2F;
+            --accent-bronze: #c68661;
+            --bg-dark: #0a0b0d;
+            --card-bg: #161719;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --gradient-primary: linear-gradient(135deg, var(--az-blue) 0%, var(--az-green) 100%);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        body.light-mode {
+            --bg-dark: #ffffff;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        /* NAVIGATION */
+        nav {
+            background: transparent;
+            backdrop-filter: blur(10px);
+            padding: 0.6rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode nav {
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .back-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .back-link:hover {
+            color: var(--az-blue);
+            transform: translateX(-3px);
+        }
+
+        .back-link i {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        /* BUTTONS & TOGGLES */
+        .lang-switcher {
+            display: flex;
+            gap: 0.25rem;
+            margin-right: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.2rem;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode .lang-switcher {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.25rem 0.6rem;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .lang-btn.active {
+            background: var(--az-blue);
+            color: white;
+        }
+
+        .btn-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .dark-mode-toggle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+        }
+
+        .dark-mode-toggle:active {
+            transform: scale(0.95) rotate(-15deg);
+        }
+
+        .dark-mode-toggle img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: absolute;
+        }
+
+        .dark-mode-toggle .light-icon {
+            opacity: 0;
+            transform: rotate(180deg) scale(0);
+        }
+
+        .dark-mode-toggle .dark-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        body.light-mode .dark-mode-toggle {
+            border-color: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .dark-mode-toggle .light-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        body.light-mode .dark-mode-toggle .dark-icon {
+            opacity: 0;
+            transform: rotate(-180deg) scale(0);
+        }
+
+        .dark-mode-toggle::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--az-blue);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .dark-mode-toggle.clicked::after {
+            animation: ripple 0.6s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* CONTENT */
+        .content h2,
+        .content h3 {
+            transition: all 0.3s ease;
+        }
+
+        .content h2:hover,
+        .content h3:hover {
+            color: var(--az-blue);
+            transform: translateX(5px);
+        }
+
+        .content p {
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .content p:hover {
+            padding-left: 1rem;
+            border-left: 3px solid var(--az-blue);
+        }
+
+        /* TOC */
+        .toc-container {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-width: 250px;
+            box-shadow: var(--shadow-md);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        body.light-mode .toc-container {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .toc-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--az-blue);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .toc-links {
+            list-style: none;
+        }
+
+        .toc-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .toc-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: block;
+            padding-left: 1rem;
+            border-left: 2px solid transparent;
+        }
+
+        .toc-links a:hover,
+        .toc-links a.active {
+            color: var(--az-blue);
+            border-left-color: var(--az-blue);
+        }
+
+        article {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .article-header {
+            border-bottom: 2px solid var(--az-blue);
+            padding-bottom: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .category {
+            color: var(--az-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.75rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .meta {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        .meta-divider {
+            margin: 0 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .content {
+            font-size: 1.1rem;
+        }
+
+        .content h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin: 3rem 0 1.5rem 0;
+            scroll-margin-top: 100px;
+        }
+
+        .content h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.375rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem 0;
+        }
+
+        .content ul {
+            margin: 1.5rem 0 1.5rem 2rem;
+        }
+
+        .separator {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 3rem 0;
+        }
+
+        body.light-mode .separator {
+            border-top-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .external-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--az-blue);
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .external-link:hover {
+            transform: translateX(5px);
+        }
+
+        @media (max-width: 1200px) {
+            .toc-container {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            article {
+                padding: 6rem 1.5rem 2rem;
+            }
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="regulatory-framework.html" class="back-link">
+                    <i>←</i> Back to Regulatory Framework
+                </a>
+            </div>
+            <div class="btn-group">
+                <div class="lang-switcher">
+                    <button class="lang-btn active" onclick="switchLang('en')">EN</button>
+                    <button class="lang-btn" onclick="switchLang('az')">AZ</button>
+                    <button class="lang-btn" onclick="switchLang('ru')">RU</button>
+                </div>
+                <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                    <img src="darkmode.png" alt="Dark Mode" class="light-icon">
+                    <img src="lightmode.png" alt="Light Mode" class="dark-icon">
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="toc-container">
+        <div class="toc-title">Contents</div>
+        <ul class="toc-links" id="toc-list"></ul>
+    </div>
+
+    <article>
+        <!-- ENGLISH CONTENT -->
+        <div id="content-en" class="content-section active">
+            <header class="article-header">
+                <div class="category">Law of the Republic of Azerbaijan</div>
+                <h1>Law on Energy Efficiency</h1>
+                <div class="meta">
+                    Law № 359-VIQ
+                    <span class="meta-divider">•</span>
+                    July 9, 2021
+                    <span class="meta-divider">•</span>
+                    Signed by President Ilham Aliyev
+                </div>
+                <a href="https://e-qanun.az/framework/48129" target="_blank" class="external-link">View Official
+                    Document (e-qanun.az) →</a>
+            </header>
+
+            <div class="content">
+                <p><strong>Unofficial Translation for Information Purposes</strong></p>
+
+                <p>This Law, in accordance with Item 11 of Part I of Article 94 of the Constitution of the Republic of
+                    Azerbaijan, determines the legal, organizational and economic bases of state policy in the field of
+                    efficient use of energy resources and energy efficiency, and regulates the activities of state
+                    bodies, natural and legal persons in this field.</p>
+
+                <h2 id="en-ch1">Chapter 1. General Provisions</h2>
+
+                <h3 id="en-art1">Article 1. Scope of the Law</h3>
+                <p>1.1. This Law applies to the activities connected with the production, storage, transmission,
+                    distribution, sale and consumption of energy.</p>
+                <p>1.2. The goals of this Law are to reduce energy intensity, ensure energy security, protect the
+                    environment, and increasing the efficiency of the economy.</p>
+
+                <h3 id="en-art2">Article 2. Basic Concepts</h3>
+                <p>The law defines concepts such as "energy efficiency," "energy audit," "energy services," and "energy
+                    management system."</p>
+
+                <h2 id="en-ch2">Chapter 2. State Regulation</h2>
+                <h3 id="en-art4">Article 4. State Policy</h3>
+                <p>State policy includes setting energy efficiency targets, establishing mandatory requirements for
+                    energy-consuming devices and buildings, and promoting the use of energy-efficient technologies.</p>
+
+                <h2 id="en-ch3">Chapter 3. Energy Efficiency Measures</h2>
+                <h3 id="en-art6">Article 6. Energy Audits</h3>
+                <p>Large enterprises are required to undergo mandatory energy audits. Small and medium enterprises are
+                    encouraged to conduct voluntary audits with state support.</p>
+
+                <h3 id="en-art10">Article 10. Energy Services</h3>
+                <p>The law promotes the development of the energy services market, where Energy Service Companies
+                    (ESCOs) invest in measures to improve energy efficiency for consumers.</p>
+
+                <hr class="separator">
+                <p><strong>Ilham Aliyev</strong><br>President of the Republic of Azerbaijan</p>
+            </div>
+        </div>
+
+        <!-- AZERBAIJANI CONTENT -->
+        <div id="content-az" class="content-section">
+            <header class="article-header">
+                <div class="category">Azərbaycan Respublikasının Qanunu</div>
+                <h1>Enerji resurslarından səmərəli istifadə və enerji effektivliyi haqqında</h1>
+                <div class="meta">
+                    Qanun № 359-VIQ
+                    <span class="meta-divider">•</span>
+                    9 iyul 2021-ci il
+                </div>
+                <a href="https://e-qanun.az/framework/48129" target="_blank" class="external-link">Rəsmi Sənədə Keçid
+                    (e-qanun.az) →</a>
+            </header>
+
+            <div class="content">
+                <p>Bu Qanun Azərbaycan Respublikası Konstitusiyasının 94-cü maddəsinin I hissəsinin 11-ci bəndinə uyğun
+                    olaraq enerji resurslarından səmərəli istifadə və enerji effektivliyi sahəsində dövlət siyasətinin
+                    hüquqi, təşkilati və iqtisadi əsaslarını müəyyən edir, bu sahədə dövlət orqanlarının (qurumlarının),
+                    fiziki və hüquqi şəxslərin fəaliyyətini və onlar arasında yaranan münasibətləri tənzimləyir.</p>
+
+                <h2 id="az-ch1">1-ci fəsil. Ümumi müddəalar</h2>
+
+                <h3 id="az-art1">Maddə 1. Bu Qanunun əhatə dairəsi</h3>
+                <p>1.1. Bu Qanun enerjinin istehsalı, saxlanması, ötürülməsi, paylanması, satışı və istehlakı ilə bağlı
+                    fəaliyyətə şamil edilir.</p>
+                <p>1.2. Bu Qanunun məqsədləri enerji tutumunu azaltmaq, enerji təhlükəsizliyini təmin etmək, ətraf
+                    mühiti qorumaq və iqtisadiyyatın səmərəliliyini artırmaqdan ibarətdir.</p>
+
+                <h3 id="az-art2">Maddə 2. Əsas anlayışlar</h3>
+                <p>2.1. Bu Qanunda istifadə olunan əsas anlayışlar aşağıdakı mənaları ifadə edir:</p>
+                <ul>
+                    <li>2.1.1. <strong>enerji effektivliyi</strong> – enerjidən istifadə nəticəsində əldə olunan
+                        məhsulun (xidmətin, işin) həcminin bu məhsulun (xidmətin, işin) əldə olunmasına sərf edilən
+                        enerji resurslarının həcminə nisbəti;</li>
+                    <li>2.1.5. <strong>enerji auditi</strong> – enerji istehlakı haqqında məlumatların əldə edilməsi,
+                        enerji qənaəti imkanlarının müəyyənləşdirilməsi və bu barədə hesabatın hazırlanması məqsədilə
+                        keçirilən tədbirlər;</li>
+                </ul>
+
+                <h2 id="az-ch2">2-ci fəsil. Dövlət tənzimlənməsi</h2>
+                <h3 id="az-art4">Maddə 4. Dövlət siyasəti</h3>
+                <p>Dövlət siyasəti enerji effektivliyi üzrə hədəflərin müəyyən edilməsini, enerji istehlak edən qurğu və
+                    binalar üçün məcburi tələblərin formalaşdırılmasını və səmərəli texnologiyaların tətbiqini əhatə
+                    edir.</p>
+
+                <h2 id="az-ch3">3-cü fəsil. Enerji effektivliyi tədbirləri</h2>
+                <h3 id="az-art6">Maddə 6. Enerji auditləri</h3>
+                <p>İri təsərrüfat subyektləri məcburi enerji auditindən keçməlidirlər. Kiçik və orta sahibkarlıq
+                    subyektləri isə könüllü audit keçirməyə təşviq edilir və onlara dövlət dəstəyi göstərilir.</p>
+
+                <hr class="separator">
+                <p><strong>İlham ƏLİYEV</strong><br>Azərbaycan Respublikasının Prezidenti</p>
+            </div>
+        </div>
+
+        <!-- RUSSIAN CONTENT -->
+        <div id="content-ru" class="content-section">
+            <header class="article-header">
+                <div class="category">Закон Азербайджанской Республики</div>
+                <h1>Об эффективном использовании энергоресурсов и энергоэффективности</h1>
+                <div class="meta">
+                    Закон № 359-VIQ
+                    <span class="meta-divider">•</span>
+                    9 июля 2021 г.
+                </div>
+                <a href="https://e-qanun.az/framework/48129" target="_blank" class="external-link">Официальный документ
+                    (e-qanun.az) →</a>
+            </header>
+
+            <div class="content">
+                <p>Настоящий Закон определяет правовые, организационные и экономические основы государственной политики
+                    в области эффективного использования энергетических ресурсов и энергоэффективности.</p>
+
+                <h2 id="ru-ch1">Глава 1. Общие положения</h2>
+                <h3 id="ru-art1">Статья 1. Сфера действия</h3>
+                <p>Закон распространяется на деятельность, связанную с производством, хранением, передачей,
+                    распределением, продажей и потреблением энергии.</p>
+
+                <h3 id="ru-art2">Статья 2. Основные понятия</h3>
+                <p>Закон вводит такие понятия, как «энергоэффективность», «энергоаудит», «энергосервисные услуги» и
+                    «система энергоменеджмента».</p>
+
+                <h2 id="ru-ch2">Глава 2. Государственное регулирование</h2>
+                <p>Государство устанавливает обязательные требования к энергоэффективности зданий и оборудования, а
+                    также создает Фонд энергоэффективности для поддержки проектов.</p>
+
+                <h2 id="ru-ch3">Глава 3. Меры по энергоэффективности</h2>
+                <p>Вводятся обязательные энергетические аудиты для крупных предприятий и сертификация зданий. Создаются
+                    условия для развития рынка энергосервисных услуг.</p>
+
+                <hr class="separator">
+                <p><strong>Ильхам АЛИЕВ</strong><br>Президент Азербайджанской Республики</p>
+            </div>
+        </div>
+    </article>
+
+    <script>
+        function switchLang(lang) {
+            document.querySelectorAll('.content-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(`content-${lang}`).classList.add('active');
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            updateTOC(lang);
+        }
+
+        function updateTOC(lang) {
+            const tocList = document.getElementById('toc-list');
+            tocList.innerHTML = '';
+            let headings;
+            if (lang === 'en') {
+                headings = [{ id: 'en-ch1', text: 'General Provisions' }, { id: 'en-ch2', text: 'State Regulation' }, { id: 'en-ch3', text: 'Efficiency Measures' }];
+            } else if (lang === 'az') {
+                headings = [{ id: 'az-ch1', text: 'Ümumi müddəalar' }, { id: 'az-ch2', text: 'Dövlət tənzimlənməsi' }, { id: 'az-ch3', text: 'Effektivlik tədbirləri' }];
+            } else {
+                headings = [{ id: 'ru-ch1', text: 'Общие положения' }, { id: 'ru-ch2', text: 'Госрегулирование' }, { id: 'ru-ch3', text: 'Меры эффективности' }];
+            }
+            headings.forEach(h => {
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="#${h.id}">${h.text}</a>`;
+                tocList.appendChild(li);
+            });
+        }
+        updateTOC('en');
+
+        function toggleDarkMode() {
+            const body = document.body;
+            const toggle = document.querySelector('.dark-mode-toggle');
+            toggle.classList.add('clicked');
+            setTimeout(() => toggle.classList.remove('clicked'), 600);
+            body.classList.toggle('light-mode');
+            const isLight = body.classList.contains('light-mode');
+            localStorage.setItem('themeMode', isLight ? 'light' : 'dark');
+        }
+
+        (function initTheme() {
+            const themeMode = localStorage.getItem('themeMode');
+            if (themeMode === 'light') { document.body.classList.add('light-mode'); }
+        })();
+
+        document.querySelector('.lang-btn.active').classList.add('active');
+    </script>
+</body>
+
+</html>

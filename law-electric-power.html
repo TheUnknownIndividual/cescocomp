@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Law on Electric Power | Republic of Azerbaijan</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --az-blue: #6f91a8;
+            --az-green: #509E2F;
+            --accent-bronze: #c68661;
+            --bg-dark: #0a0b0d;
+            --card-bg: #161719;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --gradient-primary: linear-gradient(135deg, var(--az-blue) 0%, var(--az-green) 100%);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        body.light-mode {
+            --bg-dark: #ffffff;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        /* REFINED COMPACT NAVIGATION */
+        nav {
+            background: transparent;
+            backdrop-filter: blur(10px);
+            padding: 0.6rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode nav {
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .back-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .back-link:hover {
+            color: var(--az-blue);
+            transform: translateX(-3px);
+        }
+
+        .back-link i {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        /* Language Switcher */
+        .lang-switcher {
+            display: flex;
+            gap: 0.25rem;
+            margin-right: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.2rem;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode .lang-switcher {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.25rem 0.6rem;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .lang-btn.active {
+            background: var(--az-blue);
+            color: white;
+        }
+
+        .btn-group {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+        }
+
+        .dark-mode-toggle:active {
+            transform: scale(0.95) rotate(-15deg);
+        }
+
+        .dark-mode-toggle img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: absolute;
+        }
+
+        .dark-mode-toggle .light-icon {
+            opacity: 0;
+            transform: rotate(180deg) scale(0);
+        }
+
+        .dark-mode-toggle .dark-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        body.light-mode .dark-mode-toggle {
+            border-color: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .dark-mode-toggle .light-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        body.light-mode .dark-mode-toggle .dark-icon {
+            opacity: 0;
+            transform: rotate(-180deg) scale(0);
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .dark-mode-toggle::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--az-blue);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .dark-mode-toggle.clicked::after {
+            animation: ripple 0.6s ease-out;
+        }
+
+        /* Content Animations */
+        .content h2,
+        .content h3 {
+            transition: all 0.3s ease;
+        }
+
+        .content h2:hover,
+        .content h3:hover {
+            color: var(--az-blue);
+            transform: translateX(5px);
+        }
+
+        .content p {
+            transition: all 0.3s ease;
+        }
+
+        .content p:hover {
+            padding-left: 1rem;
+            border-left: 3px solid var(--az-blue);
+        }
+
+        .pullquote {
+            transition: all 0.3s ease;
+        }
+
+        .pullquote:hover {
+            transform: scale(1.02);
+            border-left-width: 6px;
+        }
+
+        /* Table of Contents */
+        .toc-container {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-width: 250px;
+            box-shadow: var(--shadow-md);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        body.light-mode .toc-container {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .toc-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--az-blue);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .toc-links {
+            list-style: none;
+        }
+
+        .toc-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .toc-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: block;
+            padding-left: 1rem;
+            border-left: 2px solid transparent;
+        }
+
+        .toc-links a:hover,
+        .toc-links a.active {
+            color: var(--az-blue);
+            border-left-color: var(--az-blue);
+        }
+
+        /* Article */
+        article {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .article-header {
+            border-bottom: 2px solid var(--az-blue);
+            padding-bottom: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .category {
+            color: var(--az-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.75rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .meta {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        .meta-divider {
+            margin: 0 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .content {
+            font-size: 1.1rem;
+        }
+
+        .content p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .content h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin: 3rem 0 1.5rem 0;
+            scroll-margin-top: 100px;
+        }
+
+        .content h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.375rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem 0;
+        }
+
+        .content ul,
+        .content ol {
+            margin: 1.5rem 0 1.5rem 2rem;
+        }
+
+        .content li {
+            margin-bottom: 0.75rem;
+        }
+
+        .pullquote {
+            border-left: 4px solid var(--az-blue);
+            padding-left: 2rem;
+            margin: 2.5rem 0;
+            font-style: italic;
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .separator {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 3rem 0;
+        }
+
+        body.light-mode .separator {
+            border-top-color: rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 1200px) {
+            .toc-container {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .content {
+                font-size: 1rem;
+            }
+
+            article {
+                padding: 6rem 1.5rem 2rem;
+            }
+
+            .lang-switcher {
+                margin-right: 0.5rem;
+            }
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="regulatory-framework.html" class="back-link">
+                    <i>←</i> Back to Regulatory Framework
+                </a>
+            </div>
+            <div class="btn-group">
+                <div class="lang-switcher">
+                    <button class="lang-btn active" onclick="switchLang('en')">EN</button>
+                    <button class="lang-btn" onclick="switchLang('az')">AZ</button>
+                    <button class="lang-btn" onclick="switchLang('ru')">RU</button>
+                </div>
+                <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                    <img src="darkmode.png" alt="Dark Mode" class="light-icon">
+                    <img src="lightmode.png" alt="Light Mode" class="dark-icon">
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="toc-container">
+        <div class="toc-title">Contents</div>
+        <ul class="toc-links" id="toc-list"></ul>
+    </div>
+
+    <article>
+        <!-- ENGLISH CONTENT -->
+        <div id="content-en" class="content-section active">
+            <header class="article-header">
+                <div class="category">Law of the Republic of Azerbaijan</div>
+                <h1>Law on Electric Power</h1>
+                <div class="meta">
+                    Law № 858-VIQ
+                    <span class="meta-divider">•</span>
+                    April 11, 2023
+                    <span class="meta-divider">•</span>
+                    Signed by President Ilham Aliyev
+                </div>
+            </header>
+
+            <div class="content">
+                <p>This Law determines the legal, economic, and organizational bases for the production, transmission,
+                    distribution, import, export, and supply of electric power in the Republic of Azerbaijan. It
+                    regulates relations between electric power entities and consumers, aiming to ensure energy security,
+                    reliability, efficiency, and the development of a competitive electricity market.</p>
+
+                <h2 id="en-ch1">Chapter 1. General Provisions</h2>
+                <h3 id="en-art1">Article 1. Basic Concepts</h3>
+                <p>This article defines key terms such as "Active Consumer," "Bilateral Agreements," "Transmission
+                    System Operator," "Distribution System Operator," "Electricity Market Operator," and "Universal
+                    Supplier."</p>
+
+                <h3 id="en-art2">Article 2. Legislation</h3>
+                <p>Legislation consists of the Constitution, international treaties, the Law on Energy, this Law, and
+                    other normative legal acts.</p>
+
+                <h2 id="en-ch2">Chapter 2. Organization and Management</h2>
+                <h3 id="en-art4">Article 4. State Regulation</h3>
+                <p>The state regulates the sector to ensure sustainable development, security of supply, and protection
+                    of consumer rights. The Regulator plays a key role in licensing, tariff setting, and market
+                    monitoring.</p>
+
+                <h2 id="en-ch3">Chapter 3. Electricity Market</h2>
+                <h3 id="en-art8">Article 8. Market Structure</h3>
+                <p>The electricity market comprises wholesale and retail markets. The wholesale market includes
+                    bilateral contracts, Day-Ahead Market, and Balancing Market.</p>
+
+                <h3 id="en-art9">Article 9. System Operations</h3>
+                <p>Transmission and Distribution System Operators are responsible for the safe and reliable operation of
+                    the grid, ensuring non-discriminatory access for all market participants.</p>
+
+                <h2 id="en-ch4">Chapter 4. Consumer Protection</h2>
+                <h3 id="en-art12">Article 12. Vulnerable Consumers</h3>
+                <p>Specific provisions protect vulnerable consumers, ensuring their access to electricity supply.</p>
+
+                <hr class="separator">
+                <p><strong>Ilham Aliyev</strong><br>President of the Republic of Azerbaijan</p>
+            </div>
+        </div>
+
+        <!-- AZERBAIJANI CONTENT -->
+        <div id="content-az" class="content-section">
+            <header class="article-header">
+                <div class="category">Azərbaycan Respublikasının Qanunu</div>
+                <h1>Elektroenergetika haqqında</h1>
+                <div class="meta">
+                    Qanun № 858-VIQ
+                    <span class="meta-divider">•</span>
+                    11 aprel 2023-cü il
+                    <span class="meta-divider">•</span>
+                    Prezident İlham Əliyev tərəfindən imzalanıb
+                </div>
+            </header>
+
+            <div class="content">
+                <p>Bu Qanun Azərbaycan Respublikası Konstitusiyasının 94-cü maddəsinin I hissəsinin 11-ci bəndinə uyğun
+                    olaraq, elektrik enerjisinin istehsalı, saxlanması, ötürülməsi, paylanması, təchizatı, idxalı,
+                    ixracı, habelə elektrik enerjisi bazarının təşkili, idarə edilməsi və tənzimlənməsi sahəsində
+                    yaranan münasibətləri tənzimləyir, elektrik enerjisi subyektlərinin və istehlakçıların hüquq və
+                    vəzifələrini müəyyən edir.</p>
+
+                <h2 id="az-ch1">1-ci fəsil. Ümumi müddəalar</h2>
+                <h3 id="az-art1">Maddə 1. Əsas anlayışlar</h3>
+                <p>1.1. Bu Qanunda istifadə olunan əsas anlayışlar aşağıdakı mənaları ifadə edir:</p>
+                <ul>
+                    <li>1.1.1. <strong>aktiv istehlakçı</strong> – özünün tələbatı üçün elektrik enerjisini istehsal
+                        edən, istehlak edən, saxlayan və artıq qalan elektrik enerjisini elektrik enerjisi şəbəkəsinə
+                        ötürən və satan istehlakçı;</li>
+                    <li>1.1.2. <strong>balanslaşdırma</strong> – elektrik enerjisi sisteminin dayanıqlığının və tezliyin
+                        normativ hüdudlarda saxlanılması məqsədilə elektrik enerjisinin istehsalı və ya istehlakı
+                        həcmlərinin artırılması və ya azaldılması ilə bağlı tədbirlər;</li>
+                    <li>1.1.18. <strong>ötürücü sistem operatoru</strong> – elektrik enerjisinin ötürülməsi, ötürücü
+                        sistemin dispetçer idarəetməsi fəaliyyətini və elektrik enerjisinin tranzitini həyata keçirən
+                        hüquqi şəxs;</li>
+                    <li>1.1.21. <strong>paylayıcı sistem operatoru</strong> – müəyyən ərazidə elektrik enerjisinin
+                        paylanması fəaliyyətini həyata keçirən hüquqi şəxs;</li>
+                    <li>1.1.33. <strong>sərbəst məhsullar</strong> – dövlət tərəfindən qiymətləri (tarifləri)
+                        tənzimlənməyən, qiymətləri tələb və təklif əsasında formalaşan məhsullar.</li>
+                </ul>
+
+                <h3 id="az-art2">Maddə 2. Qanunvericilik</h3>
+                <p>2.1. Elektroenergetika sahəsində Azərbaycan Respublikasının qanunvericiliyi Azərbaycan
+                    Respublikasının Konstitusiyasından, Azərbaycan Respublikasının tərəfdar çıxdığı beynəlxalq
+                    müqavilələrdən, “Energetika haqqında”, “Elektrik enerjisi istehsalında bərpa olunan enerji
+                    mənbələrindən istifadə haqqında”, “Enerji resurslarından səmərəli istifadə və enerji effektivliyi
+                    haqqında”, “Kommunal xidmətlər (elektrik və istilik enerjisi, su və qaz) sahəsində dövlət
+                    tənzimlənməsi haqqında” Azərbaycan Respublikasının qanunlarından, bu Qanundan və bu sahədə
+                    münasibətləri tənzimləyən digər normativ hüquqi aktlardan ibarətdir.</p>
+
+                <h2 id="az-ch2">2-ci fəsil. ŞƏBƏKƏLƏR VƏ BAZARLAR</h2>
+                <h3 id="az-art4">Maddə 4. Elektroenergetika sahəsində lisenziya və icazələr</h3>
+                <p>4.1. Elektroenergetika sahəsində aşağıdakı fəaliyyət növləri “Lisenziyalar və icazələr haqqında”
+                    Azərbaycan Respublikasının Qanununa uyğun olaraq alınmış lisenziya əsasında həyata keçirilir:</p>
+                <ul>
+                    <li>4.1.1. elektrik enerjisinin istehsalı;</li>
+                    <li>4.1.2. elektrik enerjisinin ötürülməsi;</li>
+                    <li>4.1.3. elektrik enerjisinin paylanması;</li>
+                    <li>4.1.4. elektrik enerjisinin idxalı və ixracı;</li>
+                    <li>4.1.5. elektrik enerjisinin topdan satışı;</li>
+                    <li>4.1.6. elektrik enerjisinin pərakəndə satışı.</li>
+                </ul>
+
+                <h3 id="az-art8">Maddə 8. Elektrik enerjisinin topdan satış bazarı</h3>
+                <p>8.1. Elektrik enerjisinin topdan satış bazarı aşağıdakılardan ibarətdir:</p>
+                <ul>
+                    <li>8.1.1. ikitərəfli müqavilələr bazarı;</li>
+                    <li>8.1.2. sutkalıq bazar;</li>
+                    <li>8.1.3. balanslaşdırma bazarı;</li>
+                    <li>8.1.4. köməkçi xidmətlər bazarı.</li>
+                </ul>
+
+                <h3 id="az-art11">Maddə 11. Sərbəst istehlakçı</h3>
+                <p>11.1. Sərbəst istehlakçı elektrik enerjisini müstəqil enerji təchizatçısından və ya istehsalçıdan
+                    müqavilə əsasında sərbəst qiymətlərlə, habelə mərkəzləşdirilmiş bazardan (sutkalıq bazardan, gələcək
+                    dövr üçün bazardan) almaq hüququna malikdir.</p>
+
+                <hr class="separator">
+                <p><strong>İlham ƏLİYEV</strong><br>Azərbaycan Respublikasının Prezidenti</p>
+            </div>
+        </div>
+
+        <!-- RUSSIAN CONTENT -->
+        <div id="content-ru" class="content-section">
+            <header class="article-header">
+                <div class="category">Закон Азербайджанской Республики</div>
+                <h1>Об электроэнергетике</h1>
+                <div class="meta">
+                    Закон № 858-VIQ
+                    <span class="meta-divider">•</span>
+                    11 апреля 2023 г.
+                    <span class="meta-divider">•</span>
+                    Подписан Президентом Ильхамом Алиевым
+                </div>
+            </header>
+
+            <div class="content">
+                <p>Настоящий Закон в соответствии с пунктом 11 части I статьи 94 Конституции Азербайджанской Республики
+                    регулирует отношения, возникающие в сфере производства, хранения, передачи, распределения,
+                    снабжения, импорта, экспорта электроэнергии, а также организации, управления и регулирования рынка
+                    электроэнергии.</p>
+
+                <h2 id="ru-ch1">Глава 1. Общие положения</h2>
+                <h3 id="ru-art1">Статья 1. Основные понятия</h3>
+                <p>Закон определяет ключевые термины, такие как «Активный потребитель», «Оператор системы передачи»,
+                    «Оператор системы распределения» и другие участники рынка.</p>
+
+                <h3 id="ru-art2">Статья 2. Законодательство</h3>
+                <p>Законодательство основывается на Конституции, Законе «Об энергетике», международных договорах и
+                    настоящем Законе. Оно направлено на гармонизацию с международными стандартами и создание
+                    конкурентного рынка.</p>
+
+                <h2 id="ru-ch2">Глава 2. Рынок электроэнергии</h2>
+                <h3 id="ru-art8">Статья 8. Структура рынка</h3>
+                <p>Оптовый рынок электроэнергии состоит из рынка двусторонних договоров, рынка на сутки вперед и
+                    балансирующего рынка. Это обеспечивает гибкость и эффективность торговли электроэнергией.</p>
+
+                <h3 id="ru-art11">Статья 11. Свободный потребитель</h3>
+                <p>Свободные потребители имеют право выбирать поставщика электроэнергии и заключать прямые договоры, что
+                    стимулирует конкуренцию среди поставщиков.</p>
+
+                <hr class="separator">
+                <p><strong>Ильхам АЛИЕВ</strong><br>Президент Азербайджанской Республики</p>
+            </div>
+        </div>
+    </article>
+
+    <script>
+        function switchLang(lang) {
+            document.querySelectorAll('.content-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(`content-${lang}`).classList.add('active');
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            updateTOC(lang);
+        }
+
+        function updateTOC(lang) {
+            const tocList = document.getElementById('toc-list');
+            tocList.innerHTML = '';
+            let headings;
+            if (lang === 'en') {
+                headings = [
+                    { id: 'en-ch1', text: 'General Provisions' },
+                    { id: 'en-ch2', text: 'Organization' },
+                    { id: 'en-ch3', text: 'Electricity Market' },
+                    { id: 'en-ch4', text: 'Consumer Protection' }
+                ];
+            } else if (lang === 'az') {
+                headings = [
+                    { id: 'az-ch1', text: 'Ümumi müddəalar' },
+                    { id: 'az-ch2', text: 'Şəbəkələr və Bazarlar' }
+                ];
+            } else {
+                headings = [
+                    { id: 'ru-ch1', text: 'Общие положения' },
+                    { id: 'ru-ch2', text: 'Рынок электроэнергии' }
+                ];
+            }
+            headings.forEach(h => {
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="#${h.id}">${h.text}</a>`;
+                tocList.appendChild(li);
+            });
+        }
+        updateTOC('en');
+
+        function toggleDarkMode() {
+            const body = document.body;
+            const toggle = document.querySelector('.dark-mode-toggle');
+            toggle.classList.add('clicked');
+            setTimeout(() => toggle.classList.remove('clicked'), 600);
+            body.classList.toggle('light-mode');
+            const isLight = body.classList.contains('light-mode');
+            localStorage.setItem('themeMode', isLight ? 'light' : 'dark');
+        }
+
+        (function initTheme() {
+            const themeMode = localStorage.getItem('themeMode');
+            if (themeMode === 'light') { document.body.classList.add('light-mode'); }
+        })();
+
+        document.querySelector('.lang-btn.active').classList.add('active');
+    </script>
+</body>
+
+</html>
