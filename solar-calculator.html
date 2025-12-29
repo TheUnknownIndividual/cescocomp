@@ -8,6 +8,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         :root {
             --az-blue: #6f91a8;
@@ -423,6 +424,133 @@
             color: var(--text-secondary);
         }
 
+        /* Map Container */
+        #map {
+            height: 400px;
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            z-index: 1;
+        }
+
+        body.light-mode #map {
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .map-instructions {
+            text-align: center;
+            margin: 1rem 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Net-Metering Banner */
+        .net-metering-banner {
+            background: linear-gradient(135deg, #509E2F 0%, #6f91a8 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            color: white;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .net-metering-banner h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .net-metering-banner p {
+            line-height: 1.8;
+            margin-bottom: 0.75rem;
+            opacity: 0.95;
+        }
+
+        .net-metering-banner ul {
+            margin-left: 1.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .net-metering-banner ul li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .net-metering-banner strong {
+            color: #fff;
+        }
+
+        .net-metering-banner .highlight {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* Optimization Tips */
+        .optimization-tips {
+            background: var(--card-bg);
+            border: 1px solid rgba(111, 145, 168, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .optimization-tips h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--az-blue);
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .tip-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .tip-card {
+            background: var(--bg-dark);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1.25rem;
+            transition: all 0.3s ease;
+        }
+
+        body.light-mode .tip-card {
+            background: white;
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .tip-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--az-blue);
+        }
+
+        .tip-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--az-blue);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tip-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .tip-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--az-green);
+            margin: 0.5rem 0;
+        }
+
         @media (max-width: 768px) {
             .page-header h1 {
                 font-size: 2rem;
@@ -438,6 +566,10 @@
 
             .container {
                 padding: 6rem 1.5rem 2rem;
+            }
+
+            #map {
+                height: 300px;
             }
         }
     </style>
@@ -471,6 +603,41 @@
                 <span>📊</span>
                 <span>Detailed Calculator</span>
             </button>
+        </div>
+
+        <!-- Net-Metering Information Banner -->
+        <div class="net-metering-banner">
+            <h3>🌞 Azerbaijan's Active Consumer Support Mechanism</h3>
+            <p><strong>Good news!</strong> Azerbaijan implemented a net-metering system allowing you to <span
+                    class="highlight">sell excess solar energy</span> to Azərenerji and use it later when needed.</p>
+
+            <p><strong>Key Benefits:</strong></p>
+            <ul>
+                <li><strong>System size:</strong> Install solar panels up to ~150 kW for residential/commercial use</li>
+                <li><strong>Surplus energy:</strong> Any electricity you generate but don't use is fed into the national
+                    grid</li>
+                <li><strong>Night usage:</strong> The surplus offsets your consumption later—essentially "banking"
+                    energy for nighttime use</li>
+                <li><strong>Financial savings:</strong> Reduce or eliminate your electricity bills through net-metering
+                </li>
+            </ul>
+
+            <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.9;">
+                <strong>Legal framework:</strong> Approved by Cabinet of Ministers Decree No. 346 (September 28, 2023).
+                <a href="https://caspianbarrel.org/en/2024/02/azerbaijan-buoys-up-citizens-to-benefit-from-renewable-energy-sources/"
+                    target="_blank" style="color: white; text-decoration: underline;">Learn more →</a>
+            </p>
+        </div>
+
+        <!-- Interactive Map for Location Selection -->
+        <div class="calc-card">
+            <h2 style="margin-bottom: 1rem;">📍 Select Your Location</h2>
+            <p class="map-instructions">Click on the map or search for your city to get location-specific solar data</p>
+            <div id="map"></div>
+            <div style="text-align: center; margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;"
+                id="selected-coords">
+                Selected: Baku (40.4093, 49.8671)
+            </div>
         </div>
 
         <!-- Simple Mode -->
@@ -607,11 +774,42 @@
                     detailed site assessment and accurate system design.</p>
                 <p style="margin-top: 0.5rem; font-size: 0.85rem;" id="pvgis-note"></p>
             </div>
+
+            <!-- Optimization Tips -->
+            <div class="optimization-tips">
+                <h3>🎯 System Optimization Recommendations</h3>
+                <div class="tip-grid">
+                    <div class="tip-card">
+                        <h4>📐 Optimal Tilt Angle</h4>
+                        <div class="tip-value" id="opt-tilt">35°</div>
+                        <p>This angle maximizes annual solar energy capture for your latitude</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>🧭 Panel Orientation</h4>
+                        <div class="tip-value">South (180°)</div>
+                        <p>Face panels directly south for maximum exposure in Northern Hemisphere</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>🌡️ Temperature Coefficient</h4>
+                        <div class="tip-value">-11%</div>
+                        <p>System losses from heat, cables, inverter, and soiling—already included in calculations</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>🌳 Shading Analysis</h4>
+                        <div class="tip-value">Critical!</div>
+                        <p>Ensure no shading from trees or buildings, especially 9am-3pm</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         let currentMode = 'simple';
+        let map, marker;
+        let selectedLocation = { lat: 40.4093, lon: 49.8671 }; // Default: Baku
+
         const cityCoordinates = {
             'baku': { lat: 40.4093, lon: 49.8671 },
             'ganja': { lat: 40.6828, lon: 46.3606 },
@@ -622,6 +820,47 @@
             'nakhchivan': { lat: 39.2090, lon: 45.4126 },
             'shamakhi': { lat: 40.6314, lon: 48.6394 }
         };
+
+        // Initialize map
+        function initMap() {
+            map = L.map('map').setView([selectedLocation.lat, selectedLocation.lon], 7);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 18
+            }).addTo(map);
+
+            marker = L.marker([selectedLocation.lat, selectedLocation.lon], {
+                draggable: true
+            }).addTo(map);
+
+            // Update on marker drag
+            marker.on('dragend', function (e) {
+                const pos = marker.getLatLng();
+                selectedLocation = { lat: pos.lat, lon: pos.lng };
+                updateLocationDisplay();
+                updateLocationInputs();
+            });
+
+            // Update on map click
+            map.on('click', function (e) {
+                selectedLocation = { lat: e.latlng.lat, lon: e.latlng.lng };
+                marker.setLatLng([e.latlng.lat, e.latlng.lng]);
+                updateLocationDisplay();
+                updateLocationInputs();
+            });
+        }
+
+        function updateLocationDisplay() {
+            document.getElementById('selected-coords').textContent =
+                `Selected: (${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lon.toFixed(4)})`;
+        }
+
+        function updateLocationInputs() {
+            const coordStr = `${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lon.toFixed(4)}`;
+            document.getElementById('location-simple').value = coordStr;
+            document.getElementById('location-detailed').value = coordStr;
+        }
 
         function switchMode(mode) {
             currentMode = mode;
@@ -640,22 +879,33 @@
         }
 
         async function getCoordinates(locationStr) {
-            if (!locationStr) return { lat: 40.4093, lon: 49.8671 }; // Default to Baku
+            // If location string is empty, use selected map location
+            if (!locationStr) return selectedLocation;
 
             // Check if it's a known city
             const cityName = locationStr.toLowerCase().trim();
             if (cityCoordinates[cityName]) {
-                return cityCoordinates[cityName];
+                const coords = cityCoordinates[cityName];
+                // Update map
+                selectedLocation = coords;
+                marker.setLatLng([coords.lat, coords.lon]);
+                map.setView([coords.lat, coords.lon], 10);
+                updateLocationDisplay();
+                return coords;
             }
 
-            // Try to parse as coordinates
+            //Try to parse as coordinates
             const coords = locationStr.split(',').map(s => parseFloat(s.trim()));
             if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
-                return { lat: coords[0], lon: coords[1] };
+                selectedLocation = { lat: coords[0], lon: coords[1] };
+                marker.setLatLng([coords[0], coords[1]]);
+                map.setView([coords[0], coords[1]], 10);
+                updateLocationDisplay();
+                return selectedLocation;
             }
 
-            // Default to Baku
-            return { lat: 40.4093, lon: 49.8671 };
+            // Use current map selection
+            return selectedLocation;
         }
 
         async function getPVGISYield(lat, lon) {
@@ -675,6 +925,13 @@
 
             // Fallback to Azerbaijan average
             return 1350;
+        }
+
+        // Calculate optimal tilt angle based on latitude
+        function getOptimalTilt(lat) {
+            // Rule of thumb: tilt ≈ latitude for year-round optimization
+            // For Azerbaijan (38-42°N), typically 30-40°
+            return Math.round(Math.abs(lat));
         }
 
         async function calculateSimple() {
@@ -776,6 +1033,10 @@
             const pvgisNote = document.getElementById('pvgis-note');
             if (coords) {
                 pvgisNote.innerHTML = `<strong>Data source:</strong> PVGIS-SARAH database for location (${coords.lat.toFixed(4)}, ${coords.lon.toFixed(4)}) with 35° tilt, south-facing orientation.`;
+
+                // Update optimal tilt angle
+                const optimalTilt = getOptimalTilt(coords.lat);
+                document.getElementById('opt-tilt').textContent = `${optimalTilt}°`;
             }
 
             document.getElementById('results').classList.add('show');
@@ -794,6 +1055,11 @@
                 document.body.classList.add('light-mode');
             }
         })();
+
+        // Initialize map when page loads
+        window.addEventListener('load', () => {
+            setTimeout(initMap, 100); // Small delay to ensure DOM is ready
+        });
     </script>
 </body>
 
