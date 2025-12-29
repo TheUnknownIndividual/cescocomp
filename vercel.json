@@ -5,6 +5,10 @@
             "destination": "/welcome.html"
         },
         {
+            "source": "/welcome",
+            "destination": "/welcome.html"
+        },
+        {
             "source": "/map",
             "destination": "/index.html"
         },
@@ -35,6 +39,10 @@
         {
             "source": "/net-metering-decree",
             "destination": "/net-metering-decree.html"
+        },
+        {
+            "source": "/policy-detail",
+            "destination": "/policy-detail.html"
         }
     ],
     "headers": [

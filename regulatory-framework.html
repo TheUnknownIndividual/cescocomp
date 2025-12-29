@@ -65,19 +65,24 @@
         /* Navigation */
         nav {
             background: transparent;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
             padding: 1rem 0;
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid transparent;
             transition: all 0.3s ease;
         }
 
+        nav.scrolled {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-        body.light-mode nav {
+        body.light-mode nav.scrolled {
             background: rgba(255, 255, 255, 0.8);
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
@@ -1130,6 +1135,7 @@
             <div class="nav-links">
                 <a href="welcome.html">Home</a>
                 <a href="welcome.html#map">Energy Map</a>
+                <a href="solar-calculator">Solar Calculator</a>
                 <a href="#laws">Laws</a>
                 <a href="#commitments">Commitments</a>
                 <a href="#investment">Investment</a>
@@ -1840,6 +1846,48 @@
 
 
         <script>
+            // Nav scroll effect
+            window.addEventListener('scroll', () => {
+                const nav = document.querySelector('nav');
+                const scrolled = window.scrollY > 100;  // Trigger after scrolling 100px
+                if (scrolled) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+
+            // Dynamic category counting
+            function updateCategoryCounts() {
+                const categories = {
+                    'laws': 0,
+                    'commitments': 0,
+                    'investment': 0,
+                    'institutions': 0,
+                    'ministry-orders': 0,
+                    'other': 0
+                };
+
+                // Count cards in each category
+                document.querySelectorAll('.card').forEach(card => {
+                    const category = card.dataset.category;
+                    if (categories.hasOwnProperty(category)) {
+                        categories[category]++;
+                    }
+                });
+
+                // Update category count displays
+                Object.keys(categories).forEach(category => {
+                    const countElement = document.querySelector(`[data-category="${category}"] .category-count`);
+                    if (countElement) {
+                        countElement.textContent = `${categories[category]} framework${categories[category] !== 1 ? 's' : ''}`;
+                    }
+                });
+            }
+
+            // Run on page load
+            updateCategoryCounts();
+
             // Filter functionality
             const filterButtons = document.querySelectorAll('.filter-btn');
             const cards = document.querySelectorAll('.card');
