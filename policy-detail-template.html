@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presidential Order №1209 - Energy Sector Reforms | Azerbaijan</title>
+    <title>Presidential Order №1209 | Energy Sector Reforms</title>
     <style>
         * {
             margin: 0;
@@ -13,49 +13,39 @@
         }
 
         :root {
-            --az-blue: #6f91a8;
-            --az-green: #509E2F;
-            --accent-bronze: #c68661;
-            --bg-dark: #0a0b0d;
-            --card-bg: #161719;
-            --text-primary: #ffffff;
-            --text-secondary: #a0a0a0;
+            --bg: #ffffff;
+            --text: #1a1a1a;
+            --text-secondary: #666666;
+            --border: #e5e5e5;
+            --accent: #6f91a8;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            line-height: 1.7;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
         }
 
-        body.light-mode {
-            --bg-dark: #f5f5f5;
-            --card-bg: #ffffff;
-            --text-primary: #1a1a1a;
-            --text-secondary: #555555;
+        body.dark-mode {
+            --bg: #0f0f0f;
+            --text: #e5e5e5;
+            --text-secondary: #a0a0a0;
+            --border: #2a2a2a;
         }
 
         /* Navigation */
         nav {
-            background: transparent;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 1rem 0;
-            position: fixed;
+            background: var(--bg);
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
             top: 0;
-            width: 100%;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        body.light-mode nav {
-            background: rgba(255, 255, 255, 0.9);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            z-index: 100;
         }
 
         .nav-content {
-            max-width: 1400px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 0 2rem;
             display: flex;
@@ -64,470 +54,283 @@
         }
 
         .back-link {
-            color: var(--az-blue);
+            color: var(--accent);
             text-decoration: none;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 0.9rem;
+            transition: opacity 0.3s ease;
         }
 
         .back-link:hover {
-            color: var(--accent-bronze);
-            transform: translateX(-5px);
+            opacity: 0.7;
         }
 
-        .dark-mode-toggle {
+        .dark-toggle {
             background: none;
-            border: none;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
             cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 50%;
-            transition: all 0.3s ease;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 0.85rem;
         }
 
-        .dark-mode-toggle:hover {
-            background: rgba(255, 255, 255, 0.1);
+        .dark-toggle:hover {
+            background: var(--border);
         }
 
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--az-blue) 0%, var(--az-green) 100%);
-            padding: 8rem 2rem 4rem;
-            text-align: center;
-        }
-
-        .policy-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
-
-        .policy-title {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-        }
-
-        .policy-subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 1rem;
-        }
-
-        .policy-meta {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-        }
-
-        .meta-item {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 0.75rem 1.5rem;
-            border-radius: 50px;
-            backdrop-filter: blur(10px);
-            font-weight: 500;
-        }
-
-        /* Container */
-        .container {
-            max-width: 1200px;
+        /* Article */
+        article {
+            max-width: 800px;
             margin: 0 auto;
-            padding: 3rem 2rem;
+            padding: 4rem 2rem;
         }
 
-        /* Content Sections */
-        .content-section {
-            background: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 16px;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        .article-header {
+            border-bottom: 3px solid var(--text);
+            padding-bottom: 2rem;
+            margin-bottom: 3rem;
         }
 
-        body.light-mode .content-section {
-            border: 1px solid rgba(0, 0, 0, 0.1);
+        .category {
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-weight: 600;
+            margin-bottom: 1rem;
         }
 
-        .section-title {
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
-            color: var(--az-blue);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            border-bottom: 2px solid var(--az-blue);
-            padding-bottom: 0.75rem;
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: var(--text);
         }
 
-        .content-text {
-            color: var(--text-primary);
+        .meta {
+            color: var(--text-secondary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .meta-divider {
+            margin: 0 0.5rem;
+        }
+
+        /* Content */
+        .content {
+            font-size: 1.1rem;
+            color: var(--text);
+        }
+
+        .content p {
             margin-bottom: 1.5rem;
             text-align: justify;
         }
 
-        .highlight-box {
-            background: rgba(111, 145, 168, 0.1);
-            border-left: 4px solid var(--az-blue);
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 0 8px 8px 0;
+        .content h2 {
+            font-size: 1.75rem;
+            font-weight: 400;
+            margin: 3rem 0 1.5rem 0;
+            color: var(--text);
         }
 
-        .key-points {
-            list-style: none;
-            padding: 0;
+        .content h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem 0;
+            color: var(--text);
         }
 
-        .key-points li {
-            padding: 1rem;
-            border-left: 3px solid var(--az-blue);
-            margin-bottom: 1rem;
-            background: rgba(111, 145, 168, 0.05);
-            border-radius: 0 8px 8px 0;
+        .content ul,
+        .content ol {
+            margin: 1.5rem 0 1.5rem 2rem;
         }
 
-        .key-points li strong {
-            color: var(--az-blue);
-            display: block;
-            margin-bottom: 0.5rem;
+        .content li {
+            margin-bottom: 0.75rem;
+            color: var(--text);
         }
 
-        /* Two Column Layout */
-        .two-column {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 2rem;
+        .pullquote {
+            border-left: 4px solid var(--accent);
+            padding-left: 2rem;
+            margin: 2.5rem 0;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        .document-link {
+            display: inline-block;
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid var(--accent);
+            padding-bottom: 2px;
+            transition: opacity 0.3s ease;
+        }
+
+        .document-link:hover {
+            opacity: 0.7;
+        }
+
+        .separator {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 3rem 0;
+        }
+
+        .az-section {
+            background: #f9f9f9;
+            padding: 2rem;
+            border-radius: 4px;
+            margin: 3rem 0;
+        }
+
+        body.dark-mode .az-section {
+            background: #1a1a1a;
+        }
+
+        .az-section h3 {
+            margin-top: 0;
         }
 
         @media (max-width: 768px) {
-            .two-column {
-                grid-template-columns: 1fr;
+            h1 {
+                font-size: 2rem;
             }
-        }
 
-        .info-card {
-            background: rgba(111, 145, 168, 0.08);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid rgba(111, 145, 168, 0.2);
-        }
+            .content {
+                font-size: 1rem;
+            }
 
-        .info-card h3 {
-            color: var(--az-blue);
-            margin-bottom: 1rem;
-            font-size: 1.25rem;
-        }
-
-        /* Status Badge */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .status-implemented {
-            background: rgba(52, 152, 219, 0.2);
-            color: #3498db;
-        }
-
-        /* Links Section */
-        .links-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .link-card {
-            background: rgba(111, 145, 168, 0.1);
-            padding: 1.25rem;
-            border-radius: 10px;
-            text-decoration: none;
-            color: var(--az-blue);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(111, 145, 168, 0.2);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-weight: 500;
-        }
-
-        .link-card:hover {
-            background: rgba(111, 145, 168, 0.2);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(111, 145, 168, 0.2);
-        }
-
-        .dark-icon,
-        .light-icon {
-            width: 24px;
-            height: 24px;
-        }
-
-        body.light-mode .dark-icon {
-            display: inline;
-        }
-
-        body.light-mode .light-icon {
-            display: none;
-        }
-
-        body:not(.light-mode) .dark-icon {
-            display: none;
-        }
-
-        body:not(.light-mode) .light-icon {
-            display: inline;
-        }
-
-        .numbered-list {
-            counter-reset: item;
-            list-style: none;
-            padding: 0;
-        }
-
-        .numbered-list li {
-            counter-increment: item;
-            padding: 1rem 1rem 1rem 3rem;
-            position: relative;
-            margin-bottom: 1rem;
-            background: rgba(111, 145, 168, 0.05);
-            border-radius: 8px;
-        }
-
-        .numbered-list li::before {
-            content: counter(item);
-            position: absolute;
-            left: 1rem;
-            top: 1rem;
-            background: var(--az-blue);
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
+            article {
+                padding: 2rem 1.5rem;
+            }
         }
     </style>
 </head>
 
 <body>
-    <!-- Navigation -->
     <nav>
         <div class="nav-content">
-            <a href="regulatory-framework.html" class="back-link">
-                ← Back to Regulatory Framework
-            </a>
-            <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
-                <img src="darkmode.png" alt="Dark Mode" class="light-icon">
-                <img src="lightmode.png" alt="Light Mode" class="dark-icon">
-            </button>
+            <a href="regulatory-framework.html" class="back-link">← Back</a>
+            <button onclick="toggleDarkMode()" class="dark-toggle">Toggle Theme</button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <div class="hero">
-        <div class="policy-icon">📋</div>
-        <h1 class="policy-title">Presidential Order on Energy Sector Reforms</h1>
-        <p class="policy-subtitle">Accelerating Energy Sector Reforms in the Republic of Azerbaijan</p>
-        <div class="policy-meta">
-            <div class="meta-item">📅 May 29, 2019</div>
-            <div class="meta-item">📋 Order №1209</div>
-            <div class="meta-item">🏛️ Presidential Decree</div>
-            <div class="meta-item"><span class="status-badge status-implemented">✔️ Implemented</span></div>
-        </div>
-    </div>
-
-    <!-- Content -->
-    <div class="container">
-        <!-- Executive Summary -->
-        <div class="content-section">
-            <h2 class="section-title">📖 Executive Summary</h2>
-            <p class="content-text">
-                Presidential Order №1209, issued on May 29, 2019, marks a pivotal moment in Azerbaijan's energy
-                transformation. This comprehensive decree establishes the legal and institutional framework for
-                accelerating reforms in the energy sector, with a particular emphasis on renewable energy development,
-                market liberalization, and regulatory modernization.
-            </p>
-            <div class="highlight-box">
-                <strong style="color: var(--az-blue);">Strategic Importance:</strong>
-                <p>This order serves as the foundational legal instrument that enabled the subsequent passage of the
-                    2021 Renewable Energy Sources Law and established the framework for Azerbaijan's ambitious '30 by
-                    2030' renewable energy targets.</p>
+    <article>
+        <header class="article-header">
+            <div class="category">Presidential Decree</div>
+            <h1>Presidential Order on Energy Sector Reforms</h1>
+            <div class="meta">
+                Order №1209
+                <span class="meta-divider">•</span>
+                May 29, 2019
+                <span class="meta-divider">•</span>
+                Republic of Azerbaijan
             </div>
-            <p class="content-text">
-                The decree mandates comprehensive reforms across electricity production, gas supply, regulatory
-                frameworks, and investment conditions, positioning Azerbaijan as a regional leader in the energy
-                transition.
-            </p>
-        </div>
+        </header>
 
-        <!-- Key Provisions -->
-        <div class="content-section">
-            <h2 class="section-title">⚖️ Key Legislative Mandates</h2>
-            <ul class="numbered-list">
-                <li>
-                    <strong>Renewable Energy Framework Law</strong><br>
-                    The Ministry of Energy was tasked with developing the "Law on the Use of Renewable Energy Sources in
-                    Electricity Production" in coordination with the Ministry of Justice, Ministry of Economy, SOCAR,
-                    Azerenergy JSC, and Azerişıq JSC. This law was successfully enacted in May 2021.
-                </li>
-                <li>
-                    <strong>Regulatory Authority Establishment</strong><br>
-                    Creation of legislation for energy and utilities regulatory bodies, establishing independent
-                    oversight mechanisms for market operations, tariff setting, and compliance monitoring.
-                </li>
-                <li>
-                    <strong>Energy Sector Modernization Laws</strong><br>
-                    New drafts of the "Law on Energy" and "Law on Gas Supply" were commissioned to replace outdated
-                    frameworks and align with international best practices and EU energy directives.
-                </li>
-                <li>
-                    <strong>International Consultant Engagement</strong><br>
-                    Authorization for the Ministry of Energy, in coordination with the Ministry of Finance, to engage
-                    internationally recognized consulting firms to support implementation and ensure world-class
-                    technical standards.
-                </li>
-            </ul>
-        </div>
+        <div class="content">
+            <p>On May 29, 2019, the President of the Republic of Azerbaijan issued Order №1209, a landmark decree that
+                established the comprehensive legal and institutional framework for accelerating reforms in the
+                country's energy sector. This order represents a pivotal moment in Azerbaijan's energy transformation,
+                setting in motion the legislative and regulatory changes necessary for the development of renewable
+                energy and the modernization of the electricity market.</p>
 
-        <!-- Implementation Framework -->
-        <div class="content-section">
-            <h2 class="section-title">🎯 Implementation & Action Plan</h2>
-            <p class="content-text">
-                Following Presidential Order №1209, the Ministry of Energy issued Order F-52 on June 7, 2019,
-                establishing a detailed implementation roadmap. This comprehensive action plan created specialized
-                working groups and assigned clear responsibilities across government agencies.
-            </p>
-
-            <div class="two-column">
-                <div class="info-card">
-                    <h3>👥 Coordinating Agencies</h3>
-                    <ul class="key-points">
-                        <li>Ministry of Energy (Lead)</li>
-                        <li>Ministry of Justice</li>
-                        <li>Ministry of Economy</li>
-                        <li>Ministry of Finance</li>
-                        <li>State Oil Company (SOCAR)</li>
-                        <li>Azerenergy JSC</li>
-                        <li>Azerişıq JSC</li>
-                    </ul>
-                </div>
-
-                <div class="info-card">
-                    <h3>⏱️ Implementation Timeline</h3>
-                    <ul class="key-points">
-                        <li><strong>Phase 1 (2019):</strong> Working group formation and international consultant
-                            selection</li>
-                        <li><strong>Phase 2 (2019-2020):</strong> Legislative drafting and stakeholder consultations
-                        </li>
-                        <li><strong>Phase 3 (2020-2021):</strong> Parliamentary approval and regulatory establishment
-                        </li>
-                        <li><strong>Phase 4 (2021+):</strong> Market implementation and ongoing reforms</li>
-                    </ul>
-                </div>
+            <div class="pullquote">
+                "This decree serves as the foundational legal instrument that enabled the subsequent passage of the 2021
+                Renewable Energy Sources Law and established the framework for Azerbaijan's ambitious renewable energy
+                targets."
             </div>
-        </div>
 
-        <!-- Impact & Outcomes -->
-        <div class="content-section">
-            <h2 class="section-title">🚀 Achieved Outcomes & Impact</h2>
-            <ul class="key-points">
-                <li>
-                    <strong>Legislative Success:</strong>
-                    The 2021 Renewable Energy Sources Law (Law №339-VIQ) was successfully enacted, establishing
-                    comprehensive legal frameworks for RES development, grid connection rights, and investment
-                    incentives.
-                </li>
-                <li>
-                    <strong>Market Liberalization:</strong>
-                    Introduction of competitive auction mechanisms, long-term Power Purchase Agreements (PPAs), and
-                    transparent tariff structures that attracted over $2 billion in renewable energy investments.
-                </li>
-                <li>
-                    <strong>Institutional Development:</strong>
-                    Establishment of the Energy Regulatory Agency (AREA) with independent authority over market
-                    operations, licensing, and dispute resolution.
-                </li>
-                <li>
-                    <strong>International Partnerships:</strong>
-                    Engagement with leading firms including EBRD, IFC, ADB, and specialized energy consultants from EU
-                    member states, bringing world-class expertise to Azerbaijan's reforms.
-                </li>
-                <li>
-                    <strong>Investment Climate:</strong>
-                    Creation of favorable conditions including 30-year tax holidays, VAT exemptions, and streamlined
-                    permitting processes, resulting in major contracts with Masdar (10 GW), ACWA Power (1 GW), and bp.
-                </li>
-            </ul>
-        </div>
+            <h2>Legislative Mandates</h2>
 
-        <!-- Official Documents -->
-        <div class="content-section">
-            <h2 class="section-title">🔗 Official Documents & Resources</h2>
-            <div class="links-grid">
+            <p>The order tasked the Ministry of Energy, in coordination with the Ministry of Justice, Ministry of
+                Economy, State Oil Company, Azerenergy JSC, and Azerişıq JSC, with developing several critical pieces of
+                legislation within an eleven-month timeframe:</p>
+
+            <ol>
+                <li>The Law on the Use of Renewable Energy Sources in Electricity Production</li>
+                <li>The Law on Energy and Utilities Regulatory Bodies</li>
+                <li>New drafts of the Energy Law and Gas Supply Law</li>
+            </ol>
+
+            <p>These legislative initiatives were designed to replace outdated frameworks and align Azerbaijan's energy
+                sector with international best practices. The coordination of multiple government agencies and
+                state-owned enterprises ensured comprehensive stakeholder input and technical expertise in the drafting
+                process.</p>
+
+            <h2>Implementation Framework</h2>
+
+            <p>Following the presidential order, the Ministry of Energy issued Order F-52 on June 7, 2019, establishing
+                a detailed implementation roadmap. This action plan created specialized working groups with clearly
+                defined responsibilities and timelines. The Ministry was authorized to engage internationally recognized
+                consulting firms to provide technical expertise and support the reform process.</p>
+
+            <p>The implementation framework emphasized coordination between the Ministry of Energy, Ministry of Finance,
+                and other relevant state bodies to ensure adequate financial resources for engaging international
+                consultants. This collaborative approach brought world-class expertise from organizations including the
+                European Bank for Reconstruction and Development (EBRD), International Finance Corporation (IFC), and
+                specialized energy consulting firms from EU member states.</p>
+
+            <h2>Outcomes and Impact</h2>
+
+            <p>The reforms initiated by Presidential Order №1209 yielded significant results. Most notably, the
+                Renewable Energy Sources Law (Law №339-VIQ) was successfully enacted on May 31, 2021. This comprehensive
+                legislation established the legal framework for renewable energy development, including provisions for
+                grid connection rights, long-term Power Purchase Agreements, and investment incentives.</p>
+
+            <p>The order also led to the creation of the Energy Regulatory Agency, an independent body responsible for
+                market operations, tariff setting, and compliance monitoring. The establishment of this regulatory
+                authority was essential for ensuring transparent and competitive energy markets.</p>
+
+            <p>The investment climate created by these reforms has attracted over $2 billion in renewable energy
+                investments, with major contracts awarded to international developers including Masdar, ACWA Power, and
+                bp. The reforms introduced competitive auction mechanisms, 30-year tax holidays, VAT exemptions, and
+                streamlined permitting processes.</p>
+
+            <hr class="separator">
+
+            <h3>Official Documents</h3>
+            <p>
                 <a href="https://policy.asiapacificenergy.org/sites/default/files/Order%20No.%201209%20of%202019%20On%20Accelerating%20Reforms%20in%20the%20Energy%20Sector%20of%20Azerbaijan%20%28AZ%29.pdf"
-                    target="_blank" class="link-card">
-                    📄 Presidential Order №1209 (English)
-                </a>
-                <a href="https://minenergy.gov.az/uploads/senedler/emrler/F-52_emr.pdf" target="_blank"
-                    class="link-card">
-                    📋 Ministry Order F-52 (Action Plan)
-                </a>
-                <a href="https://minenergy.gov.az" target="_blank" class="link-card">
-                    🏛️ Ministry of Energy Official Site
-                </a>
-                <a href="regulatory-framework.html" target="_blank" class="link-card">
-                    📚 Full Regulatory Framework
-                </a>
-            </div>
-        </div>
-
-        <!-- Azerbaijani Version -->
-        <div class="content-section">
-            <h2 class="section-title">🇦🇿 Azərbaycan dilində məlumat</h2>
-            <p class="content-text">
-                <strong>"Azərbaycan Respublikasının energetika sektorunda islahatların sürətləndirilməsi haqqında"
-                    Sərəncam</strong>
+                    target="_blank" class="document-link">Presidential Order №1209 (English Translation)</a>
             </p>
-            <div class="highlight-box">
-                <p>
-                    Azərbaycan Respublikası Prezidentinin 2019-cu il 29 may tarixli 1209 nömrəli Sərəncamı energetika
+            <p>
+                <a href="https://minenergy.gov.az/uploads/senedler/emrler/F-52_emr.pdf" target="_blank"
+                    class="document-link">Ministry Order F-52 (Implementation Action Plan)</a>
+            </p>
+
+            <div class="az-section">
+                <h3>Azərbaycan dilində</h3>
+                <p>Azərbaycan Respublikası Prezidentinin 2019-cu il 29 may tarixli 1209 nömrəli Sərəncamı energetika
                     sektorunda köklü islahatların həyata keçirilməsi üçün hüquqi baza yaratmışdır. Bu sənəd bərpa olunan
                     enerji mənbələrinin inkişafı, enerji bazarının liberallaşdırılması və tənzimləyici çərçivənin
-                    müasirləşdirilməsi məqsədləri ilə qəbul edilmişdir.
-                </p>
+                    müasirləşdirilməsi məqsədləri ilə qəbul edilmişdir.</p>
+
+                <p>Sərəncamın icrası nəticəsində 2021-ci ildə "Elektrik enerjisi istehsalında bərpa olunan enerji
+                    mənbələrindən istifadə haqqında" Qanun qəbul edilmiş, Enerji Məsələlərini Tənzimləmə Agentliyi
+                    yaradılmış və beynəlxalq səviyyədə tanınmış məsləhətçi şirkətlərlə əməkdaşlıq qurulmuşdur.</p>
             </div>
-            <p class="content-text">
-                Sərəncamın icrası nəticəsində 2021-ci ildə "Elektrik enerjisi istehsalında bərpa olunan enerji
-                mənbələrindən istifadə haqqında" Qanun qəbul edilmiş, Enerji Məsələlərini Tənzimləmə Agentliyi
-                yaradılmış və beynəlxalq səviyyədə tanınmış məsləhətçi şirkətlərlə əməkdaşlıq qurulmuşdur.
-            </p>
         </div>
-    </div>
+    </article>
 
     <script>
-        // Dark mode toggle
         function toggleDarkMode() {
-            document.body.classList.toggle('light-mode');
-            localStorage.setItem('themeMode', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
         }
 
         // Initialize theme
-        if (localStorage.getItem('themeMode') === 'light') {
-            document.body.classList.add('light-mode');
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
         }
     </script>
 </body>
