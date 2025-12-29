@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Law on Energy | Republic of Azerbaijan</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --az-blue: #6f91a8;
+            --az-green: #509E2F;
+            --accent-bronze: #c68661;
+            --bg-dark: #0a0b0d;
+            --card-bg: #161719;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --gradient-primary: linear-gradient(135deg, var(--az-blue) 0%, var(--az-green) 100%);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        body.light-mode {
+            --bg-dark: #ffffff;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        /* EXACT NAVIGATION FROM SITE */
+        nav {
+            background: transparent;
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode nav {
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Language Switcher */
+        .lang-switcher {
+            display: flex;
+            gap: 0.5rem;
+            margin-right: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.25rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode .lang-switcher {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .lang-btn.active {
+            background: var(--az-blue);
+            color: white;
+        }
+
+        .btn-group {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Dark Mode Toggle - EXACT COPY */
+        .dark-mode-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 6px 20px rgba(0, 153, 204, 0.3);
+        }
+
+        .dark-mode-toggle:active {
+            transform: scale(0.95) rotate(-15deg);
+        }
+
+        .dark-mode-toggle img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: absolute;
+        }
+
+        .dark-mode-toggle .light-icon {
+            opacity: 0;
+            transform: rotate(180deg) scale(0);
+        }
+
+        .dark-mode-toggle .dark-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        body.light-mode .dark-mode-toggle {
+            border-color: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .dark-mode-toggle .light-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        body.light-mode .dark-mode-toggle .dark-icon {
+            opacity: 0;
+            transform: rotate(-180deg) scale(0);
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .dark-mode-toggle::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--az-blue);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .dark-mode-toggle.clicked::after {
+            animation: ripple 0.6s ease-out;
+        }
+
+        /* Content Animations */
+        .content h2,
+        .content h3 {
+            transition: all 0.3s ease;
+        }
+
+        .content h2:hover,
+        .content h3:hover {
+            color: var(--az-blue);
+            transform: translateX(5px);
+        }
+
+        .content p {
+            transition: all 0.3s ease;
+        }
+
+        .content p:hover {
+            padding-left: 1rem;
+            border-left: 3px solid var(--az-blue);
+        }
+
+        .pullquote {
+            transition: all 0.3s ease;
+        }
+
+        .pullquote:hover {
+            transform: scale(1.02);
+            border-left-width: 6px;
+        }
+
+        /* Table of Contents */
+        .toc-container {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-width: 250px;
+            box-shadow: var(--shadow-md);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        body.light-mode .toc-container {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .toc-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--az-blue);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .toc-links {
+            list-style: none;
+        }
+
+        .toc-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .toc-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: block;
+            padding-left: 1rem;
+            border-left: 2px solid transparent;
+        }
+
+        .toc-links a:hover,
+        .toc-links a.active {
+            color: var(--az-blue);
+            border-left-color: var(--az-blue);
+        }
+
+        /* Article */
+        article {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .article-header {
+            border-bottom: 2px solid var(--az-blue);
+            padding-bottom: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .category {
+            color: var(--az-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.75rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .meta {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        .meta-divider {
+            margin: 0 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .content {
+            font-size: 1.1rem;
+        }
+
+        .content p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .content h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin: 3rem 0 1.5rem 0;
+            scroll-margin-top: 100px;
+        }
+
+        .content h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.375rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem 0;
+        }
+
+        .content ul,
+        .content ol {
+            margin: 1.5rem 0 1.5rem 2rem;
+        }
+
+        .content li {
+            margin-bottom: 0.75rem;
+        }
+
+        .pullquote {
+            border-left: 4px solid var(--az-blue);
+            padding-left: 2rem;
+            margin: 2.5rem 0;
+            font-style: italic;
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .separator {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 3rem 0;
+        }
+
+        body.light-mode .separator {
+            border-top-color: rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 1200px) {
+            .toc-container {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .content {
+                font-size: 1rem;
+            }
+
+            article {
+                padding: 6rem 1.5rem 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .lang-switcher {
+                margin-right: 0.5rem;
+            }
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- EXACT NAVIGATION -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">CECSO</a>
+            <div class="btn-group">
+                <div class="lang-switcher">
+                    <button class="lang-btn active" onclick="switchLang('en')">EN</button>
+                    <button class="lang-btn" onclick="switchLang('az')">AZ</button>
+                    <button class="lang-btn" onclick="switchLang('ru')">RU</button>
+                </div>
+                <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                    <img src="darkmode.png" alt="Dark Mode" class="light-icon">
+                    <img src="lightmode.png" alt="Light Mode" class="dark-icon">
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Table of Contents (Dynamic) -->
+    <div class="toc-container">
+        <div class="toc-title">Contents</div>
+        <ul class="toc-links" id="toc-list">
+            <!-- Populated by JS -->
+        </ul>
+    </div>
+
+    <article>
+        <!-- ENGLISH CONTENT -->
+        <div id="content-en" class="content-section active">
+            <header class="article-header">
+                <div class="category">Law of the Republic of Azerbaijan</div>
+                <h1>Law on Energy</h1>
+                <div class="meta">
+                    Law №1006-VIQ
+                    <span class="meta-divider">•</span>
+                    October 24, 2023
+                    <span class="meta-divider">•</span>
+                    Signed by President Ilham Aliyev
+                </div>
+            </header>
+
+            <div class="content">
+                <p><strong>Official Translation | Unofficial Translation for Information Purposes</strong></p>
+
+                <p>This Law, in accordance with Item 11 of Part I of Article 94 of the Constitution of the Republic of
+                    Azerbaijan, determines the general legal, economical, and managerial bases of activities in the
+                    energy sector, as well as mechanisms for ensuring energy security, forming a healthy competitive
+                    environment, supporting sustainable economic development, and providing consumers with reliable,
+                    quality, accessible, and safe energy.</p>
+
+                <h2 id="en-ch1">Chapter 1. General Provisions</h2>
+
+                <h3 id="en-art1">Article 1. Basic Concepts</h3>
+                <p>1.1. The basic concepts used in this Law express the following meanings:</p>
+                <ul>
+                    <li><strong>1.1.1. Energy sector</strong> – the sector of the economy encompassing exploration,
+                        development, production, processing, generation, storage, purchase and sale, import, export,
+                        transmission (transportation), distribution, and use of energy;</li>
+                    <li><strong>1.1.2. Activity in the energy sector</strong> – types of activities provided for in
+                        Article 5 of this Law and carried out in accordance with this Law;</li>
+                    <li><strong>1.1.3. Energy facility</strong> – a set of equipment, devices, and related structures
+                        used for the production, processing, transmission (transportation), distribution, and storage of
+                        energy;</li>
+                    <li><strong>1.1.4. Energy subject</strong> – a legal or natural person carrying out one or more
+                        types of activities in the energy sector;</li>
+                    <li><strong>1.1.7. Energy balance</strong> – a system of accounting indicators for separate energy
+                        types approved by the body (institution) determined by the relevant executive authority for the
+                        purpose of ensuring energy security, forecasting energy supply and demand, and fulfilling its
+                        indicators;</li>
+                </ul>
+
+                <h3 id="en-art2">Article 2. Legislation on Energy</h3>
+                <p>2.1. The legislation of the Republic of Azerbaijan in the energy sector consists of the Constitution
+                    of the Republic of Azerbaijan, international agreements to which the Republic of Azerbaijan is a
+                    party, this Law, the Laws of the Republic of Azerbaijan "On Electric Power", "On Gas Supply", "On
+                    the Use of Renewable Energy Sources in the Production of Electricity", "On Efficient Use of Energy
+                    Resources and Energy Efficiency", and other normative legal acts regulating relations in this field.
+                </p>
+
+                <div class="pullquote">
+                    "This law unifies the legal framework for Azerbaijan's modern energy market, replacing the outdated
+                    1998 legislation."
+                </div>
+
+                <h2 id="en-ch2">Chapter 2. Activity in Energy Sector</h2>
+
+                <h3 id="en-art4">Article 4. Activities of Energy Subjects</h3>
+                <p>4.1. Activities in the energy sector are carried out on the basis of a permit in cases provided for
+                    by the Law of the Republic of Azerbaijan "On Licenses and Permits".</p>
+                <p>4.2. Exploration, development, production of hydrocarbon reserves, transportation of oil and gas via
+                    export pipelines, transfer of electricity distribution networks, gas distribution networks, and gas
+                    storage facilities to management are carried out on the basis of agreements concluded between the
+                    energy subject that has obtained a permit for such activity and the body (institution) determined by
+                    the relevant executive authority.</p>
+
+                <h3 id="en-art5">Article 5. Types of Activities</h3>
+                <p>5.1. The following types of activities are carried out in the energy sector:</p>
+                <ul>
+                    <li>5.1.1. Exploration of energy resources;</li>
+                    <li>5.1.2. Development and production of energy resources;</li>
+                    <li>5.1.4. Production of energy;</li>
+                    <li>5.1.6. Transmission (transportation) of energy;</li>
+                    <li>5.1.7. Distribution of energy;</li>
+                    <li>5.1.9. Wholesale and/or retail sale of energy;</li>
+                    <li>5.1.10. Organization of natural gas and electricity markets.</li>
+                </ul>
+
+                <h2 id="en-ch3">Chapter 3. State Policy and Control</h2>
+
+                <h3 id="en-art6">Article 6. Main Principles of State Policy</h3>
+                <p>6.1. The main principles of state policy in the energy sector are:</p>
+                <ul>
+                    <li>6.1.1. Establishment of activities in the energy sector based on market relations and free
+                        competition;</li>
+                    <li>6.1.2. Inadmissibility of discrimination in the energy sector;</li>
+                    <li>6.1.3. Transparency of activities and regulation in the energy sector;</li>
+                    <li>6.1.5. Protection of rights of energy consumers;</li>
+                    <li>6.1.6. Ensuring sustainable development in the energy sector.</li>
+                </ul>
+
+                <h3 id="en-art8">Article 8. Regulator</h3>
+                <p>8.1. Regulation of activities in the energy sector is carried out by the Regulator (AERA) to ensure a
+                    balance between the interests of energy subjects and energy consumers, to reconcile with the goals
+                    of state energy policy, to promote the entry of new subjects into the energy sector, and to ensure
+                    the integration of the domestic market into the international market.</p>
+
+                <h2 id="en-ch5">Chapter 5. Sustainable Development</h2>
+
+                <h3 id="en-art19">Article 19. Ensuring Sustainable Development</h3>
+                <p>19.1. To ensure sustainable development in the energy sector, the state takes the following measures:
+                </p>
+                <ul>
+                    <li>19.1.1. Promotion of competition and transition from natural monopoly to competitive conditions;
+                    </li>
+                    <li>19.1.6. Promotion of energy production from renewable energy sources;</li>
+                    <li>19.1.7. Attraction of private, including foreign, investments to the energy sector,
+                        implementation of public-private partnership projects.</li>
+                </ul>
+
+                <h3 id="en-art28">Article 28. Entry into Force</h3>
+                <p>28.1. This Law enters into force from the day of its publication.</p>
+                <p>28.2. Articles 15.3 and 15.4 of this Law shall enter into force on July 1, 2025, and Article 8,
+                    Article 10.2, and the second sentence of Article 15.6 shall enter into force on July 1, 2028.</p>
+                <p>At the same time, the Law of the Republic of Azerbaijan "On Energy" No. 541-IQ dated November 24,
+                    1998, is repealed.</p>
+
+                <hr class="separator">
+                <p><strong>Ilham Aliyev</strong><br>President of the Republic of Azerbaijan<br>Baku city, October 24,
+                    2023</p>
+            </div>
+        </div>
+
+        <!-- AZERBAIJANI CONTENT -->
+        <div id="content-az" class="content-section">
+            <header class="article-header">
+                <div class="category">Azərbaycan Respublikasının Qanunu</div>
+                <h1>Energetika haqqında</h1>
+                <div class="meta">
+                    Qanun №1006-VIQ
+                    <span class="meta-divider">•</span>
+                    24 oktyabr 2023-cü il
+                    <span class="meta-divider">•</span>
+                    Prezident İlham Əliyev tərəfindən imzalanıb
+                </div>
+            </header>
+
+            <div class="content">
+                <p>Bu Qanun Azərbaycan Respublikası Konstitusiyasının 94-cü maddəsinin I hissəsinin 11-ci bəndinə uyğun
+                    olaraq, energetika sahəsində fəaliyyətin ümumi hüquqi, iqtisadi və idarəetmə əsaslarını, habelə
+                    enerji təhlükəsizliyinin təmin edilməsinin, sağlam rəqabət mühitinin formalaşdırılmasının, davamlı
+                    iqtisadi inkişafın dəstəklənməsinin, istehlakçıların etibarlı, keyfiyyətli, əlçatan və təhlükəsiz
+                    enerji ilə təmin edilməsinin mexanizmlərini müəyyən edir.</p>
+
+                <h2 id="az-ch1">1-ci fəsil. Ümumi müddəalar</h2>
+
+                <h3 id="az-art1">Maddə 1. Əsas anlayışlar</h3>
+                <p>1.1. Bu Qanunda istifadə olunan əsas anlayışlar aşağıdakı mənaları ifadə edir:</p>
+                <ul>
+                    <li>1.1.1. energetika – enerjinin kəşfiyyatı, işlənilməsi, hasilatı, emalı, istehsalı, saxlanılması,
+                        alqı-satqısı, idxalı, ixracı, nəqli (ötürülməsi), paylanması və istifadəsini ehtiva edən
+                        iqtisadiyyat sahəsi;</li>
+                    <li>1.1.2. energetika sahəsində fəaliyyət – bu Qanunun 5-ci maddəsində nəzərdə tutulan və bu Qanuna
+                        uyğun olaraq həyata keçirilən fəaliyyət növləri;</li>
+                    <li>1.1.3. energetika obyekti – enerjinin istehsalı, emalı, nəqli (ötürülməsi), paylanması və
+                        saxlanılması üçün istifadə olunan avadanlıq, qurğu və onlara aid tikililərin məcmusu;</li>
+                    <li>1.1.4. energetika subyekti – energetika sahəsində fəaliyyət növlərindən birini və ya bir
+                        neçəsini həyata keçirən hüquqi və ya fiziki şəxs;</li>
+                    <li>1.1.7. enerji balansı – enerji təhlükəsizliyinin təmin edilməsi, enerjiyə olan tələb və təklifin
+                        proqnozlaşdırılması və onun göstəricilərinin yerinə yetirilməsi məqsədilə müvafiq icra
+                        hakimiyyəti orqanının müəyyən etdiyi orqan (qurum) tərəfindən təsdiq edilən ayrı-ayrı enerji
+                        növləri üzrə uçot göstəriciləri sistemi;</li>
+                </ul>
+
+                <h3 id="az-art2">Maddə 2. Energetika sahəsində qanunvericilik</h3>
+                <p>2.1. Energetika sahəsində Azərbaycan Respublikasının qanunvericiliyi Azərbaycan Respublikasının
+                    Konstitusiyasından, Azərbaycan Respublikasının tərəfdar çıxdığı beynəlxalq müqavilələrdən, bu
+                    Qanundan, “Elektroenergetika haqqında”, “Qaz təchizatı haqqında”, “Elektrik enerjisi istehsalında
+                    bərpa olunan enerji mənbələrindən istifadə haqqında”, “Enerji resurslarından səmərəli istifadə və
+                    enerji effektivliyi haqqında” Azərbaycan Respublikasının qanunlarından və bu sahədə münasibətləri
+                    tənzimləyən digər normativ hüquqi aktlardan ibarətdir.</p>
+
+                <h2 id="az-ch2">2-ci fəsil. Energetika sahəsində fəaliyyətin əsasları</h2>
+
+                <h3 id="az-art4">Maddə 4. Energetika subyektlərinin fəaliyyəti</h3>
+                <p>4.1. “Lisenziyalar və icazələr haqqında” Azərbaycan Respublikasının Qanununda nəzərdə tutulmuş
+                    hallarda energetika sahəsində fəaliyyət növləri icazə əsasında həyata keçirilir.</p>
+                <p>4.2. Karbohidrogen ehtiyatlarının kəşfiyyatı, işlənilməsi, hasilatı, neftin və qazın ixrac boru
+                    kəmərləri vasitəsilə nəqli, elektrik enerjisinin paylayıcı şəbəkəsinin, qazpaylayıcı şəbəkənin və
+                    qaz anbarlarının idarəetməyə verilməsi... müqavilə əsasında həyata keçirilir.</p>
+
+                <h3 id="az-art5">Maddə 5. Energetika sahəsində fəaliyyət növləri</h3>
+                <p>5.1. Energetika sahəsində aşağıdakı fəaliyyət növləri həyata keçirilir:</p>
+                <ul>
+                    <li>5.1.1. enerji resurslarının kəşfiyyatı;</li>
+                    <li>5.1.2. enerji resurslarının işlənilməsi və hasilatı;</li>
+                    <li>5.1.4. enerjinin istehsalı;</li>
+                    <li>5.1.6. enerjinin nəqli (ötürülməsi);</li>
+                    <li>5.1.7. enerjinin paylanması;</li>
+                    <li>5.1.9. enerjinin topdan və (və ya) pərakəndə satışı;</li>
+                    <li>5.1.10. təbii qaz və elektrik enerjisi bazarlarının fəaliyyətinin təşkili.</li>
+                </ul>
+
+                <h2 id="az-ch3">3-cü fəsil. Dövlət siyasəti və dövlət nəzarəti</h2>
+
+                <h3 id="az-art6">Maddə 6. Dövlət siyasətinin əsas prinsipləri</h3>
+                <p>6.1. Energetika sahəsində dövlət siyasətinin əsas prinsipləri aşağıdakılardır:</p>
+                <ul>
+                    <li>6.1.1. energetika sahəsində fəaliyyətin bazar münasibətləri və azad rəqabət əsasında qurulması;
+                    </li>
+                    <li>6.1.2. energetika sahəsində ayrı-seçkiliyin yolverilməzliyi;</li>
+                    <li>6.1.3. energetika sahəsində fəaliyyətin və tənzimlənmənin şəffaflığı;</li>
+                    <li>6.1.5. enerji istehlakçılarının hüquqlarının müdafiəsi;</li>
+                    <li>6.1.6. energetika sahəsində dayanıqlı inkişafın təmin edilməsi.</li>
+                </ul>
+
+                <h3 id="az-art8">Maddə 8. Tənzimləyici</h3>
+                <p>8.1. Energetika subyektlərinin və enerji istehlakçılarının maraqları arasında balansın təmin olunması
+                    və dövlət energetika siyasətinin məqsədləri ilə uzlaşdırılmasını təmin etmək... məqsədilə
+                    fəaliyyətin tənzimlənməsi tənzimləyici tərəfindən həyata keçirilir.</p>
+
+                <h2 id="az-ch5">5-ci fəsil. Dayanıqlı inkişaf</h2>
+
+                <h3 id="az-art19">Maddə 19. Dayanıqlı inkişafın təmin edilməsi</h3>
+                <p>19.1. Energetika sahəsində dayanıqlı inkişafın təmin edilməsi üçün dövlət aşağıdakı tədbirləri görür:
+                </p>
+                <ul>
+                    <li>19.1.1. rəqabətin inkişafı, təbii inhisar vəziyyətindən rəqabət şəraitinə keçidin təşviq
+                        edilməsi;</li>
+                    <li>19.1.6. bərpa olunan enerji mənbələri hesabına enerji istehsalının təşviqi;</li>
+                    <li>19.1.7. energetika sahəsinə özəl, o cümlədən xarici investisiyaların cəlb edilməsi, dövlət-özəl
+                        tərəfdaşlıq layihələrinin tətbiqi.</li>
+                </ul>
+
+                <h3 id="az-art28">Maddə 28. Qanunun qüvvəyə minməsi</h3>
+                <p>28.1. Bu Qanun dərc edildiyi gündən qüvvəyə minir.</p>
+                <p>28.2. Bu Qanunun 15.3-cü və 15.4-cü maddələri 2025-ci il iyulun 1-dən, 8-ci, 10.2-ci maddələri və
+                    15.6-cı maddəsinin ikinci cümləsi isə 2028-ci il iyulun 1-dən qüvvəyə minir.</p>
+                <p>28.3. Bu Qanun qüvvəyə mindiyi gündən “Energetika haqqında” 1998-ci il 24 noyabr tarixli Qanun ləğv
+                    edilir.</p>
+
+                <hr class="separator">
+                <p><strong>İlham ƏLİYEV</strong><br>Azərbaycan Respublikasının Prezidenti<br>Bakı şəhəri, 24 oktyabr
+                    2023-cü il</p>
+            </div>
+        </div>
+
+        <!-- RUSSIAN CONTENT -->
+        <div id="content-ru" class="content-section">
+            <header class="article-header">
+                <div class="category">Закон Азербайджанской Республики</div>
+                <h1>Об энергетике</h1>
+                <div class="meta">
+                    Закон №1006-VIQ
+                    <span class="meta-divider">•</span>
+                    24 октября 2023 г.
+                    <span class="meta-divider">•</span>
+                    Подписан Президентом Ильхамом Алиевым
+                </div>
+            </header>
+
+            <div class="content">
+                <p>Настоящий Закон в соответствии с пунктом 11 части I статьи 94 Конституции Азербайджанской Республики
+                    определяет общие правовые, экономические и управленческие основы деятельности в сфере энергетики, а
+                    также механизмы обеспечения энергетической безопасности, формирования здоровой конкурентной среды,
+                    поддержки устойчивого экономического развития и обеспечения потребителей надежной, качественной,
+                    доступной и безопасной энергией.</p>
+
+                <h2 id="ru-ch1">Глава 1. Общие положения</h2>
+
+                <h3 id="ru-art1">Статья 1. Основные понятия</h3>
+                <p>1.1. Основные понятия, используемые в настоящем Законе, имеют следующие значения:</p>
+                <ul>
+                    <li>1.1.1. энергетика – отрасль экономики, включающая разведку, разработку, добычу, переработку,
+                        производство, хранение, куплю-продажу, импорт, экспорт, передачу (транспортировку),
+                        распределение и использование энергии;</li>
+                    <li>1.1.2. деятельность в сфере энергетики – виды деятельности, предусмотренные статьей 5 настоящего
+                        Закона;</li>
+                    <li>1.1.3. энергетический объект – совокупность оборудования, установок и относящихся к ним
+                        сооружений, используемых для производства, переработки, передачи, распределения и хранения
+                        энергии;</li>
+                    <li>1.1.7. энергетический баланс – система учетных показателей, утверждаемая уполномоченным органом
+                        для обеспечения энергобезопасности и прогнозирования спроса и предложения.</li>
+                </ul>
+
+                <h3 id="ru-art2">Статья 2. Законодательство в сфере энергетики</h3>
+                <p>2.1. Законодательство Азербайджанской Республики в сфере энергетики состоит из Конституции АР,
+                    международных договоров, настоящего Закона, законов «Об электроэнергетике», «О газоснабжении», «Об
+                    использовании возобновляемых источников энергии в производстве электроэнергии» и других
+                    нормативно-правовых актов.</p>
+
+                <h2 id="ru-ch2">Глава 2. Деятельность в сфере энергетики</h2>
+
+                <h3 id="ru-art4">Статья 4. Деятельность субъектов энергетики</h3>
+                <p>4.1. Виды деятельности в сфере энергетики осуществляются на основании разрешения в случаях,
+                    предусмотренных Законом «О лицензиях и разрешениях».</p>
+
+                <h3 id="ru-art5">Статья 5. Виды деятельности</h3>
+                <p>5.1. В сфере энергетики осуществляются следующие виды деятельности:</p>
+                <ul>
+                    <li>5.1.1. разведка энергетических ресурсов;</li>
+                    <li>5.1.2. разработка и добыча энергетических ресурсов;</li>
+                    <li>5.1.4. производство энергии;</li>
+                    <li>5.1.6. передача (транспортировка) энергии;</li>
+                    <li>5.1.7. распределение энергии;</li>
+                    <li>5.1.9. оптовая и/или розничная продажа энергии;</li>
+                    <li>5.1.10. организация рынков природного газа и электроэнергии.</li>
+                </ul>
+
+                <h2 id="ru-ch3">Глава 3. Государственная политика и контроль</h2>
+
+                <h3 id="ru-art6">Статья 6. Основные принципы госполитики</h3>
+                <p>6.1. Основные принципы государственной политики в сфере энергетики:</p>
+                <ul>
+                    <li>6.1.1. построение деятельности на основе рыночных отношений и свободной конкуренции;</li>
+                    <li>6.1.2. недопустимость дискриминации;</li>
+                    <li>6.1.3. прозрачность деятельности и регулирования;</li>
+                    <li>6.1.5. защита прав потребителей энергии;</li>
+                    <li>6.1.6. обеспечение устойчивого развития.</li>
+                </ul>
+
+                <h3 id="ru-art8">Статья 8. Регулятор</h3>
+                <p>8.1. Регулирование деятельности в сфере энергетики осуществляется Регулятором с целью обеспечения
+                    баланса интересов субъектов энергетики и потребителей, согласования с целями государственной
+                    энергетической политики.</p>
+
+                <h2 id="ru-ch5">Глава 5. Устойчивое развитие</h2>
+
+                <h3 id="ru-art19">Статья 19. Обеспечение устойчивого развития</h3>
+                <p>19.1. Для обеспечения устойчивого развития государство принимает следующие меры:</p>
+                <ul>
+                    <li>19.1.1. развитие конкуренции, поощрение перехода от естественной монополии к конкурентной среде;
+                    </li>
+                    <li>19.1.6. поощрение производства энергии за счет возобновляемых источников;</li>
+                    <li>19.1.7. привлечение частных, в том числе иностранных инвестиций, реализация проектов
+                        государственно-частного партнерства.</li>
+                </ul>
+
+                <h3 id="ru-art28">Статья 28. Вступление в силу</h3>
+                <p>28.1. Настоящий Закон вступает в силу со дня опубликования.</p>
+                <p>28.2. Отдельные статьи (15.3, 15.4) вступают в силу с 1 июля 2025 года, а статьи 8 и 10.2 - с 1 июля
+                    2028 года.</p>
+                <p>С момента вступления в силу настоящего Закона отменяется Закон «Об энергетике» от 24 ноября 1998
+                    года.</p>
+
+                <hr class="separator">
+                <p><strong>Ильхам АЛИЕВ</strong><br>Президент Азербайджанской Республики<br>г. Баку, 24 октября 2023 г.
+                </p>
+            </div>
+        </div>
+    </article>
+
+    <script>
+        // Language Switcher Logic
+        function switchLang(lang) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(el => el.classList.remove('active'));
+
+            // Show selected section
+            document.getElementById(`content-${lang}`).classList.add('active');
+
+            // Update buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update TOC based on language
+            updateTOC(lang);
+        }
+
+        function updateTOC(lang) {
+            const tocList = document.getElementById('toc-list');
+            tocList.innerHTML = '';
+
+            let headings;
+            if (lang === 'en') {
+                headings = [
+                    { id: 'en-ch1', text: 'General Provisions' },
+                    { id: 'en-ch2', text: 'Activity in Energy Sector' },
+                    { id: 'en-ch3', text: 'State Policy' },
+                    { id: 'en-ch5', text: 'Sustainable Development' }
+                ];
+            } else if (lang === 'az') {
+                headings = [
+                    { id: 'az-ch1', text: 'Ümumi müddəalar' },
+                    { id: 'az-ch2', text: 'Fəaliyyətin əsasları' },
+                    { id: 'az-ch3', text: 'Dövlət siyasəti' },
+                    { id: 'az-ch5', text: 'Dayanıqlı inkişaf' }
+                ];
+            } else {
+                headings = [
+                    { id: 'ru-ch1', text: 'Общие положения' },
+                    { id: 'ru-ch2', text: 'Деятельность' },
+                    { id: 'ru-ch3', text: 'Госполитика' },
+                    { id: 'ru-ch5', text: 'Устойчивое развитие' }
+                ];
+            }
+
+            headings.forEach(h => {
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="#${h.id}">${h.text}</a>`;
+                tocList.appendChild(li);
+            });
+        }
+
+        // Initialize TOC for default lang (EN)
+        updateTOC('en');
+
+        // Dark Mode Toggle (Exact Copy)
+        function toggleDarkMode() {
+            const body = document.body;
+            const toggle = document.querySelector('.dark-mode-toggle');
+
+            // Add ripple effect
+            toggle.classList.add('clicked');
+            setTimeout(() => {
+                toggle.classList.remove('clicked');
+            }, 600);
+
+            // Toggle light mode
+            body.classList.toggle('light-mode');
+
+            // Save preference
+            const isLight = body.classList.contains('light-mode');
+            localStorage.setItem('themeMode', isLight ? 'light' : 'dark');
+        }
+
+        // Initialize theme
+        (function initTheme() {
+            const themeMode = localStorage.getItem('themeMode');
+            if (themeMode === 'light') {
+                document.body.classList.add('light-mode');
+            }
+        })();
+
+        // Initial button active state
+        document.querySelector('.lang-btn.active').classList.add('active');
+    </script>
+</body>
+
+</html>
