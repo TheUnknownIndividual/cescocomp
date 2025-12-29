@@ -720,22 +720,40 @@
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            background: var(--az-blue);
-            color: white;
+            background-color: transparent;
             border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
             transition: all 0.3s ease;
             z-index: 10;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        /* Dark mode arrows */
+        body:not(.light-mode) .carousel-btn-left {
+            background-image: url('leftarrowdarkm.png');
+        }
+
+        body:not(.light-mode) .carousel-btn-right {
+            background-image: url('rightdarkmode.png');
+        }
+
+        /* Light mode arrows */
+        body.light-mode .carousel-btn-left {
+            background-image: url('arrowleftlightmode.png');
+        }
+
+        body.light-mode .carousel-btn-right {
+            background-image: url('arrowrightlightmode.png');
         }
 
         .carousel-btn:hover {
-            background: #c68661;
-            transform: translateY(-50%) scale(1.1);
+            transform: translateY(-50%) scale(1.15);
+            opacity: 0.8;
         }
 
         .carousel-btn-left {
@@ -982,7 +1000,8 @@
                 </h2>
             </div>
             <div class="carousel-container">
-                <button class="carousel-btn carousel-btn-left" onclick="scrollCarousel('laws-carousel', -1)">←</button>
+                <button class="carousel-btn carousel-btn-left" onclick="scrollCarousel('laws-carousel', -1)"
+                    aria-label="Previous"></button>
                 <div class="carousel-track" id="laws-carousel">
                     <!-- Presidential Order Card -->
                     <a href="policy-detail-template.html" class="carousel-card card"
@@ -1131,7 +1150,8 @@
                     </div>
 
                 </div>
-                <button class="carousel-btn carousel-btn-right" onclick="scrollCarousel('laws-carousel', 1)">→</button>
+                <button class="carousel-btn carousel-btn-right" onclick="scrollCarousel('laws-carousel', 1)"
+                    aria-label="Next"></button>
             </div>
         </div>
 
@@ -1335,8 +1355,8 @@
                 </h2>
             </div>
             <div class="carousel-container">
-                <button class="carousel-btn carousel-btn-left"
-                    onclick="scrollCarousel('institutions-carousel', -1)">←</button>
+                <button class="carousel-btn carousel-btn-left" onclick="scrollCarousel('institutions-carousel', -1)"
+                    aria-label="Previous"></button>
                 <div class="carousel-track" id="institutions-carousel">
 
                     <!-- AREA Card -->
@@ -1388,8 +1408,8 @@
                     </div>
 
                 </div>
-                <button class="carousel-btn carousel-btn-right"
-                    onclick="scrollCarousel('institutions-carousel', 1)">→</button>
+                <button class="carousel-btn carousel-btn-right" onclick="scrollCarousel('institutions-carousel', 1)"
+                    aria-label="Next"></button>
             </div>
         </div>
 
@@ -1402,8 +1422,8 @@
                 </h2>
             </div>
             <div class="carousel-container">
-                <button class="carousel-btn carousel-btn-left"
-                    onclick="scrollCarousel('orders-carousel', -1)">←</button>
+                <button class="carousel-btn carousel-btn-left" onclick="scrollCarousel('orders-carousel', -1)"
+                    aria-label="Previous"></button>
                 <div class="carousel-track" id="orders-carousel">
 
                     <!-- F-95 Order Card -->
@@ -1433,8 +1453,8 @@
                     </a>
 
                 </div>
-                <button class="carousel-btn carousel-btn-right"
-                    onclick="scrollCarousel('orders-carousel', 1)">→</button>
+                <button class="carousel-btn carousel-btn-right" onclick="scrollCarousel('orders-carousel', 1)"
+                    aria-label="Next"></button>
             </div>
         </div>
 
@@ -1447,7 +1467,8 @@
                 </h2>
             </div>
             <div class="carousel-container">
-                <button class="carousel-btn carousel-btn-left" onclick="scrollCarousel('other-carousel', -1)">←</button>
+                <button class="carousel-btn carousel-btn-left" onclick="scrollCarousel('other-carousel', -1)"
+                    aria-label="Previous"></button>
                 <div class="carousel-track" id="other-carousel">
 
                     <!-- Support Schemes Card -->
@@ -1523,7 +1544,8 @@
                     </div>
 
                 </div>
-                <button class="carousel-btn carousel-btn-right" onclick="scrollCarousel('other-carousel', 1)">→</button>
+                <button class="carousel-btn carousel-btn-right" onclick="scrollCarousel('other-carousel', 1)"
+                    aria-label="Next"></button>
             </div>
         </div>
 
