@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presidential Order №1209 - Azerbaijan Green Energy Framework</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --az-blue: #6f91a8;
+            --az-green: #509E2F;
+            --accent-bronze: #c68661;
+            --bg-dark: #0a0b0d;
+            --card-bg: #161719;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        body.light-mode {
+            --bg-dark: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #555555;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--card-bg);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-link {
+            color: var(--az-blue);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--accent-bronze);
+            transform: translateX(-5px);
+        }
+
+        .dark-mode-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--az-blue) 0%, var(--az-green) 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .policy-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .policy-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .policy-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .policy-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .meta-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--az-blue);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .key-points {
+            list-style: none;
+            padding: 0;
+        }
+
+        .key-points li {
+            padding: 1rem;
+            border-left: 3px solid var(--az-blue);
+            margin-bottom: 1rem;
+            background: rgba(111, 145, 168, 0.05);
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Editable Fields */
+        .editable-field {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            margin: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .editable-field:focus {
+            outline: none;
+            border-color: var(--az-blue);
+            box-shadow: 0 0 0 3px rgba(111, 145, 168, 0.1);
+        }
+
+        body.light-mode .editable-field {
+            background: #ffffff;
+            border: 2px solid #e5e5e5;
+        }
+
+        /* Save Button */
+        .save-btn {
+            background: var(--az-blue);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .save-btn:hover {
+            background: var(--accent-bronze);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(111, 145, 168, 0.3);
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: rgba(39, 174, 96, 0.2);
+            color: #27AE60;
+        }
+
+        .status-implemented {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+        }
+
+        /* Links Section */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .link-card {
+            background: rgba(111, 145, 168, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--az-blue);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(111, 145, 168, 0.2);
+        }
+
+        .link-card:hover {
+            background: rgba(111, 145, 168, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(111, 145, 168, 0.2);
+        }
+
+        .dark-icon,
+        .light-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        body.light-mode .dark-icon {
+            display: inline;
+        }
+
+        body.light-mode .light-icon {
+            display: none;
+        }
+
+        body:not(.light-mode) .dark-icon {
+            display: none;
+        }
+
+        body:not(.light-mode) .light-icon {
+            display: inline;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-content">
+            <a href="regulatory-framework.html" class="back-link">
+                ← Back to Framework
+            </a>
+            <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                <img src="darkmode.png" alt="Dark Mode" class="light-icon">
+                <img src="lightmode.png" alt="Light Mode" class="dark-icon">
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="policy-icon">📋</div>
+        <h1 class="policy-title">Presidential Order on Energy Sector Reforms</h1>
+        <p class="policy-subtitle">Order №1209</p>
+        <div class="policy-meta">
+            <div class="meta-item">📅 May 29, 2019</div>
+            <div class="meta-item">🏛️ Presidential</div>
+            <div class="meta-item"><span class="status-badge status-implemented">✔️ Implemented</span></div>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="container">
+        <!-- Overview Section -->
+        <div class="content-section">
+            <h2 class="section-title">📖 Overview</h2>
+            <textarea class="editable-field" rows="4" id="overview"
+                placeholder="Add overview...">Legal basis for liberalising the power sector, increasing competition in energy markets, and transitioning to green energy and energy efficiency. This order established the foundation for modernizing tariffs, market rules, and investment conditions across Azerbaijan's energy sector.</textarea>
+        </div>
+
+        <!-- Key Provisions -->
+        <div class="content-section">
+            <h2 class="section-title">⚖️ Key Provisions</h2>
+            <ul class="key-points">
+                <li><strong>Legal Basis:</strong> Provides comprehensive legal framework for power sector liberalization
+                </li>
+                <li><strong>Market Competition:</strong> Introduces competitive mechanisms in energy markets</li>
+                <li><strong>Green Transition:</strong> Mandates shift toward renewable energy and energy efficiency</li>
+                <li><strong>Modernization:</strong> Updates tariffs, market rules, and investment frameworks</li>
+            </ul>
+        </div>
+
+        <!-- Implementation Details -->
+        <div class="content-section">
+            <h2 class="section-title">🎯 Implementation & Impact</h2>
+            <textarea class="editable-field" rows="6" id="implementation"
+                placeholder="Add implementation details...">This order has successfully attracted private and foreign capital into renewable energy projects. It served as the strategic foundation for the 2021 RES Law and mandated institutional reforms at the Ministry of Energy. The order initiated the liberalization of electricity market structure, paving the way for competitive renewable energy auctions and long-term Power Purchase Agreements (PPAs).</textarea>
+        </div>
+
+        <!-- Official Links -->
+        <div class="content-section">
+            <h2 class="section-title">🔗 Official References & Documents</h2>
+            <div class="links-grid">
+                <a href="https://minenergy.gov.az" target="_blank" class="link-card">
+                    🏛️ Ministry of Energy
+                </a>
+                <a href="https://regulator.gov.az" target="_blank" class="link-card">
+                    📋 AERA - Regulatory Agency
+                </a>
+                <a href="#" class="link-card">
+                    📄 Full Text (PDF)
+                </a>
+            </div>
+        </div>
+
+        <!-- Additional Notes -->
+        <div class="content-section">
+            <h2 class="section-title">📝 Additional Notes</h2>
+            <textarea class="editable-field" rows="8" id="notes"
+                placeholder="Add additional notes, comments, or context..."></textarea>
+            <button class="save-btn" onclick="saveChanges()">💾 Save Changes</button>
+        </div>
+    </div>
+
+    <script>
+        // Dark mode toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('light-mode');
+            localStorage.setItem('themeMode', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+        }
+
+        // Initialize theme
+        if (localStorage.getItem('themeMode') === 'light') {
+            document.body.classList.add('light-mode');
+        }
+
+        // Save changes
+        function saveChanges() {
+            const data = {
+                overview: document.getElementById('overview').value,
+                implementation: document.getElementById('implementation').value,
+                notes: document.getElementById('notes').value
+            };
+
+            // Save to localStorage for now
+            const policyId = 'presidential-order-1209';
+            localStorage.setItem(`policy-${policyId}`, JSON.stringify(data));
+
+            // Show success message
+            alert('✅ Changes saved successfully!');
+        }
+
+        // Load saved data
+        window.addEventListener('DOMContentLoaded', () => {
+            const policyId = 'presidential-order-1209';
+            const saved = localStorage.getItem(`policy-${policyId}`);
+
+            if (saved) {
+                const data = JSON.parse(saved);
+                if (data.overview) document.getElementById('overview').value = data.overview;
+                if (data.implementation) document.getElementById('implementation').value = data.implementation;
+                if (data.notes) document.getElementById('notes').value = data.notes;
+            }
+        });
+    </script>
+</body>
+
+</html>
