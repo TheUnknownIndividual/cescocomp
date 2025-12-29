@@ -1,48 +1,18 @@
 {
+    "cleanUrls": true,
+    "trailingSlash": false,
     "rewrites": [
         {
             "source": "/",
             "destination": "/welcome.html"
         },
         {
-            "source": "/welcome",
-            "destination": "/welcome.html"
+            "source": "/index",
+            "destination": "/map.html"
         },
         {
             "source": "/map",
-            "destination": "/index.html"
-        },
-        {
-            "source": "/regulatory-framework",
-            "destination": "/regulatory-framework.html"
-        },
-        {
-            "source": "/solar-calculator",
-            "destination": "/solar-calculator.html"
-        },
-        {
-            "source": "/energy-law",
-            "destination": "/energy-law.html"
-        },
-        {
-            "source": "/law-electric-power",
-            "destination": "/law-electric-power.html"
-        },
-        {
-            "source": "/law-efficiency",
-            "destination": "/law-efficiency.html"
-        },
-        {
-            "source": "/law-environmental",
-            "destination": "/law-environmental.html"
-        },
-        {
-            "source": "/net-metering-decree",
-            "destination": "/net-metering-decree.html"
-        },
-        {
-            "source": "/policy-detail",
-            "destination": "/policy-detail.html"
+            "destination": "/map.html"
         }
     ],
     "headers": [
