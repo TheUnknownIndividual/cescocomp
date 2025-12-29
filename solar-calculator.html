@@ -325,7 +325,7 @@
         .checkbox-item {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.5rem;
             padding: 0.875rem 1rem;
             background: var(--bg-dark);
             border: 2px solid rgba(255, 255, 255, 0.1);
@@ -345,19 +345,19 @@
             transform: translateX(3px);
         }
 
-        /* Custom styled checkboxes - round and aesthetic */
+        /* Custom styled checkboxes - small cute squares */
         .checkbox-item input[type="checkbox"],
         .checkbox-item input[type="radio"] {
             appearance: none;
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             border: 2px solid rgba(255, 255, 255, 0.4);
-            border-radius: 50%;
+            border-radius: 3px;
             cursor: pointer;
             position: relative;
             transition: all 0.3s ease;
             flex-shrink: 0;
-            background-size: 14px;
+            background-size: 12px;
             background-position: center;
             background-repeat: no-repeat;
         }
@@ -388,12 +388,17 @@
             content: '✓';
             position: absolute;
             color: white;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            user-select: none;
         }
 
         /* Calculate Button */
