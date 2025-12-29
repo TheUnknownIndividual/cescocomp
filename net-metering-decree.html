@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Active Consumer Support Mechanism | Azerbaijan Net-Metering Decree</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --az-blue: #6f91a8;
+            --az-green: #509E2F;
+            --accent-bronze: #c68661;
+            --bg-dark: #0a0b0d;
+            --card-bg: #161719;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --gradient-primary: linear-gradient(135deg, var(--az-blue) 0%, var(--az-green) 100%);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        body.light-mode {
+            --bg-dark: #ffffff;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        nav {
+            background: transparent;
+            backdrop-filter: blur(10px);
+            padding: 0.6rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode nav {
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px;
+        }
+
+        .back-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--az-blue);
+            transform: translateX(-3px);
+        }
+
+        .dark-mode-toggle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+        }
+
+        .dark-mode-toggle img {
+            width: 22px;
+            height: 22px;
+            position: absolute;
+            transition: all 0.4s ease;
+        }
+
+        .dark-mode-toggle .light-icon {
+            opacity: 0;
+            transform: rotate(180deg) scale(0);
+        }
+
+        .dark-mode-toggle .dark-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        body.light-mode .dark-mode-toggle {
+            border-color: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .dark-mode-toggle .light-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        body.light-mode .dark-mode-toggle .dark-icon {
+            opacity: 0;
+            transform: rotate(-180deg) scale(0);
+        }
+
+        article {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .article-header {
+            border-bottom: 2px solid var(--az-blue);
+            padding-bottom: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .category {
+            color: var(--az-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.75rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .meta {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        .content {
+            font-size: 1.1rem;
+        }
+
+        .content h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin: 3rem 0 1.5rem 0;
+            color: var(--az-blue);
+        }
+
+        .content h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.375rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem 0;
+        }
+
+        .content p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .content ul {
+            margin: 1.5rem 0 1.5rem 2rem;
+        }
+
+        .content li {
+            margin-bottom: 1rem;
+        }
+
+        .highlight-box {
+            background: rgba(111, 145, 168, 0.1);
+            border-left: 4px solid var(--az-green);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        .highlight-box strong {
+            color: var(--az-green);
+        }
+
+        .separator {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 3rem 0;
+        }
+
+        body.light-mode .separator {
+            border-top-color: rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            article {
+                padding: 6rem 1.5rem 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="regulatory-framework" class="back-link">
+                <i>←</i> Back to Regulatory Framework
+            </a>
+            <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                <img src="darkmode.png" alt="Dark Mode" class="light-icon">
+                <img src="lightmode.png" alt="Light Mode" class="dark-icon">
+            </button>
+        </div>
+    </nav>
+
+    <article>
+        <header class="article-header">
+            <div class="category">Cabinet of Ministers Decree No. 346</div>
+            <h1>Active Consumer Support Mechanism Implementation Rules</h1>
+            <div class="meta">
+                Approved September 28, 2023
+                <span style="margin: 0 0.5rem; color: var(--text-muted);">•</span>
+                Net-Metering Framework for Solar Energy
+            </div>
+        </header>
+
+        <div class="content">
+            <div class="highlight-box">
+                <p><strong>Key Highlights:</strong> This decree establishes Azerbaijan's net-metering system, allowing
+                    individuals and legal entities to install renewable energy systems up to 150 kW, sell excess
+                    electricity to the national grid, and offset future consumption.</p>
+            </div>
+
+            <h2>Overview</h2>
+            <p>The Cabinet of Ministers of the Republic of Azerbaijan, in order to ensure the implementation of
+                sub-paragraph 1.1.2 of Presidential Decree No. 1387 dated July 12, 2021 "On the Application of the Law
+                of the Republic of Azerbaijan No. 339-VIQ" dated May 31, 2021 "On the Use of Renewable Energy Sources in
+                Electricity Production", has approved the Rules for the Implementation of the Active Consumer Support
+                Mechanism.</p>
+
+            <h2>1. General Provisions</h2>
+
+            <h3>System Capacity Limits</h3>
+            <p>The power of the power plant producing electricity from renewable energy sources by the active consumer
+                shall be set at a limit of 150 kW (including 150 kW).</p>
+
+            <h3>Definition of Active Consumer</h3>
+            <p>An <strong>active consumer</strong> is defined as a legal or natural person who, while consuming
+                electricity, also produces electricity from renewable energy sources with a capacity of up to 150 kW
+                (including 150 kW).</p>
+
+            <h2>2. Support Mechanism Stages</h2>
+            <p>The active consumer support mechanism consists of the following stages:</p>
+            <ul>
+                <li><strong>Design, construction, and installation</strong> of the active consumer's power plant</li>
+                <li><strong>Connection</strong> of the construction facility to the electricity supply network</li>
+                <li><strong>Transfer</strong> of surplus produced electricity to the grid for compensation</li>
+                <li><strong>Purchase</strong> of electricity from the grid at retail tariff when consumption exceeds
+                    production</li>
+                <li><strong>Contract execution</strong> between active consumer and energy supply company</li>
+                <li><strong>Payment</strong> for surplus electricity at wholesale tariff rates</li>
+            </ul>
+
+            <h2>3. Connection and Installation</h2>
+
+            <h3>Grid Connection</h3>
+            <p>Connection of active consumers' construction facilities to the electricity network is regulated by the
+                Rules on Electricity Networks approved by Resolution No. 315 of the Cabinet of Ministers of the Republic
+                of Azerbaijan dated June 25, 2024.</p>
+
+            <h3>Smart Metering</h3>
+            <p>Compensation and settlement between the active consumer and the energy supply company shall be carried
+                out in accordance with Article 10.3 of the Law, based on the readings of remotely controlled meters
+                installed at their balance ownership boundary, allowing for the calculation of electricity transferred
+                to and received from the electricity supply network.</p>
+
+            <div class="highlight-box">
+                <p><strong>Important:</strong> The active consumer must install and connect the meter to the electricity
+                    supply network at their own expense.</p>
+            </div>
+
+            <h2>4. Compensation Mechanism</h2>
+
+            <h3>Monthly Balance Calculation</h3>
+            <p>The balance of the active consumer for the reporting period is calculated using the following formula:
+            </p>
+            <p
+                style="text-align: center; background: var(--card-bg); padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; font-family: monospace; font-size: 1.2rem;">
+                <strong>Bn = Bn-1 + (Ön - An)</strong>
+            </p>
+            <p>Where:</p>
+            <ul>
+                <li><strong>Bn</strong> – Balance for current reporting period</li>
+                <li><strong>Bn-1</strong> – Balance from previous reporting period</li>
+                <li><strong>Ön</strong> – Energy transferred to grid in current period</li>
+                <li><strong>An</strong> – Energy received from grid in current period</li>
+                <li><strong>n</strong> – Calendar month</li>
+            </ul>
+
+            <h3>Annual Settlement</h3>
+            <p>Compensation continues throughout the reporting year (January 1 to December 31), with the balance
+                calculated month by month. At the end of the reporting year:</p>
+            <ul>
+                <li>If the balance is <strong>positive</strong> (you produced more than you consumed), the energy supply
+                    company pays you for the surplus at the <strong>wholesale tariff</strong></li>
+                <li>If the balance is <strong>negative</strong> (you consumed more than you produced), you pay the
+                    energy supply company at the <strong>retail tariff</strong></li>
+            </ul>
+
+            <h2>5. Financial Benefits</h2>
+
+            <div class="highlight-box">
+                <p><strong>Net-Metering Benefit:</strong> Excess solar energy produced during the day is "banked" in the
+                    grid and can be used at night or on cloudy days, effectively eliminating or significantly reducing
+                    electricity bills.</p>
+            </div>
+
+            <h3>Key Financial Terms</h3>
+            <ul>
+                <li><strong>Wholesale tariff payment:</strong> Energy supply company pays active consumer for annual
+                    surplus at wholesale rates</li>
+                <li><strong>Retail tariff payment:</strong> Active consumer pays for monthly shortfall at retail rates
+                </li>
+                <li><strong>Payment timeline:</strong> 1 month after notification is provided</li>
+                <li><strong>Taxation:</strong> Subject to the Tax Code of the Republic of Azerbaijan</li>
+            </ul>
+
+            <h2>6. Tariff Structure</h2>
+            <p>Tariffs are established according to the "Domestic Tariffs for Electricity" approved by Resolution No. 14
+                of the Tariff (Price) Council of the Republic of Azerbaijan dated October 16, 2021.</p>
+
+            <hr class="separator">
+
+            <p><strong>Prime Minister Ali Asadov</strong><br>
+                Republic of Azerbaijan<br>
+                Baku, September 28, 2023</p>
+
+            <p style="margin-top: 2rem; font-size: 0.9rem; color: var(--text-secondary);">
+                <strong>Official source:</strong> <a href="https://e-qanun.az/framework/55295" target="_blank"
+                    style="color: var(--az-blue); text-decoration: underline;">e-qanun.az/framework/55295</a>
+            </p>
+        </div>
+    </article>
+
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            localStorage.setItem('themeMode', isLight ? 'light' : 'dark');
+        }
+
+        (function initTheme() {
+            const themeMode = localStorage.getItem('themeMode');
+            if (themeMode === 'light') {
+                document.body.classList.add('light-mode');
+            }
+        })();
+    </script>
+</body>
+
+</html>
