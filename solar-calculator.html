@@ -986,17 +986,52 @@
         };
 
         // Initialize map
-        function initMap() {
-            map = L.map('map').setView([selectedLocation.lat, selectedLocation.lon], 7);
+        async function getUserLocation() {
+            try {
+                // Try IP geolocation first (free service)
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
+
+                if (data.latitude && data.longitude) {
+                    // Check if location is in Azerbaijan (rough bounds)
+                    const lat = data.latitude;
+                    const lon = data.longitude;
+
+                    //  Azerbaijan bounds: lat 38-42, lon 44-51
+                    if (lat >= 38 && lat <= 42 && lon >= 44 && lon <= 51) {
+                        return { lat, lon, zoom: 10 }; // Closer zoom for Azerbaijan
+                    } else {
+                        // User outside Azerbaijan, still show their location but default to Baku
+                        return { lat: 40.4093, lon: 49.8671, zoom: 7 };
+                    }
+                }
+            } catch (error) {
+                console.log('IP geolocation failed, using default location');
+            }
+
+            // Fallback to Baku
+            return { lat: 40.4093, lon: 49.8671, zoom: 7 };
+        }
+
+        async function initMap() {
+            // Get user's approximate location
+            const userLoc = await getUserLocation();
+            selectedLocation = { lat: userLoc.lat, lon: userLoc.lon };
+
+            map = L.map('map').setView([userLoc.lat, userLoc.lon], userLoc.zoom);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors',
                 maxZoom: 18
             }).addTo(map);
 
-            marker = L.marker([selectedLocation.lat, selectedLocation.lon], {
+            marker = L.marker([userLoc.lat, userLoc.lon], {
                 draggable: true
             }).addTo(map);
+
+            // Update display with detected location
+            updateLocationDisplay();
+            updateLocationInputs();
 
             // Update on marker drag
             marker.on('dragend', function (e) {
