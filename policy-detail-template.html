@@ -10,28 +10,20 @@
         rel="stylesheet">
     <style>
         :root {
-            /* Azerbaijan National Colors */
             --az-blue: #6f91a8;
             --az-green: #509E2F;
-            --az-red: #EF3340;
             --accent-bronze: #c68661;
-
-            /* Modern Color Palette - Dark Mode */
             --bg-dark: #0a0b0d;
-            --bg-darker: #0f1116;
             --card-bg: #161719;
             --text-primary: #ffffff;
             --text-secondary: #a0a0a0;
             --text-muted: #6b6b6b;
-            --accent-green: #27AE60;
-            --accent-blue: #6f91a8;
             --gradient-primary: linear-gradient(135deg, var(--az-blue) 0%, var(--az-green) 100%);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
         }
 
         body.light-mode {
             --bg-dark: #ffffff;
-            --bg-darker: #f5f5f5;
             --card-bg: #ffffff;
             --text-primary: #1a1a1a;
             --text-secondary: #666666;
@@ -53,11 +45,10 @@
             transition: background 0.5s ease, color 0.5s ease;
         }
 
-        /* Navigation */
+        /* EXACT NAVIGATION FROM SITE */
         nav {
             background: transparent;
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
             padding: 1rem 0;
             position: fixed;
             top: 0;
@@ -80,18 +71,50 @@
             align-items: center;
         }
 
-        .back-link {
-            color: var(--az-blue);
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-decoration: none;
-            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
+            position: relative;
         }
 
-        .back-link:hover {
-            color: var(--accent-bronze);
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
         }
 
-        /* Dark Mode Toggle */
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
         .dark-mode-toggle {
             width: 40px;
             height: 40px;
@@ -103,8 +126,6 @@
             align-items: center;
             justify-content: center;
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            position: relative;
-            overflow: hidden;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
@@ -144,6 +165,57 @@
             transform: rotate(-180deg) scale(0);
         }
 
+        /* Table of Contents */
+        .toc-container {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-width: 250px;
+            box-shadow: var(--shadow-md);
+        }
+
+        body.light-mode .toc-container {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .toc-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--az-blue);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .toc-links {
+            list-style: none;
+        }
+
+        .toc-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .toc-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: block;
+            padding-left: 1rem;
+            border-left: 2px solid transparent;
+        }
+
+        .toc-links a:hover,
+        .toc-links a.active {
+            color: var(--az-blue);
+            border-left-color: var(--az-blue);
+        }
+
         /* Article */
         article {
             max-width: 900px;
@@ -172,7 +244,6 @@
             font-weight: 700;
             line-height: 1.2;
             margin-bottom: 1rem;
-            color: var(--text-primary);
         }
 
         .meta {
@@ -187,10 +258,8 @@
             color: var(--text-muted);
         }
 
-        /* Content */
         .content {
             font-size: 1.1rem;
-            color: var(--text-primary);
         }
 
         .content p {
@@ -203,7 +272,7 @@
             font-size: 1.875rem;
             font-weight: 700;
             margin: 3rem 0 1.5rem 0;
-            color: var(--text-primary);
+            scroll-margin-top: 100px;
         }
 
         .content h3 {
@@ -211,7 +280,6 @@
             font-size: 1.375rem;
             font-weight: 600;
             margin: 2rem 0 1rem 0;
-            color: var(--text-primary);
         }
 
         .content ul,
@@ -221,7 +289,6 @@
 
         .content li {
             margin-bottom: 0.75rem;
-            color: var(--text-primary);
         }
 
         .pullquote {
@@ -276,6 +343,12 @@
             color: var(--az-blue);
         }
 
+        @media (max-width: 1200px) {
+            .toc-container {
+                display: none;
+            }
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 2rem;
@@ -288,20 +361,42 @@
             article {
                 padding: 6rem 1.5rem 2rem;
             }
+
+            .nav-links {
+                display: none;
+            }
         }
     </style>
 </head>
 
 <body>
+    <!-- EXACT NAVIGATION -->
     <nav>
         <div class="nav-container">
-            <a href="regulatory-framework.html" class="back-link">← Back to Framework</a>
-            <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
-                <img src="darkmode.png" alt="Dark Mode" class="light-icon">
-                <img src="lightmode.png" alt="Light Mode" class="dark-icon">
-            </button>
+            <a href="index.html" class="logo">CECSO</a>
+            <div class="nav-links">
+                <a href="regulatory-framework.html">Framework</a>
+                <a href="index.html">Energy Map</a>
+                <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                    <img src="darkmode.png" alt="Dark Mode" class="light-icon">
+                    <img src="lightmode.png" alt="Light Mode" class="dark-icon">
+                </button>
+            </div>
         </div>
     </nav>
+
+    <!-- Table of Contents -->
+    <div class="toc-container">
+        <div class="toc-title">Contents</div>
+        <ul class="toc-links">
+            <li><a href="#summary">Summary</a></li>
+            <li><a href="#mandates">Legislative Mandates</a></li>
+            <li><a href="#implementation">Implementation</a></li>
+            <li><a href="#outcomes">Outcomes</a></li>
+            <li><a href="#documents">Documents</a></li>
+            <li><a href="#azerbaijani">Azərbaycan</a></li>
+        </ul>
+    </div>
 
     <article>
         <header class="article-header">
@@ -329,7 +424,7 @@
                 targets."
             </div>
 
-            <h2>Legislative Mandates</h2>
+            <h2 id="mandates">Legislative Mandates</h2>
 
             <p>The order tasked the Ministry of Energy, in coordination with the Ministry of Justice, Ministry of
                 Economy, State Oil Company, Azerenergy JSC, and Azerişıq JSC, with developing several critical pieces of
@@ -346,7 +441,7 @@
                 state-owned enterprises ensured comprehensive stakeholder input and technical expertise in the drafting
                 process.</p>
 
-            <h2>Implementation Framework</h2>
+            <h2 id="implementation">Implementation Framework</h2>
 
             <p>Following the presidential order, the Ministry of Energy issued Order F-52 on June 7, 2019, establishing
                 a detailed implementation roadmap. This action plan created specialized working groups with clearly
@@ -359,7 +454,7 @@
                 European Bank for Reconstruction and Development (EBRD), International Finance Corporation (IFC), and
                 specialized energy consulting firms from EU member states.</p>
 
-            <h2>Outcomes and Impact</h2>
+            <h2 id="outcomes">Outcomes and Impact</h2>
 
             <p>The reforms initiated by Presidential Order №1209 yielded significant results. Most notably, the
                 Renewable Energy Sources Law (Law №339-VIQ) was successfully enacted on May 31, 2021. This comprehensive
@@ -377,7 +472,7 @@
 
             <hr class="separator">
 
-            <h3>Official Documents</h3>
+            <h3 id="documents">Official Documents</h3>
             <p>
                 <a href="https://policy.asiapacificenergy.org/sites/default/files/Order%20No.%201209%20of%202019%20On%20Accelerating%20Reforms%20in%20the%20Energy%20Sector%20of%20Azerbaijan%20%28AZ%29.pdf"
                     target="_blank" class="document-link">Presidential Order №1209 (English Translation)</a>
@@ -387,7 +482,7 @@
                     class="document-link">Ministry Order F-52 (Implementation Action Plan)</a>
             </p>
 
-            <div class="az-section">
+            <div class="az-section" id="azerbaijani">
                 <h3>Azərbaycan dilində</h3>
                 <p>Azərbaycan Respublikası Prezidentinin 2019-cu il 29 may tarixli 1209 nömrəli Sərəncamı energetika
                     sektorunda köklü islahatların həyata keçirilməsi üçün hüquqi baza yaratmışdır. Bu sənəd bərpa olunan
@@ -411,6 +506,27 @@
         if (localStorage.getItem('themeMode') === 'light') {
             document.body.classList.add('light-mode');
         }
+
+        // TOC active state
+        const sections = document.querySelectorAll('h2[id], h3[id], div[id]');
+        const tocLinks = document.querySelectorAll('.toc-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
     </script>
 </body>
 
