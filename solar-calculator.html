@@ -89,6 +89,35 @@
             transform: translateX(-3px);
         }
 
+        /* Nav Links Styling - Match Homepage */
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
         /* Dark Mode Toggle */
         .dark-mode-toggle {
             width: 36px;
@@ -296,11 +325,11 @@
         .checkbox-item {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem;
+            gap: 1rem;
+            padding: 0.875rem 1rem;
             background: var(--bg-dark);
             border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -312,12 +341,74 @@
 
         .checkbox-item:hover {
             border-color: var(--az-blue);
+            background: rgba(111, 145, 168, 0.05);
+            transform: translateX(3px);
         }
 
+        /* Custom styled checkboxes - round and aesthetic */
         .checkbox-item input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
             cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        body.light-mode .checkbox-item input[type="checkbox"] {
+            border-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .checkbox-item input[type="checkbox"]:checked {
+            background: var(--gradient-primary);
+            border-color: var(--az-green);
+        }
+
+        .checkbox-item input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Custom radio buttons */
+        .checkbox-item input[type="radio"] {
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        body.light-mode .checkbox-item input[type="radio"] {
+            border-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .checkbox-item input[type="radio"]:checked {
+            border-color: var(--az-green);
+        }
+
+        .checkbox-item input[type="radio"]:checked::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--az-green);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         /* Calculate Button */
@@ -397,6 +488,58 @@
         .detail-label {
             color: var(--text-secondary);
             font-size: 0.9rem;
+        }
+
+        /* Environmental Impact Cards */
+        .environmental-impact {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .impact-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        body.light-mode .impact-card {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .impact-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--az-green);
+            box-shadow: 0 8px 24px rgba(80, 158, 47, 0.2);
+        }
+
+        .impact-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+        }
+
+        .impact-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .impact-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--az-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .impact-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 500;
         }
 
         /* Info Box */
@@ -781,6 +924,26 @@
                 <p style="margin-top: 0.5rem; font-size: 0.85rem;" id="pvgis-note"></p>
             </div>
 
+            <!-- Environmental Impact -->
+            <div class="environmental-impact">
+                <div class="impact-card">
+                    <div class="impact-icon">
+                        <img src="darkmodecar.png" alt="CO2 Reduction" class="dark-icon">
+                        <img src="lightmodecar.png" alt="CO2 Reduction" class="light-icon">
+                    </div>
+                    <div class="impact-value" id="co2-reduction">0</div>
+                    <div class="impact-label">CO₂ Reduction Est. (tons/year)</div>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-icon">
+                        <img src="tree4nightmode.png" alt="Trees Equivalent" class="dark-icon">
+                        <img src="tree4lightmode.png" alt="Trees Equivalent" class="light-icon">
+                    </div>
+                    <div class="impact-value" id="tree-equivalent">0</div>
+                    <div class="impact-label">Equivalent Trees Planted</div>
+                </div>
+            </div>
+
             <!-- Optimization Tips -->
             <div class="optimization-tips">
                 <h3>🎯 System Optimization Recommendations</h3>
@@ -1035,6 +1198,17 @@
             document.getElementById('annual-production').textContent = production.toLocaleString();
             document.getElementById('roof-area').textContent = area;
             document.getElementById('solar-yield').textContent = yield;
+
+            // Calculate environmental impact
+            // Average: 0.5 kg CO2 per kWh from fossil fuels
+            const co2ReductionKg = production * 0.5;
+            const co2ReductionTons = co2ReductionKg / 1000;
+
+            // One tree absorbs approximately 21 kg CO2 per year
+            const treeEquivalent = Math.round(co2ReductionKg / 21);
+
+            document.getElementById('co2-reduction').textContent = co2ReductionTons.toFixed(2);
+            document.getElementById('tree-equivalent').textContent = treeEquivalent.toLocaleString();
 
             const pvgisNote = document.getElementById('pvgis-note');
             if (coords) {
