@@ -224,7 +224,7 @@
 
         .cta-button {
             background: var(--gradient-primary);
-            color: white;
+            color: white !important;
             padding: 0.75rem 1.5rem;
             border-radius: 12px;
             text-decoration: none;
@@ -236,6 +236,19 @@
         .cta-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 25px rgba(0, 153, 204, 0.4);
+        }
+
+        body.light-mode .cta-button {
+            color: #6f91a8 !important;
+            background: white;
+            border: 2px solid #6f91a8;
+            box-shadow: 0 4px 20px rgba(111, 145, 168, 0.3);
+        }
+
+        body.light-mode .cta-button:hover {
+            background: #6f91a8;
+            color: white !important;
+            box-shadow: 0 6px 25px rgba(111, 145, 168, 0.4);
         }
 
         /* Hero Section */
@@ -510,10 +523,33 @@
 
         /* Stats Section */
         .stats-section {
-            padding: 4rem 2rem;
-            background: #0f1116;
+            background: var(--bg-darker);
+            padding: 3rem 2rem;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Stats text color - white in dark mode, #6f91a8 in light mode */
+        .stat-value {
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        body.light-mode .stat-value {
+            color: #6f91a8;
+        }
+
+        body.light-mode .stat-label {
+            color: #6f91a8;
         }
 
         .stats-container {
@@ -526,23 +562,6 @@
 
         .stat-item {
             text-align: center;
-        }
-
-        .stat-value {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 700;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            font-weight: 500;
         }
 
         /* Features Section - Horizontal Carousel */
@@ -660,6 +679,14 @@
 
         .feature-link:hover {
             gap: 0.75rem;
+            color: #c68661;
+        }
+
+        body.light-mode .feature-link {
+            color: #6f91a8;
+        }
+
+        body.light-mode .feature-link:hover {
             color: #c68661;
         }
 
@@ -1206,7 +1233,13 @@
             </div>
 
             <div class="feature-card">
-                <span class="feature-icon">🌍</span>
+                <span class="feature-icon"
+                    style="display: flex; justify-content: center; align-items: center; height: 3.5rem;">
+                    <img src="cop29darkmode.png" alt="COP29 Leadership" class="dark-icon"
+                        style="width: auto; height: 2.5rem;">
+                    <img src="lightmodecp29.png" alt="COP29 Leadership" class="light-icon"
+                        style="width: auto; height: 2.5rem;">
+                </span>
                 <h3 class="feature-title">COP29 Leadership</h3>
                 <p class="feature-description">
                     Showcasing Azerbaijan's commitment to tripling global renewables by 2030 and establishing
@@ -1280,7 +1313,13 @@
             </div>
 
             <div class="feature-card">
-                <span class="feature-icon">🌍</span>
+                <span class="feature-icon"
+                    style="display: flex; justify-content: center; align-items: center; height: 3.5rem;">
+                    <img src="cop29darkmode.png" alt="COP29 Leadership" class="dark-icon"
+                        style="width: auto; height: 2.5rem;">
+                    <img src="lightmodecp29.png" alt="COP29 Leadership" class="light-icon"
+                        style="width: auto; height: 2.5rem;">
+                </span>
                 <h3 class="feature-title">COP29 Leadership</h3>
                 <p class="feature-description">
                     Showcasing Azerbaijan's commitment to tripling global renewables by 2030 and establishing
@@ -1313,7 +1352,7 @@
     <section class="energy-dashboard" id="statistics">
         <div class="dashboard-container">
             <div class="section-header">
-                <h2 class="section-title">⚡ Azerbaijan Energy Overview</h2>
+                <h2 class="section-title">Azerbaijan Energy Overview</h2>
                 <p class="section-subtitle">
                     Comprehensive renewable energy statistics and development progress
                 </p>
@@ -1496,41 +1535,7 @@
                 </div>
             </div>
 
-            <div class="energy-breakdown">
-                <h3>🌟 Future Utilization Opportunities</h3>
 
-                <div class="energy-type-item">
-                    <div class="energy-type-left">
-                        <div class="energy-type-icon">☀️</div>
-                        <div class="energy-type-name">Solar Development Zones</div>
-                    </div>
-                    <div class="energy-type-value">5 Major Regions</div>
-                </div>
-
-                <div class="energy-type-item">
-                    <div class="energy-type-left">
-                        <div class="energy-type-icon">🌊</div>
-                        <div class="energy-type-name">Offshore Wind Expansion</div>
-                    </div>
-                    <div class="energy-type-value">6 GW by 2032</div>
-                </div>
-
-                <div class="energy-type-item">
-                    <div class="energy-type-left">
-                        <div class="energy-type-icon">💧</div>
-                        <div class="energy-type-name">Small Hydro Projects</div>
-                    </div>
-                    <div class="energy-type-value">158 MW Pipeline</div>
-                </div>
-
-                <div class="energy-type-item">
-                    <div class="energy-type-left">
-                        <div class="energy-type-icon">🔋</div>
-                        <div class="energy-type-name">Green Hydrogen Potential</div>
-                    </div>
-                    <div class="energy-type-value">Export Ready</div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -1747,6 +1752,29 @@
         if (dashboard) {
             dashboardObserver.observe(dashboard);
         }
+
+        // Smooth scroll for anchor links (including Explore Energy Map button)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href.length > 1) {
+                    e.preventDefault();
+                    const targetId = href.substring(1);
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        const headerOffset = 80; // Account for fixed nav
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
 
     </script>
 </body>
