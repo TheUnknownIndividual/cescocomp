@@ -361,6 +361,80 @@
             transform: translateY(-2px);
         }
 
+        body.light-mode .filter-btn.active {
+            background: var(--az-blue);
+            color: white;
+            border-color: var(--az-blue);
+        }
+
+        /* Category Navigation Map */
+        .category-nav-map {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        body.light-mode .category-nav-map {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .category-nav-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .category-nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .category-nav-item {
+            padding: 1rem 1.5rem;
+            background: rgba(111, 145, 168, 0.08);
+            border: 1px solid rgba(111, 145, 168, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        body.light-mode .category-nav-item {
+            background: rgba(111, 145, 168, 0.05);
+        }
+
+        .category-nav-item:hover {
+            background: rgba(111, 145, 168, 0.15);
+            border-color: var(--az-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(111, 145, 168, 0.2);
+        }
+
+        .category-nav-icon {
+            font-size: 1.75rem;
+        }
+
+        .category-nav-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .category-nav-count {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
         .filter-btn.active {
             background: var(--az-blue);
             color: white;
@@ -408,7 +482,7 @@
         .card::after {
             content: '📄 View Document';
             position: absolute;
-            bottom: 2rem;
+            bottom: 1.25rem;
             right: 2rem;
             padding: 0.5rem 1rem;
             background: var(--az-blue);
@@ -717,8 +791,8 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 48px;
-            height: 48px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             background-color: transparent;
             border: none;
@@ -754,6 +828,12 @@
         .carousel-btn:hover {
             transform: translateY(-50%) scale(1.15);
             opacity: 0.8;
+        }
+
+        .carousel-btn:active {
+            transform: translateY(-48%) translateX(2px);
+            opacity: 0.9;
+            transition: all 0.1s ease;
         }
 
         .carousel-btn-left {
@@ -985,9 +1065,46 @@
             </div>
             <div class="filter-buttons">
                 <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="active">✅ Active</button>
-                <button class="filter-btn" data-filter="implemented">✔️ Implemented</button>
-                <button class="filter-btn" data-filter="progress">🚧 In Progress</button>
+                <button class="filter-btn" data-filter="active">Active</button>
+                <button class="filter-btn" data-filter="implemented">Implemented</button>
+                <button class="filter-btn" data-filter="progress">In Progress</button>
+            </div>
+        </div>
+
+        <!-- Category Navigation Map -->
+        <div class="category-nav-map">
+            <div class="category-nav-title">📍 Browse by Category</div>
+            <div class="category-nav-grid">
+                <div class="category-nav-item" onclick="scrollToSection('laws')">
+                    <div class="category-nav-icon">📜</div>
+                    <div class="category-nav-label">Laws</div>
+                    <div class="category-nav-count">6 frameworks</div>
+                </div>
+                <div class="category-nav-item" onclick="scrollToSection('commitments')">
+                    <div class="category-nav-icon">🎯</div>
+                    <div class="category-nav-label">Commitments</div>
+                    <div class="category-nav-count">4 frameworks</div>
+                </div>
+                <div class="category-nav-item" onclick="scrollToSection('investment')">
+                    <div class="category-nav-icon">💼</div>
+                    <div class="category-nav-label">Investment</div>
+                    <div class="category-nav-count">2 frameworks</div>
+                </div>
+                <div class="category-nav-item" onclick="scrollToSection('institutions')">
+                    <div class="category-nav-icon">🏛️</div>
+                    <div class="category-nav-label">Institutions</div>
+                    <div class="category-nav-count">2 frameworks</div>
+                </div>
+                <div class="category-nav-item" onclick="scrollToSection('ministry-orders')">
+                    <div class="category-nav-icon">📋</div>
+                    <div class="category-nav-label">Ministry Orders</div>
+                    <div class="category-nav-count">1 document</div>
+                </div>
+                <div class="category-nav-item" onclick="scrollToSection('other-policies')">
+                    <div class="category-nav-icon">📚</div>
+                    <div class="category-nav-label">Other Policies</div>
+                    <div class="category-nav-count">3 frameworks</div>
+                </div>
             </div>
         </div>
 
