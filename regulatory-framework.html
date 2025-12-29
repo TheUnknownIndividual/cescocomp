@@ -273,9 +273,98 @@
             padding: 3rem 2rem;
         }
 
-        /* Controls - Hidden for carousel layout */
+        /* Controls - Re-enabled for carousel search */
         .controls {
-            display: none;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        body.light-mode .controls {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .search-box::before {
+            content: '🔍';
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+        }
+
+        body.light-mode .search-box input {
+            border: 2px solid #e5e5e5;
+            background: #ffffff;
+            color: #1a1a1a;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--az-blue);
+            box-shadow: 0 0 0 3px rgba(111, 145, 168, 0.1);
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.625rem 1.125rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        body.light-mode .filter-btn {
+            border: 2px solid #e5e5e5;
+            background: #ffffff;
+            color: #525252;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--az-blue);
+            color: var(--az-blue);
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: var(--az-blue);
+            color: white;
+            border-color: var(--az-blue);
         }
 
         /* Cards Grid - Hidden for carousel layout */
@@ -853,7 +942,7 @@
         <div class="stats-section">
             <div class="stats-grid">
                 <div class="stat-card" onclick="scrollToSection('laws')" title="Click to view all policy frameworks">
-                    <div class="stat-value">17</div>
+                    <div class="stat-value">20</div>
                     <div class="stat-label">Policy Frameworks</div>
                 </div>
                 <div class="stat-card" onclick="scrollToSection('commitments')" title="Click to view targets">
@@ -874,15 +963,13 @@
         <!-- Controls -->
         <div class="controls">
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="🔍 Search frameworks, policies, laws...">
+                <input type="text" id="searchInput" placeholder="Search frameworks, policies, laws...">
             </div>
             <div class="filter-buttons">
                 <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="laws">📜 Laws</button>
-                <button class="filter-btn" data-filter="commitments">🎯 Commitments</button>
-                <button class="filter-btn" data-filter="investment">💼 Investment</button>
-                <button class="filter-btn" data-filter="institutions">🏛️ Institutions</button>
-                <button class="filter-btn" data-filter="ministry-orders">📋 Ministry Orders</button>
+                <button class="filter-btn" data-filter="active">✅ Active</button>
+                <button class="filter-btn" data-filter="implemented">✔️ Implemented</button>
+                <button class="filter-btn" data-filter="progress">🚧 In Progress</button>
             </div>
         </div>
 
@@ -1346,6 +1433,95 @@
                 </div>
                 <button class="carousel-btn carousel-btn-right"
                     onclick="scrollCarousel('orders-carousel', 1)">→</button>
+            </div>
+        </div>
+
+        <!-- 📚 OTHER POLICIES & ENACTMENTS SECTION -->
+        <div class="category-section" id="other-policies">
+            <div class="category-header">
+                <h2 class="category-title">
+                    📚 Other Policies & Enactments
+                    <span class="category-count">3</span>
+                </h2>
+            </div>
+            <div class="carousel-container">
+                <button class="carousel-btn carousel-btn-left" onclick="scrollCarousel('other-carousel', -1)">←</button>
+                <div class="carousel-track" id="other-carousel">
+
+                    <!-- Support Schemes Card -->
+                    <div class="carousel-card card">
+                        <div class="card-header">
+                            <div class="card-icon">💎</div>
+                            <div class="card-title-group">
+                                <h3 class="card-title">Support Schemes & Guarantees</h3>
+                                <p class="card-date">RES Law Framework</p>
+                            </div>
+                        </div>
+                        <span class="focus-badge">State support mechanisms</span>
+                        <div class="card-content">
+                            <ul class="key-points">
+                                <li>Feed-in tariff system for small producers</li>
+                                <li>Guaranteed long-term PPAs</li>
+                                <li>Priority grid access for renewables</li>
+                                <li>State investment guarantees</li>
+                            </ul>
+                        </div>
+                        <div class="status-indicator status-active">
+                            <span class="status-dot"></span>
+                            Active
+                        </div>
+                    </div>
+
+                    <!-- AZURE Project Card -->
+                    <div class="carousel-card card">
+                        <div class="card-header">
+                            <div class="card-icon">🔌</div>
+                            <div class="card-title-group">
+                                <h3 class="card-title">AZURE Project</h3>
+                                <p class="card-date">Azerbaijan-Georgia-Romania-Hungary</p>
+                            </div>
+                        </div>
+                        <span class="focus-badge">Subsea electricity interconnector</span>
+                        <div class="card-content">
+                            <ul class="key-points">
+                                <li>1,000 km subsea cable project</li>
+                                <li>4 GW transmission capacity</li>
+                                <li>Green energy export to Europe</li>
+                                <li>Strategic energy partnership</li>
+                            </ul>
+                        </div>
+                        <div class="status-indicator status-active">
+                            <span class="status-dot"></span>
+                            In Development
+                        </div>
+                    </div>
+
+                    <!-- Paris Agreement Card -->
+                    <div class="carousel-card card">
+                        <div class="card-header">
+                            <div class="card-icon">🌍</div>
+                            <div class="card-title-group">
+                                <h3 class="card-title">Paris Agreement & NDCs</h3>
+                                <p class="card-date">Joined 2016 • Updated 2024</p>
+                            </div>
+                        </div>
+                        <span class="focus-badge">National climate pledges</span>
+                        <div class="card-content">
+                            <ul class="key-points">
+                                <li>First NDC: 35% GHG reduction by 2030</li>
+                                <li>Voluntary: 40% reduction by 2050</li>
+                                <li>Implementation via renewables & efficiency</li>
+                                <li>"Green zones" framework</li>
+                            </ul>
+                        </div>
+                        <div class="status-indicator status-active">
+                            <span class="status-dot"></span>
+                            Active
+                        </div>
+                    </div>
+
+                </div>
+                <button class="carousel-btn carousel-btn-right" onclick="scrollCarousel('other-carousel', 1)">→</button>
             </div>
         </div>
 
@@ -2037,31 +2213,49 @@
             filterCards();
         });
 
+        // New carousel-compatible filter function
         function filterCards() {
             const searchTerm = searchInput.value.toLowerCase();
-            let visibleCount = 0;
+            let totalVisible = 0;
 
-            cards.forEach(card => {
-                const category = card.dataset.category;
-                const text = card.textContent.toLowerCase();
+            // Get all carousel sections
+            const sections = document.querySelectorAll('.category-section');
 
-                const matchesFilter = currentFilter === 'all' || category === currentFilter;
-                const matchesSearch = searchTerm === '' || text.includes(searchTerm);
+            sections.forEach(section => {
+                const cards = section.querySelectorAll('.carousel-card');
+                let sectionHasVisible = false;
 
-                if (matchesFilter && matchesSearch) {
-                    card.style.display = 'block';
-                    visibleCount++;
+                cards.forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    const statusText = card.querySelector('.status-indicator')?.textContent.toLowerCase() || '';
+
+                    const matchesSearch = searchTerm === '' || text.includes(searchTerm);
+                    const matchesFilter = currentFilter === 'all' ||
+                        (currentFilter === 'active' && statusText.includes('active')) ||
+                        (currentFilter === 'implemented' && statusText.includes('implemented')) ||
+                        (currentFilter === 'progress' && statusText.includes('progress'));
+
+                    if (matchesSearch && matchesFilter) {
+                        card.style.display = 'block';
+                        sectionHasVisible = true;
+                        totalVisible++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Hide section if no cards are visible
+                if (sectionHasVisible) {
+                    section.style.display = 'block';
                 } else {
-                    card.style.display = 'none';
+                    section.style.display = 'none';
                 }
             });
 
-            if (visibleCount === 0) {
-                cardsGrid.style.display = 'none';
-                noResults.style.display = 'block';
-            } else {
-                cardsGrid.style.display = 'grid';
-                noResults.style.display = 'none';
+            // Show message if nothing found
+            if (totalVisible === 0 && searchTerm) {
+                sections.forEach(s => s.style.display = 'none');
+                // Could add a "no results" message here
             }
         }
 
