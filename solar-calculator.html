@@ -578,13 +578,20 @@
 <body>
     <nav>
         <div class="nav-container">
-            <a href="/" class="back-link">
-                <i>←</i> Back to Home
+            <a href="/" class="logo"
+                style="font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #6f91a8 0%, #509E2F 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none;">
+                <span>🇦🇿</span>
+                <span>CECSO</span>
             </a>
-            <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
-                <img src="darkmode.png" alt="Dark Mode" class="light-icon">
-                <img src="lightmode.png" alt="Light Mode" class="dark-icon">
-            </button>
+            <div class="nav-links" style="display: flex; gap: 2rem; align-items: center;">
+                <a href="/">Home</a>
+                <a href="/#map">Energy Map</a>
+                <a href="/regulatory-framework">Regulatory Framework</a>
+                <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                    <img src="lightmode.png" alt="Light Mode" class="light-icon">
+                    <img src="darkmode.png" alt="Dark Mode" class="dark-icon">
+                </button>
+            </div>
         </div>
     </nav>
 
