@@ -594,11 +594,16 @@
 
         /* Stats Section */
         .stats-section {
-            background: var(--white);
+            background: var(--card-bg);
             border-radius: 16px;
             padding: 2rem;
             box-shadow: var(--shadow-md);
             margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        body.light-mode .stats-section {
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .stats-grid {
@@ -610,27 +615,124 @@
         .stat-card {
             text-align: center;
             padding: 1.5rem;
-            background: var(--gray-50);
+            background: rgba(255, 255, 255, 0.02);
             border-radius: 12px;
             transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        body.light-mode .stat-card {
+            background: rgba(0, 0, 0, 0.02);
         }
 
         .stat-card:hover {
             transform: translateY(-4px);
             box-shadow: var(--shadow-md);
+            background: rgba(111, 145, 168, 0.1);
         }
 
         .stat-value {
             font-size: 2.5rem;
             font-weight: 700;
-            color: var(--primary-green);
+            color: var(--az-blue);
             margin-bottom: 0.25rem;
         }
 
         .stat-label {
             font-size: 0.875rem;
-            color: var(--gray-600);
+            color: var(--text-secondary);
             font-weight: 500;
+        }
+
+        /* Category Sections */
+        .category-section {
+            margin-bottom: 4rem;
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 0 2rem;
+        }
+
+        .category-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .category-count {
+            background: var(--az-blue);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* Horizontal Carousel */
+        .carousel-container {
+            position: relative;
+            padding: 0 4rem;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 1rem 0;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .carousel-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-card {
+            min-width: 400px;
+            max-width: 400px;
+            flex-shrink: 0;
+        }
+
+        /* Carousel Navigation Arrows */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--az-blue);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .carousel-btn:hover {
+            background: #c68661;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-btn-left {
+            left: 0;
+        }
+
+        .carousel-btn-right {
+            right: 0;
         }
 
         /* Responsive Design */
