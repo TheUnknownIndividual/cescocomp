@@ -376,6 +376,9 @@
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.05);
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
         .card::before {
@@ -391,6 +394,22 @@
             transition: transform 0.4s ease;
         }
 
+        .card::after {
+            content: '📄 View Document';
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 0.5rem 1rem;
+            background: var(--az-blue);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
         .card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-xl);
@@ -399,6 +418,15 @@
 
         .card:hover::before {
             transform: scaleX(1);
+        }
+
+        .card:hover::after {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card:hover .expand-btn {
+            margin-bottom: 3.5rem;
         }
 
         .card-header {
@@ -748,7 +776,7 @@
         <div class="stats-section">
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-value">11</div>
+                    <div class="stat-value">12</div>
                     <div class="stat-label">Policy Frameworks</div>
                 </div>
                 <div class="stat-card">
@@ -777,13 +805,14 @@
                 <button class="filter-btn" data-filter="commitments">🎯 Commitments</button>
                 <button class="filter-btn" data-filter="investment">💼 Investment</button>
                 <button class="filter-btn" data-filter="institutions">🏛️ Institutions</button>
+                <button class="filter-btn" data-filter="ministry-orders">📋 Ministry Orders</button>
             </div>
         </div>
 
         <!-- Cards Grid -->
         <div class="cards-grid" id="cardsGrid">
             <!-- Card 1 -->
-            <div class="card" data-category="laws" id="laws">
+            <a href="#" class="card" data-category="laws" id="laws" onclick="event.preventDefault(); toggleCard(this);">
                 <div class="card-header">
                     <div class="card-icon">📋</div>
                     <div class="card-title-group">
@@ -812,8 +841,9 @@
                     <span class="status-dot"></span>
                     Implemented
                 </div>
-                <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
-            </div>
+                <button class="expand-btn" onclick="event.stopPropagation(); toggleCard(this.parentElement);">Show More
+                    Details</button>
+            </a>
 
             <!-- Card 2 -->
             <div class="card" data-category="laws">
@@ -1167,6 +1197,43 @@
                 </div>
                 <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
             </div>
+
+            <!-- Card 12 - Ministry Order F-95 -->
+            <a href="deptofenergy/F-95.pdf" target="_blank" class="card" data-category="ministry-orders">
+                <div class="card-header">
+                    <div class="card-icon">📋</div>
+                    <div class="card-title-group">
+                        <h3 class="card-title">Administrative Authority for Energy Violations</h3>
+                        <p class="card-date">Order №F-95 • Ministry of Energy • 2019</p>
+                    </div>
+                </div>
+                <span class="focus-badge">Administrative procedures and enforcement</span>
+                <div class="card-content">
+                    <ul class="key-points">
+                        <li>List of authorized officials to handle administrative violations</li>
+                        <li>Updates to Order F-108 (December 2, 2019)</li>
+                        <li>Defines authority and responsibilities in energy sector compliance</li>
+                        <li>Establishes enforcement framework for regulatory violations</li>
+                    </ul>
+                </div>
+                <div class="card-details">
+                    <ul class="key-points">
+                        <li>Clarifies jurisdictional authority of Ministry officials</li>
+                        <li>Sets procedural guidelines for administrative cases</li>
+                        <li>Ensures consistent enforcement across energy sector</li>
+                        <li>Provides legal foundation for regulatory compliance</li>
+                        <li>Supports transparency in administrative proceedings</li>
+                        <li>Aligns with broader energy sector reform objectives</li>
+                    </ul>
+                </div>
+                <div class="status-indicator status-active">
+                    <span class="status-dot"></span>
+                    Active
+                </div>
+                <button class="expand-btn"
+                    onclick="event.stopPropagation(); event.preventDefault(); toggleCard(this.parentElement);">Show More
+                    Details</button>
+            </a>
         </div>
 
         <!-- No Results Message -->
