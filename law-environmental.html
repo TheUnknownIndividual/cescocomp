@@ -427,6 +427,97 @@
                 transform: translateY(0);
             }
         }
+
+        /* Official Document Link */
+        .official-doc-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--gradient-primary);
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin: 3rem 0;
+            box-shadow: 0 4px 12px rgba(111, 145, 168, 0.3);
+        }
+
+        .official-doc-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(111, 145, 168, 0.4);
+        }
+
+        /* Related Laws Section */
+        .related-laws {
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode .related-laws {
+            border-top-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .related-laws h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .related-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .related-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        body.light-mode .related-card {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .related-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--az-blue);
+            box-shadow: 0 8px 20px rgba(111, 145, 168, 0.2);
+        }
+
+        .related-card-icon {
+            font-size: 2rem;
+        }
+
+        .related-card-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--az-blue);
+        }
+
+        .related-card-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .related-card-arrow {
+            margin-top: auto;
+            color: var(--az-blue);
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -504,6 +595,33 @@
 
                 <hr class="separator">
                 <p><strong>Ilham Aliyev</strong><br>President of the Republic of Azerbaijan</p>
+
+                <!-- Related Laws Section -->
+                <div class="related-laws">
+                    <h2>📚 Related Laws & Regulations</h2>
+                    <div class="related-cards">
+                        <a href="energy-law.html" class="related-card">
+                            <div class="related-card-icon">📊</div>
+                            <div class="related-card-title">Law on Energy</div>
+                            <div class="related-card-desc">Framework law regulating the entire energy sector, market liberalization, and consumer protection</div>
+                            <div class="related-card-arrow">Read More →</div>
+                        </a>
+
+                        <a href="law-electric-power.html" class="related-card">
+                            <div class="related-card-icon">💡</div>
+                            <div class="related-card-title">Law on Electric Power</div>
+                            <div class="related-card-desc">Modern power sector regulation, unbundling activities, and market liberalization</div>
+                            <div class="related-card-arrow">Read More →</div>
+                        </a>
+
+                        <a href="law-efficiency.html" class="related-card">
+                            <div class="related-card-icon">⚡</div>
+                            <div class="related-card-title">Law on Energy Efficiency</div>
+                            <div class="related-card-desc">Efficient use of energy resources, mandatory audits, and energy service companies</div>
+                            <div class="related-card-arrow">Read More →</div>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -551,6 +669,33 @@
 
                 <hr class="separator">
                 <p><strong>İlham ƏLİYEV</strong><br>Azərbaycan Respublikasının Prezidenti</p>
+
+                <!-- Əlaq əli Qanunlar -->
+                <div class="related-laws">
+                    <h2>📚 Əlaqəli Qanunlar və Qaydalar</h2>
+                    <div class="related-cards">
+                        <a href="energy-law.html" class="related-card">
+                            <div class="related-card-icon">📊</div>
+                            <div class="related-card-title">Energetika haqqında Qanun</div>
+                            <div class="related-card-desc">Enerji sektorunu, bazarın liberallaşdırılmasını və istehlakçıların müdafiəsini tənzimləyən əsas qanun</div>
+                            <div class="related-card-arrow">Ətraflı →</div>
+                        </a>
+
+                        <a href="law-electric-power.html" class="related-card">
+                            <div class="related-card-icon">💡</div>
+                            <div class="related-card-title">Elektroenergetika Qanunu</div>
+                            <div class="related-card-desc">Mütərəqqi elektrik sektoru tənzimlənməsi, fəaliyyətlərin bölünməsi və bazarın liberallaşdırılması</div>
+                            <div class="related-card-arrow">Ətraflı →</div>
+                        </a>
+
+                        <a href="law-efficiency.html" class="related-card">
+                            <div class="related-card-icon">⚡</div>
+                            <div class="related-card-title">Enerji Effektivliyi Qanunu</div>
+                            <div class="related-card-desc">Enerji resurslarından səmərəli istifadə, məcburi auditlər və enerji xidmət şirkətləri</div>
+                            <div class="related-card-arrow">Ətraflı →</div>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -587,6 +732,33 @@
 
                 <hr class="separator">
                 <p><strong>Ильхам АЛИЕВ</strong><br>Президент Азербайджанской Республики</p>
+
+                <!-- Связанные законы -->
+                <div class="related-laws">
+                    <h2>📚 Связанные Законы и Нормативы</h2>
+                    <div class="related-cards">
+                        <a href="energy-law.html" class="related-card">
+                            <div class="related-card-icon">📊</div>
+                            <div class="related-card-title">Закон об Энергетике</div>
+                            <div class="related-card-desc">Рамочный закон, регулирующий энергетический сектор, либерализацию рынка и защиту прав потребителей</div>
+                            <div class="related-card-arrow">Подробнее →</div>
+                        </a>
+
+                        <a href="law-electric-power.html" class="related-card">
+                            <div class="related-card-icon">💡</div>
+                            <div class="related-card-title">Закон об Электроэнергетике</div>
+                            <div class="related-card-desc">Современное регулирование электросектора, разделение деятельности и либерализация рынка</div>
+                            <div class="related-card-arrow">Подробнее →</div>
+                        </a>
+
+                        <a href="law-efficiency.html" class="related-card">
+                            <div class="related-card-icon">⚡</div>
+                            <div class="related-card-title">Закон об Энергоэффективности</div>
+                            <div class="related-card-desc">Эффективное использование энергоресурсов, обязательные аудиты и энергосервисные компании</div>
+                            <div class="related-card-arrow">Подробнее →</div>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </article>
