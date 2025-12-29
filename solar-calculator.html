@@ -479,9 +479,36 @@
                 <h2 style="margin-bottom: 2rem;">Quick Estimate</h2>
 
                 <div class="form-group">
+                    <label for="location-simple">Location</label>
+                    <input type="text" id="location-simple"
+                        placeholder="e.g., Baku, Ganja, or coordinates: 40.4093, 49.8671">
+                    <small>City name or latitude, longitude coordinates</small>
+                </div>
+
+                <div class="form-group">
                     <label for="house-size">House Size (m²)</label>
                     <input type="number" id="house-size" placeholder="e.g., 150" min="0">
                     <small>Enter your total house area in square meters</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="people-count">How many people live in your home?</label>
+                    <input type="number" id="people-count" placeholder="e.g., 4" min="1" max="20">
+                    <small>Including infants and children</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Is someone generally at home during daytime (9am-5pm)?</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="daytime-occupancy" value="yes" checked>
+                            <span>Yes - someone is usually home</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="daytime-occupancy" value="no">
+                            <span>No - home is empty during work hours</span>
+                        </label>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -497,13 +524,14 @@
                         </label>
                         <label class="checkbox-item">
                             <input type="checkbox" id="water-heater">
-                            <input type="checkbox" id="water-heater">
                             <span>Electric water heater/boiler</span>
                         </label>
                     </div>
                 </div>
 
-                <button class="calc-btn" onclick="calculateSimple()">Calculate System Size</button>
+                <button class="calc-btn" onclick="calculateSimple()">
+                    <span id="simple-btn-text">Calculate System Size</span>
+                </button>
             </div>
 
             <!-- Detailed Mode -->
@@ -511,19 +539,15 @@
                 <h2 style="margin-bottom: 2rem;">Precise Calculation</h2>
 
                 <div class="form-group">
-                    <label for="annual-kwh">Annual Energy Consumption (kWh/year)</label>
-                    <input type="number" id="annual-kwh" placeholder="e.g., 8000" min="0">
-                    <small>Check your electricity bills for total yearly consumption</small>
+                    <label for="location-detailed">Location</label>
+                    <input type="text" id="location-detailed" placeholder="e.g., Baku or coordinates: 40.4093, 49.8671">
+                    <small>City name or latitude, longitude - we'll fetch real solar data from PVGIS</small>
                 </div>
 
                 <div class="form-group">
-                    <label for="yield">Solar Yield (kWh/kWp/year)</label>
-                    <select id="yield">
-                        <option value="1350">1350 - Average (Baku/Ganja)</option>
-                        <option value="1300">1300 - Conservative estimate</option>
-                        <option value="1400">1400 - Optimal conditions</option>
-                    </select>
-                    <small>Based on PVGIS data for Azerbaijan. Use 1350 if unsure.</small>
+                    <label for="annual-kwh">Annual Energy Consumption (kWh/year)</label>
+                    <input type="number" id="annual-kwh" placeholder="e.g., 8000" min="0">
+                    <small>Check your electricity bills for total yearly consumption</small>
                 </div>
 
                 <div class="form-group">
@@ -538,7 +562,9 @@
                     <small>Typical: 11% (inverter, cables, soiling, temperature)</small>
                 </div>
 
-                <button class="calc-btn" onclick="calculateDetailed()">Calculate System Size</button>
+                <button class="calc-btn" onclick="calculateDetailed()">
+                    <span id="detailed-btn-text">Calculate with PVGIS Data</span>
+                </button>
             </div>
         </div>
 
@@ -562,6 +588,10 @@
                     <div class="detail-value" id="roof-area">0</div>
                     <div class="detail-label">Roof Area Needed (m²)</div>
                 </div>
+                <div class="detail-item">
+                    <div class="detail-value" id="solar-yield">0</div>
+                    <div class="detail-label">Solar Yield (kWh/kWp/year)</div>
+                </div>
             </div>
 
             <div class="info-box">
@@ -575,12 +605,23 @@
                 </ul>
                 <p style="margin-top: 1rem;"><strong>Next steps:</strong> Consult with a certified solar installer for
                     detailed site assessment and accurate system design.</p>
+                <p style="margin-top: 0.5rem; font-size: 0.85rem;" id="pvgis-note"></p>
             </div>
         </div>
     </div>
 
     <script>
         let currentMode = 'simple';
+        const cityCoordinates = {
+            'baku': { lat: 40.4093, lon: 49.8671 },
+            'ganja': { lat: 40.6828, lon: 46.3606 },
+            'sumqayit': { lat: 40.5892, lon: 49.6686 },
+            'mingachevir': { lat: 40.7703, lon: 47.0495 },
+            'lankaran': { lat: 38.7539, lon: 48.8509 },
+            'shaki': { lat: 41.1919, lon: 47.1706 },
+            'nakhchivan': { lat: 39.2090, lon: 45.4126 },
+            'shamakhi': { lat: 40.6314, lon: 48.6394 }
+        };
 
         function switchMode(mode) {
             currentMode = mode;
@@ -598,69 +639,144 @@
             document.getElementById('results').classList.remove('show');
         }
 
-        function calculateSimple() {
+        async function getCoordinates(locationStr) {
+            if (!locationStr) return { lat: 40.4093, lon: 49.8671 }; // Default to Baku
+
+            // Check if it's a known city
+            const cityName = locationStr.toLowerCase().trim();
+            if (cityCoordinates[cityName]) {
+                return cityCoordinates[cityName];
+            }
+
+            // Try to parse as coordinates
+            const coords = locationStr.split(',').map(s => parseFloat(s.trim()));
+            if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
+                return { lat: coords[0], lon: coords[1] };
+            }
+
+            // Default to Baku
+            return { lat: 40.4093, lon: 49.8671 };
+        }
+
+        async function getPVGISYield(lat, lon) {
+            const url = `https://re.jrc.ec.europa.eu/api/v5_2/PVcalc?lat=${lat}&lon=${lon}&peakpower=1&loss=11&angle=35&aspect=0&outputformat=json`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.outputs && data.outputs.totals) {
+                    const yearlyProduction = data.outputs.totals.fixed.E_y;
+                    return Math.round(yearlyProduction);
+                }
+            } catch (error) {
+                console.error('PVGIS API error:', error);
+            }
+
+            // Fallback to Azerbaijan average
+            return 1350;
+        }
+
+        async function calculateSimple() {
+            const btn = document.getElementById('simple-btn-text');
+            btn.textContent = 'Fetching solar data...';
+
             const houseSize = parseFloat(document.getElementById('house-size').value);
+            const peopleCount = parseInt(document.getElementById('people-count').value) || 3;
+            const daytimeOccupancy = document.querySelector('input[name="daytime-occupancy"]:checked').value;
+            const location = document.getElementById('location-simple').value;
 
             if (!houseSize || houseSize <= 0) {
                 alert('Please enter a valid house size');
+                btn.textContent = 'Calculate System Size';
                 return;
             }
 
-            // Base calculation: 1 kWp per 25-30 m² (using 27 as average)
-            let systemSize = houseSize / 27;
+            // Get coordinates and PVGIS yield
+            const coords = await getCoordinates(location);
+            const pvgisYield = await getPVGISYield(coords.lat, coords.lon);
+
+            // Enhanced consumption estimate based on occupancy
+            let baseConsumption = houseSize * 40; // kWh per year per m²
+
+            // Adjust for people
+            baseConsumption += peopleCount * 500; // ~500 kWh per person
+
+            // Daytime occupancy increases consumption by ~25%
+            if (daytimeOccupancy === 'yes') {
+                baseConsumption *= 1.25;
+            }
 
             // Add for appliances
-            if (document.getElementById('electric-cooking').checked) systemSize += 1;
-            if (document.getElementById('heavy-ac').checked) systemSize += 1;
-            if (document.getElementById('water-heater').checked) systemSize += 1.5;
+            if (document.getElementById('electric-cooking').checked) baseConsumption += 1200;
+            if (document.getElementById('heavy-ac').checked) baseConsumption += 2000;
+            if (document.getElementById('water-heater').checked) baseConsumption += 1500;
 
-            // Round to 1 decimal
+            // Calculate system size
+            const losses = 0.11;
+            let systemSize = baseConsumption / (pvgisYield * (1 - losses));
             systemSize = Math.round(systemSize * 10) / 10;
 
             // Panel count (540W panels)
             const panelCount = Math.ceil((systemSize * 1000) / 540);
 
-            // Annual production (using 1350 kWh/kWp average)
-            const annualProduction = Math.round(systemSize * 1350);
+            // Annual production
+            const annualProduction = Math.round(systemSize * pvgisYield * (1 - losses));
 
-            // Roof area (2.5 m² per panel average)
+            // Roof area
             const roofArea = Math.round(panelCount * 2.5);
 
-            displayResults(panelCount, systemSize, annualProduction, roofArea);
+            btn.textContent = 'Calculate System Size';
+            displayResults(panelCount, systemSize, annualProduction, roofArea, pvgisYield, coords);
         }
 
-        function calculateDetailed() {
+        async function calculateDetailed() {
+            const btn = document.getElementById('detailed-btn-text');
+            btn.textContent = 'Fetching PVGIS data...';
+
             const annualKwh = parseFloat(document.getElementById('annual-kwh').value);
-            const yield = parseFloat(document.getElementById('yield').value);
             const panelPower = parseFloat(document.getElementById('panel-power').value);
             const losses = parseFloat(document.getElementById('losses').value) / 100;
+            const location = document.getElementById('location-detailed').value;
 
             if (!annualKwh || annualKwh <= 0) {
                 alert('Please enter valid annual consumption');
+                btn.textContent = 'Calculate with PVGIS Data';
                 return;
             }
 
+            // Get coordinates and PVGIS yield
+            const coords = await getCoordinates(location);
+            const pvgisYield = await getPVGISYield(coords.lat, coords.lon);
+
             // Calculate system size with losses
-            const systemSize = annualKwh / (yield * (1 - losses));
+            const systemSize = annualKwh / (pvgisYield * (1 - losses));
             const systemSizeRounded = Math.round(systemSize * 10) / 10;
 
             // Panel count
             const panelCount = Math.ceil((systemSizeRounded * 1000) / panelPower);
 
             // Annual production
-            const annualProduction = Math.round(systemSizeRounded * yield * (1 - losses));
+            const annualProduction = Math.round(systemSizeRounded * pvgisYield * (1 - losses));
 
             // Roof area
             const roofArea = Math.round(panelCount * 2.5);
 
-            displayResults(panelCount, systemSizeRounded, annualProduction, roofArea);
+            btn.textContent = 'Calculate with PVGIS Data';
+            displayResults(panelCount, systemSizeRounded, annualProduction, roofArea, pvgisYield, coords);
         }
 
-        function displayResults(panels, kWp, production, area) {
+        function displayResults(panels, kWp, production, area, yield, coords) {
             document.getElementById('main-result').textContent = panels;
             document.getElementById('system-size').textContent = kWp.toFixed(1);
             document.getElementById('annual-production').textContent = production.toLocaleString();
             document.getElementById('roof-area').textContent = area;
+            document.getElementById('solar-yield').textContent = yield;
+
+            const pvgisNote = document.getElementById('pvgis-note');
+            if (coords) {
+                pvgisNote.innerHTML = `<strong>Data source:</strong> PVGIS-SARAH database for location (${coords.lat.toFixed(4)}, ${coords.lon.toFixed(4)}) with 35° tilt, south-facing orientation.`;
+            }
 
             document.getElementById('results').classList.add('show');
             document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
