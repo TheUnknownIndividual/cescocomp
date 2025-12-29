@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Azerbaijan Green Energy Regulatory Framework | CECSO</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             /* Azerbaijan National Colors */
@@ -57,61 +59,211 @@
             color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
-            transition: background 0.3s ease, color 0.3s ease;
+            transition: background 0.5s ease, color 0.5s ease;
         }
 
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, #c68661 0%, #6f91a8 100%);
-            color: #ffffff;
-            padding: 2.5rem 2rem;
-            box-shadow: var(--shadow-lg);
-            position: sticky;
+        /* Navigation */
+        nav {
+            position: fixed;
             top: 0;
-            z-index: 100;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 11, 13, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
         }
 
-        .header-content {
+        body.light-mode nav {
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
             max-width: 1400px;
             margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .header h1 {
-            font-size: 2.5rem;
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        .header p {
-            font-size: 1.125rem;
-            opacity: 0.95;
-            font-weight: 300;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
         }
 
         .nav-links {
-            margin-top: 1.5rem;
             display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
         }
 
-        .nav-btn {
-            background: rgba(255, 255, 255, 0.2);
-            color: var(--white);
-            padding: 0.625rem 1.25rem;
-            border-radius: 8px;
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 6px 20px rgba(0, 153, 204, 0.3);
+        }
+
+        .dark-mode-toggle:active {
+            transform: scale(0.95) rotate(-15deg);
+        }
+
+        .dark-mode-toggle img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: absolute;
+        }
+
+        .dark-mode-toggle .light-icon {
+            opacity: 0;
+            transform: rotate(180deg) scale(0);
+        }
+
+        .dark-mode-toggle .dark-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        body.light-mode .dark-mode-toggle {
+            border-color: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .dark-mode-toggle .light-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        body.light-mode .dark-mode-toggle .dark-icon {
+            opacity: 0;
+            transform: rotate(-180deg) scale(0);
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .dark-mode-toggle::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--az-blue);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .dark-mode-toggle.clicked::after {
+            animation: ripple 0.6s ease-out;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
             text-decoration: none;
             font-weight: 500;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
         }
 
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hide light mode icon by default (dark mode) */
+        .light-icon {
+            display: none !important;
+        }
+
+        /* Show dark mode icon by default */
+        .dark-icon {
+            display: block !important;
+        }
+
+        /* In light mode, show light icon and hide dark icon */
+        body.light-mode .light-icon {
+            display: block !important;
+        }
+
+        body.light-mode .dark-icon {
+            display: none !important;
+        }
+
+        /* Page Header (below nav) */
+        .page-header {
+            padding: 8rem 2rem 3rem;
+            background: linear-gradient(135deg, #c68661 0%, #6f91a8 100%);
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .page-header p {
+            font-size: 1.125rem;
+            opacity: 0.95;
+            font-weight: 300;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         /* Main Container */
@@ -135,6 +287,10 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
+        body.light-mode .controls {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
         .search-box {
             flex: 1;
             min-width: 250px;
@@ -148,6 +304,7 @@
             color: var(--text-primary);
             border-radius: 10px;
             font-size: 1rem;
+
             font-family: inherit;
             transition: all 0.3s ease;
         }
@@ -558,18 +715,32 @@
 </head>
 
 <body>
-    <header class="header">
-        <div class="header-content">
-            <h1>🌱 Azerbaijan Green Energy Regulatory Framework</h1>
-            <p>Comprehensive policy enablers and legal instruments for renewable energy transition</p>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="welcome.html" class="logo">
+                <span>🇦🇿</span>
+                <span>CECSO</span>
+            </a>
             <div class="nav-links">
-                <a href="index.html" class="nav-btn">🗺️ Energy Map</a>
-                <a href="#laws" class="nav-btn">📜 Laws</a>
-                <a href="#commitments" class="nav-btn">🎯 Commitments</a>
-                <a href="#investment" class="nav-btn">💼 Investment</a>
-                <a href="#institutions" class="nav-btn">🏛️ Institutions</a>
+                <a href="welcome.html">Home</a>
+                <a href="welcome.html#map">Energy Map</a>
+                <a href="#laws">Laws</a>
+                <a href="#commitments">Commitments</a>
+                <a href="#investment">Investment</a>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Light/Dark Mode"
+                    aria-label="Toggle Light/Dark Mode">
+                    <img src="lightmode.png" alt="Light Mode" class="light-icon">
+                    <img src="darkmode.png" alt="Dark Mode" class="dark-icon">
+                </button>
             </div>
         </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <h1>🌱 Azerbaijan Green Energy Regulatory Framework</h1>
+        <p>Comprehensive policy enablers and legal instruments for renewable energy transition</p>
     </header>
 
     <div class="container">
@@ -1093,6 +1264,33 @@
                 }
             });
         });
+
+        // Toggle dark/light mode
+        function toggleDarkMode() {
+            const body = document.body;
+            const toggle = document.querySelector('.dark-mode-toggle');
+
+            // Add ripple effect
+            toggle.classList.add('clicked');
+            setTimeout(() => {
+                toggle.classList.remove('clicked');
+            }, 600);
+
+            // Toggle light mode (default is dark)
+            body.classList.toggle('light-mode');
+
+            // Save preference to localStorage
+            const isLight = body.classList.contains('light-mode');
+            localStorage.setItem('themeMode', isLight ? 'light' : 'dark');
+        }
+
+        // Initialize theme on page load
+        (function initTheme() {
+            const themeMode = localStorage.getItem('themeMode');
+            if (themeMode === 'light') {
+                document.body.classList.add('light-mode');
+            }
+        })();
 
         // Initialize
         filterCards();
