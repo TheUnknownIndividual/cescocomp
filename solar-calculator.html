@@ -346,69 +346,44 @@
         }
 
         /* Custom styled checkboxes - round and aesthetic */
-        .checkbox-item input[type="checkbox"] {
+        .checkbox-item input[type="checkbox"],
+        .checkbox-item input[type="radio"] {
             appearance: none;
             width: 24px;
             height: 24px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.4);
             border-radius: 50%;
             cursor: pointer;
             position: relative;
             transition: all 0.3s ease;
             flex-shrink: 0;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        body.light-mode .checkbox-item input[type="checkbox"] {
-            border-color: rgba(0, 0, 0, 0.3);
-        }
-
-        .checkbox-item input[type="checkbox"]:checked {
-            background: var(--gradient-primary);
-            border-color: var(--az-green);
-        }
-
-        .checkbox-item input[type="checkbox"]:checked::after {
-            content: '✓';
-            position: absolute;
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        /* Custom radio buttons */
-        .checkbox-item input[type="radio"] {
-            appearance: none;
-            width: 22px;
-            height: 22px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.3s ease;
-            flex-shrink: 0;
-        }
-
+        body.light-mode .checkbox-item input[type="checkbox"],
         body.light-mode .checkbox-item input[type="radio"] {
-            border-color: rgba(0, 0, 0, 0.3);
+            border-color: rgba(0, 0, 0, 0.4);
         }
 
+        /* Checked state - use images */
+        .checkbox-item input[type="checkbox"]:checked,
         .checkbox-item input[type="radio"]:checked {
-            border-color: var(--az-green);
+            background-image: url('darkmodecheck.png');
+            border: none;
         }
 
+        body.light-mode .checkbox-item input[type="checkbox"]:checked,
+        body.light-mode .checkbox-item input[type="radio"]:checked {
+            background-image: url('lightmodecheck.png');
+            border: none;
+        }
+
+        /* Remove the ::after pseudo-elements */
+        .checkbox-item input[type="checkbox"]:checked::after,
         .checkbox-item input[type="radio"]:checked::after {
-            content: '';
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            background: var(--az-green);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            display: none;
         }
 
         /* Calculate Button */
