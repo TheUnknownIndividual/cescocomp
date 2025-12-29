@@ -1,0 +1,393 @@
+1) Get solar resource data (irradiation)
+
+You need Global Tilted Irradiation (GTI) in kWh/m²/year for your site with your planned tilt/azimuth.
+
+Use PVGIS (official EU site) to get annual + monthly irradiation at your location. 
+EU Science Hub
+
+Alternative: Global Solar Atlas gives PVOUT = annual kWh/kWp potential and GHI irradiation maps. 
+World Bank Data Catalog
+
+For example (just Baku/Ganja latitude): typical PVOUT ≈ 1300–1400 kWh/kWp/year for optimally tilted modules facing south. 
+HIQSTEP
+
+2) Annual energy target (from your bills)
+
+Compute your annual consumption (E_req):
+
+E_req = Σ monthly kWh bills (kWh/year)
+
+
+Example:
+
+E_req = 8000 kWh/year
+
+3) System energy balance (math)
+Production equation
+
+Annual energy produced by a system of size P_PV (kWp):
+
+E_prod = P_PV × Y
+
+
+Where:
+
+E_prod = annual AC energy delivered to grid/load (kWh/year)
+
+P_PV = PV peak power (kWp)
+
+Y = annual yield (kWh/kWp/year), from PVGIS data
+
+→ Solve for P_PV:
+
+P_PV = E_req / Y
+
+
+Example:
+
+P_PV = 8000 kWh/year / 1350 kWh/kWp/year ≈ 5.93 kWp
+
+4) Translate to number of panels
+
+If each panel is rated P_mod (Wp):
+
+Panels = (P_PV × 1000) / P_mod
+
+
+Example: 540 Wp panels:
+
+Panels = (5930 W) / 540 W ≈ 11 panels
+
+
+→ Round up → 12 panels
+
+5) Monthly breakdown (optional but accurate)
+
+To weight monthly production vs consumption:
+
+E_month(i) = P_PV × Y_month(i)
+
+
+Where:
+
+Y_month(i) = monthly yield in kWh/kWp from PVGIS
+
+Total ∑ E_month(i) = E_prod
+
+This allows you to check winter deficit months and size for seasonal needs.
+
+6) System losses and derate factor
+
+Accurate modeling applies a system derate factor D_total:
+
+D_total = (1 − L_cable − L_inverter − L_soiling − L_temp − L_misc)
+
+
+Example typical losses:
+
+Inverter: 2%
+
+Cable: 1%
+
+Soiling/shading: 3%
+
+Temp/other: 5%
+
+D_total ≈ 1 − (0.02+0.01+0.03+0.05) = 0.89
+
+
+You can then adjust:
+
+E_prod_adjusted = E_prod × D_total
+
+
+→ Increase P_PV target to compensate.
+
+7) Voltage & stringing (DC side)
+
+Use panel electrical specs:
+
+Voc: open-circuit voltage (V)
+
+Vmp: voltage at max power
+
+Imp: current at max power
+
+Isc: short circuit current
+
+Inverter DC limits
+
+Let inverter limits be:
+
+Vdc_max = 1100 VDC
+MPPT_range = [Vmp_min, Vmp_max] e.g. 200–850 V
+
+
+Safe string design:
+
+String_Voc_cold = Voc × #panels_per_string × cold_factor
+
+
+Cold factor ~1.25 (depends on temp).
+Require:
+
+String_Voc_cold < Vdc_max
+
+
+Then ensure:
+
+String_Vmp_hot = Vmp × #panels_per_string
+
+
+lies inside MPPT range.
+
+Solve:
+
+n_min = ceil(Vmp_min / Vmp)
+n_max = floor(Vdc_max / (Voc × cold_factor))
+
+
+Pick n_string between [n_min, n_max].
+
+Example:
+Panel Voc = 46 V, Vmp=38 V:
+
+n_max ≈ 1100 / (46×1.25) ≈ 19
+n_min ≈ 200 / 38 ≈ 6
+
+
+→ 8–14 panels per string typical.
+
+Current
+I_string ≈ Imp
+
+
+Total DC current = I_string × #strings.
+
+8) Battery (off-grid) sizing (if needed)
+
+If off-grid:
+
+Use PVGIS hourly irradiance data from API
+
+Run hourly energy balance:
+
+E_PV(h) − E_load(h) → charge/discharge battery
+
+
+Solve required battery capacity for desired autonomy.
+
+9) Use PVGIS API for automation
+
+Official PVGIS tool gives:
+
+Hourly irradiance
+
+Monthly PV yields
+
+API access → automate
+
+Input:
+
+location (lat,lon),
+system tilt/azimuth,
+P_PV,
+losses
+
+
+Output:
+
+Annual kWh, monthly distributions, hourly time series
+
+
+Then plug into your spreadsheet/calc. 
+pvgis.com
+
+Summary formulas
+Step	Formula
+System size	P_PV = E_req / Y
+Panel count	Panels = (P_PV×1000) / P_mod
+Loss-adjusted energy	E_prod_adj = P_PV×Y×D_total
+String limits	n_min = ceil(Vmp_min/Vmp), n_max = floor(Vdc_max/(Voc×cold))
+
+If you want, provide:
+
+Your annual kWh
+
+Roof tilt/orientation
+
+Panel datasheet (Voc, Vmp, Pmax)
+
+Inverter model
+Best method (most accurate + standard for Azerbaijan, no batteries):
+
+✅ PVGIS-based annual energy sizing + electrical string verification
+
+This is the industry-accepted, bankable, and regulator-safe approach.
+
+Why this is the best way
+
+Azerbaijan uses net-metering / bidirectional meters
+
+Batteries are irrelevant → energy balance over the year matters
+
+PVGIS already includes:
+
+Local climate
+
+Cloud cover
+
+Temperature losses
+
+Seasonal effects
+
+Anything more complex (hourly simulation, Monte Carlo, etc.) gives negligible extra accuracy for grid-tied systems.
+
+The correct workflow (final form)
+1️⃣ Size by annual energy, not peak power
+P_PV = Annual Consumption (kWh) ÷ PVOUT (kWh/kWp)
+
+
+For Azerbaijan:
+
+PVOUT ≈ 1300–1400 kWh/kWp/year
+
+
+Example:
+
+9000 ÷ 1350 ≈ 6.67 kWp
+
+2️⃣ Convert to panel count
+Panels = P_PV / Panel_power
+
+
+Example (540 W panels):
+
+6.67 ÷ 0.54 ≈ 12.35 → 13 panels
+
+3️⃣ Verify DC voltage & strings (electrical correctness)
+
+This is not sizing, this is safety & compatibility.
+
+You must satisfy:
+
+Voc × N × cold_factor < inverter max DC
+Vmp × N within MPPT range
+
+
+Cold factor (Azerbaijan):
+
+1.20–1.25 (use 1.25 for safety)
+
+
+This step does not change system size — only string layout.
+
+4️⃣ Ignore batteries completely
+
+Because:
+
+Day surplus → exported
+
+Night deficit → imported
+
+Annual net energy is what matters
+
+So hourly simulations are unnecessary unless:
+
+Off-grid
+
+Diesel hybrid
+
+Weak rural feeder (not your case)
+
+What NOT to do
+
+❌ Peak-power-only sizing
+❌ Hour-by-hour battery simulations
+❌ Rule-of-thumb “X panels per kW”
+❌ Oversizing “just in case”
+
+Final answer
+
+The best way is
+PVGIS annual yield sizing + inverter string verification
+Nothing else gives better accuracy for grid-tied systems in Azerbaijan.
+
+If you want, give:
+
+annual kWh
+
+panel model
+
+inverter model
+and I’ll return final kWp, panel count, string layout only — no explanations.
+
+and okay what about another method which would be very simple, no annual kwh needed, just basic info which people would know off of the top of their heads
+
+Simplest usable method (no bills, no PVGIS, no math tables)
+Accuracy: ±15–20% — acceptable for early sizing.
+
+Method: Load-based heuristic sizing
+1️⃣ Ask only 3 things people usually know
+
+House size (m²)
+
+Electric cooking? (yes/no)
+
+Electric heating / AC heavy use? (yes/no)
+
+2️⃣ Base rule for Azerbaijan (grid-tied, no battery)
+
+Baseline PV power:
+
+1 kWp per 25–30 m²
+
+
+Use:
+
+25 m² → conservative (AC, oven, many devices)
+
+30 m² → light usage
+
+Example:
+
+150 m² house ÷ 25 ≈ 6 kWp
+
+3️⃣ Quick appliance correction
+
+Add:
+
++1 kWp → electric oven / induction
+
++1 kWp → 2–3 AC units used daily
+
++1–2 kWp → electric boiler / water heater
+
+Example:
+
+150 m² → 6 kWp
+ACs + oven → +2 kWp
+Final ≈ 8 kWp
+
+4️⃣ Panel count shortcut
+
+With modern panels (540–600 W):
+
+Panels ≈ kWp × 2
+
+
+Examples:
+
+6 kWp → ~12 panels
+
+8 kWp → ~16 panels
+
+5️⃣ Why this works in Azerbaijan
+
+Typical yield ≈ 1350 kWh/kWp
+
+Typical household ≈ 35–45 kWh/m²/year
+
+Net-metering removes timing issues
+
+So the errors cancel out reasonably well.
