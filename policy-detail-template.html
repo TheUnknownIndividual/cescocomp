@@ -5,127 +5,192 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Presidential Order №1209 | Energy Sector Reforms</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
     <style>
+        :root {
+            /* Azerbaijan National Colors */
+            --az-blue: #6f91a8;
+            --az-green: #509E2F;
+            --az-red: #EF3340;
+            --accent-bronze: #c68661;
+
+            /* Modern Color Palette - Dark Mode */
+            --bg-dark: #0a0b0d;
+            --bg-darker: #0f1116;
+            --card-bg: #161719;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --accent-green: #27AE60;
+            --accent-blue: #6f91a8;
+            --gradient-primary: linear-gradient(135deg, var(--az-blue) 0%, var(--az-green) 100%);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        body.light-mode {
+            --bg-dark: #ffffff;
+            --bg-darker: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --bg: #ffffff;
-            --text: #1a1a1a;
-            --text-secondary: #666666;
-            --border: #e5e5e5;
-            --accent: #6f91a8;
-        }
-
         body {
-            font-family: 'Georgia', 'Times New Roman', serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.8;
-        }
-
-        body.dark-mode {
-            --bg: #0f0f0f;
-            --text: #e5e5e5;
-            --text-secondary: #a0a0a0;
-            --border: #2a2a2a;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            transition: background 0.5s ease, color 0.5s ease;
         }
 
         /* Navigation */
         nav {
-            background: var(--bg);
-            padding: 1.5rem 0;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
+            background: transparent;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
             top: 0;
-            z-index: 100;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .nav-content {
-            max-width: 800px;
+        body.light-mode nav {
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .back-link {
-            color: var(--accent);
+            color: var(--az-blue);
             text-decoration: none;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            font-size: 0.9rem;
-            transition: opacity 0.3s ease;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
         .back-link:hover {
-            opacity: 0.7;
+            color: var(--accent-bronze);
         }
 
-        .dark-toggle {
-            background: none;
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
             cursor: pointer;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        .dark-toggle:hover {
-            background: var(--border);
+        .dark-mode-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+        }
+
+        .dark-mode-toggle img {
+            width: 22px;
+            height: 22px;
+            transition: all 0.4s ease;
+            position: absolute;
+        }
+
+        .dark-mode-toggle .light-icon {
+            opacity: 0;
+            transform: rotate(180deg) scale(0);
+        }
+
+        .dark-mode-toggle .dark-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        body.light-mode .dark-mode-toggle {
+            border-color: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .dark-mode-toggle .light-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        body.light-mode .dark-mode-toggle .dark-icon {
+            opacity: 0;
+            transform: rotate(-180deg) scale(0);
         }
 
         /* Article */
         article {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 4rem 2rem;
+            padding: 8rem 2rem 4rem;
         }
 
         .article-header {
-            border-bottom: 3px solid var(--text);
+            border-bottom: 2px solid var(--az-blue);
             padding-bottom: 2rem;
             margin-bottom: 3rem;
         }
 
         .category {
-            color: var(--accent);
+            color: var(--az-blue);
             text-transform: uppercase;
             letter-spacing: 2px;
             font-size: 0.75rem;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 1rem;
         }
 
         h1 {
-            font-size: 2.5rem;
-            font-weight: 400;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.75rem;
+            font-weight: 700;
             line-height: 1.2;
             margin-bottom: 1rem;
-            color: var(--text);
+            color: var(--text-primary);
         }
 
         .meta {
             color: var(--text-secondary);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             margin-top: 1rem;
+            font-weight: 500;
         }
 
         .meta-divider {
             margin: 0 0.5rem;
+            color: var(--text-muted);
         }
 
         /* Content */
         .content {
             font-size: 1.1rem;
-            color: var(--text);
+            color: var(--text-primary);
         }
 
         .content p {
@@ -134,17 +199,19 @@
         }
 
         .content h2 {
-            font-size: 1.75rem;
-            font-weight: 400;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.875rem;
+            font-weight: 700;
             margin: 3rem 0 1.5rem 0;
-            color: var(--text);
+            color: var(--text-primary);
         }
 
         .content h3 {
-            font-size: 1.3rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.375rem;
             font-weight: 600;
             margin: 2rem 0 1rem 0;
-            color: var(--text);
+            color: var(--text-primary);
         }
 
         .content ul,
@@ -154,50 +221,59 @@
 
         .content li {
             margin-bottom: 0.75rem;
-            color: var(--text);
+            color: var(--text-primary);
         }
 
         .pullquote {
-            border-left: 4px solid var(--accent);
+            border-left: 4px solid var(--az-blue);
             padding-left: 2rem;
             margin: 2.5rem 0;
             font-style: italic;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
+            line-height: 1.6;
             color: var(--text-secondary);
         }
 
         .document-link {
-            display: inline-block;
-            color: var(--accent);
+            color: var(--az-blue);
             text-decoration: none;
-            border-bottom: 1px solid var(--accent);
+            border-bottom: 1px solid var(--az-blue);
             padding-bottom: 2px;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         .document-link:hover {
-            opacity: 0.7;
+            color: var(--accent-bronze);
+            border-bottom-color: var(--accent-bronze);
         }
 
         .separator {
             border: none;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             margin: 3rem 0;
+        }
+
+        body.light-mode .separator {
+            border-top-color: rgba(0, 0, 0, 0.1);
         }
 
         .az-section {
-            background: #f9f9f9;
+            background: var(--card-bg);
             padding: 2rem;
-            border-radius: 4px;
+            border-radius: 12px;
             margin: 3rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: var(--shadow-md);
         }
 
-        body.dark-mode .az-section {
-            background: #1a1a1a;
+        body.light-mode .az-section {
+            border-color: rgba(0, 0, 0, 0.1);
         }
 
         .az-section h3 {
             margin-top: 0;
+            color: var(--az-blue);
         }
 
         @media (max-width: 768px) {
@@ -210,7 +286,7 @@
             }
 
             article {
-                padding: 2rem 1.5rem;
+                padding: 6rem 1.5rem 2rem;
             }
         }
     </style>
@@ -218,9 +294,12 @@
 
 <body>
     <nav>
-        <div class="nav-content">
-            <a href="regulatory-framework.html" class="back-link">← Back</a>
-            <button onclick="toggleDarkMode()" class="dark-toggle">Toggle Theme</button>
+        <div class="nav-container">
+            <a href="regulatory-framework.html" class="back-link">← Back to Framework</a>
+            <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                <img src="darkmode.png" alt="Dark Mode" class="light-icon">
+                <img src="lightmode.png" alt="Light Mode" class="dark-icon">
+            </button>
         </div>
     </nav>
 
@@ -324,13 +403,13 @@
 
     <script>
         function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+            document.body.classList.toggle('light-mode');
+            localStorage.setItem('themeMode', document.body.classList.contains('light-mode') ? 'light' : 'dark');
         }
 
         // Initialize theme
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
+        if (localStorage.getItem('themeMode') === 'light') {
+            document.body.classList.add('light-mode');
         }
     </script>
 </body>
