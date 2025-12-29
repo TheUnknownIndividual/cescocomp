@@ -273,96 +273,18 @@
             padding: 3rem 2rem;
         }
 
-        /* Controls */
+        /* Controls - Hidden for carousel layout */
         .controls {
-            background: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 16px;
-            box-shadow: var(--shadow-md);
-            margin-bottom: 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: none;
         }
 
-        body.light-mode .controls {
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .search-box {
-            flex: 1;
-            min-width: 250px;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-primary);
-            border-radius: 10px;
-            font-size: 1rem;
-
-            font-family: inherit;
-            transition: all 0.3s ease;
-        }
-
-        body.light-mode .search-box input {
-            border: 2px solid #e5e5e5;
-            background: #ffffff;
-            color: #1a1a1a;
-        }
-
-        .search-box input:focus {
-            outline: none;
-            border-color: var(--az-blue);
-            box-shadow: 0 0 0 3px rgba(111, 145, 168, 0.1);
-        }
-
-        .filter-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .filter-btn {
-            padding: 0.625rem 1.125rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-secondary);
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-
-        body.light-mode .filter-btn {
-            border: 2px solid #e5e5e5;
-            background: #ffffff;
-            color: #525252;
-        }
-
-        .filter-btn:hover {
-            border-color: var(--az-blue);
-            color: var(--az-blue);
-        }
-
-        .filter-btn.active {
-            background: var(--az-blue);
-            color: var(--white);
-            border-color: var(--primary-green);
-        }
-
-        /* Cards Grid */
+        /* Cards Grid - Hidden for carousel layout */
         .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
+            display: none;
+        }
+
+        .no-results {
+            display: none;
         }
 
         /* Card */
@@ -877,19 +799,19 @@
         <!-- Stats Section -->
         <div class="stats-section">
             <div class="stats-grid">
-                <div class="stat-card">
+                <div class="stat-card" onclick="scrollToSection('laws')" title="Click to view all policy frameworks">
                     <div class="stat-value">17</div>
                     <div class="stat-label">Policy Frameworks</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card" onclick="scrollToSection('commitments')" title="Click to view targets">
                     <div class="stat-value">6.5</div>
                     <div class="stat-label">GW Target by 2030</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card" onclick="scrollToSection('commitments')" title="Click to view commitments">
                     <div class="stat-value">35%</div>
                     <div class="stat-label">RES Share Target</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card" onclick="scrollToSection('laws')" title="Click to view RES Law">
                     <div class="stat-value">2021</div>
                     <div class="stat-label">RES Law Enacted</div>
                 </div>
@@ -911,667 +833,708 @@
             </div>
         </div>
 
-        <!-- Cards Grid -->
+        <!-- 📜 LAWS SECTION -->
+        <div class="category-section" id="laws">
+            <div class="category-header">
+                <h2 class="category-title">
+                    📜 Laws & Legislative Framework
+                    <span class="category-count">6</span>
+                </h2>
+            </div>
+            <div class="carousel-container">
+                <button class="carousel-btn carousel-btn-left" onclick="scrollCarousel('laws-carousel', -1)">←</button>
+                <div class="carousel-track" id="laws-carousel">
+                    <!-- Presidential Order Card -->
+                    <div class="carousel-card card">
+                        <div class="card-header">
+                            <div class="card-icon">📋</div>
+                            <div class="card-title-group">
+                                <h3 class="card-title">Presidential Order on Energy Sector Reforms</h3>
+                                <p class="card-date">Order №1209 • 29 May 2019</p>
+                            </div>
+                        </div>
+                        <span class="focus-badge">Accelerating energy-sector reforms</span>
+                        <div class="card-content">
+                            <ul class="key-points">
+                                <li>Legal basis for liberalising power sector</li>
+                                <li>Increasing competition in energy markets</li>
+                                <li>Transition to green energy and energy efficiency</li>
+                            </ul>
+                        </div>
+                        <div class="status-indicator status-implemented">
+                            <span class="status-dot"></span>
+                            Implemented
+                        </div>
+                    </div>
+                    <!-- Add more cards here in next step -->
+                </div>
+                <button class="carousel-btn carousel-btn-right" onclick="scrollCarousel('laws-carousel', 1)">→</button>
+            </div>
+        </div>
+
+        <!-- Cards Grid --
+
+>
         <div class="cards-grid" id="cardsGrid">
             <!-- Card 1 -->
-            <a href="#" class="card" data-category="laws" id="laws" onclick="event.preventDefault(); toggleCard(this);">
-                <div class="card-header">
-                    <div class="card-icon">📋</div>
-                    <div class="card-title-group">
-                        <h3 class="card-title">Presidential Order on Energy Sector Reforms</h3>
-                        <p class="card-date">Order №1209 • 29 May 2019</p>
-                    </div>
-                </div>
-                <span class="focus-badge">Accelerating energy-sector reforms</span>
-                <div class="card-content">
-                    <ul class="key-points">
-                        <li>Legal basis for liberalising power sector</li>
-                        <li>Increasing competition in energy markets</li>
-                        <li>Transition to green energy and energy efficiency</li>
-                        <li>Modernising tariffs, market rules, investment conditions</li>
-                    </ul>
-                </div>
-                <div class="card-details">
-                    <ul class="key-points">
-                        <li>Attracting private and foreign capital into renewables</li>
-                        <li>Strategic foundation for 2021 RES Law</li>
-                        <li>Mandated institutional reforms at Ministry of Energy</li>
-                        <li>Initiated liberalization of electricity market structure</li>
-                    </ul>
-                </div>
-                <div class="status-indicator status-implemented">
-                    <span class="status-dot"></span>
-                    Implemented
-                </div>
-                <button class="expand-btn" onclick="event.stopPropagation(); toggleCard(this.parentElement);">Show More
-                    Details</button>
-            </a>
-
-            <!-- Card 2 -->
-            <div class="card" data-category="laws">
-                <div class="card-header">
-                    <div class="card-icon">⚖️</div>
-                    <div class="card-title-group">
-                        <h3 class="card-title">Renewable Energy Sources Law</h3>
-                        <p class="card-date">Law №339-VIQ • 31 May 2021</p>
-                    </div>
-                </div>
-                <span class="focus-badge">On the use of renewable energy sources in electricity production</span>
-                <div class="card-content">
-                    <ul class="key-points">
-                        <li>Main framework law for renewables development</li>
-                        <li>Defines RES, sets legal/economic/organisational rules</li>
-                        <li>Support tools: long-term offtake contracts, incentives</li>
-                        <li>Grid-connection rules and priority dispatch</li>
-                    </ul>
-                </div>
-                <div class="card-details">
-                    <ul class="key-points">
-                        <li>Clarifies roles of Ministry of Energy, regulator, transmission operator</li>
-                        <li>Establishes competitive tender mechanism for RES projects</li>
-                        <li>Defines state support mechanisms and guarantees</li>
-                        <li>Enables public-private partnerships in renewables</li>
-                        <li>Framework for land allocation and environmental permits</li>
-                    </ul>
-                </div>
-                <div class="status-indicator status-active">
-                    <span class="status-dot"></span>
-                    Active
-                </div>
-                <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
-                <div class="card-footer">
-                    <a href="https://minenergy.gov.az/en/qanunlar" target="_blank" class="card-link">📄 Ministry of
-                        Energy - Laws →</a>
-                    <a href="https://regulator.gov.az/en/huquqi-aktlar/qanunlar" target="_blank" class="card-link">📋
-                        AERA Legal Acts →</a>
-                    <a href="https://app.climatepolicyradar.org/document/law-on-the-use-of-renewable-energy-sources-in-the-production-of-electricity-no-339-viq_f093"
-                        target="_blank" class="card-link">🌍 Full Policy Text →</a>
+        <a href="#" class="card" data-category="laws" id="laws" onclick="event.preventDefault(); toggleCard(this);">
+            <div class="card-header">
+                <div class="card-icon">📋</div>
+                <div class="card-title-group">
+                    <h3 class="card-title">Presidential Order on Energy Sector Reforms</h3>
+                    <p class="card-date">Order №1209 • 29 May 2019</p>
                 </div>
             </div>
-
-            <!-- Card 3 -->
-            <div class="card" data-category="laws">
-                <div class="card-header">
-                    <div class="card-icon">🎯</div>
-                    <div class="card-title-group">
-                        <h3 class="card-title">Azerbaijan 2030 National Priorities</h3>
-                        <p class="card-date">Priority 5 • 2021</p>
-                    </div>
-                </div>
-                <span class="focus-badge">Clean Environment and Green Growth Country</span>
-                <div class="card-content">
-                    <ul class="key-points">
-                        <li>National priority for decarbonisation</li>
-                        <li>Renewable energy and low-carbon economy as state objective</li>
-                        <li>Strategic umbrella for RES laws</li>
-                        <li>Karabakh/East Zangazur "green energy zone" framework</li>
-                    </ul>
-                </div>
-                <div class="card-details">
-                    <ul class="key-points">
-                        <li>Framework for NDC updates and climate commitments</li>
-                        <li>Integration of green growth across sectors</li>
-                        <li>Circular economy and resource efficiency targets</li>
-                        <li>Environmental protection and biodiversity conservation</li>
-                        <li>Sustainable development goals alignment</li>
-                    </ul>
-                </div>
-                <div class="status-indicator status-active">
-                    <span class="status-dot"></span>
-                    Active
-                </div>
-                <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+            <span class="focus-badge">Accelerating energy-sector reforms</span>
+            <div class="card-content">
+                <ul class="key-points">
+                    <li>Legal basis for liberalising power sector</li>
+                    <li>Increasing competition in energy markets</li>
+                    <li>Transition to green energy and energy efficiency</li>
+                    <li>Modernising tariffs, market rules, investment conditions</li>
+                </ul>
             </div>
-
-            <!-- Card 4 -->
-            <div class="card" data-category="commitments" id="commitments">
-                <div class="card-header">
-                    <div class="card-icon">🌍</div>
-                    <div class="card-title-group">
-                        <h3 class="card-title">Paris Agreement & NDCs</h3>
-                        <p class="card-date">Joined 2016 • Updated 2024</p>
-                    </div>
-                </div>
-                <span class="focus-badge">National climate pledges</span>
-                <div class="card-content">
-                    <ul class="key-points">
-                        <li>Joined Paris Agreement in 2016</li>
-                        <li>First NDC: 35% GHG reduction by 2030 (vs 1990)</li>
-                        <li>Voluntary target: 40% reduction by 2050</li>
-                        <li>Implementation via renewables, efficiency, "green zones"</li>
-                    </ul>
-                </div>
-                <div class="card-details">
-                    <ul class="key-points">
-                        <li>Sector-specific emission reduction pathways</li>
-                        <li>Enhanced transparency framework compliance</li>
-                        <li>Climate finance mobilization strategy</li>
-                        <li>Adaptation measures in vulnerable sectors</li>
-                        <li>Technology transfer and capacity building</li>
-                    </ul>
-                </div>
-                <div class="status-indicator status-active">
-                    <span class="status-dot"></span>
-                    Active
-                </div>
-                <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+            <div class="card-details">
+                <ul class="key-points">
+                    <li>Attracting private and foreign capital into renewables</li>
+                    <li>Strategic foundation for 2021 RES Law</li>
+                    <li>Mandated institutional reforms at Ministry of Energy</li>
+                    <li>Initiated liberalization of electricity market structure</li>
+                </ul>
             </div>
-
-            <!-- Card 5 -->
-            <div class="card" data-category="commitments">
-                <div class="card-header">
-                    <div class="card-icon">⚡</div>
-                    <div class="card-title-group">
-                        <h3 class="card-title">Renewable Capacity Targets</h3>
-                        <p class="card-date">2030 Targets</p>
-                    </div>
-                </div>
-                <span class="focus-badge">COP diplomacy and capacity goals</span>
-                <div class="card-content">
-                    <ul class="key-points">
-                        <li>30-35% renewables in installed power capacity by 2030</li>
-                        <li>6.5 GW renewables by 2030 (working target)</li>
-                        <li>Tied to signed contracts: Masdar, ACWA Power, bp</li>
-                        <li>"Green energy hub" narrative for regional exports</li>
-                    </ul>
-                </div>
-                <div class="card-details">
-                    <ul class="key-points">
-                        <li>Solar capacity: 4 GW target by 2030</li>
-                        <li>Wind capacity: 2 GW target by 2030</li>
-                        <li>Offshore wind potential assessment ongoing</li>
-                        <li>Energy storage systems integration planned</li>
-                        <li>Green hydrogen production feasibility studies</li>
-                    </ul>
-                </div>
-                <div class="status-indicator status-active">
-                    <span class="status-dot"></span>
-                    In Progress
-                </div>
-                <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+            <div class="status-indicator status-implemented">
+                <span class="status-dot"></span>
+                Implemented
             </div>
+            <button class="expand-btn" onclick="event.stopPropagation(); toggleCard(this.parentElement);">Show More
+                Details</button>
+        </a>
 
-            <!-- Card 6 -->
-            <div class="card" data-category="commitments">
-                <div class="card-header">
-                    <div class="card-icon" style="display: flex; justify-content: center; align-items: center;">
-                        <img src="cop29darkmode.png" alt="COP29 Leadership" class="dark-icon"
-                            style="width: auto; height: 2rem;">
-                        <img src="lightmodecp29.png" alt="COP29 Leadership" class="light-icon"
-                            style="width: auto; height: 2rem;">
-                    </div>
-                    <div class="card-title-group">
-                        <h3 class="card-title">COP29 Leadership</h3>
-                        <p class="card-date">November 2024 • Baku</p>
-                    </div>
+        <!-- Card 2 -->
+        <div class="card" data-category="laws">
+            <div class="card-header">
+                <div class="card-icon">⚖️</div>
+                <div class="card-title-group">
+                    <h3 class="card-title">Renewable Energy Sources Law</h3>
+                    <p class="card-date">Law №339-VIQ • 31 May 2021</p>
                 </div>
-                <span class="focus-badge">Global renewable energy leadership</span>
-                <div class="card-content">
-                    <ul class="key-points">
-                        <li>Tripling renewables globally by 2030</li>
-                        <li>Doubling energy-efficiency progress</li>
-                        <li>Global Pledge on Renewable Energy and Energy Efficiency</li>
-                        <li>Karabakh/East Zangazur as showcase "green recovery" region</li>
-                    </ul>
-                </div>
-                <div class="card-details">
-                    <ul class="key-points">
-                        <li>Climate finance architecture reform advocacy</li>
-                        <li>Loss and damage fund operationalization</li>
-                        <li>Just transition partnerships for fossil fuel regions</li>
-                        <li>Green corridor initiatives for renewable energy trade</li>
-                        <li>South-South cooperation on clean energy technology</li>
-                    </ul>
-                </div>
-                <div class="status-indicator status-implemented">
-                    <span class="status-dot"></span>
-                    Hosted 2024
-                </div>
-                <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
             </div>
-
-            <!-- Card 7 -->
-            <div class="card" data-category="investment" id="investment">
-                <div class="card-header">
-                    <div class="card-icon">📝</div>
-                    <div class="card-title-group">
-                        <h3 class="card-title">PPA & Auction Framework</h3>
-                        <p class="card-date">Under 2021 RES Law</p>
-                    </div>
-                </div>
-                <span class="focus-badge">Investment mechanisms under 2021 RES Law</span>
-                <div class="card-content">
-                    <ul class="key-points">
-                        <li>Competitive tenders/auctions enabled</li>
-                        <li>Long-term PPAs with Azerenerji/market operator</li>
-                        <li>Major projects: Garadagh 230 MW solar, Khizi-Absheron 240 MW wind</li>
-                        <li>GW-scale MoUs: Masdar (10 GW), others (1-4 GW blocks)</li>
-                    </ul>
-                </div>
-                <div class="card-details">
-                    <ul class="key-points">
-                        <li>Standard PPA templates for solar and wind projects</li>
-                        <li>USD-denominated tariffs for currency risk mitigation</li>
-                        <li>20-25 year contract terms typical</li>
-                        <li>Take-or-pay clauses for offtake security</li>
-                        <li>International arbitration provisions</li>
-                        <li>Bankability assessments with IFC and EBRD</li>
-                    </ul>
-                </div>
-                <div class="status-indicator status-active">
-                    <span class="status-dot"></span>
-                    Active
-                </div>
-                <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+            <span class="focus-badge">On the use of renewable energy sources in electricity production</span>
+            <div class="card-content">
+                <ul class="key-points">
+                    <li>Main framework law for renewables development</li>
+                    <li>Defines RES, sets legal/economic/organisational rules</li>
+                    <li>Support tools: long-term offtake contracts, incentives</li>
+                    <li>Grid-connection rules and priority dispatch</li>
+                </ul>
             </div>
-
-            <!-- Card 8 -->
-            <div class="card" data-category="investment">
-                <div class="card-header">
-                    <div class="card-icon">💰</div>
-                    <div class="card-title-group">
-                        <h3 class="card-title">Support Schemes & Guarantees</h3>
-                        <p class="card-date">Multiple Instruments</p>
-                    </div>
-                </div>
-                <span class="focus-badge">Financial and regulatory support mechanisms</span>
-                <div class="card-content">
-                    <ul class="key-points">
-                        <li>State guarantees for offtake</li>
-                        <li>Priority dispatch for RES</li>
-                        <li>Fixed-term PPAs in foreign currency</li>
-                        <li>Land-use fee exemptions/reductions</li>
-                    </ul>
-                </div>
-                <div class="card-details">
-                    <ul class="key-points">
-                        <li>Customs duty exemptions for RES equipment</li>
-                        <li>Strategic partnership agreements for "green zones"</li>
-                        <li>Accelerated permitting for priority projects</li>
-                        <li>Grid connection cost sharing mechanisms</li>
-                        <li>Tax holidays for RES investors (up to 7 years)</li>
-                        <li>Sovereign guarantees for strategic investors</li>
-                    </ul>
-                </div>
-                <div class="status-indicator status-active">
-                    <span class="status-dot"></span>
-                    Active
-                </div>
-                <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+            <div class="card-details">
+                <ul class="key-points">
+                    <li>Clarifies roles of Ministry of Energy, regulator, transmission operator</li>
+                    <li>Establishes competitive tender mechanism for RES projects</li>
+                    <li>Defines state support mechanisms and guarantees</li>
+                    <li>Enables public-private partnerships in renewables</li>
+                    <li>Framework for land allocation and environmental permits</li>
+                </ul>
             </div>
-
-            <!-- Card 9 -->
-            <div class="card" data-category="investment">
-                <div class="card-header">
-                    <div class="card-icon">🏗️</div>
-                    <div class="card-title-group">
-                        <h3 class="card-title">AZURE Project</h3>
-                        <p class="card-date">Launched 2025</p>
-                    </div>
-                </div>
-                <span class="focus-badge">Azerenerji flagship project</span>
-                <div class="card-content">
-                    <ul class="key-points">
-                        <li>Azerbaijan Scaling-Up Renewable Energy initiative</li>
-                        <li>MDB financing and policy conditionality</li>
-                        <li>Regulatory reforms: grid planning, connection standards</li>
-                        <li>Environmental/social safeguards for RES</li>
-                    </ul>
-                </div>
-                <div class="card-details">
-                    <ul class="key-points">
-                        <li>Multi-donor support from World Bank, ADB, EBRD</li>
-                        <li>Technical assistance for Azerenerji capacity building</li>
-                        <li>Grid modernization and smart metering rollout</li>
-                        <li>RES integration studies and forecasting systems</li>
-                        <li>Community engagement and benefit-sharing frameworks</li>
-                        <li>Gender mainstreaming in renewable energy sector</li>
-                    </ul>
-                </div>
-                <div class="status-indicator status-active">
-                    <span class="status-dot"></span>
-                    In Progress
-                </div>
-                <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+            <div class="status-indicator status-active">
+                <span class="status-dot"></span>
+                Active
             </div>
-
-            <!-- Card 10 -->
-            <div class="card" data-category="institutions" id="institutions">
-                <div class="card-header">
-                    <div class="card-icon">🏛️</div>
-                    <div class="card-title-group">
-                        <h3 class="card-title">Azerbaijan Renewable Energy Agency (AREA)</h3>
-                        <p class="card-date">Under Ministry of Energy</p>
-                    </div>
-                </div>
-                <span class="focus-badge">RES promotion and project management</span>
-                <div class="card-content">
-                    <ul class="key-points">
-                        <li>Specialised agency under Ministry of Energy</li>
-                        <li>Manages auctions and RES deployment</li>
-                        <li>Provides data on installed capacity, generation, pipeline</li>
-                        <li>Prepares secondary regulations, PPA templates</li>
-                    </ul>
-                </div>
-                <div class="card-details">
-                    <ul class="key-points">
-                        <li>Investor guidelines and one-stop-shop services</li>
-                        <li>Technical due diligence for RES projects</li>
-                        <li>Monitoring and evaluation of RES performance</li>
-                        <li>International cooperation and knowledge exchange</li>
-                        <li>Public awareness campaigns for clean energy</li>
-                        <li>Research and development coordination</li>
-                    </ul>
-                </div>
-                <div class="status-indicator status-active">
-                    <span class="status-dot"></span>
-                    Operational
-                </div>
-                <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+            <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+            <div class="card-footer">
+                <a href="https://minenergy.gov.az/en/qanunlar" target="_blank" class="card-link">📄 Ministry of
+                    Energy - Laws →</a>
+                <a href="https://regulator.gov.az/en/huquqi-aktlar/qanunlar" target="_blank" class="card-link">📋
+                    AERA Legal Acts →</a>
+                <a href="https://app.climatepolicyradar.org/document/law-on-the-use-of-renewable-energy-sources-in-the-production-of-electricity-no-339-viq_f093"
+                    target="_blank" class="card-link">🌍 Full Policy Text →</a>
             </div>
-
-            <!-- Card 11 -->
-            <div class="card" data-category="institutions">
-                <div class="card-header">
-                    <div class="card-icon">⚙️</div>
-                    <div class="card-title-group">
-                        <h3 class="card-title">Technical Standards & Grid Codes</h3>
-                        <p class="card-date">Ongoing Development</p>
-                    </div>
-                </div>
-                <span class="focus-badge">Electric Power and Renewable Energy standards</span>
-                <div class="card-content">
-                    <ul class="key-points">
-                        <li>Technical Committee on Standardisation</li>
-                        <li>Drafts grid-code requirements</li>
-                        <li>Metering, safety, performance standards for RES equipment</li>
-                        <li>Aligns with IEC and international norms</li>
-                    </ul>
-                </div>
-                <div class="card-details">
-                    <ul class="key-points">
-                        <li>Shapes bankability and technical design requirements</li>
-                        <li>Connection codes for solar, wind, storage systems</li>
-                        <li>Power quality and reactive power management</li>
-                        <li>Cybersecurity standards for grid infrastructure</li>
-                        <li>Testing and certification procedures</li>
-                        <li>Training and qualification standards for technicians</li>
-                    </ul>
-                </div>
-                <div class="status-indicator status-active">
-                    <span class="status-dot"></span>
-                    In Development
-                </div>
-                <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
-            </div>
-
-            <!-- Card 12 - Energy Efficiency Law -->
-            <div class="card" data-category="laws">
-                <div class="card-header">
-                    <div class="card-icon">⚡</div>
-                    <div class="card-title-group">
-                        <h3 class="card-title">Energy Efficiency Law</h3>
-                        <p class="card-date">Law • July 2021</p>
-                    </div>
-                </div>
-                <span class="focus-badge">Efficient Use of Energy Resources and Energy Efficiency</span>
-                <div class="card-content">
-                    <ul class="key-points">
-                        <li>Covers both efficiency and renewable energy development</li>
-                        <li>Provides for grants, subsidies and concessional loans</li>
-                        <li>Financing for R&D and high-tech pilot projects</li>
-                        <li>Established dedicated Energy Efficiency Fund (now operational)</li>
-                    </ul>
-                </div>
-                <div class="card-details">
-                    <ul class="key-points">
-                        <li>Supports projects that save energy or use renewables</li>
-                        <li>Enables hybrid schemes (waste-heat recovery, hydro-solar)</li>
-                        <li>Concessional financing tools for cogeneration projects</li>
-                        <li>Complements 2021 RES Law framework</li>
-                        <li>Part of broader energy sector modernization</li>
-                        <li>Source: <a href="https://caspianlegalcenter.az" target="_blank"
-                                style="color: var(--az-blue);">Caspian Legal Center</a>, <a href="https://legal500.com"
-                                target="_blank" style="color: var(--az-blue);">Legal500</a></li>
-                    </ul>
-                </div>
-                <div class="status-indicator status-active">
-                    <span class="status-dot"></span>
-                    Active
-                </div>
-                <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
-            </div>
-
-            <!-- Card 13 - PPP Law -->
-            <div class="card" data-category="laws">
-                <div class="card-header">
-                    <div class="card-icon">🤝</div>
-                    <div class="card-title-group">
-                        <h3 class="card-title">Public-Private Partnership Law</h3>
-                        <p class="card-date">Law • December 2022</p>
-                    </div>
-                </div>
-                <span class="focus-badge">Framework for joint state-private infrastructure projects</span>
-                <div class="card-content">
-                    <ul class="key-points">
-                        <li>Sets framework for state-private infrastructure collaboration</li>
-                        <li>Allows renewable power plants via long-term PPP contracts</li>
-                        <li>Outlines state obligations and guarantees</li>
-                        <li>PPP-based RE projects follow 2021 RES Law</li>
-                    </ul>
-                </div>
-                <div class="card-details">
-                    <ul class="key-points">
-                        <li>30-year contract terms available for renewable projects</li>
-                        <li>Investment stability guarantees (10-year minimum)</li>
-                        <li>Standard protections under foreign investment law</li>
-                        <li>Enables bankable project structures</li>
-                        <li>Attracts major international developers (Masdar, ACWA Power, BP)</li>
-                        <li>Source: <a href="https://regulator.gov.az" target="_blank"
-                                style="color: var(--az-blue);">AERA</a>, <a href="https://caspianlegalcenter.az"
-                                target="_blank" style="color: var(--az-blue);">Caspian Legal Center</a></li>
-                    </ul>
-                </div>
-                <div class="status-indicator status-active">
-                    <span class="status-dot"></span>
-                    Active
-                </div>
-                <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
-            </div>
-
-            <!-- Card 14 - Energy Market Laws -->
-            <div class="card" data-category="laws">
-                <div class="card-header">
-                    <div class="card-icon">📊</div>
-                    <div class="card-title-group">
-                        <h3 class="card-title">Energy Market Modernization Laws</h3>
-                        <p class="card-date">Laws • 2023-2024</p>
-                    </div>
-                </div>
-                <span class="focus-badge">Updated Energy Law and Electricity/Gas Codes</span>
-                <div class="card-content">
-                    <ul class="key-points">
-                        <li>Modernized Energy Law (December 2023)</li>
-                        <li>Updated Electricity and Gas Codes</li>
-                        <li>Aligns power market rules with RES framework</li>
-                        <li>Tariff Council sets renewable electricity prices</li>
-                    </ul>
-                </div>
-                <div class="card-details">
-                    <ul class="key-points">
-                        <li>Integrates renewable energy into market mechanisms</li>
-                        <li>Establishes clear pricing and tariff structures</li>
-                        <li>Ensures grid integration standards for renewables</li>
-                        <li>Facilitates auction processes for new capacity</li>
-                        <li>Supports transition to liberalized energy market</li>
-                        <li>Source: <a href="https://regulator.gov.az" target="_blank"
-                                style="color: var(--az-blue);">AERA Regulatory Agency</a></li>
-                    </ul>
-                </div>
-                <div class="status-indicator status-active">
-                    <span class="status-dot"></span>
-                    Active
-                </div>
-                <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
-            </div>
-
-            <!-- Card 15 - Tax Incentives & Investment Benefits -->
-            <div class="card" data-category="investment">
-                <div class="card-header">
-                    <div class="card-icon">💰</div>
-                    <div class="card-title-group">
-                        <h3 class="card-title">Tax Incentives & Investment Benefits</h3>
-                        <p class="card-date">Tax and Customs Codes • Updated 2025</p>
-                    </div>
-                </div>
-                <span class="focus-badge">Up to 30-year tax holidays for renewable energy projects</span>
-                <div class="card-content">
-                    <ul class="key-points">
-                        <li>Full exemption from corporate and personal income tax (up to 30 years)</li>
-                        <li>100% exemption from property and land tax</li>
-                        <li>VAT and customs duty waived on imported RE equipment</li>
-                        <li>Feed-in tariffs via guaranteed PPAs with state power companies</li>
-                    </ul>
-                </div>
-                <div class="card-details">
-                    <ul class="key-points">
-                        <li><strong>Investment Promotion Documents:</strong> 50% profit-tax cut for 7 years for
-                            strategic RE projects (Presidential Decree No.2462, Feb 2024)</li>
-                        <li><strong>Small-scale incentives:</strong> Residential solar up to 150 kW tax-exempt; rooftop
-                            PV up to 200 kW installable without permits</li>
-                        <li><strong>Revenue certainty:</strong> Long-term PPAs with Azerenergy/Azerishiq at
-                            predetermined prices</li>
-                        <li><strong>Equipment imports:</strong> Duty-free for panels, turbines, and all renewable energy
-                            equipment</li>
-                        <li><strong>2025 Tax Code:</strong> Reinforced profit, property, land, and import-VAT exemptions
-                            for green PPP projects</li>
-                        <li>Official Sources:
-                            <br>• <a href="https://www.caspianlegalcenter.az/what-we-do/renewable-energy"
-                                target="_blank" style="color: var(--az-blue);">Caspian Legal Center - RE Tax & Customs
-                                Incentives</a>
-                            <br>• <a
-                                href="https://report.az/en/business/azerbaijan-introduces-tax-incentives-to-support-public-private-partnership-and-green-economy-projects/"
-                                target="_blank" style="color: var(--az-blue);">Report.az - Tax Incentives for PPP &
-                                Green Economy (2025)</a>
-                            <br>• <a href="https://taxsummaries.pwc.com/azerbaijan/corporate/tax-credits-and-incentives"
-                                target="_blank" style="color: var(--az-blue);">PwC - Azerbaijan Tax Incentives
-                                Summary</a>
-                            <br>• <a
-                                href="https://report.az/en/energy/azerbaijan-s-cabinet-approves-tax-breaks-for-renewable-energy-development/"
-                                target="_blank" style="color: var(--az-blue);">Report.az - Customs Duty Exemptions
-                                (2024)</a>
-                            <br>• <a
-                                href="https://www.azerenerji.gov.az/site/assets/files/Scoping_Report_2024_August_Final_clean.pdf"
-                                target="_blank" style="color: var(--az-blue);">Azerenergy - RE Sector Report (PDF)</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="status-indicator status-active">
-                    <span class="status-dot"></span>
-                    Active & Highly Competitive
-                </div>
-                <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
-            </div>
-
-            <!-- Card 16 - Green Energy Zones -->
-            <div class="card" data-category="commitments">
-                <div class="card-header">
-                    <div class="card-icon">🌿</div>
-                    <div class="card-title-group">
-                        <h3 class="card-title">Green Energy Zones & Cross-Border Initiatives</h3>
-                        <p class="card-date">Presidential Orders • 2021-2024</p>
-                    </div>
-                </div>
-                <span class="focus-badge">Karabakh, Nakhchivan, and International Green Corridors</span>
-                <div class="card-content">
-                    <ul class="key-points">
-                        <li><strong>Karabakh Green Zone:</strong> Presidential Order (May 2021) - pilot solar plants
-                            Ufug & Shams (2×50 MW) in Jabrayil</li>
-                        <li><strong>Nakhchivan Zone:</strong> State Program (2023-27) with 1,000+ MW solar/wind
-                            agreements (Nobel Energy, TotalEnergies, A-Z Czech)</li>
-                        <li><strong>Green Corridors:</strong> Partnerships with Georgia-Romania-Hungary (Dec 2022) and
-                            Kazakhstan-Uzbekistan (Nov 2024)</li>
-                        <li><strong>Europe Links:</strong> MOUs with Türkiye and Bulgaria (2024-25) for Türkiye-Europe
-                            green transmission</li>
-                    </ul>
-                </div>
-                <div class="card-details">
-                    <ul class="key-points">
-                        <li>Over 5 MW solar already installed on homes/buildings in liberated territories</li>
-                        <li>Japanese TEPSCO contracted for Karabakh zone master plan</li>
-                        <li>Regional export corridors opening new markets for Azeri renewables</li>
-                        <li>COP29 hosting (2024) reinforced 30% by 2030 and 40% emissions cut by 2050 pledges</li>
-                        <li>Energy Minister joined global initiatives on tripling renewable deployment</li>
-                        <li>Strategic focus on green hydrogen and energy storage expansion</li>
-                        <li>Official Sources:
-                            <br>• <a
-                                href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade"
-                                target="_blank" style="color: var(--az-blue);">Ministry of Energy - Renewable Energy
-                                Overview</a>
-                            <br>• <a
-                                href="https://news.az/news/azerbaijan-aims-to-boost-renewable-energy-share-to-30-by-2030"
-                                target="_blank" style="color: var(--az-blue);">News.az - Azerbaijan 30% by 2030
-                                Target</a>
-                            <br>• <a
-                                href="https://www.azerbaycan24.com/en/javid-abdullayev-every-megawatt-hour-of-energy-to-be-consumed-only-from-renewable-energy-sources/"
-                                target="_blank" style="color: var(--az-blue);">Azerbaycan24 - Green Energy Zones
-                                Policy</a>
-                            <br>• <a href="https://en.wikipedia.org/wiki/Renewable_energy_in_Azerbaijan" target="_blank"
-                                style="color: var(--az-blue);">Wikipedia - RE in Azerbaijan (context)</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="status-indicator status-active">
-                    <span class="status-dot"></span>
-                    In Progress
-                </div>
-                <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
-            </div>
-
-            <!-- Card 17 - Ministry Order F-95 -->
-            <a href="deptofenergy/F-95.pdf" target="_blank" class="card" data-category="ministry-orders">
-                <div class="card-header">
-                    <div class="card-icon">📋</div>
-                    <div class="card-title-group">
-                        <h3 class="card-title">Administrative Authority for Energy Violations</h3>
-                        <p class="card-date">Order №F-95 • Ministry of Energy • 2019</p>
-                    </div>
-                </div>
-                <span class="focus-badge">Administrative procedures and enforcement</span>
-                <div class="card-content">
-                    <ul class="key-points">
-                        <li>List of authorized officials to handle administrative violations</li>
-                        <li>Updates to Order F-108 (December 2, 2019)</li>
-                        <li>Defines authority and responsibilities in energy sector compliance</li>
-                        <li>Establishes enforcement framework for regulatory violations</li>
-                    </ul>
-                </div>
-                <div class="card-details">
-                    <ul class="key-points">
-                        <li>Clarifies jurisdictional authority of Ministry officials</li>
-                        <li>Sets procedural guidelines for administrative cases</li>
-                        <li>Ensures consistent enforcement across energy sector</li>
-                        <li>Provides legal foundation for regulatory compliance</li>
-                        <li>Supports transparency in administrative proceedings</li>
-                        <li>Aligns with broader energy sector reform objectives</li>
-                    </ul>
-                </div>
-                <div class="status-indicator status-active">
-                    <span class="status-dot"></span>
-                    Active
-                </div>
-                <button class="expand-btn"
-                    onclick="event.stopPropagation(); event.preventDefault(); toggleCard(this.parentElement);">Show More
-                    Details</button>
-            </a>
         </div>
 
-        <!-- No Results Message -->
-        <div class="no-results" id="noResults" style="display: none;">
-            <div class="no-results-icon">🔍</div>
-            <h3>No frameworks found</h3>
-            <p>Try adjusting your search or filter criteria</p>
+        <!-- Card 3 -->
+        <div class="card" data-category="laws">
+            <div class="card-header">
+                <div class="card-icon">🎯</div>
+                <div class="card-title-group">
+                    <h3 class="card-title">Azerbaijan 2030 National Priorities</h3>
+                    <p class="card-date">Priority 5 • 2021</p>
+                </div>
+            </div>
+            <span class="focus-badge">Clean Environment and Green Growth Country</span>
+            <div class="card-content">
+                <ul class="key-points">
+                    <li>National priority for decarbonisation</li>
+                    <li>Renewable energy and low-carbon economy as state objective</li>
+                    <li>Strategic umbrella for RES laws</li>
+                    <li>Karabakh/East Zangazur "green energy zone" framework</li>
+                </ul>
+            </div>
+            <div class="card-details">
+                <ul class="key-points">
+                    <li>Framework for NDC updates and climate commitments</li>
+                    <li>Integration of green growth across sectors</li>
+                    <li>Circular economy and resource efficiency targets</li>
+                    <li>Environmental protection and biodiversity conservation</li>
+                    <li>Sustainable development goals alignment</li>
+                </ul>
+            </div>
+            <div class="status-indicator status-active">
+                <span class="status-dot"></span>
+                Active
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
         </div>
+
+        <!-- Card 4 -->
+        <div class="card" data-category="commitments" id="commitments">
+            <div class="card-header">
+                <div class="card-icon">🌍</div>
+                <div class="card-title-group">
+                    <h3 class="card-title">Paris Agreement & NDCs</h3>
+                    <p class="card-date">Joined 2016 • Updated 2024</p>
+                </div>
+            </div>
+            <span class="focus-badge">National climate pledges</span>
+            <div class="card-content">
+                <ul class="key-points">
+                    <li>Joined Paris Agreement in 2016</li>
+                    <li>First NDC: 35% GHG reduction by 2030 (vs 1990)</li>
+                    <li>Voluntary target: 40% reduction by 2050</li>
+                    <li>Implementation via renewables, efficiency, "green zones"</li>
+                </ul>
+            </div>
+            <div class="card-details">
+                <ul class="key-points">
+                    <li>Sector-specific emission reduction pathways</li>
+                    <li>Enhanced transparency framework compliance</li>
+                    <li>Climate finance mobilization strategy</li>
+                    <li>Adaptation measures in vulnerable sectors</li>
+                    <li>Technology transfer and capacity building</li>
+                </ul>
+            </div>
+            <div class="status-indicator status-active">
+                <span class="status-dot"></span>
+                Active
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="card" data-category="commitments">
+            <div class="card-header">
+                <div class="card-icon">⚡</div>
+                <div class="card-title-group">
+                    <h3 class="card-title">Renewable Capacity Targets</h3>
+                    <p class="card-date">2030 Targets</p>
+                </div>
+            </div>
+            <span class="focus-badge">COP diplomacy and capacity goals</span>
+            <div class="card-content">
+                <ul class="key-points">
+                    <li>30-35% renewables in installed power capacity by 2030</li>
+                    <li>6.5 GW renewables by 2030 (working target)</li>
+                    <li>Tied to signed contracts: Masdar, ACWA Power, bp</li>
+                    <li>"Green energy hub" narrative for regional exports</li>
+                </ul>
+            </div>
+            <div class="card-details">
+                <ul class="key-points">
+                    <li>Solar capacity: 4 GW target by 2030</li>
+                    <li>Wind capacity: 2 GW target by 2030</li>
+                    <li>Offshore wind potential assessment ongoing</li>
+                    <li>Energy storage systems integration planned</li>
+                    <li>Green hydrogen production feasibility studies</li>
+                </ul>
+            </div>
+            <div class="status-indicator status-active">
+                <span class="status-dot"></span>
+                In Progress
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="card" data-category="commitments">
+            <div class="card-header">
+                <div class="card-icon" style="display: flex; justify-content: center; align-items: center;">
+                    <img src="cop29darkmode.png" alt="COP29 Leadership" class="dark-icon"
+                        style="width: auto; height: 2rem;">
+                    <img src="lightmodecp29.png" alt="COP29 Leadership" class="light-icon"
+                        style="width: auto; height: 2rem;">
+                </div>
+                <div class="card-title-group">
+                    <h3 class="card-title">COP29 Leadership</h3>
+                    <p class="card-date">November 2024 • Baku</p>
+                </div>
+            </div>
+            <span class="focus-badge">Global renewable energy leadership</span>
+            <div class="card-content">
+                <ul class="key-points">
+                    <li>Tripling renewables globally by 2030</li>
+                    <li>Doubling energy-efficiency progress</li>
+                    <li>Global Pledge on Renewable Energy and Energy Efficiency</li>
+                    <li>Karabakh/East Zangazur as showcase "green recovery" region</li>
+                </ul>
+            </div>
+            <div class="card-details">
+                <ul class="key-points">
+                    <li>Climate finance architecture reform advocacy</li>
+                    <li>Loss and damage fund operationalization</li>
+                    <li>Just transition partnerships for fossil fuel regions</li>
+                    <li>Green corridor initiatives for renewable energy trade</li>
+                    <li>South-South cooperation on clean energy technology</li>
+                </ul>
+            </div>
+            <div class="status-indicator status-implemented">
+                <span class="status-dot"></span>
+                Hosted 2024
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+        </div>
+
+        <!-- Card 7 -->
+        <div class="card" data-category="investment" id="investment">
+            <div class="card-header">
+                <div class="card-icon">📝</div>
+                <div class="card-title-group">
+                    <h3 class="card-title">PPA & Auction Framework</h3>
+                    <p class="card-date">Under 2021 RES Law</p>
+                </div>
+            </div>
+            <span class="focus-badge">Investment mechanisms under 2021 RES Law</span>
+            <div class="card-content">
+                <ul class="key-points">
+                    <li>Competitive tenders/auctions enabled</li>
+                    <li>Long-term PPAs with Azerenerji/market operator</li>
+                    <li>Major projects: Garadagh 230 MW solar, Khizi-Absheron 240 MW wind</li>
+                    <li>GW-scale MoUs: Masdar (10 GW), others (1-4 GW blocks)</li>
+                </ul>
+            </div>
+            <div class="card-details">
+                <ul class="key-points">
+                    <li>Standard PPA templates for solar and wind projects</li>
+                    <li>USD-denominated tariffs for currency risk mitigation</li>
+                    <li>20-25 year contract terms typical</li>
+                    <li>Take-or-pay clauses for offtake security</li>
+                    <li>International arbitration provisions</li>
+                    <li>Bankability assessments with IFC and EBRD</li>
+                </ul>
+            </div>
+            <div class="status-indicator status-active">
+                <span class="status-dot"></span>
+                Active
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+        </div>
+
+        <!-- Card 8 -->
+        <div class="card" data-category="investment">
+            <div class="card-header">
+                <div class="card-icon">💰</div>
+                <div class="card-title-group">
+                    <h3 class="card-title">Support Schemes & Guarantees</h3>
+                    <p class="card-date">Multiple Instruments</p>
+                </div>
+            </div>
+            <span class="focus-badge">Financial and regulatory support mechanisms</span>
+            <div class="card-content">
+                <ul class="key-points">
+                    <li>State guarantees for offtake</li>
+                    <li>Priority dispatch for RES</li>
+                    <li>Fixed-term PPAs in foreign currency</li>
+                    <li>Land-use fee exemptions/reductions</li>
+                </ul>
+            </div>
+            <div class="card-details">
+                <ul class="key-points">
+                    <li>Customs duty exemptions for RES equipment</li>
+                    <li>Strategic partnership agreements for "green zones"</li>
+                    <li>Accelerated permitting for priority projects</li>
+                    <li>Grid connection cost sharing mechanisms</li>
+                    <li>Tax holidays for RES investors (up to 7 years)</li>
+                    <li>Sovereign guarantees for strategic investors</li>
+                </ul>
+            </div>
+            <div class="status-indicator status-active">
+                <span class="status-dot"></span>
+                Active
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+        </div>
+
+        <!-- Card 9 -->
+        <div class="card" data-category="investment">
+            <div class="card-header">
+                <div class="card-icon">🏗️</div>
+                <div class="card-title-group">
+                    <h3 class="card-title">AZURE Project</h3>
+                    <p class="card-date">Launched 2025</p>
+                </div>
+            </div>
+            <span class="focus-badge">Azerenerji flagship project</span>
+            <div class="card-content">
+                <ul class="key-points">
+                    <li>Azerbaijan Scaling-Up Renewable Energy initiative</li>
+                    <li>MDB financing and policy conditionality</li>
+                    <li>Regulatory reforms: grid planning, connection standards</li>
+                    <li>Environmental/social safeguards for RES</li>
+                </ul>
+            </div>
+            <div class="card-details">
+                <ul class="key-points">
+                    <li>Multi-donor support from World Bank, ADB, EBRD</li>
+                    <li>Technical assistance for Azerenerji capacity building</li>
+                    <li>Grid modernization and smart metering rollout</li>
+                    <li>RES integration studies and forecasting systems</li>
+                    <li>Community engagement and benefit-sharing frameworks</li>
+                    <li>Gender mainstreaming in renewable energy sector</li>
+                </ul>
+            </div>
+            <div class="status-indicator status-active">
+                <span class="status-dot"></span>
+                In Progress
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+        </div>
+
+        <!-- Card 10 -->
+        <div class="card" data-category="institutions" id="institutions">
+            <div class="card-header">
+                <div class="card-icon">🏛️</div>
+                <div class="card-title-group">
+                    <h3 class="card-title">Azerbaijan Renewable Energy Agency (AREA)</h3>
+                    <p class="card-date">Under Ministry of Energy</p>
+                </div>
+            </div>
+            <span class="focus-badge">RES promotion and project management</span>
+            <div class="card-content">
+                <ul class="key-points">
+                    <li>Specialised agency under Ministry of Energy</li>
+                    <li>Manages auctions and RES deployment</li>
+                    <li>Provides data on installed capacity, generation, pipeline</li>
+                    <li>Prepares secondary regulations, PPA templates</li>
+                </ul>
+            </div>
+            <div class="card-details">
+                <ul class="key-points">
+                    <li>Investor guidelines and one-stop-shop services</li>
+                    <li>Technical due diligence for RES projects</li>
+                    <li>Monitoring and evaluation of RES performance</li>
+                    <li>International cooperation and knowledge exchange</li>
+                    <li>Public awareness campaigns for clean energy</li>
+                    <li>Research and development coordination</li>
+                </ul>
+            </div>
+            <div class="status-indicator status-active">
+                <span class="status-dot"></span>
+                Operational
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+        </div>
+
+        <!-- Card 11 -->
+        <div class="card" data-category="institutions">
+            <div class="card-header">
+                <div class="card-icon">⚙️</div>
+                <div class="card-title-group">
+                    <h3 class="card-title">Technical Standards & Grid Codes</h3>
+                    <p class="card-date">Ongoing Development</p>
+                </div>
+            </div>
+            <span class="focus-badge">Electric Power and Renewable Energy standards</span>
+            <div class="card-content">
+                <ul class="key-points">
+                    <li>Technical Committee on Standardisation</li>
+                    <li>Drafts grid-code requirements</li>
+                    <li>Metering, safety, performance standards for RES equipment</li>
+                    <li>Aligns with IEC and international norms</li>
+                </ul>
+            </div>
+            <div class="card-details">
+                <ul class="key-points">
+                    <li>Shapes bankability and technical design requirements</li>
+                    <li>Connection codes for solar, wind, storage systems</li>
+                    <li>Power quality and reactive power management</li>
+                    <li>Cybersecurity standards for grid infrastructure</li>
+                    <li>Testing and certification procedures</li>
+                    <li>Training and qualification standards for technicians</li>
+                </ul>
+            </div>
+            <div class="status-indicator status-active">
+                <span class="status-dot"></span>
+                In Development
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+        </div>
+
+        <!-- Card 12 - Energy Efficiency Law -->
+        <div class="card" data-category="laws">
+            <div class="card-header">
+                <div class="card-icon">⚡</div>
+                <div class="card-title-group">
+                    <h3 class="card-title">Energy Efficiency Law</h3>
+                    <p class="card-date">Law • July 2021</p>
+                </div>
+            </div>
+            <span class="focus-badge">Efficient Use of Energy Resources and Energy Efficiency</span>
+            <div class="card-content">
+                <ul class="key-points">
+                    <li>Covers both efficiency and renewable energy development</li>
+                    <li>Provides for grants, subsidies and concessional loans</li>
+                    <li>Financing for R&D and high-tech pilot projects</li>
+                    <li>Established dedicated Energy Efficiency Fund (now operational)</li>
+                </ul>
+            </div>
+            <div class="card-details">
+                <ul class="key-points">
+                    <li>Supports projects that save energy or use renewables</li>
+                    <li>Enables hybrid schemes (waste-heat recovery, hydro-solar)</li>
+                    <li>Concessional financing tools for cogeneration projects</li>
+                    <li>Complements 2021 RES Law framework</li>
+                    <li>Part of broader energy sector modernization</li>
+                    <li>Source: <a href="https://caspianlegalcenter.az" target="_blank"
+                            style="color: var(--az-blue);">Caspian Legal Center</a>, <a href="https://legal500.com"
+                            target="_blank" style="color: var(--az-blue);">Legal500</a></li>
+                </ul>
+            </div>
+            <div class="status-indicator status-active">
+                <span class="status-dot"></span>
+                Active
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+        </div>
+
+        <!-- Card 13 - PPP Law -->
+        <div class="card" data-category="laws">
+            <div class="card-header">
+                <div class="card-icon">🤝</div>
+                <div class="card-title-group">
+                    <h3 class="card-title">Public-Private Partnership Law</h3>
+                    <p class="card-date">Law • December 2022</p>
+                </div>
+            </div>
+            <span class="focus-badge">Framework for joint state-private infrastructure projects</span>
+            <div class="card-content">
+                <ul class="key-points">
+                    <li>Sets framework for state-private infrastructure collaboration</li>
+                    <li>Allows renewable power plants via long-term PPP contracts</li>
+                    <li>Outlines state obligations and guarantees</li>
+                    <li>PPP-based RE projects follow 2021 RES Law</li>
+                </ul>
+            </div>
+            <div class="card-details">
+                <ul class="key-points">
+                    <li>30-year contract terms available for renewable projects</li>
+                    <li>Investment stability guarantees (10-year minimum)</li>
+                    <li>Standard protections under foreign investment law</li>
+                    <li>Enables bankable project structures</li>
+                    <li>Attracts major international developers (Masdar, ACWA Power, BP)</li>
+                    <li>Source: <a href="https://regulator.gov.az" target="_blank"
+                            style="color: var(--az-blue);">AERA</a>, <a href="https://caspianlegalcenter.az"
+                            target="_blank" style="color: var(--az-blue);">Caspian Legal Center</a></li>
+                </ul>
+            </div>
+            <div class="status-indicator status-active">
+                <span class="status-dot"></span>
+                Active
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+        </div>
+
+        <!-- Card 14 - Energy Market Laws -->
+        <div class="card" data-category="laws">
+            <div class="card-header">
+                <div class="card-icon">📊</div>
+                <div class="card-title-group">
+                    <h3 class="card-title">Energy Market Modernization Laws</h3>
+                    <p class="card-date">Laws • 2023-2024</p>
+                </div>
+            </div>
+            <span class="focus-badge">Updated Energy Law and Electricity/Gas Codes</span>
+            <div class="card-content">
+                <ul class="key-points">
+                    <li>Modernized Energy Law (December 2023)</li>
+                    <li>Updated Electricity and Gas Codes</li>
+                    <li>Aligns power market rules with RES framework</li>
+                    <li>Tariff Council sets renewable electricity prices</li>
+                </ul>
+            </div>
+            <div class="card-details">
+                <ul class="key-points">
+                    <li>Integrates renewable energy into market mechanisms</li>
+                    <li>Establishes clear pricing and tariff structures</li>
+                    <li>Ensures grid integration standards for renewables</li>
+                    <li>Facilitates auction processes for new capacity</li>
+                    <li>Supports transition to liberalized energy market</li>
+                    <li>Source: <a href="https://regulator.gov.az" target="_blank" style="color: var(--az-blue);">AERA
+                            Regulatory Agency</a></li>
+                </ul>
+            </div>
+            <div class="status-indicator status-active">
+                <span class="status-dot"></span>
+                Active
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+        </div>
+
+        <!-- Card 15 - Tax Incentives & Investment Benefits -->
+        <div class="card" data-category="investment">
+            <div class="card-header">
+                <div class="card-icon">💰</div>
+                <div class="card-title-group">
+                    <h3 class="card-title">Tax Incentives & Investment Benefits</h3>
+                    <p class="card-date">Tax and Customs Codes • Updated 2025</p>
+                </div>
+            </div>
+            <span class="focus-badge">Up to 30-year tax holidays for renewable energy projects</span>
+            <div class="card-content">
+                <ul class="key-points">
+                    <li>Full exemption from corporate and personal income tax (up to 30 years)</li>
+                    <li>100% exemption from property and land tax</li>
+                    <li>VAT and customs duty waived on imported RE equipment</li>
+                    <li>Feed-in tariffs via guaranteed PPAs with state power companies</li>
+                </ul>
+            </div>
+            <div class="card-details">
+                <ul class="key-points">
+                    <li><strong>Investment Promotion Documents:</strong> 50% profit-tax cut for 7 years for
+                        strategic RE projects (Presidential Decree No.2462, Feb 2024)</li>
+                    <li><strong>Small-scale incentives:</strong> Residential solar up to 150 kW tax-exempt; rooftop
+                        PV up to 200 kW installable without permits</li>
+                    <li><strong>Revenue certainty:</strong> Long-term PPAs with Azerenergy/Azerishiq at
+                        predetermined prices</li>
+                    <li><strong>Equipment imports:</strong> Duty-free for panels, turbines, and all renewable energy
+                        equipment</li>
+                    <li><strong>2025 Tax Code:</strong> Reinforced profit, property, land, and import-VAT exemptions
+                        for green PPP projects</li>
+                    <li>Official Sources:
+                        <br>• <a href="https://www.caspianlegalcenter.az/what-we-do/renewable-energy" target="_blank"
+                            style="color: var(--az-blue);">Caspian Legal Center - RE Tax & Customs
+                            Incentives</a>
+                        <br>• <a
+                            href="https://report.az/en/business/azerbaijan-introduces-tax-incentives-to-support-public-private-partnership-and-green-economy-projects/"
+                            target="_blank" style="color: var(--az-blue);">Report.az - Tax Incentives for PPP &
+                            Green Economy (2025)</a>
+                        <br>• <a href="https://taxsummaries.pwc.com/azerbaijan/corporate/tax-credits-and-incentives"
+                            target="_blank" style="color: var(--az-blue);">PwC - Azerbaijan Tax Incentives
+                            Summary</a>
+                        <br>• <a
+                            href="https://report.az/en/energy/azerbaijan-s-cabinet-approves-tax-breaks-for-renewable-energy-development/"
+                            target="_blank" style="color: var(--az-blue);">Report.az - Customs Duty Exemptions
+                            (2024)</a>
+                        <br>• <a
+                            href="https://www.azerenerji.gov.az/site/assets/files/Scoping_Report_2024_August_Final_clean.pdf"
+                            target="_blank" style="color: var(--az-blue);">Azerenergy - RE Sector Report (PDF)</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="status-indicator status-active">
+                <span class="status-dot"></span>
+                Active & Highly Competitive
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+        </div>
+
+        <!-- Card 16 - Green Energy Zones -->
+        <div class="card" data-category="commitments">
+            <div class="card-header">
+                <div class="card-icon">🌿</div>
+                <div class="card-title-group">
+                    <h3 class="card-title">Green Energy Zones & Cross-Border Initiatives</h3>
+                    <p class="card-date">Presidential Orders • 2021-2024</p>
+                </div>
+            </div>
+            <span class="focus-badge">Karabakh, Nakhchivan, and International Green Corridors</span>
+            <div class="card-content">
+                <ul class="key-points">
+                    <li><strong>Karabakh Green Zone:</strong> Presidential Order (May 2021) - pilot solar plants
+                        Ufug & Shams (2×50 MW) in Jabrayil</li>
+                    <li><strong>Nakhchivan Zone:</strong> State Program (2023-27) with 1,000+ MW solar/wind
+                        agreements (Nobel Energy, TotalEnergies, A-Z Czech)</li>
+                    <li><strong>Green Corridors:</strong> Partnerships with Georgia-Romania-Hungary (Dec 2022) and
+                        Kazakhstan-Uzbekistan (Nov 2024)</li>
+                    <li><strong>Europe Links:</strong> MOUs with Türkiye and Bulgaria (2024-25) for Türkiye-Europe
+                        green transmission</li>
+                </ul>
+            </div>
+            <div class="card-details">
+                <ul class="key-points">
+                    <li>Over 5 MW solar already installed on homes/buildings in liberated territories</li>
+                    <li>Japanese TEPSCO contracted for Karabakh zone master plan</li>
+                    <li>Regional export corridors opening new markets for Azeri renewables</li>
+                    <li>COP29 hosting (2024) reinforced 30% by 2030 and 40% emissions cut by 2050 pledges</li>
+                    <li>Energy Minister joined global initiatives on tripling renewable deployment</li>
+                    <li>Strategic focus on green hydrogen and energy storage expansion</li>
+                    <li>Official Sources:
+                        <br>• <a
+                            href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade"
+                            target="_blank" style="color: var(--az-blue);">Ministry of Energy - Renewable Energy
+                            Overview</a>
+                        <br>• <a
+                            href="https://news.az/news/azerbaijan-aims-to-boost-renewable-energy-share-to-30-by-2030"
+                            target="_blank" style="color: var(--az-blue);">News.az - Azerbaijan 30% by 2030
+                            Target</a>
+                        <br>• <a
+                            href="https://www.azerbaycan24.com/en/javid-abdullayev-every-megawatt-hour-of-energy-to-be-consumed-only-from-renewable-energy-sources/"
+                            target="_blank" style="color: var(--az-blue);">Azerbaycan24 - Green Energy Zones
+                            Policy</a>
+                        <br>• <a href="https://en.wikipedia.org/wiki/Renewable_energy_in_Azerbaijan" target="_blank"
+                            style="color: var(--az-blue);">Wikipedia - RE in Azerbaijan (context)</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="status-indicator status-active">
+                <span class="status-dot"></span>
+                In Progress
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Show More Details</button>
+        </div>
+
+        <!-- Card 17 - Ministry Order F-95 -->
+        <a href="deptofenergy/F-95.pdf" target="_blank" class="card" data-category="ministry-orders">
+            <div class="card-header">
+                <div class="card-icon">📋</div>
+                <div class="card-title-group">
+                    <h3 class="card-title">Administrative Authority for Energy Violations</h3>
+                    <p class="card-date">Order №F-95 • Ministry of Energy • 2019</p>
+                </div>
+            </div>
+            <span class="focus-badge">Administrative procedures and enforcement</span>
+            <div class="card-content">
+                <ul class="key-points">
+                    <li>List of authorized officials to handle administrative violations</li>
+                    <li>Updates to Order F-108 (December 2, 2019)</li>
+                    <li>Defines authority and responsibilities in energy sector compliance</li>
+                    <li>Establishes enforcement framework for regulatory violations</li>
+                </ul>
+            </div>
+            <div class="card-details">
+                <ul class="key-points">
+                    <li>Clarifies jurisdictional authority of Ministry officials</li>
+                    <li>Sets procedural guidelines for administrative cases</li>
+                    <li>Ensures consistent enforcement across energy sector</li>
+                    <li>Provides legal foundation for regulatory compliance</li>
+                    <li>Supports transparency in administrative proceedings</li>
+                    <li>Aligns with broader energy sector reform objectives</li>
+                </ul>
+            </div>
+            <div class="status-indicator status-active">
+                <span class="status-dot"></span>
+                Active
+            </div>
+            <button class="expand-btn"
+                onclick="event.stopPropagation(); event.preventDefault(); toggleCard(this.parentElement);">Show More
+                Details</button>
+        </a>
+    </div>
+
+    <!-- No Results Message -->
+    <div class="no-results" id="noResults" style="display: none;">
+        <div class="no-results-icon">🔍</div>
+        <h3>No frameworks found</h3>
+        <p>Try adjusting your search or filter criteria</p>
+    </div>
     </div>
 
     <script>
@@ -1688,6 +1651,31 @@
                 document.body.classList.add('light-mode');
             }
         })();
+
+        // Carousel scroll functionality
+        function scrollCarousel(carouselId, direction) {
+            const carousel = document.getElementById(carouselId);
+            const scrollAmount = 450; // Width of card + gap
+            carousel.scrollBy({
+                left: direction * scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+
+        // Scroll to section functionality
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                const headerOffset = 100;
+                const elementPosition = section.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
 
         // Initialize
         filterCards();
