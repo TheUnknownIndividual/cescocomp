@@ -828,6 +828,44 @@
                 height: 300px;
             }
         }
+
+        /* Leaflet Control Fixes - Prevent overlays and tooltips from causing issues */
+        .leaflet-tooltip,
+        .leaflet-popup {
+            pointer-events: auto !important;
+            max-width: 300px !important;
+        }
+
+        .leaflet-control-attribution {
+            font-size: 10px !important;
+            background: rgba(255, 255, 255, 0.8) !important;
+            padding: 2px 5px !important;
+            max-width: 200px !important;
+        }
+
+        body.light-mode .leaflet-control-attribution {
+            background: rgba(255, 255, 255, 0.9) !important;
+        }
+
+        /* Prevent any Leaflet overlays from covering the entire screen */
+        .leaflet-overlay-pane,
+        .leaflet-shadow-pane,
+        .leaflet-marker-pane,
+        .leaflet-tooltip-pane,
+        .leaflet-popup-pane {
+            pointer-events: none !important;
+        }
+
+        .leaflet-popup,
+        .leaflet-tooltip,
+        .leaflet-marker-icon {
+            pointer-events: auto !important;
+        }
+
+        /* Ensure map container doesn't overflow */
+        .leaflet-container {
+            overflow: hidden !important;
+        }
     </style>
 </head>
 
@@ -1237,11 +1275,20 @@
             const userLoc = await getUserLocation();
             selectedLocation = { lat: userLoc.lat, lon: userLoc.lon };
 
-            map = L.map('map').setView([userLoc.lat, userLoc.lon], userLoc.zoom);
+            map = L.map('map', {
+                zoomControl: true,
+                attributionControl: true,
+                scrollWheelZoom: true,
+                doubleClickZoom: true,
+                touchZoom: true,
+                boxZoom: false, // Disable box zoom to prevent overlay issues
+                keyboard: true
+            }).setView([userLoc.lat, userLoc.lon], userLoc.zoom);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors',
-                maxZoom: 18
+                maxZoom: 18,
+                minZoom: 5
             }).addTo(map);
 
             marker = L.marker([userLoc.lat, userLoc.lon], {
