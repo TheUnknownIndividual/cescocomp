@@ -1223,6 +1223,8 @@
         let mapInitialized = false; // Flag to prevent multiple initializations
         let isCalculating = false; // Flag to prevent map updates during calculations
         let isSwitchingMode = false; // Flag to prevent multiple mode switches
+        let isScrolling = false; // Flag to prevent operations during scroll
+        let scrollTimeout;
 
         const cityCoordinates = {
             'baku': { lat: 40.4093, lon: 49.8671 },
@@ -1497,11 +1499,18 @@
             }
 
             document.getElementById('results').classList.add('show');
-            document.getElementById('results').scrollIntoView({ behavior: 'auto', block: 'start' });
+            // Remove scrollIntoView to prevent scroll-related crashes
+            // document.getElementById('results').scrollIntoView({ behavior: 'auto', block: 'start' });
         }
 
         // Mode switching
         function switchMode(mode) {
+            // Prevent operations during scroll
+            if (isScrolling) {
+                console.log('Cannot switch modes while scrolling');
+                return;
+            }
+            
             // Prevent multiple simultaneous mode switches
             if (isSwitchingMode) {
                 console.log('Mode switch already in progress, ignoring...');
@@ -1658,6 +1667,16 @@
                 document.body.classList.add('light-mode');
             }
         })();
+
+        // Add scroll event listener to prevent operations during scroll
+        let scrollThrottle;
+        window.addEventListener('scroll', function() {
+            isScrolling = true;
+            clearTimeout(scrollThrottle);
+            scrollThrottle = setTimeout(function() {
+                isScrolling = false;
+            }, 150);
+        }, { passive: true });
 
         // Initialize map when page loads
         if (document.readyState === 'loading') {
