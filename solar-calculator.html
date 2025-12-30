@@ -849,10 +849,13 @@
             <div
                 style="display: inline-flex; background: var(--card-bg); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 0.5rem;">
                 <button id="simpleModeBtn" class="mode-btn active" onclick="switchMode('simple')">
-                    ⚡ Quick Estimate
+                    ⚡ Quick
+                </button>
+                <button id="detailedModeBtn" class="mode-btn" onclick="switchMode('detailed')">
+                    📊 Detailed
                 </button>
                 <button id="advancedModeBtn" class="mode-btn" onclick="switchMode('advanced')">
-                    🔧 Advanced Calculator
+                    🔧 Advanced
                 </button>
             </div>
         </div>
@@ -915,6 +918,39 @@
 
                 <button class="calc-btn" onclick="calculateSimple()">
                     <span id="simple-btn-text">Calculate System Size</span>
+                </button>
+            </div>
+
+            <!-- Detailed Mode (Original Detailed Calculator) -->
+            <div id="detailed-mode" class="calc-mode">
+                <h2 style="margin-bottom: 2rem;">📊 Precise Calculation</h2>
+
+                <div class="form-group">
+                    <label for="location-detailed">Location</label>
+                    <input type="text" id="location-detailed" placeholder="e.g., Baku or coordinates: 40.4093, 49.8671">
+                    <small>City name or latitude, longitude - we'll fetch real solar data from PVGIS</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="annual-kwh">Annual Energy Consumption (kWh/year)</label>
+                    <input type="number" id="annual-kwh" placeholder="e.g., 8000" min="0">
+                    <small>Check your electricity bills for total yearly consumption</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="panel-power">Panel Power (Watts)</label>
+                    <input type="number" id="panel-power" placeholder="e.g., 540" value="540" min="100">
+                    <small>Typical modern panels: 540-600W</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="losses">System Losses (%)</label>
+                    <input type="number" id="losses" placeholder="11" value="11" min="0" max="30">
+                    <small>Typical: 11% (inverter, cables, soiling, temperature)</small>
+                </div>
+
+                <button class="calc-btn" onclick="calculateDetailed()">
+                    <span id="detailed-btn-text">Calculate with PVGIS Data</span>
                 </button>
             </div>
 
@@ -1375,10 +1411,44 @@
             if (mode === 'simple') {
                 document.getElementById('simple-mode').classList.add('active');
                 document.getElementById('simpleModeBtn').classList.add('active');
+            } else if (mode === 'detailed') {
+                document.getElementById('detailed-mode').classList.add('active');
+                document.getElementById('detailedModeBtn').classList.add('active');
             } else {
                 document.getElementById('advanced-mode').classList.add('active');
                 document.getElementById('advancedModeBtn').classList.add('active');
             }
+        }
+
+        // Detailed calculator with PVGIS data
+        async function calculateDetailed() {
+            const btn = document.getElementById('detailed-btn-text');
+            btn.textContent = 'Fetching PVGIS data...';
+
+            const location = document.getElementById('location-detailed').value;
+            const annualKwh = parseFloat(document.getElementById('annual-kwh').value);
+            const panelPower = parseFloat(document.getElementById('panel-power').value) || 540;
+            const losses = parseFloat(document.getElementById('losses').value) || 11;
+
+            if (!annualKwh || annualKwh <= 0) {
+                alert('Please enter valid annual consumption');
+                btn.textContent = 'Calculate with PVGIS Data';
+                return;
+            }
+
+            // Get coordinates
+            const coords = await getCoordinates(location);
+            const pvgisYield = await getPVGISYield(coords.lat, coords.lon);
+
+            // Calculate system size
+            const systemKWp = annualKwh / pvgisYield;
+            const panels = Math.ceil((systemKWp * 1000) / panelPower);
+            const actualKWp = (panels * panelPower) / 1000;
+            const production = actualKWp * pvgisYield;
+            const area = panels * 2.5;
+
+            displayResults(panels, actualKWp, production, area, pvgisYield, coords);
+            btn.textContent = 'Calculate with PVGIS Data';
         }
 
         // Advanced calculator with custom parameters
