@@ -1290,23 +1290,9 @@
             const coordStr = `${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lon.toFixed(4)}`;
             document.getElementById('location-simple').value = coordStr;
             document.getElementById('location-detailed').value = coordStr;
+            document.getElementById('adv-location').value = coordStr;
         }
 
-        function switchMode(mode) {
-            currentMode = mode;
-            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.calc-mode').forEach(m => m.classList.remove('active'));
-
-            if (mode === 'simple') {
-                document.querySelector('.mode-btn:first-child').classList.add('active');
-                document.getElementById('simple-mode').classList.add('active');
-            } else {
-                document.querySelector('.mode-btn:last-child').classList.add('active');
-                document.getElementById('detailed-mode').classList.add('active');
-            }
-
-            document.getElementById('results').classList.remove('show');
-        }
 
         async function getCoordinates(locationStr) {
             // If location string is empty, use selected map location
