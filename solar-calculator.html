@@ -1458,25 +1458,46 @@
                 document.getElementById('opt-tilt').textContent = `${optimalTilt}°`;
             }
 
-            document.getElementById('results').classList.add('show');
-            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const resultsEl = document.getElementById('results');
+            if (resultsEl) {
+                resultsEl.classList.add('show');
+                // Scroll disabled to prevent crashes
+                // resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
 
-        // Mode switching
+        // Mode switching with debounce
+        let switchTimeout = null;
         function switchMode(mode) {
-            currentMode = mode;
+            // Debounce to prevent rapid switches
+            if (switchTimeout) return;
+            switchTimeout = setTimeout(() => { switchTimeout = null; }, 300);
             
-            // Toggle active states
-            document.querySelectorAll('.calc-mode').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            try {
+                currentMode = mode;
+                
+                // Use direct element access instead of querySelectorAll
+                const simpleMode = document.getElementById('simple-mode');
+                const advancedMode = document.getElementById('advanced-mode');
+                const simpleModeBtn = document.getElementById('simpleModeBtn');
+                const advancedModeBtn = document.getElementById('advancedModeBtn');
+                
+                // Remove active from all
+                if (simpleMode) simpleMode.classList.remove('active');
+                if (advancedMode) advancedMode.classList.remove('active');
+                if (simpleModeBtn) simpleModeBtn.classList.remove('active');
+                if (advancedModeBtn) advancedModeBtn.classList.remove('active');
 
-            if (mode === 'simple') {
-                document.getElementById('simple-mode').classList.add('active');
-                document.getElementById('simpleModeBtn').classList.add('active');
-            } else {
-                // Advanced mode
-                document.getElementById('advanced-mode').classList.add('active');
-                document.getElementById('advancedModeBtn').classList.add('active');
+                if (mode === 'simple') {
+                    if (simpleMode) simpleMode.classList.add('active');
+                    if (simpleModeBtn) simpleModeBtn.classList.add('active');
+                } else {
+                    // Advanced mode
+                    if (advancedMode) advancedMode.classList.add('active');
+                    if (advancedModeBtn) advancedModeBtn.classList.add('active');
+                }
+            } catch (error) {
+                console.error('Error in switchMode:', error);
             }
         }
 
