@@ -5,22 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solar Calculator | Green Energy Azerbaijan</title>
-    
-    <!-- CRITICAL: Prevent any duplicate page initialization -->
-    <script>
-        if (window.pageLoadCount) {
-            window.pageLoadCount++;
-            if (window.pageLoadCount > 1) {
-                console.error('DUPLICATE PAGE LOAD DETECTED - Count:', window.pageLoadCount);
-                // Stop all script execution
-                document.write = function() {};
-                throw new Error('Duplicate page load prevented');
-            }
-        } else {
-            window.pageLoadCount = 1;
-        }
-    </script>
-    
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
         rel="stylesheet">
@@ -1225,28 +1209,9 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // CRITICAL: Check if Leaflet loaded multiple times
-        if (window.L && window.leafletLoadCount) {
-            console.error('LEAFLET LOADED MULTIPLE TIMES!');
-        }
-        window.leafletLoadCount = (window.leafletLoadCount || 0) + 1;
-        
-        // Prevent multiple script executions with IIFE
-        (function() {
-            if (window.solarCalculatorInitialized) {
-                console.warn('Solar calculator already initialized, skipping duplicate execution');
-                return; // Exit immediately
-            }
-            window.solarCalculatorInitialized = true;
-
         let currentMode = 'simple';
         let map, marker;
         let selectedLocation = { lat: 40.4093, lon: 49.8671 }; // Default: Baku
-        let mapInitialized = false; // Flag to prevent multiple initializations
-        let isCalculating = false; // Flag to prevent map updates during calculations
-        let isSwitchingMode = false; // Flag to prevent multiple mode switches
-        let isScrolling = false; // Flag to prevent operations during scroll
-        let scrollTimeout;
 
         const cityCoordinates = {
             'baku': { lat: 40.4093, lon: 49.8671 },
@@ -1288,39 +1253,15 @@
         }
 
         async function initMap() {
-            // Prevent multiple initializations
-            if (mapInitialized) {
-                console.log('Map already initialized, skipping...');
-                return;
-            }
-
-            // Clean up existing map if it exists
-            if (map) {
-                map.remove();
-                map = null;
-                marker = null;
-            }
-
-            mapInitialized = true;
-
             // Get user's approximate location
             const userLoc = await getUserLocation();
             selectedLocation = { lat: userLoc.lat, lon: userLoc.lon };
 
-            map = L.map('map', {
-                zoomControl: true,
-                attributionControl: true,
-                scrollWheelZoom: true,
-                doubleClickZoom: true,
-                touchZoom: true,
-                boxZoom: false, // Disable box zoom to prevent overlay issues
-                keyboard: true
-            }).setView([userLoc.lat, userLoc.lon], userLoc.zoom);
+            map = L.map('map').setView([userLoc.lat, userLoc.lon], userLoc.zoom);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors',
-                maxZoom: 18,
-                minZoom: 5
+                maxZoom: 18
             }).addTo(map);
 
             marker = L.marker([userLoc.lat, userLoc.lon], {
@@ -1368,13 +1309,10 @@
             const cityName = locationStr.toLowerCase().trim();
             if (cityCoordinates[cityName]) {
                 const coords = cityCoordinates[cityName];
-                // Update map only if not calculating and map is initialized
                 selectedLocation = coords;
-                if (!isCalculating && map && marker) {
-                    marker.setLatLng([coords.lat, coords.lon]);
-                    map.setView([coords.lat, coords.lon], 10);
-                    updateLocationDisplay();
-                }
+                marker.setLatLng([coords.lat, coords.lon]);
+                map.setView([coords.lat, coords.lon], 10);
+                updateLocationDisplay();
                 return coords;
             }
 
@@ -1382,12 +1320,9 @@
             const coords = locationStr.split(',').map(s => parseFloat(s.trim()));
             if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
                 selectedLocation = { lat: coords[0], lon: coords[1] };
-                // Update map only if not calculating and map is initialized
-                if (!isCalculating && map && marker) {
-                    marker.setLatLng([coords[0], coords[1]]);
-                    map.setView([coords[0], coords[1]], 10);
-                    updateLocationDisplay();
-                }
+                marker.setLatLng([coords[0], coords[1]]);
+                map.setView([coords[0], coords[1]], 10);
+                updateLocationDisplay();
                 return selectedLocation;
             }
 
@@ -1434,7 +1369,6 @@
         async function calculateSimple() {
             const btn = document.getElementById('simple-btn-text');
             btn.textContent = 'Fetching solar data...';
-            isCalculating = true;
 
             const houseSize = parseFloat(document.getElementById('house-size').value);
             const peopleCount = parseInt(document.getElementById('people-count').value) || 3;
@@ -1444,7 +1378,6 @@
             if (!houseSize || houseSize <= 0) {
                 alert('Please enter a valid house size');
                 btn.textContent = 'Calculate System Size';
-                isCalculating = false;
                 return;
             }
 
@@ -1483,7 +1416,6 @@
             const roofArea = Math.round(panelCount * 2.5);
 
             btn.textContent = 'Calculate System Size';
-            isCalculating = false;
             displayResults(panelCount, systemSize, annualProduction, roofArea, pvgisYield, coords);
         }
 
@@ -1521,90 +1453,31 @@
             }
 
             document.getElementById('results').classList.add('show');
-            // Remove scrollIntoView to prevent scroll-related crashes
-            // document.getElementById('results').scrollIntoView({ behavior: 'auto', block: 'start' });
-        }
-
-        // Cache DOM elements to prevent repeated queries
-        let cachedElements = null;
-        function getCachedElements() {
-            if (!cachedElements) {
-                cachedElements = {
-                    calcModes: document.querySelectorAll('.calc-mode'),
-                    modeButtons: document.querySelectorAll('.mode-btn'),
-                    simpleMode: document.getElementById('simple-mode'),
-                    advancedMode: document.getElementById('advanced-mode'),
-                    simpleModeBtn: document.getElementById('simpleModeBtn'),
-                    advancedModeBtn: document.getElementById('advancedModeBtn')
-                };
-            }
-            return cachedElements;
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         // Mode switching
-        let modeSwitchCount = 0;
         function switchMode(mode) {
-            // SAFETY: Prevent infinite loops
-            modeSwitchCount++;
-            if (modeSwitchCount > 10) {
-                console.error('TOO MANY MODE SWITCHES - ABORTING');
-                return;
-            }
-            setTimeout(() => { modeSwitchCount = 0; }, 1000);
+            currentMode = mode;
             
-            // Prevent operations during scroll
-            if (isScrolling) {
-                console.log('Cannot switch modes while scrolling');
-                return;
-            }
-            
-            // Prevent multiple simultaneous mode switches
-            if (isSwitchingMode) {
-                console.log('Mode switch already in progress, ignoring...');
-                return;
-            }
-            
-            isSwitchingMode = true;
-            console.log('Switching to mode:', mode);
-            
-            try {
-                const elements = getCachedElements();
-                
-                // Toggle active states using cached elements
-                elements.calcModes.forEach(el => el.classList.remove('active'));
-                elements.modeButtons.forEach(btn => btn.classList.remove('active'));
+            // Toggle active states
+            document.querySelectorAll('.calc-mode').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
 
-                if (mode === 'simple') {
-                    elements.simpleMode.classList.add('active');
-                    elements.simpleModeBtn.classList.add('active');
-                } else {
-                    // Advanced mode (handle both 'advanced' and 'detailed')
-                    elements.advancedMode.classList.add('active');
-                    elements.advancedModeBtn.classList.add('active');
-                }
-                
-                currentMode = mode;
-            } catch (error) {
-                console.error('Error switching modes:', error);
-            } finally {
-                // Use setTimeout to release the lock after a brief delay
-                setTimeout(() => {
-                    isSwitchingMode = false;
-                }, 100);
+            if (mode === 'simple') {
+                document.getElementById('simple-mode').classList.add('active');
+                document.getElementById('simpleModeBtn').classList.add('active');
+            } else {
+                // Advanced mode
+                document.getElementById('advanced-mode').classList.add('active');
+                document.getElementById('advancedModeBtn').classList.add('active');
             }
         }
-
-        // Expose functions to global scope for onclick handlers
-        window.switchMode = switchMode;
-        window.calculateSimple = calculateSimple;
-        window.calculateAdvanced = calculateAdvanced;
-        window.toggleDarkMode = toggleDarkMode;
 
         // Advanced calculator (Simple mode + Custom Parameters)
         async function calculateAdvanced() {
             const btn = document.getElementById('advanced-btn-text');
             btn.textContent = 'Fetching solar data...';
-            isCalculating = true;
 
             const location = document.getElementById('adv-location').value;
             const houseSize = parseFloat(document.getElementById('adv-house-size').value);
@@ -1615,7 +1488,6 @@
             if (!houseSize || houseSize <= 0) {
                 alert('Please enter a valid house size');
                 btn.textContent = 'Calculate with Custom Parameters';
-                isCalculating = false;
                 return;
             }
 
@@ -1700,7 +1572,6 @@
             pvgisNote.innerHTML = baseNote;
 
             btn.textContent = 'Calculate with Custom Parameters';
-            isCalculating = false;
         }
 
 
@@ -1717,25 +1588,10 @@
             }
         })();
 
-        // Add scroll event listener to prevent operations during scroll
-        let scrollThrottle;
-        window.addEventListener('scroll', function() {
-            isScrolling = true;
-            clearTimeout(scrollThrottle);
-            scrollThrottle = setTimeout(function() {
-                isScrolling = false;
-            }, 150);
-        }, { passive: true });
-
         // Initialize map when page loads
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initMap, { once: true });
-        } else {
-            // Document already loaded
-            initMap();
-        }
-
-        })(); // End IIFE - prevents duplicate execution
+        window.addEventListener('load', () => {
+            setTimeout(initMap, 100);
+        });
     </script>
 
     <!-- Multi-language Support -->
