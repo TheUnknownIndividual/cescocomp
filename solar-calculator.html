@@ -201,8 +201,8 @@
 
         /* Dark Mode Toggle */
         .dark-mode-toggle {
-            width: 36px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             border: 2px solid rgba(255, 255, 255, 0.2);
             background: rgba(255, 255, 255, 0.05);
@@ -213,17 +213,24 @@
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .dark-mode-toggle:hover {
             transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 6px 20px rgba(0, 153, 204, 0.3);
+        }
+
+        .dark-mode-toggle:active {
+            transform: scale(0.95) rotate(-15deg);
         }
 
         .dark-mode-toggle img {
             width: 22px;
             height: 22px;
+            object-fit: contain;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             position: absolute;
-            transition: all 0.4s ease;
         }
 
         .dark-mode-toggle .light-icon {
@@ -249,6 +256,34 @@
         body.light-mode .dark-mode-toggle .dark-icon {
             opacity: 0;
             transform: rotate(-180deg) scale(0);
+        }
+
+        /* Ripple effect on click */
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .dark-mode-toggle::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--az-blue);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .dark-mode-toggle.clicked::after {
+            animation: ripple 0.6s ease-out;
         }
 
         /* Global icon visibility for light/dark mode */
@@ -912,9 +947,9 @@
         <div class="nav-container">
             <a href="/" class="logo"
                 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; text-decoration: none; display: flex; align-items: center;">
-                <img src="darkmodelogo.png" alt="RenewAz" class="logo-img dark-mode-logo"
+                <img src="pluginlogo.png" alt="RenewAz" class="logo-img dark-mode-logo"
                     style="height: 50px; width: auto;">
-                <img src="darkmodelogo.png" alt="RenewAz" class="logo-img light-mode-logo"
+                <img src="pluginlogo.png" alt="RenewAz" class="logo-img light-mode-logo"
                     style="height: 50px; width: auto; display: none;">
             </a>
             <div class="nav-links" style="display: flex; gap: 2rem; align-items: center;">
@@ -932,7 +967,8 @@
                     </div>
                 </div>
 
-                <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Light/Dark Mode"
+                    aria-label="Toggle Light/Dark Mode">
                     <img src="lightmode.png" alt="Light Mode" class="light-icon">
                     <img src="darkmode.png" alt="Dark Mode" class="dark-icon">
                 </button>
