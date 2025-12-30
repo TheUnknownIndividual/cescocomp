@@ -170,6 +170,24 @@
             transform: rotate(-180deg) scale(0);
         }
 
+        /* Global icon visibility for light/dark mode */
+        .light-icon {
+            display: none;
+        }
+
+        .dark-icon {
+            display: block;
+        }
+
+        body.light-mode .light-icon {
+            display: block;
+        }
+
+        body.light-mode .dark-icon {
+            display: none;
+        }
+
+
         /* Main Container */
         .container {
             max-width: 1000px;
@@ -722,9 +740,20 @@
                 <span>CECSO</span>
             </a>
             <div class="nav-links" style="display: flex; gap: 2rem; align-items: center;">
-                <a href="/">Home</a>
-                <a href="/#map">Energy Map</a>
-                <a href="/regulatory-framework">Regulatory Framework</a>
+                <a href="/" data-i18n="nav.home">Home</a>
+                <a href="/#map" data-i18n="nav.energyMap">Energy Map</a>
+                <a href="/regulatory-framework" data-i18n="nav.framework">Regulatory Framework</a>
+
+                <!-- Language Switcher -->
+                <div class="language-switcher">
+                    <button class="lang-btn" id="currentLang">EN</button>
+                    <div class="lang-dropdown">
+                        <button onclick="setLanguage('en')">🇬🇧 EN</button>
+                        <button onclick="setLanguage('ru')">🇷🇺 RU</button>
+                        <button onclick="setLanguage('az')">🇦🇿 AZ</button>
+                    </div>
+                </div>
+
                 <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
                     <img src="lightmode.png" alt="Light Mode" class="light-icon">
                     <img src="darkmode.png" alt="Dark Mode" class="dark-icon">
@@ -1271,6 +1300,9 @@
             setTimeout(initMap, 100); // Small delay to ensure DOM is ready
         });
     </script>
+
+    <!-- Multi-language Support -->
+    <script src="translations.js"></script>
 </body>
 
 </html>
