@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CECSO - Clean Energy Knowledge Hub | Azerbaijan</title>
+    <title>RenewAz - Clean Energy Knowledge Hub | Azerbaijan</title>
     <meta name="description"
         content="Digital knowledge hub for Azerbaijan's renewable energy potential, policy frameworks, and strategic planning - Competition submission for COP29 Clean Energy Challenge">
     <link
@@ -103,6 +103,26 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+        }
+
+        .logo-img {
+            object-fit: contain;
+        }
+
+        .light-mode-logo {
+            display: none !important;
+        }
+
+        .dark-mode-logo {
+            display: block !important;
+        }
+
+        body.light-mode .light-mode-logo {
+            display: block !important;
+        }
+
+        body.light-mode .dark-mode-logo {
+            display: none !important;
         }
 
         .nav-links {
@@ -1175,8 +1195,10 @@
     <nav>
         <div class="nav-container">
             <div class="logo">
-                <span>🇦🇿</span>
-                <span>CECSO</span>
+                <img src="darkmodelogo.png" alt="RenewAz" class="logo-img dark-mode-logo"
+                    style="height: 40px; width: auto;">
+                <img src="darkmodelogo.png" alt="RenewAz" class="logo-img light-mode-logo"
+                    style="height: 40px; width: auto; display: none;">
             </div>
             <div class="nav-links">
                 <a href="#features" data-i18n="nav.features">Features</a>
@@ -1220,11 +1242,16 @@
             <div class="hero-buttons">
                 <a href="#map" class="btn-primary">
                     <span>🗺️</span>
-                    <span>Explore Energy Map</span>
+                    <span data-i18n="hero.exploreMap">Explore Energy Map</span>
+                </a>
+                <a href="solar-calculator.html" class="btn-primary"
+                    style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                    <span>☀️</span>
+                    <span data-i18n="nav.calculator">Solar Calculator</span>
                 </a>
                 <a href="regulatory-framework.html" class="btn-secondary">
                     <span>📜</span>
-                    <span>View Policies</span>
+                    <span data-i18n="hero.viewPolicies">View Policies</span>
                 </a>
             </div>
         </div>
@@ -1630,16 +1657,30 @@
         </div>
     </section>
 
+
     <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <p class="footer-text">
-                🇦🇿 CECSO - Clean Energy Capacity & Strategy Observatory
+    <footer
+        style="background: var(--bg-darker); padding: 3rem 2rem; border-top: 1px solid rgba(255, 255, 255, 0.05); text-align: center;">
+        <div class="footer-content" style="max-width: 1200px; margin: 0 auto;">
+            <p class="footer-text" style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--text-primary);">
+                🇦🇿 RenewAz - Renewable Energy Data Platform for Azerbaijan
             </p>
-            <p class="footer-text">
-                Built for COP29 Clean Energy Challenge | Data sources: Ministry of Energy, World Bank, Academic Research
+            <p class="footer-text" style="font-size: 0.9rem; margin-bottom: 1rem; color: var(--text-secondary);">
+                Built for CECECO Clean Energy Hackathon 2026
             </p>
-            <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 1rem;">
+            <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 1rem; margin-bottom: 1.5rem;">
+                Data sources: Ministry of Energy, PVGIS, IRENA, World Bank
+            </p>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-top: 1.5rem;">
+                <span style="color: var(--text-secondary); font-size: 0.9rem;">by Huseyn Alakbar</span>
+                <a href="https://www.linkedin.com/in/huseynalakbar/" target="_blank" rel="noopener noreferrer"
+                    style="display: inline-flex; align-items: center; transition: transform 0.2s ease;"
+                    onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                    <img src="darkmodelinked.png" alt="LinkedIn" class="dark-icon" style="height: 28px; width: 28px;">
+                    <img src="linkedinlight.png" alt="LinkedIn" class="light-icon" style="height: 28px; width: 28px;">
+                </a>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 1.5rem;">
                 © 2025 | Empowering Azerbaijan's renewable energy transition through data and innovation
             </p>
         </div>
