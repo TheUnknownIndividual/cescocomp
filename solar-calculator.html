@@ -1174,6 +1174,7 @@
         let currentMode = 'simple';
         let map, marker;
         let selectedLocation = { lat: 40.4093, lon: 49.8671 }; // Default: Baku
+        let mapInitialized = false; // Flag to prevent multiple initializations
 
         const cityCoordinates = {
             'baku': { lat: 40.4093, lon: 49.8671 },
@@ -1215,6 +1216,21 @@
         }
 
         async function initMap() {
+            // Prevent multiple initializations
+            if (mapInitialized) {
+                console.log('Map already initialized, skipping...');
+                return;
+            }
+
+            // Clean up existing map if it exists
+            if (map) {
+                map.remove();
+                map = null;
+                marker = null;
+            }
+
+            mapInitialized = true;
+
             // Get user's approximate location
             const userLoc = await getUserLocation();
             selectedLocation = { lat: userLoc.lat, lon: userLoc.lon };
@@ -1552,9 +1568,12 @@
         })();
 
         // Initialize map when page loads
-        window.addEventListener('load', () => {
-            setTimeout(initMap, 100); // Small delay to ensure DOM is ready
-        });
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initMap, { once: true });
+        } else {
+            // Document already loaded
+            initMap();
+        }
     </script>
 
     <!-- Multi-language Support -->
