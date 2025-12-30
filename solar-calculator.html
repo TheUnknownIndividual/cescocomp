@@ -1297,8 +1297,9 @@
                 return Math.round(Math.abs(lat));
             }
 
-            function toggleAdvancedOptions() {
+            window.toggleAdvancedOptions = function () {
                 const advOptions = document.getElementById('advanced-options');
+                // The button might need to be selected differently if there are cleaner ways, but this works given the HTML
                 const btn = document.querySelector('button[onclick="toggleAdvancedOptions()"]');
 
                 if (advOptions.style.display === 'none') {
@@ -1312,7 +1313,7 @@
                 }
             }
 
-            async function calculateSystem() {
+            window.calculateSystem = async function () {
                 const btn = document.getElementById('calc-btn-text');
                 btn.textContent = 'Fetching solar data...';
 
