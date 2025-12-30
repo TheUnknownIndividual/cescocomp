@@ -424,6 +424,37 @@
             align-items: center;
         }
 
+        /* Mode Switcher Buttons */
+        .mode-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .mode-btn.active {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .mode-btn:hover:not(.active) {
+            background: rgba(111, 145, 168, 0.2);
+            color: var(--text-primary);
+        }
+
+        .calc-mode {
+            display: none;
+        }
+
+        .calc-mode.active {
+            display: block;
+        }
+
         /* Calculate Button */
         .calc-btn {
             width: 100%;
@@ -887,36 +918,66 @@
                 </button>
             </div>
 
-            <!-- Detailed Mode -->
-            <div id="detailed-mode" class="calc-mode">
-                <h2 style="margin-bottom: 2rem;">Precise Calculation</h2>
+
+            <!-- Advanced Mode -->
+            <div id="advanced-mode" class="calc-mode">
+                <h2 style="margin-bottom: 2rem;">🔧 Advanced Calculator</h2>
 
                 <div class="form-group">
-                    <label for="location-detailed">Location</label>
-                    <input type="text" id="location-detailed" placeholder="e.g., Baku or coordinates: 40.4093, 49.8671">
-                    <small>City name or latitude, longitude - we'll fetch real solar data from PVGIS</small>
+                    <label for="adv-consumption">Monthly Electricity Consumption (kWh)</label>
+                    <input type="number" id="adv-consumption" placeholder="e.g., 500" min="0">
+                    <small>Your average monthly electricity bill consumption</small>
                 </div>
 
                 <div class="form-group">
-                    <label for="annual-kwh">Annual Energy Consumption (kWh/year)</label>
-                    <input type="number" id="annual-kwh" placeholder="e.g., 8000" min="0">
-                    <small>Check your electricity bills for total yearly consumption</small>
+                    <label for="roof-area-limit">Roof Space Available (m²)</label>
+                    <input type="number" id="roof-area-limit" placeholder="e.g., 50" min="0" step="0.1">
+                    <small>Maximum roof area you have available for solar panels</small>
                 </div>
 
                 <div class="form-group">
-                    <label for="panel-power">Panel Power (Watts)</label>
-                    <input type="number" id="panel-power" placeholder="e.g., 540" value="540" min="100">
-                    <small>Typical modern panels: 540-600W</small>
+                    <label for="tilt-angle">Panel Tilt Angle (degrees)</label>
+                    <input type="number" id="tilt-angle" placeholder="35" value="35" min="0" max="90">
+                    <small>Optimal for Azerbaijan: 35-40°. Click on results recommendation to auto-fill</small>
                 </div>
 
                 <div class="form-group">
-                    <label for="losses">System Losses (%)</label>
-                    <input type="number" id="losses" placeholder="11" value="11" min="0" max="30">
-                    <small>Typical: 11% (inverter, cables, soiling, temperature)</small>
+                    <label for="panel-orientation">Panel Orientation (degrees)</label>
+                    <input type="number" id="panel-orientation" placeholder="180" value="180" min="0" max="360">
+                    <small>0°=North, 90°=East, 180°=South, 270°=West. South (180°) is optimal</small>
                 </div>
 
-                <button class="calc-btn" onclick="calculateDetailed()">
-                    <span id="detailed-btn-text">Calculate with PVGIS Data</span>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="radio" name="adv-occupancy" value="occupied" checked>
+                        <span>Yes - someone is usually home during daytime</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="radio" name="adv-occupancy" value="empty">
+                        <span>No - home is empty during work hours</span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label>Additional Appliances</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="adv-cooking" value="cooking">
+                            <span>Electric cooking (oven/induction)</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="adv-ac" value="ac">
+                            <span>Heavy AC/heating usage (2-3 units daily)</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="adv-heater" value="heater">
+                            <span>Electric water heater/boiler</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button class="calc-btn" onclick="calculateAdvanced()">
+                    <span id="advanced-btn-text">Calculate with Custom Parameters</span>
                 </button>
             </div>
         </div>
@@ -1149,8 +1210,18 @@
             return selectedLocation;
         }
 
-        async function getPVGISYield(lat, lon) {
-            const url = `https://re.jrc.ec.europa.eu/api/v5_2/PVcalc?lat=${lat}&lon=${lon}&peakpower=1&loss=11&angle=35&aspect=0&outputformat=json`;
+        async function getPVGISYield(lat, lon, tilt = 35, aspect = 0) {
+            // aspect: 0=South, -90=East, 90=West (convert from our 0-360 system)
+            // Convert orientation: 0°=North, 90°=East, 180°=South, 270°=West
+            // to PVGIS aspect: South=0, East=-90, West=90
+            let pvgisAspect = 0;
+            if (aspect === 0) pvgisAspect = 0; // North (worst)
+            else if (aspect === 90) pvgisAspect = -90; // East
+            else if (aspect === 180) pvgisAspect = 0; // South (best)
+            else if (aspect === 270) pvgisAspect = 90; // West
+            else pvgisAspect = ((aspect - 180) * -1); // Approximate conversion
+
+            const url = `https://re.jrc.ec.europa.eu/api/v5_2/PVcalc?lat=${lat}&lon=${lon}&peakpower=1&loss=11&angle=${tilt}&aspect=${pvgisAspect}&outputformat=json`;
 
             try {
                 const response = await fetch(url);
@@ -1293,6 +1364,105 @@
 
             document.getElementById('results').classList.add('show');
             document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Mode switching
+        function switchMode(mode) {
+            // Toggle active states
+            document.querySelectorAll('.calc-mode').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+
+            if (mode === 'simple') {
+                document.getElementById('simple-mode').classList.add('active');
+                document.getElementById('simpleModeBtn').classList.add('active');
+            } else {
+                document.getElementById('advanced-mode').classList.add('active');
+                document.getElementById('advancedModeBtn').classList.add('active');
+            }
+        }
+
+        // Advanced calculator with custom parameters
+        async function calculateAdvanced() {
+            const btn = document.getElementById('advanced-btn-text');
+            btn.textContent = 'Calculating...';
+
+            const monthlyConsumption = parseFloat(document.getElementById('adv-consumption').value);
+            const roofLimit = parseFloat(document.getElementById('roof-area-limit').value);
+            const tiltAngle = parseFloat(document.getElementById('tilt-angle').value) || 35;
+            const orientation = parseFloat(document.getElementById('panel-orientation').value) || 180;
+            const occupancy = document.querySelector('input[name="adv-occupancy"]:checked').value;
+
+            if (!monthlyConsumption || monthlyConsumption <= 0) {
+                alert('Please enter valid monthly consumption');
+                btn.textContent = 'Calculate with Custom Parameters';
+                return;
+            }
+
+            // Annual consumption
+            let annualConsumption = monthlyConsumption * 12;
+
+            // Add appliance usage
+            if (document.getElementById('adv-cooking').checked) annualConsumption += 1200;
+            if (document.getElementById('adv-ac').checked) annualConsumption += 2500;
+            if (document.getElementById('adv-heater').checked) annualConsumption += 1800;
+
+            // Adjust for occupancy (if empty during day, reduce self-consumption bonus)
+            const selfConsumptionFactor = occupancy === 'occupied' ? 0.7 : 0.4;
+
+            // Get solar yield for location with custom tilt and orientation
+            const pvgisYield = await getPVGISYield(selectedLocation.lat, selectedLocation.lon, tiltAngle, orientation);
+
+            // Calculate needed system size
+            const panelWattage = 550; // Watts
+            const neededKWp = annualConsumption / pvgisYield;
+            const panelsNeeded = Math.ceil((neededKWp * 1000) / panelWattage);
+            const areaPerPanel = 2.5; // m² per panel
+            const neededArea = panelsNeeded * areaPerPanel;
+
+            // Check if roof limit is exceeded
+            let actualPanels = panelsNeeded;
+            let limitedByRoof = false;
+            let coveragePercent = 100;
+
+            if (roofLimit && neededArea > roofLimit) {
+                limitedByRoof = true;
+                actualPanels = Math.floor(roofLimit / areaPerPanel);
+                const actualKWp = (actualPanels * panelWattage) / 1000;
+                const actualProduction = actualKWp * pvgisYield;
+                coveragePercent = Math.round((actualProduction / annualConsumption) * 100);
+            }
+
+            const finalKWp = (actualPanels * panelWattage) / 1000;
+            const finalProduction = finalKWp * pvgisYield;
+            const finalArea = actualPanels * areaPerPanel;
+
+            // Display results with roof limitation info
+            document.getElementById('main-result').textContent = actualPanels;
+            document.getElementById('system-size').textContent = finalKWp.toFixed(1);
+            document.getElementById('annual-production').textContent = Math.round(finalProduction).toLocaleString();
+            document.getElementById('roof-area').textContent = Math.round(finalArea);
+            document.getElementById('solar-yield').textContent = Math.round(pvgisYield);
+
+            // Environmental impact
+            const co2ReductionKg = finalProduction * 0.5;
+            const co2ReductionTons = co2ReductionKg / 1000;
+            const treeEquivalent = Math.round(co2ReductionKg / 21);
+            document.getElementById('co2-reduction').textContent = co2ReductionTons.toFixed(2);
+            document.getElementById('tree-equivalent').textContent = treeEquivalent.toLocaleString();
+
+            // Show roof limitation warning if needed
+            let roofWarning = '';
+            if (limitedByRoof) {
+                roofWarning = `\n\n⚠️ ROOF SPACE LIMITATION:\nYou need ${Math.round(neededArea)}m² roof space for full coverage, but only have ${roofLimit}m².\nWith ${actualPanels} panels, you'll cover ${coveragePercent}% of your electricity needs.`;
+            }
+
+            const pvgisNote = document.getElementById('pvgis-note');
+            pvgisNote.innerHTML = `<strong>Data source:</strong> PVGIS-SARAH database for location (${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lon.toFixed(4)}) with ${tiltAngle}° tilt, ${orientation}° orientation.${roofWarning}`;
+
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            btn.textContent = 'Calculate with Custom Parameters';
         }
 
         function toggleDarkMode() {
