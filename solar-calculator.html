@@ -1529,13 +1529,15 @@
             let actualPanels = panelsNeeded;
             let limitedByRoof = false;
             let coveragePercent = 100;
+            let shortfallKWh = 0;
 
-            if (roofLimit && neededArea > roofLimit) {
+            if (roofLimit && !isNaN(roofLimit) && neededArea > roofLimit) {
                 limitedByRoof = true;
                 actualPanels = Math.floor(roofLimit / areaPerPanel);
                 const actualKWp = (actualPanels * panelWattage) / 1000;
                 const actualProduction = actualKWp * pvgisYield;
                 coveragePercent = Math.round((actualProduction / baseConsumption) * 100);
+                shortfallKWh = Math.round(baseConsumption - actualProduction);
             }
 
             const finalKWp = (actualPanels * panelWattage) / 1000;
@@ -1553,17 +1555,33 @@
                 baseNote += `
                     <div style="
                         margin-top: 1.5rem;
-                        padding: 1.5rem;
-                        background: rgba(255, 165, 0, 0.15);
-                        border-left: 4px solid var(--az-green);
-                        border-radius: 8px;
+                        padding: 2rem;
+                        background: linear-gradient(135deg, rgba(255, 165, 0, 0.15), rgba(239, 68, 68, 0.1));
+                        border-left: 4px solid #f59e0b;
+                        border-radius: 12px;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
                     ">
-                        <div style="font-size: 1.3rem; font-weight: 700; color: var(--az-green); margin-bottom: 1rem;">
-                            ⚠️ ROOF SPACE LIMITATION
+                        <div style="font-size: 1.4rem; font-weight: 700; color: #f59e0b; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                            ⚠️ ROOF SPACE LIMITATION DETECTED
                         </div>
-                        <div style="font-size: 1.1rem; line-height: 1.6;">
-                            <p style="margin: 0.5rem 0;">You need <strong>${Math.round(neededArea)}m²</strong> roof space for full coverage, but only have <strong>${roofLimit}m²</strong>.</p>
-                            <p style="margin: 0.5rem 0;">With <strong>${actualPanels} panels</strong>, you'll cover <span style="font-size: 1.3rem; color: var(--az-green); font-weight: 700;">${coveragePercent}%</span> of your electricity needs.</p>
+                        <div style="font-size: 1.05rem; line-height: 1.8; color: var(--text-primary);">
+                            <p style="margin: 1rem 0;"><strong>Required for full coverage:</strong> ${Math.round(neededArea)}m² roof space (${panelsNeeded} panels)</p>
+                            <p style="margin: 1rem 0;"><strong>Available roof space:</strong> ${roofLimit}m²</p>
+                            <p style="margin: 1rem 0;"><strong>Maximum panels you can install:</strong> ${actualPanels} panels</p>
+                            
+                            <div style="margin: 1.5rem 0; padding: 1rem; background: rgba(80, 158, 47, 0.1); border-radius: 8px;">
+                                <p style="margin: 0.5rem 0; font-size: 1.1rem;">
+                                    <strong>Energy Coverage:</strong> 
+                                    <span style="font-size: 1.5rem; color: var(--az-green); font-weight: 700;">${coveragePercent}%</span>
+                                </p>
+                                <p style="margin: 0.5rem 0;">Your system will generate <strong>${Math.round(finalProduction).toLocaleString()} kWh/year</strong></p>
+                                <p style="margin: 0.5rem 0;">Annual consumption: <strong>${Math.round(baseConsumption).toLocaleString()} kWh/year</strong></p>
+                                <p style="margin: 0.5rem 0; color: #f59e0b;">Remaining grid dependency: <strong>${shortfallKWh.toLocaleString()} kWh/year</strong> (${100 - coveragePercent}%)</p>
+                            </div>
+                            
+                            <p style="margin: 1rem 0; font-size: 0.95rem; font-style: italic; opacity: 0.9;">
+                                💡 <strong>Tip:</strong> Even with ${coveragePercent}% coverage, you'll significantly reduce your electricity bills and carbon footprint!
+                            </p>
                         </div>
                     </div>
                 `;
