@@ -311,10 +311,10 @@
                         }
                 }
         </style>
-    <script type="module">
-        import { inject } from 'https://cdn.jsdelivr.net/npm/@vercel/analytics/+esm';
-        inject();
-    </script>
+        <script type="module">
+                import { inject } from 'https://cdn.jsdelivr.net/npm/@vercel/analytics/+esm';
+                inject();
+        </script>
 </head>
 
 <body>
@@ -20320,6 +20320,152 @@
 
                 // Update labels on zoom
                 map.on('zoomend', updateLabels);
+
+                // ===== OPTIMAL SOLAR PANEL LOCATIONS =====
+
+                // Optimal Solar Panel Location Data
+                const optimalSolarLocations = [
+                        // Highly Optimal (1700+ kWh/year)
+                        { name: "Gulistan (Julfa)", lat: 38.97, lon: 45.73, area: 2.1, radiation: 1755, capacity: 101, output: 151.6, tier: "highly" },
+                        { name: "Diza (Julfa)", lat: 38.97, lon: 45.65, area: 9.2, radiation: 1753, capacity: 440, output: 661.1, tier: "highly" },
+                        { name: "Yayci (Julfa)", lat: 39.18, lon: 45.54, area: 4.0, radiation: 1749, capacity: 193, output: 290, tier: "highly" },
+                        { name: "Boyukduz (Babek)", lat: 39.29, lon: 45.32, area: 45.5, radiation: 1737, capacity: 2170, output: 3256, tier: "highly" },
+                        { name: "Julfa c. (SmSh part)", lat: 39.02, lon: 45.57, area: 1.3, radiation: 1735, capacity: 61, output: 92.4, tier: "highly" },
+                        { name: "Tananam (Sharur)", lat: 39.48, lon: 45.13, area: 10.6, radiation: 1730, capacity: 507, output: 761.3, tier: "highly" },
+                        { name: "Yeni Kerki (Babek)", lat: 39.25, lon: 45.22, area: 22.8, radiation: 1728, capacity: 1089, output: 1634, tier: "highly" },
+                        { name: "Karaagac (Sadarak)", lat: 39.69, lon: 44.93, area: 13.7, radiation: 1719, capacity: 653, output: 980.4, tier: "highly" },
+
+                        // Average Optimal (1500-1600 kWh/year)
+                        { name: "III Agalı (Zangilan)", lat: 39.21, lon: 46.87, area: 28.3, radiation: 1574, capacity: 1348, output: 1618.7, tier: "average" },
+                        { name: "Zira (Baku)", lat: 40.34, lon: 50.33, area: 1.3, radiation: 1523, capacity: 65, output: 78.0, tier: "average" },
+                        { name: "Horadiz (SW part)", lat: 39.37, lon: 47.20, area: 1.9, radiation: 1530, capacity: 92, output: 110.5, tier: "average" },
+                        { name: "Sangachal (W part)", lat: 40.22, lon: 49.42, area: 26.8, radiation: 1529, capacity: 1278, output: 1533.6, tier: "average" },
+                        { name: "Cheyildagh (Absheron)", lat: 40.30, lon: 49.37, area: 44.6, radiation: 1527, capacity: 2128, output: 2553.9, tier: "average" },
+                        { name: "Gobu (Absheron)", lat: 40.35, lon: 49.72, area: 4.9, radiation: 1525, capacity: 234, output: 280.8, tier: "average" },
+                        { name: "Kichik Dahne (Shamakhi)", lat: 41.03, lon: 46.88, area: 103, radiation: 1521, capacity: 4900, output: 5880, tier: "average" },
+                        { name: "Pirakeshkul (Absheron)", lat: 40.52, lon: 49.58, area: 1.9, radiation: 1510, capacity: 94, output: 113.1, tier: "average" },
+                        { name: "Jeyranchol (Poylu)", lat: 41.09, lon: 46.18, area: 59.7, radiation: 1506, capacity: 2844, output: 3412.9, tier: "average" },
+                        { name: "Zeynalabdin T. settlement", lat: 40.67, lon: 49.43, area: 7.8, radiation: 1505, capacity: 373, output: 447.6, tier: "average" },
+                        { name: "Arabgadim (Gobustan)", lat: 40.47, lon: 49.06, area: 2.7, radiation: 1503, capacity: 128, output: 154.4, tier: "average" },
+                        { name: "Chilov Island", lat: 40.33, lon: 50.59, area: 1.8, radiation: 1502, capacity: 89, output: 106.8, tier: "average" }
+                ];
+
+                // Custom marker icons
+                const highlyOptimalIcon = L.divIcon({
+                        className: 'solar-marker-highly',
+                        html: `<div style="
+                                background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
+                                width: 24px;
+                                height: 24px;
+                                border-radius: 50%;
+                                border: 3px solid #fff;
+                                box-shadow: 0 2px 8px rgba(0,0,0,0.4), 0 0 15px rgba(255,215,0,0.6);
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-size: 14px;
+                        ">☀️</div>`,
+                        iconSize: [24, 24],
+                        iconAnchor: [12, 12],
+                        popupAnchor: [0, -12]
+                });
+
+                const averageOptimalIcon = L.divIcon({
+                        className: 'solar-marker-average',
+                        html: `<div style="
+                                background: linear-gradient(135deg, #FDB813 0%, #F39C12 100%);
+                                width: 20px;
+                                height: 20px;
+                                border-radius: 50%;
+                                border: 2px solid #fff;
+                                box-shadow: 0 2px 6px rgba(0,0,0,0.3), 0 0 12px rgba(253,184,19,0.5);
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-size: 12px;
+                        ">☀️</div>`,
+                        iconSize: [20, 20],
+                        iconAnchor: [10, 10],
+                        popupAnchor: [0, -10]
+                });
+
+                // Create marker layer group
+                const solarMarkersLayer = L.layerGroup();
+
+                // Add markers
+                optimalSolarLocations.forEach(location => {
+                        const icon = location.tier === 'highly' ? highlyOptimalIcon : averageOptimalIcon;
+                        const tierLabel = location.tier === 'highly' ? '<span style="color: #FFD700;">🏆 Highly Optimal</span>' : '<span style="color: #F39C12;">⭐ Average Optimal</span>';
+
+                        const popupContent = `
+                                <div class="rayon-popup">
+                                        <h3 style="background: linear-gradient(135deg, #FFD700, #FF8C00); padding: 12px; margin: 0; border-radius: 12px 12px 0 0; font-size: 15px;">
+                                                ☀️ ${location.name}
+                                        </h3>
+                                        <div class="stats-grid" style="padding: 14px;">
+                                                <div class="stat" style="margin-bottom: 8px; font-size: 12px;">
+                                                        ${tierLabel} Solar Location
+                                                </div>
+                                                <div class="stat">
+                                                        📍 <strong>Coordinates:</strong> ${location.lat}°N, ${location.lon}°E
+                                                </div>
+                                                <div class="stat">
+                                                        📐 <strong>Area:</strong> ${location.area} km²
+                                                </div>
+                                                <div class="stat">
+                                                        ☀️ <strong>Solar Radiation:</strong> ${location.radiation.toLocaleString()} kWh/year
+                                                </div>
+                                                <div class="stat">
+                                                        ⚡ <strong>PV Capacity:</strong> ${location.capacity.toLocaleString()} MW/year
+                                                </div>
+                                                <div class="stat">
+                                                        🔋 <strong>Annual Output:</strong> ${location.output.toLocaleString()} million kWh/year
+                                                </div>
+                                        </div>
+                                        <div class="sources" style="padding: 8px 14px; background: rgba(0,0,0,0.2); border-radius: 0 0 12px 12px; font-size: 10px;">
+                                                <small>📚 Source: Imamverdiyev, N.S. (2021). Geographical Investigation of Azerbaijan's Renewable Energy Resources</small>
+                                        </div>
+                                </div>
+                        `;
+
+                        const marker = L.marker([location.lat, location.lon], { icon: icon })
+                                .bindPopup(popupContent, {
+                                        maxWidth: 350,
+                                        className: 'solar-location-popup'
+                                });
+
+                        solarMarkersLayer.addLayer(marker);
+                });
+
+                // Add layer to map (initially visible)
+                solarMarkersLayer.addTo(map);
+
+                // Add toggle button to legend
+                const legendContent = document.querySelector('.legend-content');
+                const solarToggleHTML = `
+                        <h4 style="margin-top: 16px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 12px;">Solar Locations</h4>
+                        <div class="legend-item" style="cursor: pointer;" onclick="toggleSolarMarkers()" id="solar-markers-toggle">
+                                <div class="legend-color" style="background: linear-gradient(135deg, #FFD700, #FF8C00);"></div>
+                                <span>Optimal Sites (20) ✓</span>
+                        </div>
+                `;
+                legendContent.innerHTML += solarToggleHTML;
+
+                // Toggle function
+                window.toggleSolarMarkers = function () {
+                        const toggle = document.getElementById('solar-markers-toggle');
+                        const span = toggle.querySelector('span');
+
+                        if (map.hasLayer(solarMarkersLayer)) {
+                                map.removeLayer(solarMarkersLayer);
+                                span.textContent = 'Optimal Sites (20) ✗';
+                                toggle.style.opacity = '0.5';
+                        } else {
+                                map.addLayer(solarMarkersLayer);
+                                span.textContent = 'Optimal Sites (20) ✓';
+                                toggle.style.opacity = '1';
+                        }
+                };
         </script>
 </body>
 
