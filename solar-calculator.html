@@ -1209,6 +1209,12 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
+        // Single execution guard
+        if (window.solarCalcLoaded) {
+            console.warn('Solar calculator already loaded');
+        } else {
+            window.solarCalcLoaded = true;
+
         let currentMode = 'simple';
         let map, marker;
         let selectedLocation = { lat: 40.4093, lon: 49.8671 }; // Default: Baku
@@ -1610,6 +1616,8 @@
         window.addEventListener('load', () => {
             setTimeout(initMap, 100);
         });
+
+        } // End guard
     </script>
 
     <!-- Multi-language Support -->
