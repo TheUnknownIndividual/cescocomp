@@ -4,10 +4,10 @@
   
   <!-- Homepage -->
   <url>
-    <loc>https://renewaz.vercel.app/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://renewaz.vercel.app/"/>
-    <xhtml:link rel="alternate" hreflang="az" href="https://renewaz.vercel.app/"/>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://renewaz.vercel.app/"/>
+    <loc>https://plugin.az/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://plugin.az/"/>
+    <xhtml:link rel="alternate" hreflang="az" href="https://plugin.az/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://plugin.az/"/>
     <lastmod>2025-12-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -15,10 +15,10 @@
   
   <!-- Solar Calculator -->
   <url>
-    <loc>https://renewaz.vercel.app/solar-calculator</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://renewaz.vercel.app/solar-calculator"/>
-    <xhtml:link rel="alternate" hreflang="az" href="https://renewaz.vercel.app/solar-calculator"/>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://renewaz.vercel.app/solar-calculator"/>
+    <loc>https://plugin.az/solar-calculator</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://plugin.az/solar-calculator"/>
+    <xhtml:link rel="alternate" hreflang="az" href="https://plugin.az/solar-calculator"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://plugin.az/solar-calculator"/>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -26,10 +26,10 @@
   
   <!-- Regulatory Framework -->
   <url>
-    <loc>https://renewaz.vercel.app/regulatory-framework</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://renewaz.vercel.app/regulatory-framework"/>
-    <xhtml:link rel="alternate" hreflang="az" href="https://renewaz.vercel.app/regulatory-framework"/>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://renewaz.vercel.app/regulatory-framework"/>
+    <loc>https://plugin.az/regulatory-framework</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://plugin.az/regulatory-framework"/>
+    <xhtml:link rel="alternate" hreflang="az" href="https://plugin.az/regulatory-framework"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://plugin.az/regulatory-framework"/>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -37,7 +37,7 @@
   
   <!-- Energy Map -->
   <url>
-    <loc>https://renewaz.vercel.app/energy-map</loc>
+    <loc>https://plugin.az/energy-map</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

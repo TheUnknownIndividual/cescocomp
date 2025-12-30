@@ -115,9 +115,9 @@
 ```bash
 # Steps:
 1. Go to: https://search.google.com/search-console
-2. Add property: https://renewaz.vercel.app
+2. Add property: https://plugin.az
 3. Verify ownership (HTML tag method already in place)
-4. Submit sitemap: https://renewaz.vercel.app/sitemap.xml
+4. Submit sitemap: https://plugin.az/sitemap.xml
 ```
 
 ### **2. Create Sitemap.xml** (Recommended)
@@ -128,22 +128,22 @@ Create `/sitemap.xml`:
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://renewaz.vercel.app/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://renewaz.vercel.app/"/>
-    <xhtml:link rel="alternate" hreflang="az" href="https://renewaz.vercel.app/"/>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://renewaz.vercel.app/"/>
+    <loc>https://plugin.az/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://plugin.az/"/>
+    <xhtml:link rel="alternate" hreflang="az" href="https://plugin.az/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://plugin.az/"/>
     <lastmod>2025-12-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://renewaz.vercel.app/solar-calculator</loc>
+    <loc>https://plugin.az/solar-calculator</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://renewaz.vercel.app/regulatory-framework</loc>
+    <loc>https://plugin.az/regulatory-framework</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -157,7 +157,7 @@ Create `/robots.txt`:
 ```
 User-agent: *
 Allow: /
-Sitemap: https://renewaz.vercel.app/sitemap.xml
+Sitemap: https://plugin.az/sitemap.xml
 
 # Disallow admin or test pages if any
 # Disallow: /admin/
@@ -173,7 +173,7 @@ Add to homepage `<head>`:
   "@type": "WebApplication",
   "name": "Plugin.az",
   "description": "Azerbaijan's Renewable Energy Data Platform",
-  "url": "https://renewaz.vercel.app",
+  "url": "https://plugin.az",
   "applicationCategory": "UtilityApplication",
   "operatingSystem": "Web",
   "offers": {
@@ -351,7 +351,7 @@ Your links will now display:
 ## 🚀 Deployment
 
 All SEO optimizations are now **LIVE** at:
-**https://renewaz.vercel.app/**
+**https://plugin.az/**
 
 No additional deployment needed - changes are automatically deployed via Vercel!
 
