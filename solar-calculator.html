@@ -906,16 +906,7 @@
             <p>Estimate your solar panel requirements for grid-tied systems in Azerbaijan</p>
         </div>
 
-        <div class="mode-switcher">
-            <button class="mode-btn active" onclick="switchMode('simple')">
-                <span>🏠</span>
-                <span>Simple Calculator</span>
-            </button>
-            <button class="mode-btn" onclick="switchMode('advanced')">
-                <span>📊</span>
-                <span>Detailed Calculator</span>
-            </button>
-        </div>
+        <!-- Mode Switcher Removed -->
 
         <!-- Net-Metering Information Banner -->
         <div class="net-metering-banner">
@@ -952,27 +943,16 @@
         </div>
 
         <!-- Mode Switcher -->
-        <div class="calc-card" style="text-align: center;">
-            <div
-                style="display: inline-flex; background: var(--card-bg); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 0.5rem;">
-                <button id="simpleModeBtn" class="mode-btn active" onclick="switchMode('simple')">
-                    ⚡ Quick
-                </button>
-                <button id="advancedModeBtn" class="mode-btn" onclick="switchMode('advanced')">
-                    🔧 Advanced
-                </button>
-            </div>
-        </div>
+        <!-- Calculator Form -->
 
         <!-- Simple Mode -->
         <div class="calc-card">
-            <div id="simple-mode" class="calc-mode active">
-                <h2 style="margin-bottom: 2rem;">Quick Estimate</h2>
+            <div id="calculator-form">
+                <h2 style="margin-bottom: 2rem;">System Calculator</h2>
 
                 <div class="form-group">
-                    <label for="location-simple">Location</label>
-                    <input type="text" id="location-simple"
-                        placeholder="e.g., Baku, Ganja, or coordinates: 40.4093, 49.8671">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" placeholder="e.g., Baku, Ganja, or coordinates: 40.4093, 49.8671">
                     <small>City name or latitude, longitude coordinates</small>
                 </div>
 
@@ -1020,94 +1000,39 @@
                     </div>
                 </div>
 
-                <button class="calc-btn" onclick="calculateSimple()">
-                    <span id="simple-btn-text">Calculate System Size</span>
+                <!-- Advanced Options Toggle -->
+                <button type="button" onclick="toggleAdvancedOptions()"
+                    style="background: transparent; border: 1px solid var(--az-blue); color: var(--az-blue); padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+                    <span>🔧</span> Show Advanced Parameters
                 </button>
-            </div>
 
+                <div id="advanced-options"
+                    style="display: none; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 1rem; animation: fadeIn 0.3s ease;">
+                    <div class="form-group">
+                        <label for="roof-area-limit">Maximum Roof Space Available (m²) <span
+                                style="color: var(--az-green);">★</span></label>
+                        <input type="number" id="roof-area-limit" placeholder="e.g., 50 (optional)" min="0" step="0.1">
+                        <small>Leave empty for unlimited, or enter max roof area to limit panel count</small>
+                    </div>
 
-            <!-- Advanced Mode (Copy of Simple + Custom Parameters) -->
-            <div id="advanced-mode" class="calc-mode">
-                <h2 style="margin-bottom: 2rem;">🔧 Advanced Calculator</h2>
+                    <div class="form-group">
+                        <label for="tilt-angle">Panel Tilt Angle (degrees) <span
+                                style="color: var(--az-green);">★</span></label>
+                        <input type="number" id="tilt-angle" placeholder="Leave empty for optimal" min="0" max="90">
+                        <small>Optional: 35-40° optimal for Azerbaijan. Leave empty to auto-calculate</small>
+                    </div>
 
-                <div class="form-group">
-                    <label for="adv-location">Location</label>
-                    <input type="text" id="adv-location"
-                        placeholder="e.g., Baku, Ganja, or coordinates: 40.4093, 49.8671">
-                    <small>City name or latitude, longitude coordinates</small>
-                </div>
-
-                <div class="form-group">
-                    <label for="adv-house-size">House Size (m²)</label>
-                    <input type="number" id="adv-house-size" placeholder="e.g., 150" min="0">
-                    <small>Enter your total house area in square meters</small>
-                </div>
-
-                <div class="form-group">
-                    <label for="adv-people">How many people live in your home?</label>
-                    <input type="number" id="adv-people" placeholder="e.g., 4" min="1" max="20">
-                    <small>Including infants and children</small>
-                </div>
-
-                <!-- EXTRA: Roof Space Limit -->
-                <div class="form-group">
-                    <label for="roof-area-limit">Maximum Roof Space Available (m²) <span
-                            style="color: var(--az-green);">★</span></label>
-                    <input type="number" id="roof-area-limit" placeholder="e.g., 50 (optional)" min="0" step="0.1">
-                    <small>Leave empty for unlimited, or enter max roof area to limit panel count</small>
-                </div>
-
-                <!-- EXTRA: Tilt Angle -->
-                <div class="form-group">
-                    <label for="tilt-angle">Panel Tilt Angle (degrees) <span
-                            style="color: var(--az-green);">★</span></label>
-                    <input type="number" id="tilt-angle" placeholder="Leave empty for optimal" min="0" max="90">
-                    <small>Optional: 35-40° optimal for Azerbaijan. Leave empty to auto-calculate from latitude</small>
-                </div>
-
-                <!-- EXTRA: Panel Orientation -->
-                <div class="form-group">
-                    <label for="panel-orientation">Panel Orientation (degrees) <span
-                            style="color: var(--az-green);">★</span></label>
-                    <input type="number" id="panel-orientation" placeholder="Leave empty for South (180°)" min="0"
-                        max="360">
-                    <small>Optional: 0°=North, 90°=East, 180°=South, 270°=West. Leave empty for optimal (South)</small>
-                </div>
-
-                <div class="form-group">
-                    <label>Is someone generally at home during daytime (9am-5pm)?</label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-item">
-                            <input type="radio" name="adv-daytime" value="yes" checked>
-                            <span>Yes - someone is usually home</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="radio" name="adv-daytime" value="no">
-                            <span>No - home is empty during work hours</span>
-                        </label>
+                    <div class="form-group">
+                        <label for="panel-orientation">Panel Orientation (degrees) <span
+                                style="color: var(--az-green);">★</span></label>
+                        <input type="number" id="panel-orientation" placeholder="Leave empty for South (180°)" min="0"
+                            max="360">
+                        <small>Optional: 0°=North, 90°=East, 180°=South, 270°=West. Leave empty for optimal</small>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Additional Appliances</label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-item">
-                            <input type="checkbox" id="adv-cooking">
-                            <span>Electric cooking (oven/induction)</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" id="adv-ac">
-                            <span>Heavy AC/heating usage (2-3 units daily)</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" id="adv-heater">
-                            <span>Electric water heater/boiler</span>
-                        </label>
-                    </div>
-                </div>
-
-                <button class="calc-btn" onclick="calculateAdvanced()">
-                    <span id="advanced-btn-text">Calculate with Custom Parameters</span>
+                <button class="calc-btn" onclick="calculateSystem()">
+                    <span id="calc-btn-text">Calculate System Size</span>
                 </button>
             </div>
         </div>
@@ -1215,371 +1140,252 @@
         } else {
             window.solarCalcLoaded = true;
 
-        let currentMode = 'simple';
-        let map, marker;
-        let selectedLocation = { lat: 40.4093, lon: 49.8671 }; // Default: Baku
 
-        const cityCoordinates = {
-            'baku': { lat: 40.4093, lon: 49.8671 },
-            'ganja': { lat: 40.6828, lon: 46.3606 },
-            'sumqayit': { lat: 40.5892, lon: 49.6686 },
-            'mingachevir': { lat: 40.7703, lon: 47.0495 },
-            'lankaran': { lat: 38.7539, lon: 48.8509 },
-            'shaki': { lat: 41.1919, lon: 47.1706 },
-            'nakhchivan': { lat: 39.2090, lon: 45.4126 },
-            'shamakhi': { lat: 40.6314, lon: 48.6394 }
-        };
+            let map, marker;
+            let selectedLocation = { lat: 40.4093, lon: 49.8671 }; // Default: Baku
 
-        // Initialize map
-        async function getUserLocation() {
-            try {
-                // Try IP geolocation first (free service)
-                const response = await fetch('https://ipapi.co/json/');
-                const data = await response.json();
+            const cityCoordinates = {
+                'baku': { lat: 40.4093, lon: 49.8671 },
+                'ganja': { lat: 40.6828, lon: 46.3606 },
+                'sumqayit': { lat: 40.5892, lon: 49.6686 },
+                'mingachevir': { lat: 40.7703, lon: 47.0495 },
+                'lankaran': { lat: 38.7539, lon: 48.8509 },
+                'shaki': { lat: 41.1919, lon: 47.1706 },
+                'nakhchivan': { lat: 39.2090, lon: 45.4126 },
+                'shamakhi': { lat: 40.6314, lon: 48.6394 }
+            };
 
-                if (data.latitude && data.longitude) {
-                    // Check if location is in Azerbaijan (rough bounds)
-                    const lat = data.latitude;
-                    const lon = data.longitude;
+            // Initialize map
+            async function getUserLocation() {
+                try {
+                    // Try IP geolocation first (free service)
+                    const response = await fetch('https://ipapi.co/json/');
+                    const data = await response.json();
 
-                    //  Azerbaijan bounds: lat 38-42, lon 44-51
-                    if (lat >= 38 && lat <= 42 && lon >= 44 && lon <= 51) {
-                        return { lat, lon, zoom: 10 }; // Closer zoom for Azerbaijan
-                    } else {
-                        // User outside Azerbaijan, still show their location but default to Baku
-                        return { lat: 40.4093, lon: 49.8671, zoom: 7 };
+                    if (data.latitude && data.longitude) {
+                        // Check if location is in Azerbaijan (rough bounds)
+                        const lat = data.latitude;
+                        const lon = data.longitude;
+
+                        //  Azerbaijan bounds: lat 38-42, lon 44-51
+                        if (lat >= 38 && lat <= 42 && lon >= 44 && lon <= 51) {
+                            return { lat, lon, zoom: 10 }; // Closer zoom for Azerbaijan
+                        } else {
+                            // User outside Azerbaijan, still show their location but default to Baku
+                            return { lat: 40.4093, lon: 49.8671, zoom: 7 };
+                        }
                     }
+                } catch (error) {
+                    console.log('IP geolocation failed, using default location');
                 }
-            } catch (error) {
-                console.log('IP geolocation failed, using default location');
+
+                // Fallback to Baku
+                return { lat: 40.4093, lon: 49.8671, zoom: 7 };
             }
 
-            // Fallback to Baku
-            return { lat: 40.4093, lon: 49.8671, zoom: 7 };
-        }
+            async function initMap() {
+                // Get user's approximate location
+                const userLoc = await getUserLocation();
+                selectedLocation = { lat: userLoc.lat, lon: userLoc.lon };
 
-        async function initMap() {
-            // Get user's approximate location
-            const userLoc = await getUserLocation();
-            selectedLocation = { lat: userLoc.lat, lon: userLoc.lon };
+                map = L.map('map').setView([userLoc.lat, userLoc.lon], userLoc.zoom);
 
-            map = L.map('map').setView([userLoc.lat, userLoc.lon], userLoc.zoom);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors',
+                    maxZoom: 18
+                }).addTo(map);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors',
-                maxZoom: 18
-            }).addTo(map);
+                marker = L.marker([userLoc.lat, userLoc.lon], {
+                    draggable: true
+                }).addTo(map);
 
-            marker = L.marker([userLoc.lat, userLoc.lon], {
-                draggable: true
-            }).addTo(map);
-
-            // Update display with detected location
-            updateLocationDisplay();
-            updateLocationInputs();
-
-            // Update on marker drag
-            marker.on('dragend', function (e) {
-                const pos = marker.getLatLng();
-                selectedLocation = { lat: pos.lat, lon: pos.lng };
+                // Update display with detected location
                 updateLocationDisplay();
                 updateLocationInputs();
-            });
 
-            // Update on map click
-            map.on('click', function (e) {
-                selectedLocation = { lat: e.latlng.lat, lon: e.latlng.lng };
-                marker.setLatLng([e.latlng.lat, e.latlng.lng]);
-                updateLocationDisplay();
-                updateLocationInputs();
-            });
-        }
+                // Update on marker drag
+                marker.on('dragend', function (e) {
+                    const pos = marker.getLatLng();
+                    selectedLocation = { lat: pos.lat, lon: pos.lng };
+                    updateLocationDisplay();
+                    updateLocationInputs();
+                });
 
-        function updateLocationDisplay() {
-            document.getElementById('selected-coords').textContent =
-                `Selected: (${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lon.toFixed(4)})`;
-        }
-
-        function updateLocationInputs() {
-            const coordStr = `${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lon.toFixed(4)}`;
-            document.getElementById('location-simple').value = coordStr;
-            document.getElementById('adv-location').value = coordStr;
-        }
-
-
-        async function getCoordinates(locationStr) {
-            // If location string is empty, use selected map location
-            if (!locationStr) return selectedLocation;
-
-            // Check if it's a known city
-            const cityName = locationStr.toLowerCase().trim();
-            if (cityCoordinates[cityName]) {
-                const coords = cityCoordinates[cityName];
-                selectedLocation = coords;
-                marker.setLatLng([coords.lat, coords.lon]);
-                map.setView([coords.lat, coords.lon], 10);
-                updateLocationDisplay();
-                return coords;
+                // Update on map click
+                map.on('click', function (e) {
+                    selectedLocation = { lat: e.latlng.lat, lon: e.latlng.lng };
+                    marker.setLatLng([e.latlng.lat, e.latlng.lng]);
+                    updateLocationDisplay();
+                    updateLocationInputs();
+                });
             }
 
-            //Try to parse as coordinates
-            const coords = locationStr.split(',').map(s => parseFloat(s.trim()));
-            if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
-                selectedLocation = { lat: coords[0], lon: coords[1] };
-                marker.setLatLng([coords[0], coords[1]]);
-                map.setView([coords[0], coords[1]], 10);
-                updateLocationDisplay();
+            function updateLocationDisplay() {
+                document.getElementById('selected-coords').textContent =
+                    `Selected: (${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lon.toFixed(4)})`;
+            }
+
+            function updateLocationInputs() {
+                const coordStr = `${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lon.toFixed(4)}`;
+                const locInput = document.getElementById('location');
+                if (locInput) locInput.value = coordStr;
+            }
+
+
+            async function getCoordinates(locationStr) {
+                // If location string is empty, use selected map location
+                if (!locationStr) return selectedLocation;
+
+                // Check if it's a known city
+                const cityName = locationStr.toLowerCase().trim();
+                if (cityCoordinates[cityName]) {
+                    const coords = cityCoordinates[cityName];
+                    selectedLocation = coords;
+                    marker.setLatLng([coords.lat, coords.lon]);
+                    map.setView([coords.lat, coords.lon], 10);
+                    updateLocationDisplay();
+                    return coords;
+                }
+
+                //Try to parse as coordinates
+                const coords = locationStr.split(',').map(s => parseFloat(s.trim()));
+                if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
+                    selectedLocation = { lat: coords[0], lon: coords[1] };
+                    marker.setLatLng([coords[0], coords[1]]);
+                    map.setView([coords[0], coords[1]], 10);
+                    updateLocationDisplay();
+                    return selectedLocation;
+                }
+
+                // Use current map selection
                 return selectedLocation;
             }
 
-            // Use current map selection
-            return selectedLocation;
-        }
+            async function getPVGISYield(lat, lon, tilt = 35, aspect = 0) {
+                // aspect: 0=South, -90=East, 90=West (convert from our 0-360 system)
+                // Convert orientation: 0°=North, 90°=East, 180°=South, 270°=West
+                // to PVGIS aspect: South=0, East=-90, West=90
+                let pvgisAspect = 0;
+                if (aspect === 0) pvgisAspect = 0; // North (worst)
+                else if (aspect === 90) pvgisAspect = -90; // East
+                else if (aspect === 180) pvgisAspect = 0; // South (best)
+                else if (aspect === 270) pvgisAspect = 90; // West
+                else pvgisAspect = ((aspect - 180) * -1); // Approximate conversion
 
-        async function getPVGISYield(lat, lon, tilt = 35, aspect = 0) {
-            // aspect: 0=South, -90=East, 90=West (convert from our 0-360 system)
-            // Convert orientation: 0°=North, 90°=East, 180°=South, 270°=West
-            // to PVGIS aspect: South=0, East=-90, West=90
-            let pvgisAspect = 0;
-            if (aspect === 0) pvgisAspect = 0; // North (worst)
-            else if (aspect === 90) pvgisAspect = -90; // East
-            else if (aspect === 180) pvgisAspect = 0; // South (best)
-            else if (aspect === 270) pvgisAspect = 90; // West
-            else pvgisAspect = ((aspect - 180) * -1); // Approximate conversion
+                const url = `https://re.jrc.ec.europa.eu/api/v5_2/PVcalc?lat=${lat}&lon=${lon}&peakpower=1&loss=11&angle=${tilt}&aspect=${pvgisAspect}&outputformat=json`;
 
-            const url = `https://re.jrc.ec.europa.eu/api/v5_2/PVcalc?lat=${lat}&lon=${lon}&peakpower=1&loss=11&angle=${tilt}&aspect=${pvgisAspect}&outputformat=json`;
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
 
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-
-                if (data.outputs && data.outputs.totals) {
-                    const yearlyProduction = data.outputs.totals.fixed.E_y;
-                    return Math.round(yearlyProduction);
+                    if (data.outputs && data.outputs.totals) {
+                        const yearlyProduction = data.outputs.totals.fixed.E_y;
+                        return Math.round(yearlyProduction);
+                    }
+                } catch (error) {
+                    console.error('PVGIS API error:', error);
                 }
-            } catch (error) {
-                console.error('PVGIS API error:', error);
+
+                // Fallback to Azerbaijan average
+                return 1350;
             }
 
-            // Fallback to Azerbaijan average
-            return 1350;
-        }
-
-        // Calculate optimal tilt angle based on latitude
-        function getOptimalTilt(lat) {
-            // Rule of thumb: tilt ≈ latitude for year-round optimization
-            // For Azerbaijan (38-42°N), typically 30-40°
-            return Math.round(Math.abs(lat));
-        }
-
-        async function calculateSimple() {
-            const btn = document.getElementById('simple-btn-text');
-            btn.textContent = 'Fetching solar data...';
-
-            const houseSize = parseFloat(document.getElementById('house-size').value);
-            const peopleCount = parseInt(document.getElementById('people-count').value) || 3;
-            const daytimeOccupancy = document.querySelector('input[name="daytime-occupancy"]:checked').value;
-            const location = document.getElementById('location-simple').value;
-
-            if (!houseSize || houseSize <= 0) {
-                alert('Please enter a valid house size');
-                btn.textContent = 'Calculate System Size';
-                return;
+            // Calculate optimal tilt angle based on latitude
+            function getOptimalTilt(lat) {
+                // Rule of thumb: tilt ≈ latitude for year-round optimization
+                // For Azerbaijan (38-42°N), typically 30-40°
+                return Math.round(Math.abs(lat));
             }
 
-            // Get coordinates and PVGIS yield
-            const coords = await getCoordinates(location);
-            const pvgisYield = await getPVGISYield(coords.lat, coords.lon);
+            function toggleAdvancedOptions() {
+                const advOptions = document.getElementById('advanced-options');
+                const btn = document.querySelector('button[onclick="toggleAdvancedOptions()"]');
 
-            // Enhanced consumption estimate based on occupancy
-            let baseConsumption = houseSize * 40; // kWh per year per m²
-
-            // Adjust for people
-            baseConsumption += peopleCount * 500; // ~500 kWh per person
-
-            // Daytime occupancy increases consumption by ~25%
-            if (daytimeOccupancy === 'yes') {
-                baseConsumption *= 1.25;
-            }
-
-            // Add for appliances
-            if (document.getElementById('electric-cooking').checked) baseConsumption += 1200;
-            if (document.getElementById('heavy-ac').checked) baseConsumption += 2000;
-            if (document.getElementById('water-heater').checked) baseConsumption += 1500;
-
-            // Calculate system size
-            const losses = 0.11;
-            let systemSize = baseConsumption / (pvgisYield * (1 - losses));
-            systemSize = Math.round(systemSize * 10) / 10;
-
-            // Panel count (540W panels)
-            const panelCount = Math.ceil((systemSize * 1000) / 540);
-
-            // Annual production
-            const annualProduction = Math.round(systemSize * pvgisYield * (1 - losses));
-
-            // Roof area
-            const roofArea = Math.round(panelCount * 2.5);
-
-            btn.textContent = 'Calculate System Size';
-            displayResults(panelCount, systemSize, annualProduction, roofArea, pvgisYield, coords);
-        }
-
-
-
-        function displayResults(panels, kWp, production, area, yield, coords) {
-            document.getElementById('main-result').textContent = panels;
-            document.getElementById('system-size').textContent = kWp.toFixed(1);
-            document.getElementById('annual-production').textContent = Math.round(production).toLocaleString();
-            document.getElementById('roof-area').textContent = Math.round(area);
-            document.getElementById('solar-yield').textContent = Math.round(yield);
-
-            // Calculate estimated cost (1 kW = 1000 ₼)
-            const estimatedCost = Math.round(kWp * 1000);
-            document.getElementById('estimated-cost').textContent = estimatedCost.toLocaleString();
-
-            // Calculate environmental impact
-            // Average: 0.5 kg CO2 per kWh from fossil fuels
-            const co2ReductionKg = production * 0.5;
-            const co2ReductionTons = co2ReductionKg / 1000;
-
-            // One tree absorbs approximately 21 kg CO2 per year
-            const treeEquivalent = Math.round(co2ReductionKg / 21);
-
-            document.getElementById('co2-reduction').textContent = co2ReductionTons.toFixed(2);
-            document.getElementById('tree-equivalent').textContent = treeEquivalent.toLocaleString();
-
-            const pvgisNote = document.getElementById('pvgis-note');
-            if (coords) {
-                pvgisNote.innerHTML = `<strong>Data source:</strong> PVGIS-SARAH database for location (${coords.lat.toFixed(4)}, ${coords.lon.toFixed(4)}) with 35° tilt, south-facing orientation.`;
-
-                // Update optimal tilt angle
-                const optimalTilt = getOptimalTilt(coords.lat);
-                document.getElementById('opt-tilt').textContent = `${optimalTilt}°`;
-            }
-
-            const resultsEl = document.getElementById('results');
-            if (resultsEl) {
-                resultsEl.classList.add('show');
-                // Scroll disabled to prevent crashes
-                // resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-
-        // Mode switching with debounce
-        let switchTimeout = null;
-        function switchMode(mode) {
-            // Debounce to prevent rapid switches
-            if (switchTimeout) return;
-            switchTimeout = setTimeout(() => { switchTimeout = null; }, 300);
-            
-            try {
-                currentMode = mode;
-                
-                // Use direct element access instead of querySelectorAll
-                const simpleMode = document.getElementById('simple-mode');
-                const advancedMode = document.getElementById('advanced-mode');
-                const simpleModeBtn = document.getElementById('simpleModeBtn');
-                const advancedModeBtn = document.getElementById('advancedModeBtn');
-                
-                // Remove active from all
-                if (simpleMode) simpleMode.classList.remove('active');
-                if (advancedMode) advancedMode.classList.remove('active');
-                if (simpleModeBtn) simpleModeBtn.classList.remove('active');
-                if (advancedModeBtn) advancedModeBtn.classList.remove('active');
-
-                if (mode === 'simple') {
-                    if (simpleMode) simpleMode.classList.add('active');
-                    if (simpleModeBtn) simpleModeBtn.classList.add('active');
+                if (advOptions.style.display === 'none') {
+                    advOptions.style.display = 'block';
+                    btn.innerHTML = '<span>🔼</span> Hide Advanced Parameters';
+                    btn.style.background = 'rgba(111, 145, 168, 0.1)';
                 } else {
-                    // Advanced mode
-                    if (advancedMode) advancedMode.classList.add('active');
-                    if (advancedModeBtn) advancedModeBtn.classList.add('active');
+                    advOptions.style.display = 'none';
+                    btn.innerHTML = '<span>🔧</span> Show Advanced Parameters';
+                    btn.style.background = 'transparent';
                 }
-            } catch (error) {
-                console.error('Error in switchMode:', error);
-            }
-        }
-
-        // Advanced calculator (Simple mode + Custom Parameters)
-        async function calculateAdvanced() {
-            const btn = document.getElementById('advanced-btn-text');
-            btn.textContent = 'Fetching solar data...';
-
-            const location = document.getElementById('adv-location').value;
-            const houseSize = parseFloat(document.getElementById('adv-house-size').value);
-            const peopleCount = parseInt(document.getElementById('adv-people').value) || 3;
-            const daytimeOccupancy = document.querySelector('input[name="adv-daytime"]:checked').value;
-            const roofLimit = parseFloat(document.getElementById('roof-area-limit').value);
-
-            if (!houseSize || houseSize <= 0) {
-                alert('Please enter a valid house size');
-                btn.textContent = 'Calculate with Custom Parameters';
-                return;
             }
 
-            // Get coordinates first
-            const coords = await getCoordinates(location);
+            async function calculateSystem() {
+                const btn = document.getElementById('calc-btn-text');
+                btn.textContent = 'Fetching solar data...';
 
-            // Use optimal tilt based on latitude if not specified
-            const tiltAngleInput = document.getElementById('tilt-angle').value;
-            const tiltAngle = tiltAngleInput ? parseFloat(tiltAngleInput) : getOptimalTilt(coords.lat);
+                const location = document.getElementById('location').value;
+                const houseSize = parseFloat(document.getElementById('house-size').value);
+                const peopleCount = parseInt(document.getElementById('people-count').value) || 3;
+                const daytimeOccupancyEl = document.querySelector('input[name="daytime-occupancy"]:checked');
+                const daytimeOccupancy = daytimeOccupancyEl ? daytimeOccupancyEl.value : 'yes';
 
-            // Use South (180°) if orientation not specified  
-            const orientationInput = document.getElementById('panel-orientation').value;
-            const orientation = orientationInput ? parseFloat(orientationInput) : 180;
+                const roofLimit = parseFloat(document.getElementById('roof-area-limit').value);
+                const tiltInput = document.getElementById('tilt-angle').value;
+                const orientInput = document.getElementById('panel-orientation').value;
 
-            // Get PVGIS yield with custom or optimal tilt and orientation
-            const pvgisYield = await getPVGISYield(coords.lat, coords.lon, tiltAngle, orientation);
+                if (!houseSize || houseSize <= 0) {
+                    alert('Please enter a valid house size');
+                    btn.textContent = 'Calculate System Size';
+                    return;
+                }
 
-            // Enhanced consumption estimate (same as simple mode)
-            let baseConsumption = houseSize * 40; // kWh per year per m²
-            baseConsumption += peopleCount * 500; // ~500 kWh per person
+                // Get coordinates
+                const coords = await getCoordinates(location);
 
-            if (daytimeOccupancy === 'yes') {
-                baseConsumption *= 1.25;
-            }
+                // Optimal tilt/orient if not provided
+                const tiltAngle = tiltInput ? parseFloat(tiltInput) : getOptimalTilt(coords.lat);
+                const orientation = orientInput ? parseFloat(orientInput) : 180;
 
-            // Add for appliances
-            if (document.getElementById('adv-cooking').checked) baseConsumption += 1200;
-            if (document.getElementById('adv-ac').checked) baseConsumption += 2500;
-            if (document.getElementById('adv-heater').checked) baseConsumption += 1800;
+                // Get PVGIS yield
+                const pvgisYield = await getPVGISYield(coords.lat, coords.lon, tiltAngle, orientation);
 
-            // Calculate needed system size
-            const panelWattage = 550;
-            const neededKWp = baseConsumption / pvgisYield;
-            const panelsNeeded = Math.ceil((neededKWp * 1000) / panelWattage);
-            const areaPerPanel = 2.5;
-            const neededArea = panelsNeeded * areaPerPanel;
+                // Estimate Consumption
+                let baseConsumption = houseSize * 40;
+                baseConsumption += peopleCount * 500;
+                if (daytimeOccupancy === 'yes') baseConsumption *= 1.25;
 
-            // Check if roof limit is exceeded
-            let actualPanels = panelsNeeded;
-            let limitedByRoof = false;
-            let coveragePercent = 100;
-            let shortfallKWh = 0;
+                if (document.getElementById('electric-cooking').checked) baseConsumption += 1200;
+                if (document.getElementById('heavy-ac').checked) baseConsumption += 2500;
+                if (document.getElementById('water-heater').checked) baseConsumption += 1800;
 
-            if (roofLimit && !isNaN(roofLimit) && neededArea > roofLimit) {
-                limitedByRoof = true;
-                actualPanels = Math.floor(roofLimit / areaPerPanel);
-                const actualKWp = (actualPanels * panelWattage) / 1000;
-                const actualProduction = actualKWp * pvgisYield;
-                coveragePercent = Math.round((actualProduction / baseConsumption) * 100);
-                shortfallKWh = Math.round(baseConsumption - actualProduction);
-            }
+                // System Sizing
+                const panelWattage = 550;
+                const neededKWp = baseConsumption / pvgisYield;
+                const panelsNeeded = Math.ceil((neededKWp * 1000) / panelWattage);
+                const areaPerPanel = 2.5;
+                const neededArea = panelsNeeded * areaPerPanel;
 
-            const finalKWp = (actualPanels * panelWattage) / 1000;
-            const finalProduction = finalKWp * pvgisYield;
-            const finalArea = actualPanels * areaPerPanel;
+                // Roof Limit Check
+                let actualPanels = panelsNeeded;
+                let limitedByRoof = false;
+                let coveragePercent = 100;
+                let shortfallKWh = 0;
 
-            // Display results
-            displayResults(actualPanels, finalKWp, finalProduction, finalArea, pvgisYield, coords);
+                if (roofLimit && !isNaN(roofLimit) && neededArea > roofLimit) {
+                    limitedByRoof = true;
+                    actualPanels = Math.floor(roofLimit / areaPerPanel);
+                    const actualKWp = (actualPanels * panelWattage) / 1000;
+                    const actualProduction = actualKWp * pvgisYield;
+                    coveragePercent = Math.round((actualProduction / baseConsumption) * 100);
+                    shortfallKWh = Math.round(baseConsumption - actualProduction);
+                }
 
-            // Add roof limitation warning if needed
-            const pvgisNote = document.getElementById('pvgis-note');
-            let baseNote = `<strong>Data source:</strong> PVGIS-SARAH database for location (${coords.lat.toFixed(4)}, ${coords.lon.toFixed(4)}) with ${tiltAngle}° tilt, ${orientation}° orientation.`;
+                const finalKWp = (actualPanels * panelWattage) / 1000;
+                const finalProduction = finalKWp * pvgisYield;
+                const finalArea = actualPanels * areaPerPanel;
 
-            if (limitedByRoof) {
-                baseNote += `
+                // Display results
+                displayResults(actualPanels, finalKWp, finalProduction, finalArea, pvgisYield, coords);
+
+                // Add roof limitation warning if needed
+                const pvgisNote = document.getElementById('pvgis-note');
+                let baseNote = `<strong>Data source:</strong> PVGIS-SARAH database for location (${coords.lat.toFixed(4)}, ${coords.lon.toFixed(4)}) with ${tiltAngle}° tilt, ${orientation}° orientation.`;
+
+                if (limitedByRoof) {
+                    baseNote += `
                     <div style="
                         margin-top: 1.5rem;
                         padding: 2rem;
@@ -1612,31 +1418,73 @@
                         </div>
                     </div>
                 `;
+                }
+
+                pvgisNote.innerHTML = baseNote;
+                btn.textContent = 'Calculate System Size';
             }
 
-            pvgisNote.innerHTML = baseNote;
-
-            btn.textContent = 'Calculate with Custom Parameters';
-        }
 
 
-        function toggleDarkMode() {
-            document.body.classList.toggle('light-mode');
-            const isLight = document.body.classList.contains('light-mode');
-            localStorage.setItem('themeMode', isLight ? 'light' : 'dark');
-        }
+            function displayResults(panels, kWp, production, area, yield, coords) {
+                document.getElementById('main-result').textContent = panels;
+                document.getElementById('system-size').textContent = kWp.toFixed(1);
+                document.getElementById('annual-production').textContent = Math.round(production).toLocaleString();
+                document.getElementById('roof-area').textContent = Math.round(area);
+                document.getElementById('solar-yield').textContent = Math.round(yield);
 
-        (function initTheme() {
-            const themeMode = localStorage.getItem('themeMode');
-            if (themeMode === 'light') {
-                document.body.classList.add('light-mode');
+                // Calculate estimated cost (1 kW = 1000 ₼)
+                const estimatedCost = Math.round(kWp * 1000);
+                document.getElementById('estimated-cost').textContent = estimatedCost.toLocaleString();
+
+                // Calculate environmental impact
+                // Average: 0.5 kg CO2 per kWh from fossil fuels
+                const co2ReductionKg = production * 0.5;
+                const co2ReductionTons = co2ReductionKg / 1000;
+
+                // One tree absorbs approximately 21 kg CO2 per year
+                const treeEquivalent = Math.round(co2ReductionKg / 21);
+
+                document.getElementById('co2-reduction').textContent = co2ReductionTons.toFixed(2);
+                document.getElementById('tree-equivalent').textContent = treeEquivalent.toLocaleString();
+
+                const pvgisNote = document.getElementById('pvgis-note');
+                if (coords) {
+                    // Update optimal tilt angle
+                    const optimalTilt = getOptimalTilt(coords.lat);
+                    document.getElementById('opt-tilt').textContent = `${optimalTilt}°`;
+                }
+
+                const resultsEl = document.getElementById('results');
+                if (resultsEl) {
+                    resultsEl.classList.add('show');
+                    // Scroll disabled to prevent crashes
+                    // resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             }
-        })();
 
-        // Initialize map when page loads
-        window.addEventListener('load', () => {
-            setTimeout(initMap, 100);
-        });
+
+
+
+
+
+            function toggleDarkMode() {
+                document.body.classList.toggle('light-mode');
+                const isLight = document.body.classList.contains('light-mode');
+                localStorage.setItem('themeMode', isLight ? 'light' : 'dark');
+            }
+
+            (function initTheme() {
+                const themeMode = localStorage.getItem('themeMode');
+                if (themeMode === 'light') {
+                    document.body.classList.add('light-mode');
+                }
+            })();
+
+            // Initialize map when page loads
+            window.addEventListener('load', () => {
+                setTimeout(initMap, 100);
+            });
 
         } // End guard
     </script>
