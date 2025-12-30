@@ -8,7 +8,10 @@ const translations = {
             calculator: "Solar Calculator",
             framework: "Regulatory Framework",
             home: "Home",
-            energyMap: "Energy Map"
+            energyMap: "Energy Map",
+            laws: "Laws",
+            commitments: "Commitments",
+            investment: "Investment"
         },
         hero: {
             title1: "Azerbaijan's",
@@ -22,6 +25,17 @@ const translations = {
             target: "Target Capacity by 2030",
             resShare: "RES Share Goal",
             policies: "Policy Frameworks"
+        },
+        calculator: {
+            title: "Solar Calculator",
+            subtitle: "Estimate your solar panel requirements for grid-tied systems in Azerbaijan",
+            quickEstimate: "Quick Estimate",
+            advancedCalculator: "Advanced Calculator",
+            selectLocation: "Select Your Location",
+            monthlyConsumption: "Monthly Electricity Consumption",
+            occupancy: "Occupancy During Daytime",
+            additionalAppliances: "Additional Appliances",
+            calculate: "Calculate System Size"
         }
     },
     ru: {
@@ -32,7 +46,10 @@ const translations = {
             calculator: "Солнечный калькулятор",
             framework: "Нормативная база",
             home: "Главная",
-            energyMap: "Энергетическая карта"
+            energyMap: "Энергетическая карта",
+            laws: "Законы",
+            commitments: "Обязательства",
+            investment: "Инвестиции"
         },
         hero: {
             title1: "Чистая энергия",
@@ -46,6 +63,17 @@ const translations = {
             target: "Целевая мощность к 2030 году",
             resShare: "Цель доли ВИЭ",
             policies: "Политические рамки"
+        },
+        calculator: {
+            title: "Солнечный калькулятор",
+            subtitle: "Оцените требования к солнечным панелям для систем, подключенных к сети в Азербайджане",
+            quickEstimate: "Быстрая оценка",
+            advancedCalculator: "Расширенный калькулятор",
+            selectLocation: "Выберите ваше местоположение",
+            monthlyConsumption: "Ежемесячное потребление электроэнергии",
+            occupancy: "Присутствие днем",
+            additionalAppliances: "Дополнительные приборы",
+            calculate: "Рассчитать размер системы"
         }
     },
     az: {
@@ -56,7 +84,10 @@ const translations = {
             calculator: "Günəş Kalkulyatoru",
             framework: "Tənzimləyici Çərçivə",
             home: "Əsas səhifə",
-            energyMap: "Enerji Xəritəsi"
+            energyMap: "Enerji Xəritəsi",
+            laws: "Qanunlar",
+            commitments: "Öhdəliklər",
+            investment: "İnvestisiya"
         },
         hero: {
             title1: "Azərbaycanın",
@@ -70,6 +101,17 @@ const translations = {
             target: "2030-cu ilə Hədəf Güc",
             resShare: "BEM Payı Hədəfi",
             policies: "Siyasət Çərçivələri"
+        },
+        calculator: {
+            title: "Günəş Kalkulyatoru",
+            subtitle: "Azərbaycanda şəbəkəyə qoşulmuş sistemlər üçün günəş paneli tələblərini qiymətləndirin",
+            quickEstimate: "Sürətli Qiymətləndirmə",
+            advancedCalculator: "Təkmilləşdirilmiş Kalkulyator",
+            selectLocation: "Məkanınızı seçin",
+            monthlyConsumption: "Aylıq Elektrik İstehlakı",
+            occupancy: "Gündüz İşğalı",
+            additionalAppliances: "Əlavə Cihazlar",
+            calculate: "Sistem Ölçüsünü Hesablayın"
         }
     }
 };
@@ -110,13 +152,19 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePageLanguage();
 
     // Toggle dropdown
-    document.querySelector('.lang-btn').addEventListener('click', (e) => {
-        e.stopPropagation();
-        document.querySelector('.language-switcher').classList.toggle('active');
-    });
+    const langBtn = document.querySelector('.lang-btn');
+    if (langBtn) {
+        langBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.querySelector('.language-switcher').classList.toggle('active');
+        });
+    }
 
     // Close dropdown when clicking outside
     document.addEventListener('click', () => {
-        document.querySelector('.language-switcher').classList.remove('active');
+        const switcher = document.querySelector('.language-switcher');
+        if (switcher) {
+            switcher.classList.remove('active');
+        }
     });
 });

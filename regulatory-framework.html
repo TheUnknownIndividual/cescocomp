@@ -203,6 +203,82 @@
             animation: ripple 0.6s ease-out;
         }
 
+        /* Language Switcher */
+        .language-switcher {
+            position: relative;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        body.light-mode .lang-btn {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .lang-btn:hover {
+            background: rgba(111, 145, 168, 0.2);
+            border-color: var(--az-blue);
+        }
+
+        .lang-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.5rem;
+            min-width: 120px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        body.light-mode .lang-dropdown {
+            background: white;
+            border-color: rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .language-switcher.active .lang-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-dropdown button {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            padding: 0.75rem 1rem;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .lang-dropdown button:hover {
+            background: rgba(111, 145, 168, 0.2);
+        }
+
         .nav-links a {
             color: var(--text-secondary);
             text-decoration: none;
@@ -1132,12 +1208,23 @@
                 <span>CECSO</span>
             </a>
             <div class="nav-links">
-                <a href="/">Home</a>
-                <a href="/#map">Energy Map</a>
-                <a href="solar-calculator">Solar Calculator</a>
-                <a href="#laws">Laws</a>
-                <a href="#commitments">Commitments</a>
-                <a href="#investment">Investment</a>
+                <a href="/" data-i18n="nav.home">Home</a>
+                <a href="/#map" data-i18n="nav.energyMap">Energy Map</a>
+                <a href="solar-calculator" data-i18n="nav.calculator">Solar Calculator</a>
+                <a href="#laws" data-i18n="nav.laws">Laws</a>
+                <a href="#commitments" data-i18n="nav.commitments">Commitments</a>
+                <a href="#investment" data-i18n="nav.investment">Investment</a>
+
+                <!-- Language Switcher -->
+                <div class="language-switcher">
+                    <button class="lang-btn" id="currentLang">EN</button>
+                    <div class="lang-dropdown">
+                        <button onclick="setLanguage('en')">🇬🇧 EN</button>
+                        <button onclick="setLanguage('ru')">🇷🇺 RU</button>
+                        <button onclick="setLanguage('az')">🇦🇿 AZ</button>
+                    </div>
+                </div>
+
                 <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Light/Dark Mode"
                     aria-label="Toggle Light/Dark Mode">
                     <img src="lightmode.png" alt="Light Mode" class="light-icon">
@@ -2070,6 +2157,9 @@
             // Initialize
             filterCards();
         </script>
+
+        <!-- Multi-language Support -->
+        <script src="translations.js"></script>
 </body>
 
 </html>

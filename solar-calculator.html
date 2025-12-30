@@ -813,6 +813,19 @@
             </div>
         </div>
 
+        <!-- Mode Switcher -->
+        <div class="calc-card" style="text-align: center;">
+            <div
+                style="display: inline-flex; background: var(--card-bg); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 0.5rem;">
+                <button id="simpleModeBtn" class="mode-btn active" onclick="switchMode('simple')">
+                    ⚡ Quick Estimate
+                </button>
+                <button id="advancedModeBtn" class="mode-btn" onclick="switchMode('advanced')">
+                    🔧 Advanced Calculator
+                </button>
+            </div>
+        </div>
+
         <!-- Simple Mode -->
         <div class="calc-card">
             <div id="simple-mode" class="calc-mode active">
