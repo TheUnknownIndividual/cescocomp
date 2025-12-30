@@ -8,6 +8,10 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
         rel="stylesheet">
+    <script type="module">
+        import { inject } from 'https://cdn.jsdelivr.net/npm/@vercel/analytics/+esm';
+        inject();
+    </script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         :root {
@@ -1117,10 +1121,15 @@
                         <div class="tip-value">South (180°)</div>
                         <p>Face panels directly south for maximum exposure in Northern Hemisphere</p>
                     </div>
-                    <div class="tip-card">
-                        <h4>🌡️ Temperature Coefficient</h4>
-                        <div class="tip-value">-11%</div>
-                        <p>System losses from heat, cables, inverter, and soiling—already included in calculations</p>
+                    <div class="tip-card" style="position: relative; cursor: help;"
+                        title="You told PVGIS to assume that 14% of the DC energy produced by the panels is lost before it becomes usable AC electricity.">
+                        <h4 style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>📉 System Loss</span>
+                            <span
+                                style="font-size: 0.8rem; background: rgba(111, 145, 168, 0.2); width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--az-blue);">i</span>
+                        </h4>
+                        <div class="tip-value" id="system-loss-display">14%</div>
+                        <p>DC energy lost before becoming usable AC electricity (cables, inverter, etc.)</p>
                     </div>
                     <div class="tip-card">
                         <h4>🌳 Shading Analysis</h4>
@@ -1262,45 +1271,29 @@
             }
 
             async function getPVGISYield(lat, lon, tilt = 35, aspect = 0) {
-                // aspect: 0=South, -90=East, 90=West (convert from our 0-360 system)
-                // Convert orientation: 0°=North, 90°=East, 180°=South, 270°=West
-                // to PVGIS aspect: South=0, East=-90, West=90
-                let pvgisAspect = 0;
-
-                // Determine PVGIS aspect (0=South, -90=East, 90=West)
-                if (aspect === 0) pvgisAspect = 180; // North (facing away from South)
-                else if (aspect === 90) pvgisAspect = -90; // East
-                else if (aspect === 180) pvgisAspect = 0; // South
-                else if (aspect === 270) pvgisAspect = 90; // West
-                else pvgisAspect = ((aspect - 180) * -1);
-
-                // Use local backend proxy
-                const url = `/api/pvgis?lat=${lat}&lon=${lon}&tilt=${tilt}&aspect=${pvgisAspect}`;
+                // FIXED DATA SOURCE: Using local JSON file as requested
+                const url = './PVdata_40.434_49.826_SA3_crystSi_1kWp_14_35deg_0deg.json';
 
                 try {
-                    // Timeout after 1 second (max wait time)
-                    const timeoutPromise = new Promise((_, reject) =>
-                        setTimeout(() => reject(new Error('Request timed out')), 1000)
-                    );
-
-                    const response = await Promise.race([
-                        fetch(url),
-                        timeoutPromise
-                    ]);
-
-                    if (!response.ok) throw new Error('API response not ok');
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('Failed to load local PV data');
 
                     const data = await response.json();
 
                     if (data.outputs && data.outputs.totals) {
                         const yearlyProduction = data.outputs.totals.fixed.E_y;
+
+                        // Store system loss for display
+                        if (data.inputs && data.inputs.pv_module) {
+                            window.lastSystemLoss = data.inputs.pv_module.system_loss;
+                        }
                         return Math.round(yearlyProduction);
                     }
                 } catch (error) {
-                    console.warn('PVGIS API error or timeout:', error);
+                    console.warn('PVGIS Data error:', error);
                 }
 
-                // Fallback to Azerbaijan average
+                // Fallback (should not be reached if file exists)
                 return 1350;
             }
 
@@ -1350,15 +1343,13 @@
                 // Get coordinates first
                 const coords = await getCoordinates(location);
 
-                // Use optimal tilt based on latitude if not specified
-                const tiltAngleInput = document.getElementById('tilt-angle').value;
-                const tiltAngle = tiltAngleInput ? parseFloat(tiltAngleInput) : getOptimalTilt(coords.lat);
+                // Use Fixed parameters as requested: Fixed, 35° tilt, south-facing (azimuth 0°)
+                const tiltAngle = 35;
+                // Note: user specified azimuth 0° (South). 
+                // In our getPVGISYield logic or data file, this corresponds to the south facing setup.
+                const orientation = 0;
 
-                // Use South (180°) if orientation not specified  
-                const orientationInput = document.getElementById('panel-orientation').value;
-                const orientation = orientationInput ? parseFloat(orientationInput) : 180;
-
-                // Get PVGIS yield with custom or optimal tilt and orientation
+                // Get PVGIS yield with fixed settings
                 const pvgisYield = await getPVGISYield(coords.lat, coords.lon, tiltAngle, orientation);
 
                 // Enhanced consumption estimate
@@ -1452,12 +1443,12 @@
 
 
 
-            function displayResults(panels, kWp, production, area, yield, coords) {
+            function displayResults(panels, kWp, production, area, solarYield, coords) {
                 document.getElementById('main-result').textContent = panels;
                 document.getElementById('system-size').textContent = kWp.toFixed(1);
                 document.getElementById('annual-production').textContent = Math.round(production).toLocaleString();
                 document.getElementById('roof-area').textContent = Math.round(area);
-                document.getElementById('solar-yield').textContent = Math.round(yield);
+                document.getElementById('solar-yield').textContent = Math.round(solarYield);
 
                 // Calculate estimated cost (1 kW = 1000 ₼)
                 const estimatedCost = Math.round(kWp * 1000);
@@ -1476,9 +1467,14 @@
 
                 const pvgisNote = document.getElementById('pvgis-note');
                 if (coords) {
-                    // Update optimal tilt angle
+                    // Update optimal tilt angle display or show fixed used
                     const optimalTilt = getOptimalTilt(coords.lat);
                     document.getElementById('opt-tilt').textContent = `${optimalTilt}°`;
+                }
+
+                if (window.lastSystemLoss) {
+                    const lossEl = document.getElementById('system-loss-display');
+                    if (lossEl) lossEl.textContent = window.lastSystemLoss + '%';
                 }
 
                 const resultsEl = document.getElementById('results');
