@@ -1,4 +1,4 @@
-# RenewAz SEO Setup Guide
+# Plugin.az SEO Setup Guide
 
 ## ✅ What Has Been Implemented
 
@@ -92,9 +92,9 @@
 ### **Current Implementation:**
 
 1. **Page Titles** (Optimized for Search)
-   - **Homepage**: "RenewAz - Azerbaijan's Renewable Energy Platform | Bərpa Olunan Enerji Platforması"
-   - **Solar Calculator**: "Solar Calculator - RenewAz | Günəş Kalkulyatoru | Солнечный Калькулятор"
-   - **Regulatory Framework**: "Regulatory Framework - RenewAz | Tənzimləyici Çərçivə | Нормативная База"
+   - **Homepage**: "Plugin.az - Azerbaijan's Renewable Energy Platform | Bərpa Olunan Enerji Platforması"
+   - **Solar Calculator**: "Solar Calculator - Plugin.az | Günəş Kalkulyatoru | Солнечный Калькулятор"
+   - **Regulatory Framework**: "Regulatory Framework - Plugin.az | Tənzimləyici Çərçivə | Нормативная База"
 
 2. **Meta Descriptions** (150-160 characters, multilingual)
    - Compelling copy for click-through rate
@@ -171,7 +171,7 @@ Add to homepage `<head>`:
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "RenewAz",
+  "name": "Plugin.az",
   "description": "Azerbaijan's Renewable Energy Data Platform",
   "url": "https://renewaz.vercel.app",
   "applicationCategory": "UtilityApplication",
