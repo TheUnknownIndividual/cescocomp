@@ -955,58 +955,82 @@
             </div>
 
 
-            <!-- Advanced Mode -->
+            <!-- Advanced Mode (Copy of Simple + Custom Parameters) -->
             <div id="advanced-mode" class="calc-mode">
                 <h2 style="margin-bottom: 2rem;">🔧 Advanced Calculator</h2>
 
                 <div class="form-group">
-                    <label for="adv-consumption">Monthly Electricity Consumption (kWh)</label>
-                    <input type="number" id="adv-consumption" placeholder="e.g., 500" min="0">
-                    <small>Your average monthly electricity bill consumption</small>
+                    <label for="adv-location">Location</label>
+                    <input type="text" id="adv-location"
+                        placeholder="e.g., Baku, Ganja, or coordinates: 40.4093, 49.8671">
+                    <small>City name or latitude, longitude coordinates</small>
                 </div>
 
                 <div class="form-group">
-                    <label for="roof-area-limit">Roof Space Available (m²)</label>
-                    <input type="number" id="roof-area-limit" placeholder="e.g., 50" min="0" step="0.1">
-                    <small>Maximum roof area you have available for solar panels</small>
+                    <label for="adv-house-size">House Size (m²)</label>
+                    <input type="number" id="adv-house-size" placeholder="e.g., 150" min="0">
+                    <small>Enter your total house area in square meters</small>
                 </div>
 
                 <div class="form-group">
-                    <label for="tilt-angle">Panel Tilt Angle (degrees)</label>
-                    <input type="number" id="tilt-angle" placeholder="35" value="35" min="0" max="90">
-                    <small>Optimal for Azerbaijan: 35-40°. Click on results recommendation to auto-fill</small>
+                    <label for="adv-people">How many people live in your home?</label>
+                    <input type="number" id="adv-people" placeholder="e.g., 4" min="1" max="20">
+                    <small>Including infants and children</small>
+                </div>
+
+                <!-- EXTRA: Roof Space Limit -->
+                <div class="form-group">
+                    <label for="roof-area-limit">Maximum Roof Space Available (m²) <span
+                            style="color: var(--az-green);">★</span></label>
+                    <input type="number" id="roof-area-limit" placeholder="e.g., 50 (optional)" min="0" step="0.1">
+                    <small>Leave empty for unlimited, or enter max roof area to limit panel count</small>
+                </div>
+
+                <!-- EXTRA: Tilt Angle -->
+                <div class="form-group">
+                    <label for="tilt-angle">Panel Tilt Angle (degrees) <span
+                            style="color: var(--az-green);">★</span></label>
+                    <input type="number" id="tilt-angle" placeholder="35" value="35" min="0" max="90"
+                        onchange="recalculateAdvanced()">
+                    <small>Optimal: 35-40° for Azerbaijan. Adjusting will auto-recalculate</small>
+                </div>
+
+                <!-- EXTRA: Panel Orientation -->
+                <div class="form-group">
+                    <label for="panel-orientation">Panel Orientation (degrees) <span
+                            style="color: var(--az-green);">★</span></label>
+                    <input type="number" id="panel-orientation" placeholder="180" value="180" min="0" max="360"
+                        onchange="recalculateAdvanced()">
+                    <small>0°=North, 90°=East, 180°=South (best), 270°=West. Auto-recalculates</small>
                 </div>
 
                 <div class="form-group">
-                    <label for="panel-orientation">Panel Orientation (degrees)</label>
-                    <input type="number" id="panel-orientation" placeholder="180" value="180" min="0" max="360">
-                    <small>0°=North, 90°=East, 180°=South, 270°=West. South (180°) is optimal</small>
-                </div>
-
-                <div class="checkbox-group">
-                    <label class="checkbox-item">
-                        <input type="radio" name="adv-occupancy" value="occupied" checked>
-                        <span>Yes - someone is usually home during daytime</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="radio" name="adv-occupancy" value="empty">
-                        <span>No - home is empty during work hours</span>
-                    </label>
+                    <label>Is someone generally at home during daytime (9am-5pm)?</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="adv-daytime" value="yes" checked>
+                            <span>Yes - someone is usually home</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="adv-daytime" value="no">
+                            <span>No - home is empty during work hours</span>
+                        </label>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label>Additional Appliances</label>
                     <div class="checkbox-group">
                         <label class="checkbox-item">
-                            <input type="checkbox" id="adv-cooking" value="cooking">
+                            <input type="checkbox" id="adv-cooking">
                             <span>Electric cooking (oven/induction)</span>
                         </label>
                         <label class="checkbox-item">
-                            <input type="checkbox" id="adv-ac" value="ac">
+                            <input type="checkbox" id="adv-ac">
                             <span>Heavy AC/heating usage (2-3 units daily)</span>
                         </label>
                         <label class="checkbox-item">
-                            <input type="checkbox" id="adv-heater" value="heater">
+                            <input type="checkbox" id="adv-heater">
                             <span>Electric water heater/boiler</span>
                         </label>
                     </div>
@@ -1451,42 +1475,49 @@
             btn.textContent = 'Calculate with PVGIS Data';
         }
 
-        // Advanced calculator with custom parameters
+        // Advanced calculator (Simple mode + Custom Parameters)
         async function calculateAdvanced() {
             const btn = document.getElementById('advanced-btn-text');
-            btn.textContent = 'Calculating...';
+            btn.textContent = 'Fetching solar data...'
 
-            const monthlyConsumption = parseFloat(document.getElementById('adv-consumption').value);
+                ;
+
+            const location = document.getElementById('adv-location').value;
+            const houseSize = parseFloat(document.getElementById('adv-house-size').value);
+            const peopleCount = parseInt(document.getElementById('adv-people').value) || 3;
+            const daytimeOccupancy = document.querySelector('input[name="adv-daytime"]:checked').value;
             const roofLimit = parseFloat(document.getElementById('roof-area-limit').value);
             const tiltAngle = parseFloat(document.getElementById('tilt-angle').value) || 35;
             const orientation = parseFloat(document.getElementById('panel-orientation').value) || 180;
-            const occupancy = document.querySelector('input[name="adv-occupancy"]:checked').value;
 
-            if (!monthlyConsumption || monthlyConsumption <= 0) {
-                alert('Please enter valid monthly consumption');
+            if (!houseSize || houseSize <= 0) {
+                alert('Please enter a valid house size');
                 btn.textContent = 'Calculate with Custom Parameters';
                 return;
             }
 
-            // Annual consumption
-            let annualConsumption = monthlyConsumption * 12;
+            // Get coordinates and PVGIS yield with custom tilt and orientation
+            const coords = await getCoordinates(location);
+            const pvgisYield = await getPVGISYield(coords.lat, coords.lon, tiltAngle, orientation);
 
-            // Add appliance usage
-            if (document.getElementById('adv-cooking').checked) annualConsumption += 1200;
-            if (document.getElementById('adv-ac').checked) annualConsumption += 2500;
-            if (document.getElementById('adv-heater').checked) annualConsumption += 1800;
+            // Enhanced consumption estimate (same as simple mode)
+            let baseConsumption = houseSize * 40; // kWh per year per m²
+            baseConsumption += peopleCount * 500; // ~500 kWh per person
 
-            // Adjust for occupancy (if empty during day, reduce self-consumption bonus)
-            const selfConsumptionFactor = occupancy === 'occupied' ? 0.7 : 0.4;
+            if (daytimeOccupancy === 'yes') {
+                baseConsumption *= 1.25;
+            }
 
-            // Get solar yield for location with custom tilt and orientation
-            const pvgisYield = await getPVGISYield(selectedLocation.lat, selectedLocation.lon, tiltAngle, orientation);
+            // Add for appliances
+            if (document.getElementById('adv-cooking').checked) baseConsumption += 1200;
+            if (document.getElementById('adv-ac').checked) baseConsumption += 2500;
+            if (document.getElementById('adv-heater').checked) baseConsumption += 1800;
 
             // Calculate needed system size
-            const panelWattage = 550; // Watts
-            const neededKWp = annualConsumption / pvgisYield;
+            const panelWattage = 550;
+            const neededKWp = baseConsumption / pvgisYield;
             const panelsNeeded = Math.ceil((neededKWp * 1000) / panelWattage);
-            const areaPerPanel = 2.5; // m² per panel
+            const areaPerPanel = 2.5;
             const neededArea = panelsNeeded * areaPerPanel;
 
             // Check if roof limit is exceeded
@@ -1499,40 +1530,36 @@
                 actualPanels = Math.floor(roofLimit / areaPerPanel);
                 const actualKWp = (actualPanels * panelWattage) / 1000;
                 const actualProduction = actualKWp * pvgisYield;
-                coveragePercent = Math.round((actualProduction / annualConsumption) * 100);
+                coveragePercent = Math.round((actualProduction / baseConsumption) * 100);
             }
 
             const finalKWp = (actualPanels * panelWattage) / 1000;
             const finalProduction = finalKWp * pvgisYield;
             const finalArea = actualPanels * areaPerPanel;
 
-            // Display results with roof limitation info
-            document.getElementById('main-result').textContent = actualPanels;
-            document.getElementById('system-size').textContent = finalKWp.toFixed(1);
-            document.getElementById('annual-production').textContent = Math.round(finalProduction).toLocaleString();
-            document.getElementById('roof-area').textContent = Math.round(finalArea);
-            document.getElementById('solar-yield').textContent = Math.round(pvgisYield);
+            // Display results
+            displayResults(actualPanels, finalKWp, finalProduction, finalArea, pvgisYield, coords);
 
-            // Environmental impact
-            const co2ReductionKg = finalProduction * 0.5;
-            const co2ReductionTons = co2ReductionKg / 1000;
-            const treeEquivalent = Math.round(co2ReductionKg / 21);
-            document.getElementById('co2-reduction').textContent = co2ReductionTons.toFixed(2);
-            document.getElementById('tree-equivalent').textContent = treeEquivalent.toLocaleString();
+            // Add roof limitation warning if needed
+            const pvgisNote = document.getElementById('pvgis-note');
+            let baseNote = `<strong>Data source:</strong> PVGIS-SARAH database for location (${coords.lat.toFixed(4)}, ${coords.lon.toFixed(4)}) with ${tiltAngle}° tilt, ${orientation}° orientation.`;
 
-            // Show roof limitation warning if needed
-            let roofWarning = '';
             if (limitedByRoof) {
-                roofWarning = `\n\n⚠️ ROOF SPACE LIMITATION:\nYou need ${Math.round(neededArea)}m² roof space for full coverage, but only have ${roofLimit}m².\nWith ${actualPanels} panels, you'll cover ${coveragePercent}% of your electricity needs.`;
+                baseNote += `<br><br><strong style="color: var(--az-green);">⚠️ ROOF SPACE LIMITATION:</strong><br>You need ${Math.round(neededArea)}m² roof space for full coverage, but only have ${roofLimit}m².<br>With ${actualPanels} panels, you'll cover <strong>${coveragePercent}%</strong> of your electricity needs.`;
             }
 
-            const pvgisNote = document.getElementById('pvgis-note');
-            pvgisNote.innerHTML = `<strong>Data source:</strong> PVGIS-SARAH database for location (${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lon.toFixed(4)}) with ${tiltAngle}° tilt, ${orientation}° orientation.${roofWarning}`;
-
-            document.getElementById('results').classList.add('show');
-            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            pvgisNote.innerHTML = baseNote;
 
             btn.textContent = 'Calculate with Custom Parameters';
+        }
+
+        // Auto-recalculate when tilt or orientation changes
+        async function recalculateAdvanced() {
+            // Only recalculate if we have already calculated once
+            const resultsVisible = document.getElementById('results').classList.contains('show');
+            if (resultsVisible) {
+                await calculateAdvanced();
+            }
         }
 
         function toggleDarkMode() {
