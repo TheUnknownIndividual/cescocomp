@@ -1209,12 +1209,13 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Prevent multiple script executions
-        if (window.solarCalculatorInitialized) {
-            console.warn('Solar calculator already initialized, preventing duplicate execution');
-            throw new Error('Already initialized');
-        }
-        window.solarCalculatorInitialized = true;
+        // Prevent multiple script executions with IIFE
+        (function() {
+            if (window.solarCalculatorInitialized) {
+                console.warn('Solar calculator already initialized, skipping duplicate execution');
+                return; // Exit immediately
+            }
+            window.solarCalculatorInitialized = true;
 
         let currentMode = 'simple';
         let map, marker;
@@ -1535,7 +1536,11 @@
             }
         }
 
-
+        // Expose functions to global scope for onclick handlers
+        window.switchMode = switchMode;
+        window.calculateSimple = calculateSimple;
+        window.calculateAdvanced = calculateAdvanced;
+        window.toggleDarkMode = toggleDarkMode;
 
         // Advanced calculator (Simple mode + Custom Parameters)
         async function calculateAdvanced() {
@@ -1661,6 +1666,8 @@
             // Document already loaded
             initMap();
         }
+
+        })(); // End IIFE - prevents duplicate execution
     </script>
 
     <!-- Multi-language Support -->
