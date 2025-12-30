@@ -1098,6 +1098,12 @@
                     <div class="detail-value" id="solar-yield">0</div>
                     <div class="detail-label">Solar Yield (kWh/kWp/year)</div>
                 </div>
+                <!-- Estimated Cost -->
+                <div class="detail-item"
+                    style="border-left: 3px solid var(--az-blue); background: rgba(56, 189, 248, 0.05);">
+                    <div class="detail-value" id="estimated-cost" style="color: var(--az-blue);">0</div>
+                    <div class="detail-label">Est. System Cost (₼)</div>
+                </div>
             </div>
 
             <div class="info-box">
@@ -1381,9 +1387,13 @@
         function displayResults(panels, kWp, production, area, yield, coords) {
             document.getElementById('main-result').textContent = panels;
             document.getElementById('system-size').textContent = kWp.toFixed(1);
-            document.getElementById('annual-production').textContent = production.toLocaleString();
-            document.getElementById('roof-area').textContent = area;
-            document.getElementById('solar-yield').textContent = yield;
+            document.getElementById('annual-production').textContent = Math.round(production).toLocaleString();
+            document.getElementById('roof-area').textContent = Math.round(area);
+            document.getElementById('solar-yield').textContent = Math.round(yield);
+
+            // Calculate estimated cost (1 kW = 1000 ₼)
+            const estimatedCost = Math.round(kWp * 1000);
+            document.getElementById('estimated-cost').textContent = estimatedCost.toLocaleString();
 
             // Calculate environmental impact
             // Average: 0.5 kg CO2 per kWh from fossil fuels
@@ -1406,7 +1416,7 @@
             }
 
             document.getElementById('results').classList.add('show');
-            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            document.getElementById('results').scrollIntoView({ behavior: 'auto', block: 'start' });
         }
 
         // Mode switching
