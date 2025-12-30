@@ -873,7 +873,7 @@
                 <span>🏠</span>
                 <span>Simple Calculator</span>
             </button>
-            <button class="mode-btn" onclick="switchMode('detailed')">
+            <button class="mode-btn" onclick="switchMode('advanced')">
                 <span>📊</span>
                 <span>Detailed Calculator</span>
             </button>
@@ -1176,6 +1176,7 @@
         let selectedLocation = { lat: 40.4093, lon: 49.8671 }; // Default: Baku
         let mapInitialized = false; // Flag to prevent multiple initializations
         let isCalculating = false; // Flag to prevent map updates during calculations
+        let isSwitchingMode = false; // Flag to prevent multiple mode switches
 
         const cityCoordinates = {
             'baku': { lat: 40.4093, lon: 49.8671 },
@@ -1446,17 +1447,37 @@
 
         // Mode switching
         function switchMode(mode) {
-            // Toggle active states
-            document.querySelectorAll('.calc-mode').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            // Prevent multiple simultaneous mode switches
+            if (isSwitchingMode) {
+                console.log('Mode switch already in progress, ignoring...');
+                return;
+            }
+            
+            isSwitchingMode = true;
+            console.log('Switching to mode:', mode);
+            
+            try {
+                // Toggle active states
+                document.querySelectorAll('.calc-mode').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
 
-            if (mode === 'simple') {
-                document.getElementById('simple-mode').classList.add('active');
-                document.getElementById('simpleModeBtn').classList.add('active');
-            } else {
-                // Advanced mode
-                document.getElementById('advanced-mode').classList.add('active');
-                document.getElementById('advancedModeBtn').classList.add('active');
+                if (mode === 'simple') {
+                    document.getElementById('simple-mode').classList.add('active');
+                    document.getElementById('simpleModeBtn').classList.add('active');
+                } else {
+                    // Advanced mode (handle both 'advanced' and 'detailed')
+                    document.getElementById('advanced-mode').classList.add('active');
+                    document.getElementById('advancedModeBtn').classList.add('active');
+                }
+                
+                currentMode = mode;
+            } catch (error) {
+                console.error('Error switching modes:', error);
+            } finally {
+                // Use setTimeout to release the lock after a brief delay
+                setTimeout(() => {
+                    isSwitchingMode = false;
+                }, 100);
             }
         }
 
