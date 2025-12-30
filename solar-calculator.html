@@ -1209,6 +1209,13 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
+        // Prevent multiple script executions
+        if (window.solarCalculatorInitialized) {
+            console.warn('Solar calculator already initialized, preventing duplicate execution');
+            throw new Error('Already initialized');
+        }
+        window.solarCalculatorInitialized = true;
+
         let currentMode = 'simple';
         let map, marker;
         let selectedLocation = { lat: 40.4093, lon: 49.8671 }; // Default: Baku

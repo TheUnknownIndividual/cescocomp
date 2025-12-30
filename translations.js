@@ -1,4 +1,11 @@
 // Multi-language translation system for CECSO
+
+// Prevent multiple initializations
+if (window.translationsInitialized) {
+    console.warn('Translations already initialized, skipping...');
+} else {
+    window.translationsInitialized = true;
+
 const translations = {
     en: {
         nav: {
@@ -148,7 +155,16 @@ function updatePageLanguage() {
 
 // Initialize language on page load
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('currentLang').textContent = currentLanguage.toUpperCase();
+    if (window.languageSystemReady) {
+        console.log('Language system already initialized');
+        return;
+    }
+    window.languageSystemReady = true;
+    
+    const currentLangElement = document.getElementById('currentLang');
+    if (currentLangElement) {
+        currentLangElement.textContent = currentLanguage.toUpperCase();
+    }
     updatePageLanguage();
 
     // Toggle dropdown
@@ -167,4 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
             switcher.classList.remove('active');
         }
     });
-});
+}, { once: true });
+
+} // End of translationsInitialized check
