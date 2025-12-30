@@ -5,6 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solar Calculator | Green Energy Azerbaijan</title>
+    
+    <!-- CRITICAL: Prevent any duplicate page initialization -->
+    <script>
+        if (window.pageLoadCount) {
+            window.pageLoadCount++;
+            if (window.pageLoadCount > 1) {
+                console.error('DUPLICATE PAGE LOAD DETECTED - Count:', window.pageLoadCount);
+                // Stop all script execution
+                document.write = function() {};
+                throw new Error('Duplicate page load prevented');
+            }
+        } else {
+            window.pageLoadCount = 1;
+        }
+    </script>
+    
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
         rel="stylesheet">
@@ -1209,6 +1225,12 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
+        // CRITICAL: Check if Leaflet loaded multiple times
+        if (window.L && window.leafletLoadCount) {
+            console.error('LEAFLET LOADED MULTIPLE TIMES!');
+        }
+        window.leafletLoadCount = (window.leafletLoadCount || 0) + 1;
+        
         // Prevent multiple script executions with IIFE
         (function() {
             if (window.solarCalculatorInitialized) {
@@ -1677,6 +1699,22 @@
                 isScrolling = false;
             }, 150);
         }, { passive: true });
+
+        // CRITICAL: Monitor for unexpected DOM changes
+        if (window.MutationObserver) {
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.addedNodes.length > 10) {
+                        console.error('SUSPICIOUS: Many nodes added at once:', mutation.addedNodes.length);
+                    }
+                });
+            });
+            
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
 
         // Initialize map when page loads
         if (document.readyState === 'loading') {
