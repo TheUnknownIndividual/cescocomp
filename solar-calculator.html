@@ -990,18 +990,17 @@
                 <div class="form-group">
                     <label for="tilt-angle">Panel Tilt Angle (degrees) <span
                             style="color: var(--az-green);">★</span></label>
-                    <input type="number" id="tilt-angle" placeholder="35" value="35" min="0" max="90"
-                        onchange="recalculateAdvanced()">
-                    <small>Optimal: 35-40° for Azerbaijan. Adjusting will auto-recalculate</small>
+                    <input type="number" id="tilt-angle" placeholder="Leave empty for optimal" min="0" max="90">
+                    <small>Optional: 35-40° optimal for Azerbaijan. Leave empty to auto-calculate from latitude</small>
                 </div>
 
                 <!-- EXTRA: Panel Orientation -->
                 <div class="form-group">
                     <label for="panel-orientation">Panel Orientation (degrees) <span
                             style="color: var(--az-green);">★</span></label>
-                    <input type="number" id="panel-orientation" placeholder="180" value="180" min="0" max="360"
-                        onchange="recalculateAdvanced()">
-                    <small>0°=North, 90°=East, 180°=South (best), 270°=West. Auto-recalculates</small>
+                    <input type="number" id="panel-orientation" placeholder="Leave empty for South (180°)" min="0"
+                        max="360">
+                    <small>Optional: 0°=North, 90°=East, 180°=South, 270°=West. Leave empty for optimal (South)</small>
                 </div>
 
                 <div class="form-group">
@@ -1478,17 +1477,13 @@
         // Advanced calculator (Simple mode + Custom Parameters)
         async function calculateAdvanced() {
             const btn = document.getElementById('advanced-btn-text');
-            btn.textContent = 'Fetching solar data...'
-
-                ;
+            btn.textContent = 'Fetching solar data...';
 
             const location = document.getElementById('adv-location').value;
             const houseSize = parseFloat(document.getElementById('adv-house-size').value);
             const peopleCount = parseInt(document.getElementById('adv-people').value) || 3;
             const daytimeOccupancy = document.querySelector('input[name="adv-daytime"]:checked').value;
             const roofLimit = parseFloat(document.getElementById('roof-area-limit').value);
-            const tiltAngle = parseFloat(document.getElementById('tilt-angle').value) || 35;
-            const orientation = parseFloat(document.getElementById('panel-orientation').value) || 180;
 
             if (!houseSize || houseSize <= 0) {
                 alert('Please enter a valid house size');
@@ -1496,8 +1491,18 @@
                 return;
             }
 
-            // Get coordinates and PVGIS yield with custom tilt and orientation
+            // Get coordinates first
             const coords = await getCoordinates(location);
+
+            // Use optimal tilt based on latitude if not specified
+            const tiltAngleInput = document.getElementById('tilt-angle').value;
+            const tiltAngle = tiltAngleInput ? parseFloat(tiltAngleInput) : getOptimalTilt(coords.lat);
+
+            // Use South (180°) if orientation not specified  
+            const orientationInput = document.getElementById('panel-orientation').value;
+            const orientation = orientationInput ? parseFloat(orientationInput) : 180;
+
+            // Get PVGIS yield with custom or optimal tilt and orientation
             const pvgisYield = await getPVGISYield(coords.lat, coords.lon, tiltAngle, orientation);
 
             // Enhanced consumption estimate (same as simple mode)
@@ -1553,14 +1558,6 @@
             btn.textContent = 'Calculate with Custom Parameters';
         }
 
-        // Auto-recalculate when tilt or orientation changes
-        async function recalculateAdvanced() {
-            // Only recalculate if we have already calculated once
-            const resultsVisible = document.getElementById('results').classList.contains('show');
-            if (resultsVisible) {
-                await calculateAdvanced();
-            }
-        }
 
         function toggleDarkMode() {
             document.body.classList.toggle('light-mode');
