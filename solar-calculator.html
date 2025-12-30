@@ -1175,6 +1175,7 @@
         let map, marker;
         let selectedLocation = { lat: 40.4093, lon: 49.8671 }; // Default: Baku
         let mapInitialized = false; // Flag to prevent multiple initializations
+        let isCalculating = false; // Flag to prevent map updates during calculations
 
         const cityCoordinates = {
             'baku': { lat: 40.4093, lon: 49.8671 },
@@ -1287,11 +1288,13 @@
             const cityName = locationStr.toLowerCase().trim();
             if (cityCoordinates[cityName]) {
                 const coords = cityCoordinates[cityName];
-                // Update map
+                // Update map only if not calculating and map is initialized
                 selectedLocation = coords;
-                marker.setLatLng([coords.lat, coords.lon]);
-                map.setView([coords.lat, coords.lon], 10);
-                updateLocationDisplay();
+                if (!isCalculating && map && marker) {
+                    marker.setLatLng([coords.lat, coords.lon]);
+                    map.setView([coords.lat, coords.lon], 10);
+                    updateLocationDisplay();
+                }
                 return coords;
             }
 
@@ -1299,9 +1302,12 @@
             const coords = locationStr.split(',').map(s => parseFloat(s.trim()));
             if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
                 selectedLocation = { lat: coords[0], lon: coords[1] };
-                marker.setLatLng([coords[0], coords[1]]);
-                map.setView([coords[0], coords[1]], 10);
-                updateLocationDisplay();
+                // Update map only if not calculating and map is initialized
+                if (!isCalculating && map && marker) {
+                    marker.setLatLng([coords[0], coords[1]]);
+                    map.setView([coords[0], coords[1]], 10);
+                    updateLocationDisplay();
+                }
                 return selectedLocation;
             }
 
@@ -1348,6 +1354,7 @@
         async function calculateSimple() {
             const btn = document.getElementById('simple-btn-text');
             btn.textContent = 'Fetching solar data...';
+            isCalculating = true;
 
             const houseSize = parseFloat(document.getElementById('house-size').value);
             const peopleCount = parseInt(document.getElementById('people-count').value) || 3;
@@ -1357,6 +1364,7 @@
             if (!houseSize || houseSize <= 0) {
                 alert('Please enter a valid house size');
                 btn.textContent = 'Calculate System Size';
+                isCalculating = false;
                 return;
             }
 
@@ -1395,6 +1403,7 @@
             const roofArea = Math.round(panelCount * 2.5);
 
             btn.textContent = 'Calculate System Size';
+            isCalculating = false;
             displayResults(panelCount, systemSize, annualProduction, roofArea, pvgisYield, coords);
         }
 
@@ -1457,6 +1466,7 @@
         async function calculateAdvanced() {
             const btn = document.getElementById('advanced-btn-text');
             btn.textContent = 'Fetching solar data...';
+            isCalculating = true;
 
             const location = document.getElementById('adv-location').value;
             const houseSize = parseFloat(document.getElementById('adv-house-size').value);
@@ -1467,6 +1477,7 @@
             if (!houseSize || houseSize <= 0) {
                 alert('Please enter a valid house size');
                 btn.textContent = 'Calculate with Custom Parameters';
+                isCalculating = false;
                 return;
             }
 
@@ -1551,6 +1562,7 @@
             pvgisNote.innerHTML = baseNote;
 
             btn.textContent = 'Calculate with Custom Parameters';
+            isCalculating = false;
         }
 
 
