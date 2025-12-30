@@ -1266,18 +1266,30 @@
                 // Convert orientation: 0°=North, 90°=East, 180°=South, 270°=West
                 // to PVGIS aspect: South=0, East=-90, West=90
                 let pvgisAspect = 0;
-                if (aspect === 0) pvgisAspect = 0; // North (worst)
-                else if (aspect === 90) pvgisAspect = -90; // East
-                else if (aspect === 180) pvgisAspect = 0; // South (best)
-                else if (aspect === 270) pvgisAspect = 90; // West
-                else pvgisAspect = ((aspect - 180) * -1); // Approximate conversion
 
-                const targetUrl = `https://re.jrc.ec.europa.eu/api/v5_2/PVcalc?lat=${lat}&lon=${lon}&peakpower=1&loss=11&angle=${tilt}&aspect=${pvgisAspect}&outputformat=json`;
-                // Use CORS proxy to bypass allow-origin restrictions on the client side
-                const url = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+                // Determine PVGIS aspect (0=South, -90=East, 90=West)
+                if (aspect === 0) pvgisAspect = 180; // North (facing away from South)
+                else if (aspect === 90) pvgisAspect = -90; // East
+                else if (aspect === 180) pvgisAspect = 0; // South
+                else if (aspect === 270) pvgisAspect = 90; // West
+                else pvgisAspect = ((aspect - 180) * -1);
+
+                // Use local backend proxy
+                const url = `/api/pvgis?lat=${lat}&lon=${lon}&tilt=${tilt}&aspect=${pvgisAspect}`;
 
                 try {
-                    const response = await fetch(url);
+                    // Timeout after 1 second (max wait time)
+                    const timeoutPromise = new Promise((_, reject) =>
+                        setTimeout(() => reject(new Error('Request timed out')), 1000)
+                    );
+
+                    const response = await Promise.race([
+                        fetch(url),
+                        timeoutPromise
+                    ]);
+
+                    if (!response.ok) throw new Error('API response not ok');
+
                     const data = await response.json();
 
                     if (data.outputs && data.outputs.totals) {
@@ -1285,7 +1297,7 @@
                         return Math.round(yearlyProduction);
                     }
                 } catch (error) {
-                    console.error('PVGIS API error:', error);
+                    console.warn('PVGIS API error or timeout:', error);
                 }
 
                 // Fallback to Azerbaijan average
@@ -1322,12 +1334,12 @@
                 const location = document.getElementById('location').value;
                 const houseSize = parseFloat(document.getElementById('house-size').value);
                 const peopleCount = parseInt(document.getElementById('people-count').value) || 3;
+
+                // Handle radio button for daytime occupancy
                 const daytimeOccupancyEl = document.querySelector('input[name="daytime-occupancy"]:checked');
                 const daytimeOccupancy = daytimeOccupancyEl ? daytimeOccupancyEl.value : 'yes';
 
                 const roofLimit = parseFloat(document.getElementById('roof-area-limit').value);
-                const tiltInput = document.getElementById('tilt-angle').value;
-                const orientInput = document.getElementById('panel-orientation').value;
 
                 if (!houseSize || houseSize <= 0) {
                     alert('Please enter a valid house size');
@@ -1335,43 +1347,54 @@
                     return;
                 }
 
-                // Get coordinates
+                // Get coordinates first
                 const coords = await getCoordinates(location);
 
-                // Optimal tilt/orient if not provided
-                const tiltAngle = tiltInput ? parseFloat(tiltInput) : getOptimalTilt(coords.lat);
-                const orientation = orientInput ? parseFloat(orientInput) : 180;
+                // Use optimal tilt based on latitude if not specified
+                const tiltAngleInput = document.getElementById('tilt-angle').value;
+                const tiltAngle = tiltAngleInput ? parseFloat(tiltAngleInput) : getOptimalTilt(coords.lat);
 
-                // Get PVGIS yield
+                // Use South (180°) if orientation not specified  
+                const orientationInput = document.getElementById('panel-orientation').value;
+                const orientation = orientationInput ? parseFloat(orientationInput) : 180;
+
+                // Get PVGIS yield with custom or optimal tilt and orientation
                 const pvgisYield = await getPVGISYield(coords.lat, coords.lon, tiltAngle, orientation);
 
-                // Estimate Consumption
-                let baseConsumption = houseSize * 40;
-                baseConsumption += peopleCount * 500;
-                if (daytimeOccupancy === 'yes') baseConsumption *= 1.25;
+                // Enhanced consumption estimate
+                let baseConsumption = houseSize * 40; // kWh per year per m²
+                baseConsumption += peopleCount * 500; // ~500 kWh per person
 
+                if (daytimeOccupancy === 'yes') {
+                    baseConsumption *= 1.25;
+                }
+
+                // Add for appliances
                 if (document.getElementById('electric-cooking').checked) baseConsumption += 1200;
                 if (document.getElementById('heavy-ac').checked) baseConsumption += 2500;
                 if (document.getElementById('water-heater').checked) baseConsumption += 1800;
 
-                // System Sizing
+                // Calculate needed system size
                 const panelWattage = 550;
                 const neededKWp = baseConsumption / pvgisYield;
                 const panelsNeeded = Math.ceil((neededKWp * 1000) / panelWattage);
                 const areaPerPanel = 2.5;
                 const neededArea = panelsNeeded * areaPerPanel;
 
-                // Roof Limit Check
+                // Check if roof limit is exceeded
                 let actualPanels = panelsNeeded;
                 let limitedByRoof = false;
                 let coveragePercent = 100;
                 let shortfallKWh = 0;
 
+                // Only apply limit if roofLimit is a valid positive number
                 if (roofLimit && !isNaN(roofLimit) && neededArea > roofLimit) {
                     limitedByRoof = true;
                     actualPanels = Math.floor(roofLimit / areaPerPanel);
                     const actualKWp = (actualPanels * panelWattage) / 1000;
                     const actualProduction = actualKWp * pvgisYield;
+
+                    // Recalculate coverage and shortfall based on the limited production
                     coveragePercent = Math.round((actualProduction / baseConsumption) * 100);
                     shortfallKWh = Math.round(baseConsumption - actualProduction);
                 }
