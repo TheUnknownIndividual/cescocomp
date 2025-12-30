@@ -1525,8 +1525,33 @@
             // document.getElementById('results').scrollIntoView({ behavior: 'auto', block: 'start' });
         }
 
+        // Cache DOM elements to prevent repeated queries
+        let cachedElements = null;
+        function getCachedElements() {
+            if (!cachedElements) {
+                cachedElements = {
+                    calcModes: document.querySelectorAll('.calc-mode'),
+                    modeButtons: document.querySelectorAll('.mode-btn'),
+                    simpleMode: document.getElementById('simple-mode'),
+                    advancedMode: document.getElementById('advanced-mode'),
+                    simpleModeBtn: document.getElementById('simpleModeBtn'),
+                    advancedModeBtn: document.getElementById('advancedModeBtn')
+                };
+            }
+            return cachedElements;
+        }
+
         // Mode switching
+        let modeSwitchCount = 0;
         function switchMode(mode) {
+            // SAFETY: Prevent infinite loops
+            modeSwitchCount++;
+            if (modeSwitchCount > 10) {
+                console.error('TOO MANY MODE SWITCHES - ABORTING');
+                return;
+            }
+            setTimeout(() => { modeSwitchCount = 0; }, 1000);
+            
             // Prevent operations during scroll
             if (isScrolling) {
                 console.log('Cannot switch modes while scrolling');
@@ -1543,17 +1568,19 @@
             console.log('Switching to mode:', mode);
             
             try {
-                // Toggle active states
-                document.querySelectorAll('.calc-mode').forEach(el => el.classList.remove('active'));
-                document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+                const elements = getCachedElements();
+                
+                // Toggle active states using cached elements
+                elements.calcModes.forEach(el => el.classList.remove('active'));
+                elements.modeButtons.forEach(btn => btn.classList.remove('active'));
 
                 if (mode === 'simple') {
-                    document.getElementById('simple-mode').classList.add('active');
-                    document.getElementById('simpleModeBtn').classList.add('active');
+                    elements.simpleMode.classList.add('active');
+                    elements.simpleModeBtn.classList.add('active');
                 } else {
                     // Advanced mode (handle both 'advanced' and 'detailed')
-                    document.getElementById('advanced-mode').classList.add('active');
-                    document.getElementById('advancedModeBtn').classList.add('active');
+                    elements.advancedMode.classList.add('active');
+                    elements.advancedModeBtn.classList.add('active');
                 }
                 
                 currentMode = mode;
@@ -1699,22 +1726,6 @@
                 isScrolling = false;
             }, 150);
         }, { passive: true });
-
-        // CRITICAL: Monitor for unexpected DOM changes
-        if (window.MutationObserver) {
-            const observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    if (mutation.addedNodes.length > 10) {
-                        console.error('SUSPICIOUS: Many nodes added at once:', mutation.addedNodes.length);
-                    }
-                });
-            });
-            
-            observer.observe(document.body, {
-                childList: true,
-                subtree: true
-            });
-        }
 
         // Initialize map when page loads
         if (document.readyState === 'loading') {
