@@ -1222,6 +1222,15 @@
             margin-bottom: 1rem;
         }
 
+        /* Hide mobile menu on desktop */
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-menu-overlay {
+            display: none;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .nav-links {
@@ -1257,6 +1266,7 @@
 
             /* Mobile menu overlay */
             .mobile-menu {
+                display: block;
                 position: fixed;
                 top: 0;
                 right: -100%;
@@ -1277,6 +1287,7 @@
             }
 
             .mobile-menu-overlay {
+                display: block;
                 position: fixed;
                 top: 0;
                 left: 0;
@@ -1467,9 +1478,21 @@
 
             <!-- Desktop Navigation -->
             <div class="nav-links">
+                <a href="#features" data-i18n="nav.features">Features</a>
+                <a href="#map" data-i18n="nav.map">Interactive Map</a>
                 <a href="#about" data-i18n="nav.about">About</a>
                 <a href="solar-calculator" data-i18n="nav.calculator">Solar Calculator</a>
                 <a href="regulatory-framework" class="cta-button" data-i18n="nav.framework">Regulatory Framework</a>
+
+                <!-- Language Switcher -->
+                <div class="language-switcher">
+                    <button class="lang-btn" id="currentLang">EN</button>
+                    <div class="lang-dropdown">
+                        <button onclick="setLanguage('en')">🇬🇧 EN</button>
+                        <button onclick="setLanguage('ru')">🇷🇺 RU</button>
+                        <button onclick="setLanguage('az')">🇦🇿 AZ</button>
+                    </div>
+                </div>
             </div>
 
             <!-- Mobile Menu Button -->
@@ -1486,9 +1509,21 @@
 
     <!-- Mobile Menu -->
     <div class="mobile-menu">
+        <a href="#features" data-i18n="nav.features" onclick="toggleMobileMenu()">Features</a>
+        <a href="#map" data-i18n="nav.map" onclick="toggleMobileMenu()">Interactive Map</a>
         <a href="#about" data-i18n="nav.about" onclick="toggleMobileMenu()">About</a>
         <a href="solar-calculator" data-i18n="nav.calculator" onclick="toggleMobileMenu()">Solar Calculator</a>
         <a href="regulatory-framework" data-i18n="nav.framework" onclick="toggleMobileMenu()">Regulatory Framework</a>
+
+        <!-- Language Switcher in Mobile Menu -->
+        <div class="language-switcher">
+            <button class="lang-btn" id="currentLangMobile">EN</button>
+            <div class="lang-dropdown">
+                <button onclick="setLanguage('en'); toggleMobileMenu();">🇬🇧 EN</button>
+                <button onclick="setLanguage('ru'); toggleMobileMenu();">🇷🇺 RU</button>
+                <button onclick="setLanguage('az'); toggleMobileMenu();">🇦🇿 AZ</button>
+            </div>
+        </div>
     </div>
 
     <!-- Hero Section -->
