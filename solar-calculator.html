@@ -1007,43 +1007,58 @@
 
     <div class="container">
         <div class="page-header">
-            <h1>☀️ Solar Calculator</h1>
-            <p>Estimate your solar panel requirements for grid-tied systems in Azerbaijan</p>
+            <h1 data-i18n="calculator.title">☀️ Solar Calculator</h1>
+            <p data-i18n="calculator.subtitle">Estimate your solar panel requirements for grid-tied systems in
+                Azerbaijan</p>
         </div>
 
         <!-- Mode Switcher Removed -->
 
         <!-- Net-Metering Information Banner -->
         <div class="net-metering-banner">
-            <h3>🌞 Azerbaijan's Active Consumer Support Mechanism</h3>
-            <p><strong>Good news!</strong> Azerbaijan implemented a net-metering system allowing you to <span
-                    class="highlight">sell excess solar energy</span> to Azərenerji and use it later when needed.</p>
+            <h3 data-i18n="calculator.netMeteringTitle">🌞 Azerbaijan's Active Consumer Support Mechanism</h3>
+            <p><strong data-i18n="calculator.netMeteringGoodNews">Good news!</strong> <span
+                    data-i18n="calculator.netMeteringDesc">Azerbaijan implemented a net-metering system allowing you to
+                    <span class="highlight">sell excess solar energy</span> to Azərenerji and use it later when
+                    needed.</span></p>
 
-            <p><strong>Key Benefits:</strong></p>
+            <p><strong data-i18n="calculator.keyBenefits">Key Benefits:</strong></p>
             <ul>
-                <li><strong>System size:</strong> Install solar panels up to ~150 kW for residential/commercial use</li>
-                <li><strong>Surplus energy:</strong> Any electricity you generate but don't use is fed into the national
-                    grid</li>
-                <li><strong>Night usage:</strong> The surplus offsets your consumption later—essentially "banking"
-                    energy for nighttime use</li>
-                <li><strong>Financial savings:</strong> Reduce or eliminate your electricity bills through net-metering
+                <li><strong data-i18n="calculator.benefitSystemSize">System size:</strong> <span
+                        data-i18n="calculator.benefitSystemSizeDesc">Install solar panels up to ~150 kW for
+                        residential/commercial use</span></li>
+                <li><strong data-i18n="calculator.benefitSurplus">Surplus energy:</strong> <span
+                        data-i18n="calculator.benefitSurplusDesc">Any electricity you generate but don't use is fed into
+                        the national
+                        grid</span></li>
+                <li><strong data-i18n="calculator.benefitNight">Night usage:</strong> <span
+                        data-i18n="calculator.benefitNightDesc">The surplus offsets your consumption later—essentially
+                        "banking"
+                        energy for nighttime use</span></li>
+                <li><strong data-i18n="calculator.benefitFinancial">Financial savings:</strong> <span
+                        data-i18n="calculator.benefitFinancialDesc">Reduce or eliminate your electricity bills through
+                        net-metering</span>
                 </li>
             </ul>
 
             <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.9;">
-                <strong>Legal framework:</strong> Approved by Cabinet of Ministers Decree No. 346 (September 28, 2023).
-                <a href="net-metering-decree" style="color: white; text-decoration: underline;">Read full decree →</a>
+                <strong data-i18n="calculator.legalFramework">Legal framework:</strong> <span
+                    data-i18n="calculator.legalFrameworkDesc">Approved by Cabinet of Ministers Decree No. 346 (September
+                    28, 2023).</span>
+                <a href="net-metering-decree" style="color: white; text-decoration: underline;"
+                    data-i18n="calculator.readFullDecree">Read full decree →</a>
             </p>
         </div>
 
         <!-- Interactive Map for Location Selection -->
         <div class="calc-card">
-            <h2 style="margin-bottom: 1rem;">📍 Select Your Location</h2>
-            <p class="map-instructions">Click on the map or search for your city to get location-specific solar data</p>
+            <h2 style="margin-bottom: 1rem;" data-i18n="calculator.locationTitle">📍 Select Your Location</h2>
+            <p class="map-instructions" data-i18n="calculator.locationInstructions">Click on the map or search for your
+                city to get location-specific solar data</p>
             <div id="map"></div>
             <div style="text-align: center; margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;"
                 id="selected-coords">
-                Selected: Baku (40.4093, 49.8671)
+                <span data-i18n="calculator.selectedLocation">Selected</span>: Baku (40.4093, 49.8671)
             </div>
         </div>
 

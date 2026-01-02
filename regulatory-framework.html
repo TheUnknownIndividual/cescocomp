@@ -1270,8 +1270,9 @@
 
     <!-- Page Header -->
     <header class="page-header">
-        <h1>Azerbaijan Green Energy Regulatory Framework</h1>
-        <p>Comprehensive policy enablers and legal instruments for renewable energy transition</p>
+        <h1 data-i18n="framework.title">Azerbaijan Green Energy Regulatory Framework</h1>
+        <p data-i18n="framework.subtitle">Comprehensive policy enablers and legal instruments for renewable energy
+            transition</p>
     </header>
 
     <div class="container">
@@ -1280,19 +1281,19 @@
             <div class="stats-grid">
                 <div class="stat-card" onclick="scrollToSection('laws')" title="Click to view all policy frameworks">
                     <div class="stat-value">20</div>
-                    <div class="stat-label">Policy Frameworks</div>
+                    <div class="stat-label" data-i18n="framework.policyFrameworks">Policy Frameworks</div>
                 </div>
                 <div class="stat-card" onclick="scrollToSection('commitments')" title="Click to view targets">
                     <div class="stat-value">6.5</div>
-                    <div class="stat-label">GW Target by 2030</div>
+                    <div class="stat-label" data-i18n="framework.gwTarget">GW Target by 2030</div>
                 </div>
                 <div class="stat-card" onclick="scrollToSection('commitments')" title="Click to view commitments">
                     <div class="stat-value">35%</div>
-                    <div class="stat-label">RES Share Target</div>
+                    <div class="stat-label" data-i18n="framework.resShare">RES Share Target</div>
                 </div>
                 <div class="stat-card" onclick="scrollToSection('laws')" title="Click to view RES Law">
                     <div class="stat-value">2021</div>
-                    <div class="stat-label">RES Law Enacted</div>
+                    <div class="stat-label" data-i18n="framework.resLawEnacted">RES Law Enacted</div>
                 </div>
             </div>
         </div>
@@ -1300,49 +1301,52 @@
         <!-- Controls -->
         <div class="controls">
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Search frameworks, policies, laws...">
+                <input type="text" id="searchInput" data-i18n="framework.searchPlaceholder"
+                    placeholder="Search frameworks, policies, laws...">
             </div>
             <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="active">Active</button>
-                <button class="filter-btn" data-filter="implemented">Implemented</button>
-                <button class="filter-btn" data-filter="progress">In Progress</button>
+                <button class="filter-btn active" data-filter="all" data-i18n="framework.filterAll">All</button>
+                <button class="filter-btn" data-filter="active" data-i18n="framework.filterActive">Active</button>
+                <button class="filter-btn" data-filter="implemented"
+                    data-i18n="framework.filterImplemented">Implemented</button>
+                <button class="filter-btn" data-filter="progress" data-i18n="framework.filterProgress">In
+                    Progress</button>
             </div>
         </div>
 
         <!-- Category Navigation Map -->
         <div class="category-nav-map">
-            <div class="category-nav-title">📍 Browse by Category</div>
+            <div class="category-nav-title" data-i18n="framework.browseByCategory">📍 Browse by Category</div>
             <div class="category-nav-grid">
                 <div class="category-nav-item" onclick="scrollToSection('laws')">
                     <div class="category-nav-icon">📜</div>
-                    <div class="category-nav-label">Laws</div>
-                    <div class="category-nav-count">6 frameworks</div>
+                    <div class="category-nav-label" data-i18n="framework.laws">Laws</div>
+                    <div class="category-nav-count">6 <span data-i18n="framework.frameworks">frameworks</span></div>
                 </div>
                 <div class="category-nav-item" onclick="scrollToSection('commitments')">
                     <div class="category-nav-icon">🎯</div>
-                    <div class="category-nav-label">Commitments</div>
-                    <div class="category-nav-count">4 frameworks</div>
+                    <div class="category-nav-label" data-i18n="framework.commitments">Commitments</div>
+                    <div class="category-nav-count">4 <span data-i18n="framework.frameworks">frameworks</span></div>
                 </div>
                 <div class="category-nav-item" onclick="scrollToSection('investment')">
                     <div class="category-nav-icon">💼</div>
-                    <div class="category-nav-label">Investment</div>
-                    <div class="category-nav-count">2 frameworks</div>
+                    <div class="category-nav-label" data-i18n="framework.investment">Investment</div>
+                    <div class="category-nav-count">2 <span data-i18n="framework.frameworks">frameworks</span></div>
                 </div>
                 <div class="category-nav-item" onclick="scrollToSection('institutions')">
                     <div class="category-nav-icon">🏛️</div>
-                    <div class="category-nav-label">Institutions</div>
-                    <div class="category-nav-count">2 frameworks</div>
+                    <div class="category-nav-label" data-i18n="framework.institutions">Institutions</div>
+                    <div class="category-nav-count">2 <span data-i18n="framework.frameworks">frameworks</span></div>
                 </div>
                 <div class="category-nav-item" onclick="scrollToSection('ministry-orders')">
                     <div class="category-nav-icon">📋</div>
-                    <div class="category-nav-label">Ministry Orders</div>
-                    <div class="category-nav-count">1 document</div>
+                    <div class="category-nav-label" data-i18n="framework.ministryOrders">Ministry Orders</div>
+                    <div class="category-nav-count">1 <span data-i18n="framework.document">document</span></div>
                 </div>
                 <div class="category-nav-item" onclick="scrollToSection('other-policies')">
                     <div class="category-nav-icon">📚</div>
-                    <div class="category-nav-label">Other Policies</div>
-                    <div class="category-nav-count">3 frameworks</div>
+                    <div class="category-nav-label" data-i18n="framework.otherPolicies">Other Policies</div>
+                    <div class="category-nav-count">3 <span data-i18n="framework.frameworks">frameworks</span></div>
                 </div>
             </div>
         </div>
@@ -2199,7 +2203,8 @@
         <footer
             style="background: var(--bg-darker); padding: 3rem 2rem; border-top:  1px solid rgba(255, 255, 255, 0.05); text-align: center; margin-top: 4rem;">
             <div style="max-width: 1200px; margin: 0 auto;">
-                <p style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--text-primary);">🇦🇿 Plugin.az - Renewable
+                <p style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--text-primary);">🇦🇿 Plugin.az -
+                    Renewable
                     Energy Data Platform for Azerbaijan</p>
                 <p style="font-size: 0.9rem; margin-bottom: 1rem; color: var(--text-secondary);">Built for CECECO Clean
                     Energy Hackathon 2026</p>
