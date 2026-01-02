@@ -497,6 +497,16 @@
             min-height: 100vh;
         }
 
+        /* Darken light mode background for better text visibility */
+        body.light-mode .hero::before {
+            background: linear-gradient(to bottom,
+                    rgba(255, 255, 255, 0.3) 0%,
+                    rgba(255, 255, 255, 0.4) 30%,
+                    rgba(255, 255, 255, 0.5) 60%,
+                    rgba(245, 245, 245, 0.7) 80%,
+                    var(--bg-dark) 100%);
+        }
+
         .hero::before {
             content: '';
             position: absolute;
@@ -607,6 +617,11 @@
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
+        body.light-mode .hero-title {
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
         .hero-title .gradient-text {
             background: linear-gradient(135deg, #b0ff39 0%, #33ad00 100%);
             -webkit-background-clip: text;
@@ -625,6 +640,11 @@
             padding-right: 4px;
             animation: blink-caret 0.75s step-end infinite;
             min-width: 20px;
+        }
+
+        body.light-mode .typewriter-text {
+            color: white;
+            border-right-color: white;
         }
 
         @keyframes blink-caret {
@@ -745,6 +765,16 @@
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.05);
             transform: translateY(-3px);
+        }
+
+        body.light-mode .btn-secondary {
+            background: white;
+            color: #1a1a1a;
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        body.light-mode .btn-secondary:hover {
+            background: rgba(0, 0, 0, 0.05);
         }
 
         /* Stats Section */
@@ -1475,7 +1505,7 @@
             <div class="logo">
                 <img src="pluginlogo.png" alt="Plugin.az" class="logo-img dark-mode-logo"
                     style="height: 50px; width: auto;">
-                <img src="pluginlogo.png" alt="Plugin.az" class="logo-img light-mode-logo"
+                <img src="lightmodeplugin.png" alt="Plugin.az" class="logo-img light-mode-logo"
                     style="height: 50px; width: auto; display: none;">
             </div>
 
@@ -1496,6 +1526,13 @@
                         <button onclick="setLanguage('az')">🇦🇿 AZ</button>
                     </div>
                 </div>
+
+                <!-- Dark Mode Toggle -->
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Light/Dark Mode"
+                    aria-label="Toggle Light/Dark Mode">
+                    <img src="lightmode.png" alt="Light Mode" class="light-icon">
+                    <img src="darkmode.png" alt="Dark Mode" class="dark-icon">
+                </button>
             </div>
 
             <!-- Mobile Menu Button -->
@@ -1527,6 +1564,13 @@
                 <button onclick="setLanguage('az'); toggleMobileMenu();">🇦🇿 AZ</button>
             </div>
         </div>
+
+        <!-- Dark Mode Toggle in Mobile Menu -->
+        <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Light/Dark Mode"
+            aria-label="Toggle Light/Dark Mode">
+            <img src="lightmode.png" alt="Light Mode" class="light-icon">
+            <img src="darkmode.png" alt="Dark Mode" class="dark-icon">
+        </button>
     </div>
 
     <!-- Hero Section -->
