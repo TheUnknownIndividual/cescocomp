@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Energy Zones Initiative | Plugin.az</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --az-blue: #6f91a8;
+            --az-green: #509E2F;
+            --accent-bronze: #c68661;
+            --bg-dark: #0a0b0d;
+            --card-bg: #161719;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --gradient-primary: linear-gradient(135deg, var(--az-blue) 0%, var(--az-green) 100%);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        body.light-mode {
+            --bg-dark: #ffffff;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        /* Navigation */
+        nav {
+            background: transparent;
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode nav {
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+        }
+
+        .light-mode-logo {
+            display: none !important;
+        }
+
+        .dark-mode-logo {
+            display: block !important;
+        }
+
+        body.light-mode .light-mode-logo {
+            display: block !important;
+        }
+
+        body.light-mode .dark-mode-logo {
+            display: none !important;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: relative;
+        }
+
+        .lang-btn {
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode .lang-btn {
+            border-color: rgba(0, 0, 0, 0.2);
+            color: var(--text-primary);
+        }
+
+        body.light-mode .lang-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .lang-dropdown {
+            position: absolute;
+            top: 120%;
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 0.5rem;
+            display: none;
+            flex-direction: column;
+            gap: 0.5rem;
+            min-width: 120px;
+            box-shadow: var(--shadow-md);
+        }
+
+        body.light-mode .lang-dropdown {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .language-switcher.active .lang-dropdown {
+            display: flex;
+        }
+
+        .lang-dropdown button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            text-align: left;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .lang-dropdown button:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        body.light-mode .lang-dropdown button:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 6px 20px rgba(0, 153, 204, 0.3);
+        }
+
+        .dark-mode-toggle:active {
+            transform: scale(0.95) rotate(-15deg);
+        }
+
+        .dark-mode-toggle img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: absolute;
+        }
+
+        .dark-mode-toggle .light-icon {
+            opacity: 0;
+            transform: rotate(180deg) scale(0);
+        }
+
+        .dark-mode-toggle .dark-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        body.light-mode .dark-mode-toggle {
+            border-color: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .dark-mode-toggle .light-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        body.light-mode .dark-mode-toggle .dark-icon {
+            opacity: 0;
+            transform: rotate(-180deg) scale(0);
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .dark-mode-toggle::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--az-blue);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .dark-mode-toggle.clicked::after {
+            animation: ripple 0.6s ease-out;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 10000;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-menu-overlay {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex !important;
+            }
+
+            .nav-links {
+                display: none !important;
+            }
+
+            .mobile-menu {
+                display: block;
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background: var(--card-bg);
+                backdrop-filter: blur(20px);
+                z-index: 9999;
+                transition: right 0.3s ease;
+                padding: 5rem 2rem 2rem;
+                overflow-y: auto;
+                border-left: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .mobile-menu.active {
+                right: 0;
+            }
+
+            .mobile-menu-overlay {
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 9998;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+            }
+
+            .mobile-menu-overlay.active {
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .mobile-menu a {
+                display: block;
+                padding: 1rem 0;
+                color: var(--text-primary);
+                text-decoration: none;
+                font-weight: 500;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                transition: color 0.3s ease;
+            }
+
+            .mobile-menu a:hover {
+                color: var(--az-blue);
+            }
+
+            .mobile-menu .mobile-controls {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin: 1.5rem 0;
+            }
+
+            .mobile-menu .language-switcher {
+                margin: 0;
+            }
+        }
+
+        /* Article Styles */
+        article {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .article-header {
+            border-bottom: 2px solid var(--az-blue);
+            padding-bottom: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .category {
+            color: var(--az-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.75rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .meta {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        .meta-divider {
+            margin: 0 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .content {
+            font-size: 1rem;
+        }
+
+        .content p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .content h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin: 3rem 0 1.5rem 0;
+            scroll-margin-top: 100px;
+            color: var(--az-green);
+        }
+
+        .content h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.375rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem 0;
+            color: var(--az-blue);
+        }
+
+        .content h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        .content ul {
+            margin: 1.5rem 0 1.5rem 2rem;
+        }
+
+        .content li {
+            margin-bottom: 0.75rem;
+        }
+
+        .article-block {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        body.light-mode .article-block {
+            background: rgba(0, 0, 0, 0.02);
+            border-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .lang-en,
+        .lang-az,
+        .lang-ru {
+            display: none;
+        }
+
+        [data-lang="en"] .lang-en {
+            display: block;
+        }
+
+        [data-lang="az"] .lang-az {
+            display: block;
+        }
+
+        [data-lang="ru"] .lang-ru {
+            display: block;
+        }
+
+        html:not([data-lang]) .lang-en {
+            display: block;
+        }
+
+        .document-link {
+            color: var(--az-blue);
+            text-decoration: none;
+            border-bottom: 1px solid var(--az-blue);
+            padding-bottom: 2px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .document-link:hover {
+            color: var(--accent-bronze);
+            border-bottom-color: var(--accent-bronze);
+        }
+    </style>
+    <script type="module" src="translations.js"></script>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <img src="pluginlogo.png" alt="Plugin.az" class="logo-img dark-mode-logo">
+                <img src="lightmodeplugin.png" alt="Plugin.az" class="logo-img light-mode-logo">
+            </a>
+            <div class="nav-links">
+                <a href="/" data-i18n="nav.home">Home</a>
+                <a href="/regulatory-framework" data-i18n="nav.framework">Framework</a>
+                <a href="/energy-map" data-i18n="nav.energyMap">Energy Map</a>
+                <a href="/solar-calculator.html" data-i18n="nav.calculator">Solar Calculator</a>
+
+                <div class="language-switcher">
+                    <button class="lang-btn" id="currentLang">EN</button>
+                    <div class="lang-dropdown">
+                        <button onclick="setLanguage('en')">🇬🇧 EN</button>
+                        <button onclick="setLanguage('ru')">🇷🇺 RU</button>
+                        <button onclick="setLanguage('az')">🇦🇿 AZ</button>
+                    </div>
+                </div>
+
+                <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                    <img src="darkmode.png" alt="Dark Mode" class="light-icon">
+                    <img src="lightmode.png" alt="Light Mode" class="dark-icon">
+                </button>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <a href="/" data-i18n="nav.home" onclick="toggleMobileMenu()">Home</a>
+        <a href="regulatory-framework" data-i18n="nav.framework" onclick="toggleMobileMenu()">Frameworks</a>
+        <a href="/energy-map" data-i18n="nav.energyMap" onclick="toggleMobileMenu()">Map</a>
+        <a href="/solar-calculator.html" data-i18n="nav.calculator" onclick="toggleMobileMenu()">Solar Calculator</a>
+
+        <div class="mobile-controls">
+            <div class="language-switcher">
+                <button class="lang-btn" id="currentLangMobile">EN</button>
+                <div class="lang-dropdown">
+                    <button onclick="setLanguage('en'); toggleMobileMenu();">🇬🇧 EN</button>
+                    <button onclick="setLanguage('ru'); toggleMobileMenu();">🇷🇺 RU</button>
+                    <button onclick="setLanguage('az'); toggleMobileMenu();">🇦🇿 AZ</button>
+                </div>
+            </div>
+
+            <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                <img src="darkmode.png" alt="Dark Mode" class="light-icon">
+                <img src="lightmode.png" alt="Light Mode" class="dark-icon">
+            </button>
+        </div>
+    </div>
+
+    <article>
+        <!-- ENGLISH CONTENT -->
+        <div class="lang-en">
+
+            <header class="article-header">
+                <div class="category">Presidential Orders • 2021-2024</div>
+                <h1>Green Energy Zones Initiative</h1>
+                <div class="meta">
+                    Strategic Priority
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="article-block">
+                   
+<p>The wide application of renewable energy sources has been identified as a priority of Azerbaijan's energy policy. The transition to green energy and establishing a low-carbon economy are key targets.</p>
+
+<h3>Potential and Current Status</h3>
+<p>Azerbaijan has 135 GW onshore and 157 GW offshore renewable energy potential. Currently, RES account for about 18.8% of total capacity, with major hydro, wind, and solar plants in operation.</p>
+
+<h3>Major Projects</h3>
+<ul>
+    <li><strong>Garadagh Solar Power Plant (230 MW):</strong> Operational since Oct 2023, built with Masdar (UAE).</li>
+    <li><strong>Khizi-Absheron Wind Power Plant (240 MW):</strong> Under construction with ACWA Power (Saudi Arabia).</li>
+    <li><strong>Shafag Solar Power Plant (240 MW):</strong> Implemented in Jabrayil with bp, utilizing virtual power transmission.</li>
+    <li><strong>Mega Project (Masdar):</strong> 1 GW capacity including solar in Bilasuvar/Neftchala and wind in Absheron/Garadagh.</li>
+    <li><strong>Gobustan & Floating Solar:</strong> 100 MW solar plant and pilot floating solar on Boyukshor Lake.</li>
+</ul>
+
+<h3>Green Energy Zones: Karabakh and East Zangezur</h3>
+<p>A Green Energy Zone concept is being applied in liberated territories. Solar panels are installed in over 1500 buildings, and 38 hydro plants (307 MW) are operational. New solar projects like Ufug and Shams are underway.</p>
+
+<h3>Green Energy Corridors</h3>
+<p><strong>Caspian-Black Sea-Europe:</strong> Strategic partnership with Georgia, Romania, and Hungary to export green energy via subsea cable.</p>
+<p><strong>Central Asia-Azerbaijan:</strong> Agreement with Kazakhstan and Uzbekistan to transmit green energy across the Caspian.</p>
+<p><strong>Azerbaijan-Türkiye-Europe:</strong> Integration of infrastructure to export electricity through Nakhchivan (Jabrayil-Nakhchivan-Türkiye route).</p>
+
+                </div>
+
+                <h2>Key Highlights</h2>
+                <ul>
+                    
+<li><strong>Karabakh, Nakhchivan & Green Corridors:</strong> Strategic focus on liberated territories and regional connectivity.</li>
+<li><strong>Karabakh Projects:</strong> 240 MW Shafag SPP (bp), Ufug & Shams (2x50 MW), Hydro power on rivers.</li>
+<li><strong>Nakhchivan Initiatives:</strong> Plans for Green Energy Zone and 1,000+ MW export capacity.</li>
+<li><strong>Green Corridors:</strong> Routes to Europe (Black Sea cable) and Central Asia integration.</li>
+
+                </ul>
+
+                <hr style="margin: 3rem 0; border-top: 1px solid rgba(255,255,255,0.1);">
+
+                <h3>Official Source & Resources</h3>
+                <p>
+                    <a href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade" target="_blank" class="document-link">Ministry of Energy Overview</a>
+                </p>
+                
+<div style="margin-top: 2rem;">
+<h4>Additional Resources</h4>
+<ul style="list-style: none; padding-left: 0;">
+    <li style="margin-bottom: 0.5rem;"><a href="https://area.gov.az/en/page/layiheler/yasil-enerji-zonasi/yasil" target="_blank" class="document-link">Green Energy Zone Projects (AREA)</a></li>
+    <li style="margin-bottom: 0.5rem;"><a href="https://cop29.az/en/pages/green-energy-pledge-background-information" target="_blank" class="document-link">COP29 Green Energy Pledge Background</a></li>
+    <li style="margin-bottom: 0.5rem;"><a href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade" target="_blank" class="document-link">Ministry of Energy - Renewable Energy Overview</a></li>
+</ul>
+</div>
+
+            </div>
+    
+        </div>
+
+        <!-- AZERBAIJANI CONTENT -->
+        <div class="lang-az">
+
+            <header class="article-header">
+                <div class="category">Presidential Orders • 2021-2024 (AZ)</div>
+                <h1>Green Energy Zones Initiative</h1>
+                <div class="meta">
+                    Strategic Priority
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="article-block">
+                   
+<p>The wide application of renewable energy sources has been identified as a priority of Azerbaijan's energy policy. The transition to green energy and establishing a low-carbon economy are key targets.</p>
+
+<h3>Potential and Current Status</h3>
+<p>Azerbaijan has 135 GW onshore and 157 GW offshore renewable energy potential. Currently, RES account for about 18.8% of total capacity, with major hydro, wind, and solar plants in operation.</p>
+
+<h3>Major Projects</h3>
+<ul>
+    <li><strong>Garadagh Solar Power Plant (230 MW):</strong> Operational since Oct 2023, built with Masdar (UAE).</li>
+    <li><strong>Khizi-Absheron Wind Power Plant (240 MW):</strong> Under construction with ACWA Power (Saudi Arabia).</li>
+    <li><strong>Shafag Solar Power Plant (240 MW):</strong> Implemented in Jabrayil with bp, utilizing virtual power transmission.</li>
+    <li><strong>Mega Project (Masdar):</strong> 1 GW capacity including solar in Bilasuvar/Neftchala and wind in Absheron/Garadagh.</li>
+    <li><strong>Gobustan & Floating Solar:</strong> 100 MW solar plant and pilot floating solar on Boyukshor Lake.</li>
+</ul>
+
+<h3>Green Energy Zones: Karabakh and East Zangezur</h3>
+<p>A Green Energy Zone concept is being applied in liberated territories. Solar panels are installed in over 1500 buildings, and 38 hydro plants (307 MW) are operational. New solar projects like Ufug and Shams are underway.</p>
+
+<h3>Green Energy Corridors</h3>
+<p><strong>Caspian-Black Sea-Europe:</strong> Strategic partnership with Georgia, Romania, and Hungary to export green energy via subsea cable.</p>
+<p><strong>Central Asia-Azerbaijan:</strong> Agreement with Kazakhstan and Uzbekistan to transmit green energy across the Caspian.</p>
+<p><strong>Azerbaijan-Türkiye-Europe:</strong> Integration of infrastructure to export electricity through Nakhchivan (Jabrayil-Nakhchivan-Türkiye route).</p>
+
+                </div>
+                
+                <p><em>(Məzmun ingilis dilindədir / Content available in English)</em></p>
+
+                <h2>Əsas Məqamlar</h2>
+                <ul>
+                    
+<li><strong>Karabakh, Nakhchivan & Green Corridors:</strong> Strategic focus on liberated territories and regional connectivity.</li>
+<li><strong>Karabakh Projects:</strong> 240 MW Shafag SPP (bp), Ufug & Shams (2x50 MW), Hydro power on rivers.</li>
+<li><strong>Nakhchivan Initiatives:</strong> Plans for Green Energy Zone and 1,000+ MW export capacity.</li>
+<li><strong>Green Corridors:</strong> Routes to Europe (Black Sea cable) and Central Asia integration.</li>
+
+                </ul>
+
+                <hr style="margin: 3rem 0; border-top: 1px solid rgba(255,255,255,0.1);">
+
+                <h3>Rəsmi Mənbə</h3>
+                <p>
+                    <a href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade" target="_blank" class="document-link">Ministry of Energy Overview</a>
+                </p>
+                 
+<div style="margin-top: 2rem;">
+<h4>Additional Resources</h4>
+<ul style="list-style: none; padding-left: 0;">
+    <li style="margin-bottom: 0.5rem;"><a href="https://area.gov.az/en/page/layiheler/yasil-enerji-zonasi/yasil" target="_blank" class="document-link">Green Energy Zone Projects (AREA)</a></li>
+    <li style="margin-bottom: 0.5rem;"><a href="https://cop29.az/en/pages/green-energy-pledge-background-information" target="_blank" class="document-link">COP29 Green Energy Pledge Background</a></li>
+    <li style="margin-bottom: 0.5rem;"><a href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade" target="_blank" class="document-link">Ministry of Energy - Renewable Energy Overview</a></li>
+</ul>
+</div>
+
+            </div>
+    
+        </div>
+
+        <!-- RUSSIAN CONTENT -->
+        <div class="lang-ru">
+
+            <header class="article-header">
+                <div class="category">Presidential Orders • 2021-2024 (RU)</div>
+                <h1>Green Energy Zones Initiative</h1>
+                <div class="meta">
+                    Strategic Priority
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="article-block">
+                   
+<p>The wide application of renewable energy sources has been identified as a priority of Azerbaijan's energy policy. The transition to green energy and establishing a low-carbon economy are key targets.</p>
+
+<h3>Potential and Current Status</h3>
+<p>Azerbaijan has 135 GW onshore and 157 GW offshore renewable energy potential. Currently, RES account for about 18.8% of total capacity, with major hydro, wind, and solar plants in operation.</p>
+
+<h3>Major Projects</h3>
+<ul>
+    <li><strong>Garadagh Solar Power Plant (230 MW):</strong> Operational since Oct 2023, built with Masdar (UAE).</li>
+    <li><strong>Khizi-Absheron Wind Power Plant (240 MW):</strong> Under construction with ACWA Power (Saudi Arabia).</li>
+    <li><strong>Shafag Solar Power Plant (240 MW):</strong> Implemented in Jabrayil with bp, utilizing virtual power transmission.</li>
+    <li><strong>Mega Project (Masdar):</strong> 1 GW capacity including solar in Bilasuvar/Neftchala and wind in Absheron/Garadagh.</li>
+    <li><strong>Gobustan & Floating Solar:</strong> 100 MW solar plant and pilot floating solar on Boyukshor Lake.</li>
+</ul>
+
+<h3>Green Energy Zones: Karabakh and East Zangezur</h3>
+<p>A Green Energy Zone concept is being applied in liberated territories. Solar panels are installed in over 1500 buildings, and 38 hydro plants (307 MW) are operational. New solar projects like Ufug and Shams are underway.</p>
+
+<h3>Green Energy Corridors</h3>
+<p><strong>Caspian-Black Sea-Europe:</strong> Strategic partnership with Georgia, Romania, and Hungary to export green energy via subsea cable.</p>
+<p><strong>Central Asia-Azerbaijan:</strong> Agreement with Kazakhstan and Uzbekistan to transmit green energy across the Caspian.</p>
+<p><strong>Azerbaijan-Türkiye-Europe:</strong> Integration of infrastructure to export electricity through Nakhchivan (Jabrayil-Nakhchivan-Türkiye route).</p>
+
+                </div>
+
+                <p><em>(Контент доступен на английском языке / Content available in English)</em></p>
+
+                <h2>Основные моменты</h2>
+                <ul>
+                    
+<li><strong>Karabakh, Nakhchivan & Green Corridors:</strong> Strategic focus on liberated territories and regional connectivity.</li>
+<li><strong>Karabakh Projects:</strong> 240 MW Shafag SPP (bp), Ufug & Shams (2x50 MW), Hydro power on rivers.</li>
+<li><strong>Nakhchivan Initiatives:</strong> Plans for Green Energy Zone and 1,000+ MW export capacity.</li>
+<li><strong>Green Corridors:</strong> Routes to Europe (Black Sea cable) and Central Asia integration.</li>
+
+                </ul>
+
+                <hr style="margin: 3rem 0; border-top: 1px solid rgba(255,255,255,0.1);">
+
+                <h3>Официальный источник</h3>
+                <p>
+                    <a href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade" target="_blank" class="document-link">Ministry of Energy Overview</a>
+                </p>
+                 
+<div style="margin-top: 2rem;">
+<h4>Additional Resources</h4>
+<ul style="list-style: none; padding-left: 0;">
+    <li style="margin-bottom: 0.5rem;"><a href="https://area.gov.az/en/page/layiheler/yasil-enerji-zonasi/yasil" target="_blank" class="document-link">Green Energy Zone Projects (AREA)</a></li>
+    <li style="margin-bottom: 0.5rem;"><a href="https://cop29.az/en/pages/green-energy-pledge-background-information" target="_blank" class="document-link">COP29 Green Energy Pledge Background</a></li>
+    <li style="margin-bottom: 0.5rem;"><a href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade" target="_blank" class="document-link">Ministry of Energy - Renewable Energy Overview</a></li>
+</ul>
+</div>
+
+            </div>
+    
+        </div>
+    </article>
+
+    <script>
+        function toggleDarkMode() {
+            const body = document.body;
+            const toggle = document.querySelector('.dark-mode-toggle');
+            toggle.classList.add('clicked');
+            setTimeout(() => toggle.classList.remove('clicked'), 600);
+            body.classList.toggle('light-mode');
+            const isLight = body.classList.contains('light-mode');
+            localStorage.setItem('themeMode', isLight ? 'light' : 'dark');
+        }
+
+        (function initTheme() {
+            const themeMode = localStorage.getItem('themeMode');
+            if (themeMode === 'light') {
+                document.body.classList.add('light-mode');
+            }
+        })();
+
+        function toggleMobileMenu() {
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+
+            mobileMenu.classList.toggle('active');
+            mobileMenuOverlay.classList.toggle('active');
+            mobileMenuBtn.classList.toggle('active');
+            if (mobileMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+    </script>
+</body>
+
+</html>
