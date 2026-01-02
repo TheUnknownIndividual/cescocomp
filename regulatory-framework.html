@@ -380,10 +380,11 @@
         }
 
         body.light-mode .page-header h1 {
-            background: linear-gradient(135deg, #c68661 0%, #6f91a8 50%, #509E2F 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            /* Remove gradient effect in light mode for better readability */
+            background: none;
+            -webkit-text-fill-color: white;
         }
 
         .page-header p {
@@ -395,7 +396,8 @@
         }
 
         body.light-mode .page-header p {
-            color: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
 
         @keyframes fadeInUp {
@@ -1364,7 +1366,7 @@
                     aria-label="Previous"></button>
                 <div class="carousel-track" id="laws-carousel">
                     <!-- Presidential Order Card -->
-                    <a href="policy-detail-template.html" class="carousel-card card"
+                    <a href="policy-detail.html" class="carousel-card card"
                         style="text-decoration: none; color: inherit;">
                         <div class="card-header">
                             <div class="card-icon">📋</div>
