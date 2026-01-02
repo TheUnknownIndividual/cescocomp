@@ -139,6 +139,79 @@
             width: 100%;
         }
 
+        /* Language Switcher */
+        .language-switcher {
+            position: relative;
+        }
+
+        .lang-btn {
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode .lang-btn {
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        body.light-mode .lang-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .lang-dropdown {
+            position: absolute;
+            top: 120%;
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 0.5rem;
+            display: none;
+            flex-direction: column;
+            gap: 0.5rem;
+            min-width: 120px;
+            box-shadow: var(--shadow-md);
+        }
+
+        body.light-mode .lang-dropdown {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .language-switcher.active .lang-dropdown {
+            display: flex;
+        }
+
+        .lang-dropdown button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            text-align: left;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .lang-dropdown button:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        body.light-mode .lang-dropdown button:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
         /* Dark Mode Toggle */
         .dark-mode-toggle {
             width: 40px;
@@ -327,6 +400,17 @@
             .mobile-menu a:hover {
                 color: var(--az-blue);
             }
+
+            .mobile-menu .mobile-controls {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin: 1.5rem 0;
+            }
+
+            .mobile-menu .language-switcher {
+                margin: 0;
+            }
         }
 
         /* Article Styles */
@@ -397,7 +481,8 @@
             color: var(--az-blue);
         }
 
-        .content ul {
+        .content ul,
+        .content ol {
             margin: 1.5rem 0 1.5rem 2rem;
         }
 
@@ -415,15 +500,45 @@
             color: var(--text-secondary);
         }
 
-        .az-section {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 12px;
-            margin: 3rem 0;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: var(--shadow-md);
+        /* Language Blocks */
+        .lang-en,
+        .lang-az,
+        .lang-ru {
+            display: none;
+        }
+
+        [data-lang="en"] .lang-en {
+            display: block;
+        }
+
+        [data-lang="az"] .lang-az {
+            display: block;
+        }
+
+        [data-lang="ru"] .lang-ru {
+            display: block;
+        }
+
+        /* Default fallback if no attribute (e.g. JS disabled/delayed) */
+        html:not([data-lang]) .lang-en {
+            display: block;
+        }
+
+        .document-link {
+            color: var(--az-blue);
+            text-decoration: none;
+            border-bottom: 1px solid var(--az-blue);
+            padding-bottom: 2px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .document-link:hover {
+            color: var(--accent-bronze);
+            border-bottom-color: var(--accent-bronze);
         }
     </style>
+    <script type="module" src="translations.js"></script>
 </head>
 
 <body>
@@ -434,9 +549,19 @@
                 <img src="lightmodeplugin.png" alt="Plugin.az" class="logo-img light-mode-logo">
             </a>
             <div class="nav-links">
-                <a href="/">Home</a>
-                <a href="/regulatory-framework">Framework</a>
-                <a href="/energy-map">Energy Map</a>
+                <a href="/" data-i18n="nav.home">Home</a>
+                <a href="/regulatory-framework" data-i18n="nav.framework">Framework</a>
+                <a href="/energy-map" data-i18n="nav.energyMap">Energy Map</a>
+
+                <div class="language-switcher">
+                    <button class="lang-btn" id="currentLang">EN</button>
+                    <div class="lang-dropdown">
+                        <button onclick="setLanguage('en')">🇬🇧 EN</button>
+                        <button onclick="setLanguage('ru')">🇷🇺 RU</button>
+                        <button onclick="setLanguage('az')">🇦🇿 AZ</button>
+                    </div>
+                </div>
+
                 <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
                     <img src="darkmode.png" alt="Dark Mode" class="light-icon">
                     <img src="lightmode.png" alt="Light Mode" class="dark-icon">
@@ -457,67 +582,222 @@
 
     <!-- Mobile Menu -->
     <div class="mobile-menu">
-        <a href="/" onclick="toggleMobileMenu()">Home</a>
-        <a href="regulatory-framework" onclick="toggleMobileMenu()">Frameworks</a>
-        <a href="/energy-map" onclick="toggleMobileMenu()">Map</a>
+        <a href="/" data-i18n="nav.home" onclick="toggleMobileMenu()">Home</a>
+        <a href="regulatory-framework" data-i18n="nav.framework" onclick="toggleMobileMenu()">Frameworks</a>
+        <a href="/energy-map" data-i18n="nav.energyMap" onclick="toggleMobileMenu()">Map</a>
+
+        <div class="mobile-controls">
+            <div class="language-switcher">
+                <button class="lang-btn" id="currentLangMobile">EN</button>
+                <div class="lang-dropdown">
+                    <button onclick="setLanguage('en'); toggleMobileMenu();">🇬🇧 EN</button>
+                    <button onclick="setLanguage('ru'); toggleMobileMenu();">🇷🇺 RU</button>
+                    <button onclick="setLanguage('az'); toggleMobileMenu();">🇦🇿 AZ</button>
+                </div>
+            </div>
+
+            <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                <img src="darkmode.png" alt="Dark Mode" class="light-icon">
+                <img src="lightmode.png" alt="Light Mode" class="dark-icon">
+            </button>
+        </div>
     </div>
 
     <article>
-        <header class="article-header">
-            <div class="category">Presidential Decree</div>
-            <h1>Azerbaijan 2030: National Priorities for Socio-Economic Development</h1>
-            <div class="meta">
-                February 2, 2021
-                <span class="meta-divider">•</span>
-                Republic of Azerbaijan
-            </div>
-        </header>
+        <!-- ENGLISH CONTENT -->
+        <div class="lang-en">
+            <header class="article-header">
+                <div class="category">Presidential Decree</div>
+                <h1>Azerbaijan 2030: National Priorities for Socio-Economic Development</h1>
+                <div class="meta">
+                    February 2, 2021
+                    <span class="meta-divider">•</span>
+                    Republic of Azerbaijan
+                </div>
+            </header>
 
-        <div class="content">
-            <p>On February 2, 2021, the President of the Republic of Azerbaijan approved "Azerbaijan 2030: National
-                Priorities for Socio-Economic Development". This strategic document outlines the long-term development
-                vector of the country for the next decade, with a strong emphasis on sustainability and green growth.
-            </p>
+            <div class="content">
+                <p>On February 2, 2021, the President of the Republic of Azerbaijan approved "Azerbaijan 2030: National
+                    Priorities for Socio-Economic Development". This strategic document outlines the long-term
+                    development vector of the country for the next decade, with a strong emphasis on sustainability and
+                    green growth.</p>
 
-            <div class="pullquote">
-                "A clean environment and a 'green growth' country is one of the five national priorities for the next
-                decade."
-            </div>
+                <div class="pullquote">
+                    "A clean environment and a 'green growth' country is one of the five national priorities for the
+                    next decade."
+                </div>
 
-            <h2>Strategic Priorities</h2>
-            <p>The document defines five National Priorities to be achieved by 2030:</p>
-            <ol>
-                <li><strong>A steadily growing competitive economy;</strong></li>
-                <li><strong>A society based on dynamic, inclusive and social justice;</strong></li>
-                <li><strong>Competitive human capital and space for modern innovations;</strong></li>
-                <li><strong>Great Return to the liberated territories;</strong></li>
-                <li><strong>Clean environment and "green growth" country.</strong></li>
-            </ol>
+                <h2>Strategic Priorities</h2>
+                <p>The document defines five National Priorities to be achieved by 2030:</p>
+                <ol>
+                    <li><strong>A steadily growing competitive economy;</strong></li>
+                    <li><strong>A society based on dynamic, inclusive and social justice;</strong></li>
+                    <li><strong>Competitive human capital and space for modern innovations;</strong></li>
+                    <li><strong>Great Return to the liberated territories;</strong></li>
+                    <li><strong>Clean environment and "green growth" country.</strong></li>
+                </ol>
 
-            <h2>Focus on Green Energy</h2>
-            <p>The fifth priority, "Clean environment and 'green growth' country," specifically targets environmental
-                rehabilitation and the rapid expansion of green energy. Key objectives include:</p>
-            <ul>
-                <li>Increasing the share of renewable energy sources in the installed capacity of electricity generation
-                    to <strong>30% by 2030</strong>.</li>
-                <li>Reducing greenhouse gas emissions and aligning with the <strong>Paris Agreement</strong> goals.</li>
-                <li>Transforming the liberated territories (Karabakh and East Zangezur) into a <strong>"Green Energy
-                        Zone"</strong>.</li>
-                <li>Improving energy efficiency across all sectors of the economy.</li>
-            </ul>
+                <h2>Priority 5: Clean Environment and "Green Growth" Country</h2>
+                <p>Given the magnitude of global climate change, emphasis should be placed on the introduction of clean
+                    technologies, encouragement of the use of clean energy sources, and recycling and remediation of
+                    contaminated areas. This will be an important step in efforts to maintain greenhouse gas emissions
+                    at a level that meets international standards.</p>
 
-            <p>This priority sets the stage for massive investments in solar, wind, and hydro power, and mandates the
-                modernization of the regulatory framework to support this transition.</p>
+                <p>Along with the invigoration of countrywide economic development, it is necessary to ensure the
+                    amelioration of the environment, the rapid restoration and expansion of green spaces, and the
+                    efficient usage of water resources and sustainable energy sources. Within the framework of this
+                    priority belonging to the current strategic period, we must achieve the effective implementation of
+                    the following two goals:</p>
+                <ul>
+                    <li>A high quality ecological environment</li>
+                    <li>Spaces for green energy</li>
+                </ul>
 
-            <div class="az-section">
-                <h3>Azərbaycan dilində</h3>
-                <p><strong>"Azərbaycan 2030: Sosial-iqtisadi inkişafa dair Milli Prioritetlər"</strong></p>
-                <p>2 fevral 2021-ci il tarixində təsdiq edilmiş bu sənəd ölkənin gələcək onillik üçün inkişaf
-                    istiqamətlərini müəyyən edir. Beş əsas prioritetdən biri "Təmiz ətraf mühit və 'yaşıl artım'
-                    ölkəsi"dir. Bu çərçivədə 2030-cu ilə qədər bərpa olunan enerji mənbələrinin payının 30%-ə
-                    çatdırılması və işğaldan azad edilmiş ərazilərin "Yaşıl Enerji Zonası"na çevrilməsi hədəflənir.</p>
+                <h3>Spaces for Green Energy</h3>
+                <p>During this strategic period, the implementation of alternative and renewable energy sources will
+                    increase, especially in developed countries. Given this reality, we must efficiently use energy in
+                    our country and give preference to new, sustainable energy sources.</p>
+
+                <p>In order to better meet the needs of present and future generations, environmentally friendly green
+                    technologies must proliferate. Based on scientific and technological potentials, it is necessary in
+                    all sectors of the economy to increase the share of alternative and renewable energy sources in
+                    primary consumption and reduce their impact on climate change.</p>
+
+                <hr style="margin: 3rem 0; border-top: 1px solid rgba(255,255,255,0.1);">
+
+                <h3>Official Source</h3>
+                <p>
+                    <a href="https://president.az/en/articles/view/50474" target="_blank" class="document-link">Read
+                        Full Order on President.az</a>
+                </p>
             </div>
         </div>
+
+        <!-- AZERBAIJANI CONTENT -->
+        <div class="lang-az">
+            <header class="article-header">
+                <div class="category">Prezident Sərəncamı</div>
+                <h1>Azərbaycan 2030: sosial-iqtisadi inkişafa dair Milli Prioritetlər</h1>
+                <div class="meta">
+                    2 fevral 2021
+                    <span class="meta-divider">•</span>
+                    Azərbaycan Respublikası
+                </div>
+            </header>
+
+            <div class="content">
+                <p>2021-ci il fevralın 2-də Azərbaycan Respublikasının Prezidenti "Azərbaycan 2030: sosial-iqtisadi
+                    inkişafa dair Milli Prioritetlər"i təsdiqləmişdir. Bu strateji sənəd növbəti onillik üçün ölkənin
+                    uzunmüddətli inkişaf vektorunu müəyyən edir, dayanıqlılığa və yaşıl artıma xüsusi diqqət yetirir.
+                </p>
+
+                <div class="pullquote">
+                    "Təmiz ətraf mühit və “yaşıl artım” ölkəsi növbəti onillik üçün beş milli prioritetdən biridir."
+                </div>
+
+                <h2>Milli Prioritetlər</h2>
+                <p>Növbəti onillikdə aşağıdakı beş Milli Prioritetin reallaşdırılması təmin edilməlidir:</p>
+                <ol>
+                    <li><strong>Dayanıqlı artan rəqabətqabiliyyətli iqtisadiyyat;</strong></li>
+                    <li><strong>Dinamik, inklüziv və sosial ədalətə əsaslanan cəmiyyət;</strong></li>
+                    <li><strong>Rəqabətli insan kapitalı və müasir innovasiyalar məkanı;</strong></li>
+                    <li><strong>İşğaldan azad olunmuş ərazilərə Böyük Qayıdış;</strong></li>
+                    <li><strong>Təmiz ətraf mühit və “yaşıl artım” ölkəsi.</strong></li>
+                </ol>
+
+                <h2>Prioritet 5: Təmiz ətraf mühit və “yaşıl artım” ölkəsi</h2>
+                <p>Qlobal iqlim dəyişikliklərinin miqyası nəzərə alınaraq, ekoloji təmiz texnologiyaların tətbiqinə,
+                    təmiz enerji mənbələrindən istifadəyə, tullantıların təkrar emalına və çirklənmiş ərazilərin
+                    bərpasına diqqət yetirilməlidir. Bu, istixana qazı emissiyalarının beynəlxalq standartlara uyğun
+                    səviyyədə saxlanılması səylərində mühüm addım olacaqdır.</p>
+
+                <p>İqtisadi inkişafla bərabər, ətraf mühitin sağlamlaşdırılması, yaşıllıqların sürətli bərpası və
+                    artırılması, su ehtiyatlarından və dayanıqlı enerji mənbələrindən səmərəli istafadə təmin
+                    edilməlidir. Bu prioritet çərçivəsində aşağıdakı iki hədəfə nail olunmalıdır:</p>
+                <ul>
+                    <li>Yüksək keyfiyyətli ekoloji mühit</li>
+                    <li>Yaşıl enerji məkanı</li>
+                </ul>
+
+                <h3>Yaşıl enerji məkanı</h3>
+                <p>Bu strateji dövrdə alternativ və bərpa olunan enerji mənbələrinin tətbiqi genişləndiriləcəkdir.
+                    İndiki və gələcək nəsillərin tələbatını dolğun ödəmək məqsədilə ekoloji baxımdan əlverişli olan
+                    “yaşıl” texnologiyaların tətbiqi genişləndirilməlidir. Elmi-texniki potensiala əsaslanmaqla
+                    iqtisadiyyatın bütün sahələrində alternativ və bərpa olunan enerji mənbələrinin ilkin istehlakda
+                    payı artırılmaqla və iqlim dəyişikliklərinə təsir azaldılmalıdır.</p>
+
+                <hr style="margin: 3rem 0; border-top: 1px solid rgba(255,255,255,0.1);">
+
+                <h3>Rəsmi Mənbə</h3>
+                <p>
+                    <a href="https://president.az/az/articles/view/50474" target="_blank"
+                        class="document-link">President.az saytında tam mətni oxuyun</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- RUSSIAN CONTENT (Translated) -->
+        <div class="lang-ru">
+            <header class="article-header">
+                <div class="category">Указ Президента</div>
+                <h1>Азербайджан 2030: Национальные приоритеты социально-экономического развития</h1>
+                <div class="meta">
+                    2 февраля 2021 г.
+                    <span class="meta-divider">•</span>
+                    Азербайджанская Республика
+                </div>
+            </header>
+
+            <div class="content">
+                <p>2 февраля 2021 года Президент Азербайджанской Республики утвердил «Азербайджан 2030: Национальные
+                    приоритеты социально-экономического развития». Этот стратегический документ определяет вектор
+                    долгосрочного развития страны на следующее десятилетие с особым акцентом на устойчивость и зеленый
+                    рост.</p>
+
+                <div class="pullquote">
+                    «Чистая окружающая среда и страна "зеленого роста" — один из пяти национальных приоритетов на
+                    следующее десятилетие».
+                </div>
+
+                <h2>Национальные приоритеты</h2>
+                <p>Документ определяет пять национальных приоритетов, которые должны быть достигнуты к 2030 году:</p>
+                <ol>
+                    <li><strong>Устойчиво растущая конкурентоспособная экономика;</strong></li>
+                    <li><strong>Динамичное, инклюзивное и основанное на социальной справедливости общество;</strong>
+                    </li>
+                    <li><strong>Конкурентоспособный человеческий капитал и пространство для современных
+                            инноваций;</strong></li>
+                    <li><strong>Великое возвращение на освобожденные территории;</strong></li>
+                    <li><strong>Чистая окружающая среда и страна «зеленого роста».</strong></li>
+                </ol>
+
+                <h2>Приоритет 5: Чистая окружающая среда и страна «зеленого роста»</h2>
+                <p>Учитывая масштабы глобального изменения климата, следует уделить внимание внедрению чистых
+                    технологий, поощрению использования чистых источников энергии, а также переработке и восстановлению
+                    загрязненных территорий. Это станет важным шагом в усилиях по поддержанию выбросов парниковых газов
+                    на уровне, соответствующем международным стандартам.</p>
+
+                <p>Наряду с оживлением общенационального экономического развития необходимо обеспечить улучшение
+                    окружающей среды, быстрое восстановление и расширение зеленых насаждений, а также эффективное
+                    использование водных ресурсов и устойчивых источников энергии.</p>
+
+                <h3>Пространство зеленой энергии</h3>
+                <p>В этот стратегический период использование альтернативных и возобновляемых источников энергии
+                    возрастет. Чтобы лучше удовлетворять потребности нынешнего и будущих поколений, должны
+                    распространяться экологически чистые зеленые технологии. Опираясь на научно-технический потенциал,
+                    необходимо во всех секторах экономики увеличить долю альтернативных и возобновляемых источников
+                    энергии в первичном потреблении.</p>
+
+                <hr style="margin: 3rem 0; border-top: 1px solid rgba(255,255,255,0.1);">
+
+                <h3>Официальный источник</h3>
+                <p>
+                    <a href="https://president.az/en/articles/view/50474" target="_blank" class="document-link">Читать
+                        полный текст на President.az</a>
+                </p>
+            </div>
+        </div>
+
     </article>
 
     <script>

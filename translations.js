@@ -427,6 +427,10 @@ if (window.translationsInitialized) {
         const currentLangMobile = document.getElementById('currentLangMobile');
         if (currentLangElement) currentLangElement.textContent = lang.toUpperCase();
         if (currentLangMobile) currentLangMobile.textContent = lang.toUpperCase();
+
+        // set attribute for CSS-based toggling
+        document.body.setAttribute('data-lang', lang);
+
         updatePageLanguage();
 
         // Close dropdown
@@ -467,6 +471,7 @@ if (window.translationsInitialized) {
         if (currentLangMobile) {
             currentLangMobile.textContent = currentLanguage.toUpperCase();
         }
+        document.body.setAttribute('data-lang', currentLanguage);
         updatePageLanguage();
 
         // Toggle dropdown
