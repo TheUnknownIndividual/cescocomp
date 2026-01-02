@@ -437,6 +437,7 @@ if (window.translationsInitialized) {
         const switchers = document.querySelectorAll('.language-switcher');
         switchers.forEach(s => s.classList.remove('active'));
     }
+    window.setLanguage = setLanguage;
 
     function updatePageLanguage() {
         // Update all elements with data-i18n attribute
