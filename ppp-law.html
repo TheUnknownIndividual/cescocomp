@@ -8,6 +8,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
         rel="stylesheet">
+    
     <style>
         :root {
             --az-blue: #6f91a8;
@@ -89,21 +90,10 @@
             width: auto;
         }
 
-        .light-mode-logo {
-            display: none !important;
-        }
-
-        .dark-mode-logo {
-            display: block !important;
-        }
-
-        body.light-mode .light-mode-logo {
-            display: block !important;
-        }
-
-        body.light-mode .dark-mode-logo {
-            display: none !important;
-        }
+        .light-mode-logo { display: none !important; }
+        .dark-mode-logo { display: block !important; }
+        body.light-mode .light-mode-logo { display: block !important; }
+        body.light-mode .dark-mode-logo { display: none !important; }
 
         .nav-links {
             display: flex;
@@ -140,10 +130,7 @@
         }
 
         /* Language Switcher */
-        .language-switcher {
-            position: relative;
-        }
-
+        .language-switcher { position: relative; }
         .lang-btn {
             background: none;
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -155,19 +142,12 @@
             font-weight: 500;
             transition: all 0.3s ease;
         }
-
-        .lang-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
+        .lang-btn:hover { background: rgba(255, 255, 255, 0.1); }
         body.light-mode .lang-btn {
             border-color: rgba(0, 0, 0, 0.2);
             color: var(--text-primary);
         }
-
-        body.light-mode .lang-btn:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
+        body.light-mode .lang-btn:hover { background: rgba(0, 0, 0, 0.05); }
 
         .lang-dropdown {
             position: absolute;
@@ -183,15 +163,8 @@
             min-width: 120px;
             box-shadow: var(--shadow-md);
         }
-
-        body.light-mode .lang-dropdown {
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        .language-switcher.active .lang-dropdown {
-            display: flex;
-        }
-
+        body.light-mode .lang-dropdown { border-color: rgba(0, 0, 0, 0.1); }
+        .language-switcher.active .lang-dropdown { display: flex; }
         .lang-dropdown button {
             background: none;
             border: none;
@@ -203,15 +176,11 @@
             transition: all 0.2s ease;
             font-size: 0.9rem;
         }
-
         .lang-dropdown button:hover {
             background: rgba(255, 255, 255, 0.05);
             color: var(--text-primary);
         }
-
-        body.light-mode .lang-dropdown button:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
+        body.light-mode .lang-dropdown button:hover { background: rgba(0, 0, 0, 0.05); }
 
         /* Dark Mode Toggle */
         .dark-mode-toggle {
@@ -229,16 +198,11 @@
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
-
         .dark-mode-toggle:hover {
             transform: scale(1.1) rotate(15deg);
             box-shadow: 0 6px 20px rgba(0, 153, 204, 0.3);
         }
-
-        .dark-mode-toggle:active {
-            transform: scale(0.95) rotate(-15deg);
-        }
-
+        .dark-mode-toggle:active { transform: scale(0.95) rotate(-15deg); }
         .dark-mode-toggle img {
             width: 22px;
             height: 22px;
@@ -246,44 +210,19 @@
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             position: absolute;
         }
-
-        .dark-mode-toggle .light-icon {
-            opacity: 0;
-            transform: rotate(180deg) scale(0);
-        }
-
-        .dark-mode-toggle .dark-icon {
-            opacity: 1;
-            transform: rotate(0deg) scale(1);
-        }
-
+        .dark-mode-toggle .light-icon { opacity: 0; transform: rotate(180deg) scale(0); }
+        .dark-mode-toggle .dark-icon { opacity: 1; transform: rotate(0deg) scale(1); }
         body.light-mode .dark-mode-toggle {
             border-color: rgba(0, 0, 0, 0.2);
             background: rgba(0, 0, 0, 0.05);
         }
-
-        body.light-mode .dark-mode-toggle .light-icon {
-            opacity: 1;
-            transform: rotate(0deg) scale(1);
-        }
-
-        body.light-mode .dark-mode-toggle .dark-icon {
-            opacity: 0;
-            transform: rotate(-180deg) scale(0);
-        }
+        body.light-mode .dark-mode-toggle .light-icon { opacity: 1; transform: rotate(0deg) scale(1); }
+        body.light-mode .dark-mode-toggle .dark-icon { opacity: 0; transform: rotate(-180deg) scale(0); }
 
         @keyframes ripple {
-            0% {
-                transform: scale(0);
-                opacity: 1;
-            }
-
-            100% {
-                transform: scale(2);
-                opacity: 0;
-            }
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
         }
-
         .dark-mode-toggle::after {
             content: '';
             position: absolute;
@@ -294,10 +233,7 @@
             opacity: 0;
             pointer-events: none;
         }
-
-        .dark-mode-toggle.clicked::after {
-            animation: ripple 0.6s ease-out;
-        }
+        .dark-mode-toggle.clicked::after { animation: ripple 0.6s ease-out; }
 
         /* Mobile Menu */
         .mobile-menu-btn {
@@ -310,7 +246,6 @@
             padding: 0.5rem;
             z-index: 10000;
         }
-
         .mobile-menu-btn span {
             width: 25px;
             height: 3px;
@@ -318,36 +253,15 @@
             border-radius: 3px;
             transition: all 0.3s ease;
         }
-
-        .mobile-menu-btn.active span:nth-child(1) {
-            transform: rotate(45deg) translate(8px, 8px);
-        }
-
-        .mobile-menu-btn.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .mobile-menu-btn.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -7px);
-        }
-
-        .mobile-menu {
-            display: none;
-        }
-
-        .mobile-menu-overlay {
-            display: none;
-        }
+        .mobile-menu-btn.active span:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
+        .mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
+        .mobile-menu-btn.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+        .mobile-menu { display: none; }
+        .mobile-menu-overlay { display: none; }
 
         @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: flex !important;
-            }
-
-            .nav-links {
-                display: none !important;
-            }
-
+            .mobile-menu-btn { display: flex !important; }
+            .nav-links { display: none !important; }
             .mobile-menu {
                 display: block;
                 position: fixed;
@@ -364,11 +278,7 @@
                 overflow-y: auto;
                 border-left: 1px solid rgba(255, 255, 255, 0.1);
             }
-
-            .mobile-menu.active {
-                right: 0;
-            }
-
+            .mobile-menu.active { right: 0; }
             .mobile-menu-overlay {
                 display: block;
                 position: fixed;
@@ -382,12 +292,7 @@
                 pointer-events: none;
                 transition: opacity 0.3s ease;
             }
-
-            .mobile-menu-overlay.active {
-                opacity: 1;
-                pointer-events: all;
-            }
-
+            .mobile-menu-overlay.active { opacity: 1; pointer-events: all; }
             .mobile-menu a {
                 display: block;
                 padding: 1rem 0;
@@ -397,21 +302,14 @@
                 border-bottom: 1px solid rgba(255, 255, 255, 0.05);
                 transition: color 0.3s ease;
             }
-
-            .mobile-menu a:hover {
-                color: var(--az-blue);
-            }
-
+            .mobile-menu a:hover { color: var(--az-blue); }
             .mobile-menu .mobile-controls {
                 display: flex;
                 align-items: center;
                 gap: 1rem;
                 margin: 1.5rem 0;
             }
-
-            .mobile-menu .language-switcher {
-                margin: 0;
-            }
+            .mobile-menu .language-switcher { margin: 0; }
         }
 
         /* Article Styles */
@@ -419,6 +317,20 @@
             max-width: 900px;
             margin: 0 auto;
             padding: 8rem 2rem 4rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            transition: color 0.3s ease;
+        }
+        .back-link:hover {
+            color: var(--az-blue);
         }
 
         .article-header {
@@ -456,15 +368,8 @@
             color: var(--text-muted);
         }
 
-        .content {
-            font-size: 1rem;
-        }
-
-        .content p {
-            margin-bottom: 1.5rem;
-            text-align: justify;
-        }
-
+        .content { font-size: 1rem; }
+        .content p { margin-bottom: 1.5rem; text-align: justify; }
         .content h2 {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.875rem;
@@ -473,7 +378,6 @@
             scroll-margin-top: 100px;
             color: var(--az-green);
         }
-
         .content h3 {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.375rem;
@@ -481,7 +385,6 @@
             margin: 2rem 0 1rem 0;
             color: var(--az-blue);
         }
-
         .content h4 {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.1rem;
@@ -489,14 +392,8 @@
             margin: 1.5rem 0 0.5rem 0;
             color: var(--text-primary);
         }
-
-        .content ul {
-            margin: 1.5rem 0 1.5rem 2rem;
-        }
-
-        .content li {
-            margin-bottom: 0.75rem;
-        }
+        .content ul { margin: 1.5rem 0 1.5rem 2rem; }
+        .content li { margin-bottom: 0.75rem; }
 
         .article-block {
             background: rgba(255, 255, 255, 0.03);
@@ -505,33 +402,25 @@
             margin-bottom: 2rem;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
-
         body.light-mode .article-block {
             background: rgba(0, 0, 0, 0.02);
             border-color: rgba(0, 0, 0, 0.05);
         }
 
+        /* Language Toggle Logic - FIXED */
         .lang-en,
         .lang-az,
         .lang-ru {
             display: none;
         }
 
-        [data-lang="en"] .lang-en {
-            display: block;
-        }
+        /* Active Language Config matched with translations.js which sets data-lang on BODY */
+        body[data-lang="en"] .lang-en { display: block; }
+        body[data-lang="az"] .lang-az { display: block; }
+        body[data-lang="ru"] .lang-ru { display: block; }
 
-        [data-lang="az"] .lang-az {
-            display: block;
-        }
-
-        [data-lang="ru"] .lang-ru {
-            display: block;
-        }
-
-        html:not([data-lang]) .lang-en {
-            display: block;
-        }
+        /* Default fallback if no attribute is set (unlikely with translations.js but safe) */
+        body:not([data-lang]) .lang-en { display: block; }
 
         .document-link {
             color: var(--az-blue);
@@ -541,16 +430,18 @@
             transition: all 0.3s ease;
             font-weight: 500;
         }
-
         .document-link:hover {
             color: var(--accent-bronze);
             border-bottom-color: var(--accent-bronze);
         }
     </style>
+
     <script type="module" src="translations.js"></script>
 </head>
 
 <body>
+    <!-- Auto-inserted Back Button -->
+
     <nav>
         <div class="nav-container">
             <a href="/" class="logo">
@@ -615,6 +506,10 @@
     </div>
 
     <article>
+        <a href="regulatory-framework.html" class="back-link">
+            <span class="back-arrow">←</span> <span data-i18n="nav.framework">Back to Frameworks</span>
+        </a>
+
         <!-- ENGLISH CONTENT -->
         <div class="lang-en">
 
@@ -966,9 +861,9 @@
 
         </div>
 
+        
         <!-- RUSSIAN CONTENT (Translated) -->
         <div class="lang-ru">
-
             <header class="article-header">
                 <div class="category">Закон Азербайджанской Республики</div>
                 <h1>О государственно-частном партнерстве</h1>
@@ -986,10 +881,11 @@
                 
                 <h2>Основные моменты</h2>
                 <ul>
-                    <li><strong>Государственно-частное сотрудничество:</strong> Устанавливает четкие рамки сотрудничества.</li>
-                    <li><strong>30-летние контракты:</strong> Долгосрочная стабильность для инвесторов (до 49 лет).</li>
-                    <li><strong>Гарантии стабильности инвестиций:</strong> Защита прав инвесторов.</li>
-                    <li><strong>Обязательства государства:</strong> Четкие обязательства государства перед частными партнерами.</li>
+                    <li><strong>Государственно-частное сотрудничество:</strong> Устанавливает четкие рамки сотрудничества между государством и частными организациями.</li>
+                    <li><strong>30-летние контракты:</strong> Разрешение на долгосрочные контракты (до 49 лет), обеспечивающие стабильность для инвесторов.</li>
+                    <li><strong>Гарантии стабильности инвестиций:</strong> Защита прав инвесторов и гарантии от неблагоприятных законодательных изменений.</li>
+                    <li><strong>Обязательства государства:</strong> Четкое определение государственной поддержки и обязательств перед частными партнерами.</li>
+                    <li><strong>Привлечение крупных девелоперов:</strong> Поощрение участия крупных разработчиков в инфраструктурных и сервисных проектах.</li>
                 </ul>
 
                 <p><em>(Полный текст доступен на азербайджанском языке)</em></p>
@@ -1001,8 +897,8 @@
                     <a href="https://e-qanun.az/framework/53020" target="_blank" class="document-link">Читать полный текст на e-qanun.az</a>
                 </p>
             </div>
-
         </div>
+
     </article>
 
     <script>
