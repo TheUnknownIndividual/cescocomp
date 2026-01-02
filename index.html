@@ -500,9 +500,9 @@
         /* Darken light mode background for better text visibility */
         body.light-mode .hero::before {
             background: linear-gradient(to bottom,
-                    rgba(255, 255, 255, 0.3) 0%,
-                    rgba(255, 255, 255, 0.4) 30%,
-                    rgba(255, 255, 255, 0.5) 60%,
+                    rgba(0, 0, 0, 0.15) 0%,
+                    rgba(0, 0, 0, 0.2) 30%,
+                    rgba(0, 0, 0, 0.25) 60%,
                     rgba(245, 245, 245, 0.7) 80%,
                     var(--bg-dark) 100%);
         }
@@ -1353,11 +1353,18 @@
             }
 
             .mobile-menu .language-switcher {
+                margin: 1.5rem 0 0 0;
+            }
+
+            .mobile-menu .mobile-controls {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
                 margin: 1.5rem 0;
             }
 
             .mobile-menu .dark-mode-toggle {
-                margin-top: 1.5rem;
+                margin: 0;
             }
 
             .stats-container {
@@ -1555,22 +1562,23 @@
         <a href="solar-calculator" data-i18n="nav.calculator" onclick="toggleMobileMenu()">Solar Calculator</a>
         <a href="regulatory-framework" data-i18n="nav.framework" onclick="toggleMobileMenu()">Regulatory Framework</a>
 
-        <!-- Language Switcher in Mobile Menu -->
-        <div class="language-switcher">
-            <button class="lang-btn" id="currentLangMobile">EN</button>
-            <div class="lang-dropdown">
-                <button onclick="setLanguage('en'); toggleMobileMenu();">🇬🇧 EN</button>
-                <button onclick="setLanguage('ru'); toggleMobileMenu();">🇷🇺 RU</button>
-                <button onclick="setLanguage('az'); toggleMobileMenu();">🇦🇿 AZ</button>
+        <!-- Language Switcher and Dark Mode Toggle on Same Level -->
+        <div class="mobile-controls">
+            <div class="language-switcher">
+                <button class="lang-btn" id="currentLangMobile">EN</button>
+                <div class="lang-dropdown">
+                    <button onclick="setLanguage('en'); toggleMobileMenu();">🇬🇧 EN</button>
+                    <button onclick="setLanguage('ru'); toggleMobileMenu();">🇷🇺 RU</button>
+                    <button onclick="setLanguage('az'); toggleMobileMenu();">🇦🇿 AZ</button>
+                </div>
             </div>
-        </div>
 
-        <!-- Dark Mode Toggle in Mobile Menu -->
-        <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Light/Dark Mode"
-            aria-label="Toggle Light/Dark Mode">
-            <img src="lightmode.png" alt="Light Mode" class="light-icon">
-            <img src="darkmode.png" alt="Dark Mode" class="dark-icon">
-        </button>
+            <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Light/Dark Mode"
+                aria-label="Toggle Light/Dark Mode">
+                <img src="lightmode.png" alt="Light Mode" class="light-icon">
+                <img src="darkmode.png" alt="Dark Mode" class="dark-icon">
+            </button>
+        </div>
     </div>
 
     <!-- Hero Section -->

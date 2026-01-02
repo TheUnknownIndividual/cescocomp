@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azerbaijan 2030: National Priorities | Plugin.az</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --az-blue: #6f91a8;
+            --az-green: #509E2F;
+            --accent-bronze: #c68661;
+            --bg-dark: #0a0b0d;
+            --card-bg: #161719;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --gradient-primary: linear-gradient(135deg, var(--az-blue) 0%, var(--az-green) 100%);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        body.light-mode {
+            --bg-dark: #ffffff;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        /* Navigation */
+        nav {
+            background: transparent;
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode nav {
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+        }
+
+        .light-mode-logo {
+            display: none !important;
+        }
+
+        .dark-mode-logo {
+            display: block !important;
+        }
+
+        body.light-mode .light-mode-logo {
+            display: block !important;
+        }
+
+        body.light-mode .dark-mode-logo {
+            display: none !important;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 6px 20px rgba(0, 153, 204, 0.3);
+        }
+
+        .dark-mode-toggle:active {
+            transform: scale(0.95) rotate(-15deg);
+        }
+
+        .dark-mode-toggle img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: absolute;
+        }
+
+        .dark-mode-toggle .light-icon {
+            opacity: 0;
+            transform: rotate(180deg) scale(0);
+        }
+
+        .dark-mode-toggle .dark-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        body.light-mode .dark-mode-toggle {
+            border-color: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .dark-mode-toggle .light-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        body.light-mode .dark-mode-toggle .dark-icon {
+            opacity: 0;
+            transform: rotate(-180deg) scale(0);
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .dark-mode-toggle::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--az-blue);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .dark-mode-toggle.clicked::after {
+            animation: ripple 0.6s ease-out;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 10000;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-menu-overlay {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex !important;
+            }
+
+            .nav-links {
+                display: none !important;
+            }
+
+            .mobile-menu {
+                display: block;
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background: var(--card-bg);
+                backdrop-filter: blur(20px);
+                z-index: 9999;
+                transition: right 0.3s ease;
+                padding: 5rem 2rem 2rem;
+                overflow-y: auto;
+                border-left: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .mobile-menu.active {
+                right: 0;
+            }
+
+            .mobile-menu-overlay {
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 9998;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+            }
+
+            .mobile-menu-overlay.active {
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .mobile-menu a {
+                display: block;
+                padding: 1rem 0;
+                color: var(--text-primary);
+                text-decoration: none;
+                font-weight: 500;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                transition: color 0.3s ease;
+            }
+
+            .mobile-menu a:hover {
+                color: var(--az-blue);
+            }
+        }
+
+        /* Article Styles */
+        article {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .article-header {
+            border-bottom: 2px solid var(--az-blue);
+            padding-bottom: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .category {
+            color: var(--az-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.75rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .meta {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        .meta-divider {
+            margin: 0 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .content {
+            font-size: 1.1rem;
+        }
+
+        .content p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .content h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin: 3rem 0 1.5rem 0;
+            scroll-margin-top: 100px;
+            color: var(--az-green);
+        }
+
+        .content h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.375rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem 0;
+            color: var(--az-blue);
+        }
+
+        .content ul {
+            margin: 1.5rem 0 1.5rem 2rem;
+        }
+
+        .content li {
+            margin-bottom: 0.75rem;
+        }
+
+        .pullquote {
+            border-left: 4px solid var(--az-blue);
+            padding-left: 2rem;
+            margin: 2.5rem 0;
+            font-style: italic;
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .az-section {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 3rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: var(--shadow-md);
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <img src="pluginlogo.png" alt="Plugin.az" class="logo-img dark-mode-logo">
+                <img src="lightmodeplugin.png" alt="Plugin.az" class="logo-img light-mode-logo">
+            </a>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/regulatory-framework">Framework</a>
+                <a href="/energy-map">Energy Map</a>
+                <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                    <img src="darkmode.png" alt="Dark Mode" class="light-icon">
+                    <img src="lightmode.png" alt="Light Mode" class="dark-icon">
+                </button>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <a href="/" onclick="toggleMobileMenu()">Home</a>
+        <a href="regulatory-framework" onclick="toggleMobileMenu()">Frameworks</a>
+        <a href="/energy-map" onclick="toggleMobileMenu()">Map</a>
+    </div>
+
+    <article>
+        <header class="article-header">
+            <div class="category">Presidential Decree</div>
+            <h1>Azerbaijan 2030: National Priorities for Socio-Economic Development</h1>
+            <div class="meta">
+                February 2, 2021
+                <span class="meta-divider">•</span>
+                Republic of Azerbaijan
+            </div>
+        </header>
+
+        <div class="content">
+            <p>On February 2, 2021, the President of the Republic of Azerbaijan approved "Azerbaijan 2030: National
+                Priorities for Socio-Economic Development". This strategic document outlines the long-term development
+                vector of the country for the next decade, with a strong emphasis on sustainability and green growth.
+            </p>
+
+            <div class="pullquote">
+                "A clean environment and a 'green growth' country is one of the five national priorities for the next
+                decade."
+            </div>
+
+            <h2>Strategic Priorities</h2>
+            <p>The document defines five National Priorities to be achieved by 2030:</p>
+            <ol>
+                <li><strong>A steadily growing competitive economy;</strong></li>
+                <li><strong>A society based on dynamic, inclusive and social justice;</strong></li>
+                <li><strong>Competitive human capital and space for modern innovations;</strong></li>
+                <li><strong>Great Return to the liberated territories;</strong></li>
+                <li><strong>Clean environment and "green growth" country.</strong></li>
+            </ol>
+
+            <h2>Focus on Green Energy</h2>
+            <p>The fifth priority, "Clean environment and 'green growth' country," specifically targets environmental
+                rehabilitation and the rapid expansion of green energy. Key objectives include:</p>
+            <ul>
+                <li>Increasing the share of renewable energy sources in the installed capacity of electricity generation
+                    to <strong>30% by 2030</strong>.</li>
+                <li>Reducing greenhouse gas emissions and aligning with the <strong>Paris Agreement</strong> goals.</li>
+                <li>Transforming the liberated territories (Karabakh and East Zangezur) into a <strong>"Green Energy
+                        Zone"</strong>.</li>
+                <li>Improving energy efficiency across all sectors of the economy.</li>
+            </ul>
+
+            <p>This priority sets the stage for massive investments in solar, wind, and hydro power, and mandates the
+                modernization of the regulatory framework to support this transition.</p>
+
+            <div class="az-section">
+                <h3>Azərbaycan dilində</h3>
+                <p><strong>"Azərbaycan 2030: Sosial-iqtisadi inkişafa dair Milli Prioritetlər"</strong></p>
+                <p>2 fevral 2021-ci il tarixində təsdiq edilmiş bu sənəd ölkənin gələcək onillik üçün inkişaf
+                    istiqamətlərini müəyyən edir. Beş əsas prioritetdən biri "Təmiz ətraf mühit və 'yaşıl artım'
+                    ölkəsi"dir. Bu çərçivədə 2030-cu ilə qədər bərpa olunan enerji mənbələrinin payının 30%-ə
+                    çatdırılması və işğaldan azad edilmiş ərazilərin "Yaşıl Enerji Zonası"na çevrilməsi hədəflənir.</p>
+            </div>
+        </div>
+    </article>
+
+    <script>
+        function toggleDarkMode() {
+            const body = document.body;
+            const toggle = document.querySelector('.dark-mode-toggle');
+            toggle.classList.add('clicked');
+            setTimeout(() => toggle.classList.remove('clicked'), 600);
+            body.classList.toggle('light-mode');
+            const isLight = body.classList.contains('light-mode');
+            localStorage.setItem('themeMode', isLight ? 'light' : 'dark');
+        }
+
+        (function initTheme() {
+            const themeMode = localStorage.getItem('themeMode');
+            if (themeMode === 'light') {
+                document.body.classList.add('light-mode');
+            }
+        })();
+
+        function toggleMobileMenu() {
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+
+            mobileMenu.classList.toggle('active');
+            mobileMenuOverlay.classList.toggle('active');
+            mobileMenuBtn.classList.toggle('active');
+            if (mobileMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+    </script>
+</body>
+
+</html>
