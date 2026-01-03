@@ -1501,6 +1501,29 @@
                 max-width: 100vw;
                 overflow-x: hidden;
             }
+
+            /* Fix solar panel table sections on mobile */
+            body>div[style*="margin-top: 3rem"] {
+                max-width: 100vw !important;
+                box-sizing: border-box !important;
+            }
+
+            /* Constrain table card containers */
+            div[style*="background: var(--card-bg)"] {
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            /* Ensure table wrapper doesn't overflow */
+            div[style*="overflow-x: auto"] {
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            /* Make tables fit within mobile viewport */
+            table {
+                max-width: 100% !important;
+            }
         }
     </style>
 </head>
