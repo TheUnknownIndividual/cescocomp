@@ -5,10 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Public-Private Partnership Law | Plugin.az</title>
+    <link rel="icon" type="image/png" href="/tablogo.png">
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
         rel="stylesheet">
-    
+    <script type="module" src="translations.js"></script>
+
     <style>
         :root {
             --az-blue: #6f91a8;
@@ -46,6 +48,7 @@
             transition: background 0.5s ease, color 0.5s ease;
         }
 
+        /* Navigation */
         /* Navigation */
         nav {
             background: transparent;
@@ -90,10 +93,21 @@
             width: auto;
         }
 
-        .light-mode-logo { display: none !important; }
-        .dark-mode-logo { display: block !important; }
-        body.light-mode .light-mode-logo { display: block !important; }
-        body.light-mode .dark-mode-logo { display: none !important; }
+        .light-mode-logo {
+            display: none !important;
+        }
+
+        .dark-mode-logo {
+            display: block !important;
+        }
+
+        body.light-mode .light-mode-logo {
+            display: block !important;
+        }
+
+        body.light-mode .dark-mode-logo {
+            display: none !important;
+        }
 
         .nav-links {
             display: flex;
@@ -130,7 +144,10 @@
         }
 
         /* Language Switcher */
-        .language-switcher { position: relative; }
+        .language-switcher {
+            position: relative;
+        }
+
         .lang-btn {
             background: none;
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -142,12 +159,19 @@
             font-weight: 500;
             transition: all 0.3s ease;
         }
-        .lang-btn:hover { background: rgba(255, 255, 255, 0.1); }
+
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
         body.light-mode .lang-btn {
             border-color: rgba(0, 0, 0, 0.2);
             color: var(--text-primary);
         }
-        body.light-mode .lang-btn:hover { background: rgba(0, 0, 0, 0.05); }
+
+        body.light-mode .lang-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
 
         .lang-dropdown {
             position: absolute;
@@ -163,8 +187,15 @@
             min-width: 120px;
             box-shadow: var(--shadow-md);
         }
-        body.light-mode .lang-dropdown { border-color: rgba(0, 0, 0, 0.1); }
-        .language-switcher.active .lang-dropdown { display: flex; }
+
+        body.light-mode .lang-dropdown {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .language-switcher.active .lang-dropdown {
+            display: flex;
+        }
+
         .lang-dropdown button {
             background: none;
             border: none;
@@ -176,11 +207,15 @@
             transition: all 0.2s ease;
             font-size: 0.9rem;
         }
+
         .lang-dropdown button:hover {
             background: rgba(255, 255, 255, 0.05);
             color: var(--text-primary);
         }
-        body.light-mode .lang-dropdown button:hover { background: rgba(0, 0, 0, 0.05); }
+
+        body.light-mode .lang-dropdown button:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
 
         /* Dark Mode Toggle */
         .dark-mode-toggle {
@@ -198,11 +233,16 @@
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
+
         .dark-mode-toggle:hover {
             transform: scale(1.1) rotate(15deg);
             box-shadow: 0 6px 20px rgba(0, 153, 204, 0.3);
         }
-        .dark-mode-toggle:active { transform: scale(0.95) rotate(-15deg); }
+
+        .dark-mode-toggle:active {
+            transform: scale(0.95) rotate(-15deg);
+        }
+
         .dark-mode-toggle img {
             width: 22px;
             height: 22px;
@@ -210,19 +250,44 @@
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             position: absolute;
         }
-        .dark-mode-toggle .light-icon { opacity: 0; transform: rotate(180deg) scale(0); }
-        .dark-mode-toggle .dark-icon { opacity: 1; transform: rotate(0deg) scale(1); }
+
+        .dark-mode-toggle .light-icon {
+            opacity: 0;
+            transform: rotate(180deg) scale(0);
+        }
+
+        .dark-mode-toggle .dark-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
         body.light-mode .dark-mode-toggle {
             border-color: rgba(0, 0, 0, 0.2);
             background: rgba(0, 0, 0, 0.05);
         }
-        body.light-mode .dark-mode-toggle .light-icon { opacity: 1; transform: rotate(0deg) scale(1); }
-        body.light-mode .dark-mode-toggle .dark-icon { opacity: 0; transform: rotate(-180deg) scale(0); }
+
+        body.light-mode .dark-mode-toggle .light-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        body.light-mode .dark-mode-toggle .dark-icon {
+            opacity: 0;
+            transform: rotate(-180deg) scale(0);
+        }
 
         @keyframes ripple {
-            0% { transform: scale(0); opacity: 1; }
-            100% { transform: scale(2); opacity: 0; }
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
         }
+
         .dark-mode-toggle::after {
             content: '';
             position: absolute;
@@ -233,7 +298,10 @@
             opacity: 0;
             pointer-events: none;
         }
-        .dark-mode-toggle.clicked::after { animation: ripple 0.6s ease-out; }
+
+        .dark-mode-toggle.clicked::after {
+            animation: ripple 0.6s ease-out;
+        }
 
         /* Mobile Menu */
         .mobile-menu-btn {
@@ -246,6 +314,7 @@
             padding: 0.5rem;
             z-index: 10000;
         }
+
         .mobile-menu-btn span {
             width: 25px;
             height: 3px;
@@ -253,15 +322,36 @@
             border-radius: 3px;
             transition: all 0.3s ease;
         }
-        .mobile-menu-btn.active span:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
-        .mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
-        .mobile-menu-btn.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
-        .mobile-menu { display: none; }
-        .mobile-menu-overlay { display: none; }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-menu-overlay {
+            display: none;
+        }
 
         @media (max-width: 768px) {
-            .mobile-menu-btn { display: flex !important; }
-            .nav-links { display: none !important; }
+            .mobile-menu-btn {
+                display: flex !important;
+            }
+
+            .nav-links {
+                display: none !important;
+            }
+
             .mobile-menu {
                 display: block;
                 position: fixed;
@@ -278,7 +368,11 @@
                 overflow-y: auto;
                 border-left: 1px solid rgba(255, 255, 255, 0.1);
             }
-            .mobile-menu.active { right: 0; }
+
+            .mobile-menu.active {
+                right: 0;
+            }
+
             .mobile-menu-overlay {
                 display: block;
                 position: fixed;
@@ -292,7 +386,12 @@
                 pointer-events: none;
                 transition: opacity 0.3s ease;
             }
-            .mobile-menu-overlay.active { opacity: 1; pointer-events: all; }
+
+            .mobile-menu-overlay.active {
+                opacity: 1;
+                pointer-events: all;
+            }
+
             .mobile-menu a {
                 display: block;
                 padding: 1rem 0;
@@ -302,14 +401,21 @@
                 border-bottom: 1px solid rgba(255, 255, 255, 0.05);
                 transition: color 0.3s ease;
             }
-            .mobile-menu a:hover { color: var(--az-blue); }
+
+            .mobile-menu a:hover {
+                color: var(--az-blue);
+            }
+
             .mobile-menu .mobile-controls {
                 display: flex;
                 align-items: center;
                 gap: 1rem;
                 margin: 1.5rem 0;
             }
-            .mobile-menu .language-switcher { margin: 0; }
+
+            .mobile-menu .language-switcher {
+                margin: 0;
+            }
         }
 
         /* Article Styles */
@@ -329,6 +435,7 @@
             margin-bottom: 2rem;
             transition: color 0.3s ease;
         }
+
         .back-link:hover {
             color: var(--az-blue);
         }
@@ -368,8 +475,15 @@
             color: var(--text-muted);
         }
 
-        .content { font-size: 1rem; }
-        .content p { margin-bottom: 1.5rem; text-align: justify; }
+        .content {
+            font-size: 1rem;
+        }
+
+        .content p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
         .content h2 {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.875rem;
@@ -378,6 +492,7 @@
             scroll-margin-top: 100px;
             color: var(--az-green);
         }
+
         .content h3 {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.375rem;
@@ -385,6 +500,7 @@
             margin: 2rem 0 1rem 0;
             color: var(--az-blue);
         }
+
         .content h4 {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.1rem;
@@ -392,8 +508,14 @@
             margin: 1.5rem 0 0.5rem 0;
             color: var(--text-primary);
         }
-        .content ul { margin: 1.5rem 0 1.5rem 2rem; }
-        .content li { margin-bottom: 0.75rem; }
+
+        .content ul {
+            margin: 1.5rem 0 1.5rem 2rem;
+        }
+
+        .content li {
+            margin-bottom: 0.75rem;
+        }
 
         .article-block {
             background: rgba(255, 255, 255, 0.03);
@@ -402,6 +524,7 @@
             margin-bottom: 2rem;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
+
         body.light-mode .article-block {
             background: rgba(0, 0, 0, 0.02);
             border-color: rgba(0, 0, 0, 0.05);
@@ -415,12 +538,22 @@
         }
 
         /* Active Language Config matched with translations.js which sets data-lang on BODY */
-        body[data-lang="en"] .lang-en { display: block; }
-        body[data-lang="az"] .lang-az { display: block; }
-        body[data-lang="ru"] .lang-ru { display: block; }
+        body[data-lang="en"] .lang-en {
+            display: block;
+        }
+
+        body[data-lang="az"] .lang-az {
+            display: block;
+        }
+
+        body[data-lang="ru"] .lang-ru {
+            display: block;
+        }
 
         /* Default fallback if no attribute is set (unlikely with translations.js but safe) */
-        body:not([data-lang]) .lang-en { display: block; }
+        body:not([data-lang]) .lang-en {
+            display: block;
+        }
 
         .document-link {
             color: var(--az-blue);
@@ -430,6 +563,7 @@
             transition: all 0.3s ease;
             font-weight: 500;
         }
+
         .document-link:hover {
             color: var(--accent-bronze);
             border-bottom-color: var(--accent-bronze);
@@ -449,10 +583,11 @@
                 <img src="lightmodeplugin.png" alt="Plugin.az" class="logo-img light-mode-logo">
             </a>
             <div class="nav-links">
-                <a href="/" data-i18n="nav.home">Home</a>
-                <a href="/regulatory-framework" data-i18n="nav.framework">Framework</a>
-                <a href="/energy-map" data-i18n="nav.energyMap">Energy Map</a>
-                <a href="/solar-calculator.html" data-i18n="nav.calculator">Solar Calculator</a>
+                <a href="#features" data-i18n="nav.features">Features</a>
+                <a href="#map" data-i18n="nav.map">Interactive Map</a>
+                <a href="#about" data-i18n="nav.about">About</a>
+                <a href="solar-calculator" data-i18n="nav.calculator">Solar Calculator</a>
+                <a href="regulatory-framework" class="cta-button" data-i18n="nav.framework">Regulatory Framework</a>
 
                 <div class="language-switcher">
                     <button class="lang-btn" id="currentLang">EN</button>
@@ -525,23 +660,30 @@
 
             <div class="content">
                 <div class="article-block">
-                    <p>This Law determines the organizational, legal and economic bases of implementation of activities in the field of public-private partnership.</p>
+                    <p>This Law determines the organizational, legal and economic bases of implementation of activities
+                        in the field of public-private partnership.</p>
                 </div>
 
                 <h2>Key Highlights</h2>
                 <ul>
-                    <li><strong>State-private collaboration:</strong> Establishes clear framework for cooperation between state and private entities.</li>
-                    <li><strong>30-year contract terms:</strong> Authorization for long-term contracts (up to 49 years) providing stability for investors.</li>
-                    <li><strong>Investment stability guarantees:</strong> Protection of investor rights and guarantees against adverse legislative changes.</li>
-                    <li><strong>State obligations defined:</strong> Clear definition of state support and obligations to private partners.</li>
-                    <li><strong>Attracts major developers:</strong> Encourages participation of large developers in infrastructure and service projects.</li>
+                    <li><strong>State-private collaboration:</strong> Establishes clear framework for cooperation
+                        between state and private entities.</li>
+                    <li><strong>30-year contract terms:</strong> Authorization for long-term contracts (up to 49 years)
+                        providing stability for investors.</li>
+                    <li><strong>Investment stability guarantees:</strong> Protection of investor rights and guarantees
+                        against adverse legislative changes.</li>
+                    <li><strong>State obligations defined:</strong> Clear definition of state support and obligations to
+                        private partners.</li>
+                    <li><strong>Attracts major developers:</strong> Encourages participation of large developers in
+                        infrastructure and service projects.</li>
                 </ul>
 
                 <hr style="margin: 3rem 0; border-top: 1px solid rgba(255,255,255,0.1);">
 
                 <h3>Official Source</h3>
                 <p>
-                    <a href="https://e-qanun.az/framework/53020" target="_blank" class="document-link">Read Full Law on e-qanun.az</a>
+                    <a href="https://e-qanun.az/framework/53020" target="_blank" class="document-link">Read Full Law on
+                        e-qanun.az</a>
                 </p>
             </div>
 
@@ -562,306 +704,727 @@
 
             <div class="content">
                 <div class="article-block">
-<p>Bu Qanun Azərbaycan Respublikası Konstitusiyasının 94-cü maddəsinin I hissəsinin 11-ci, 12-ci və 13-cü bəndlərinə uyğun olaraq, dövlət-özəl tərəfdaşlığı sahəsində fəaliyyətin həyata keçirilməsinin təşkilati, hüquqi və iqtisadi əsaslarını müəyyən edir.</p>
-</div>
-<h2>1-ci fəsil</h2>
-<p>Ümumi müddəalar</p>
-<h3>Maddə 1. Əsas anlayışlar</h3>
-<p>1.1. Bu Qanunun məqsədləri üçün istifadə olunan əsas anlayışlar aşağıdakı mənaları ifadə edir:</p>
-<ul><li><strong>1.1.1.</strong> dövlət-özəl tərəfdaşlığı – dövlət xidmətlərinin göstərilməsinə, eləcə də həmin xidmətlərin göstərilməsi ilə bağlı infrastrukturun yaradılmasına və idarəedilməsinə dair bu Qanuna uyğun olaraq bağlanılan müqaviləyə əsaslanan dövlət tərəfdaşı ilə özəl tərəfdaşın birgə fəaliyyəti;</li>
-<li><strong>1.1.2.</strong> dövlət-özəl tərəfdaşlığı layihəsi – ümumi dəyəri müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqan (qurum) tərəfindən müəyyən edilmiş məbləğdən yuxarı olan dövlət-özəl tərəfdaşlığının həyata keçirilməsinə yönəlmiş təşkilati, hüquqi, elmi, texnoloji və iqtisadi tədbirlərin məcmusu;</li>
-<li><strong>1.1.3.</strong> dövlət-özəl tərəfdaşlığı qaydaları – müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqan (qurum) tərəfindən müəyyən edilən və dövlət-özəl tərəfdaşlığının həyata keçirilməsini tənzimləyən sənəd;</li>
-<li><strong>1.1.4.</strong> iddiaçı – dövlət-özəl tərəfdaşlığı layihəsinin icrası üçün keçirilən müsabiqədə və ya birbaşa danışıqlarda iştirak edən və ya özəl təşəbbüs irəli sürən fiziki və ya hüquqi şəxs;</li>
-<li><strong>1.1.5.</strong> dövlət tərəfdaşı – özəl tərəfdaşla dövlət-özəl tərəfdaşlığı müqaviləsini bağlayan dövlət orqanları (qurumları), habelə bələdiyyələr və ya bələdiyyə müəssisələri;</li>
-<li><strong>1.1.6.</strong> özəl tərəfdaş – dövlət tərəfdaşı ilə dövlət-özəl tərəfdaşlığı müqaviləsini bağlayan, müsabiqə və ya birbaşa danışıqlar əsasında dövlət-özəl tərəfdaşlığı layihəsinin icrası üçün seçilmiş fiziki və ya hüquqi şəxs;</li>
-<li><strong>1.1.7.</strong> dövlət xidmətləri – dövlət orqanları (qurumları) tərəfindən istehsal edilən mal, göstərilən xidmət, görülən iş, habelə dövlət əmlakının, o cümlədən dövlətin iştirak payı olan hüquqi şəxslərin idarə edilməsi;</li>
-<li><strong>1.1.8.</strong> infrastruktur – dövlət xidmətlərinin göstərilməsi üçün nəzərdə tutulmuş maddi və qeyri-maddi aktivlər;</li>
-<li><strong>1.1.9.</strong> strateji sənədlər – dövlət-özəl tərəfdaşlığı layihələrini özündə ehtiva edən dövlət proqramları, strategiyaları, konsepsiyaları və milli fəaliyyət planları;</li>
-<li><strong>1.1.10.</strong> səlahiyyətli orqan – müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqan (qurum);</li>
-<li><strong>1.1.11.</strong> layihə şirkəti – dövlət-özəl tərəfdaşlığı layihəsinin icrasını təmin etmək məqsədilə özəl tərəfdaş tərəfindən yaradılan hüquqi şəxs.</li></ul>
-<p>1.2. Bu Qanunda istifadə olunan digər anlayışlar Azərbaycan Respublikasının normativ hüquqi aktları ilə müəyyən edilmiş mənaları ifadə edir.</p>
-<h3>Maddə 2. Dövlət-özəl tərəfdaşlığına dair qanunvericilik</h3>
-<p>Dövlət-özəl tərəfdaşlığına dair Azərbaycan Respublikasının qanunvericiliyi Azərbaycan Respublikasının Konstitusiyasından, bu Qanundan, Azərbaycan Respublikasının Mülki Məcəlləsindən, “İnvestisiya fəaliyyəti haqqında”, “Lisenziyalar və icazələr haqqında” Azərbaycan Respublikasının qanunlarından və bu sahədə münasibətləri tənzimləyən Azərbaycan Respublikasının digər normativ hüquqi aktlarından, habelə Azərbaycan Respublikasının tərəfdar çıxdığı beynəlxalq müqavilələrdən ibarətdir.</p>
-<h3>Maddə 3. Bu Qanunun tətbiq dairəsi</h3>
-<p>3.1. Bu Qanun dövlət-özəl tərəfdaşlığı sahəsində münasibətləri tənzimləyən Azərbaycan Respublikasının digər qanunlarının müddəaları nəzərə alınmaqla, Azərbaycan Respublikasının ərazisində dövlət xidmətlərinin göstərilməsi, eləcə də həmin xidmətlərin göstərilməsi üçün infrastrukturun yaradılması və idarə edilməsi ilə bağlı dövlət-özəl tərəfdaşlığı layihələrinin icrasında dövlət, səlahiyyətli orqan, dövlət tərəfdaşı və özəl tərəfdaş, habelə iddiaçı arasında yaranan münasibətləri tənzimləyir.</p>
-<p>3.2. “Dövlət satınalmaları haqqında” və “Dövlət əmlakının özəlləşdirilməsi haqqında” Azərbaycan Respublikasının qanunları bu Qanunla tənzimlənən münasibətlərə şamil edilmir.</p>
-<p>3.3. Bu Qanunun müddəaları “Yerin təki haqqında” Azərbaycan Respublikasının Qanununa uyğun olaraq neft-qaz sahəsində fəaliyyətə şamil edilmir.</p>
-<p>3.4. Elektrik enerjisi istehsalında bərpa olunan enerji mənbələrindən istifadə ilə bağlı dövlət-özəl tərəfdaşlığı “Elektrik enerjisi istehsalında bərpa olunan enerji mənbələrindən istifadə haqqında” Azərbaycan Respublikasının Qanununa uyğun olaraq həyata keçirilir.</p>
-<p>3.5. Ələt azad iqtisadi zonasında dövlət-özəl tərəfdaşlığı sahəsində münasibətlər “Ələt azad iqtisadi zonası haqqında” Azərbaycan Respublikası Qanununun tələblərinə uyğun olaraq tənzimlənir.</p>
-<h3>Maddə 4. Dövlət-özəl tərəfdaşlığının əsas prinsipləri</h3>
-<p>4.1. Dövlət-özəl tərəfdaşlığı aşağıdakı prinsiplər əsasında həyata keçirilir:</p>
-<ul><li><strong>4.1.1.</strong> qanunun aliliyi;</li>
-<li><strong>4.1.2.</strong> azad rəqabətin qorunması;</li>
-<li><strong>4.1.3.</strong> şəffaflıq və səmərəliliyin artırılması;</li>
-<li><strong>4.1.4.</strong> iddiaçıların hüquq bərabərliyi;</li>
-<li><strong>4.1.5.</strong> tərəflər arasında maraq və risk balansının qorunması.</li></ul>
-<h3>Maddə 5. Dövlət-özəl tərəfdaşlığı layihələrində dövlətin iştirakı</h3>
-<p>5.1. Dövlət-özəl tərəfdaşlığı layihələri Azərbaycan Respublikasının qanunları ilə qadağan olunmayan mənbələr hesabına maliyyələşdirilir.</p>
-<p>5.2. Dövlət-özəl tərəfdaşlığı layihəsində dövlətin iştirak forması və üsulları səlahiyyətli orqan tərəfindən dövlət-özəl tərəfdaşlığı layihəsinin texniki-iqtisadi əsaslandırılmasına əsasən müəyyən edilir və müsabiqənin şərtlər toplusunda qeyd olunur.</p>
-<p>5.3. Dövlət-özəl tərəfdaşlığı layihəsində dövlətin iştirak forması və üsulları (səlahiyyətli orqanın razılığı əsasında iqtisadi və (və ya) maliyyə əsaslandırmaları olduğu hallar istisna olmaqla) dövlət-özəl tərəfdaşlığı müqaviləsinin bağlanılmasından sonra dəyişdirilə bilməz.</p>
-<p>5.4. Bu Qanunun 5.2-ci maddəsi nəzərə alınmaqla, dövlət-özəl tərəfdaşlığı ilə bağlı dövlət öhdəliyinin yuxarı həddi hər layihə üzrə səlahiyyətli orqan tərəfindən müəyyən edilir.</p>
-<h2>2-ci fəsil</h2>
-<p>Dövlət-özəl tərəfdaşlığının tənzimlənməsi</p>
-<h3>Maddə 6. Dövlət-özəl tərəfdaşlığı sahəsində dövlət siyasəti</h3>
-<p>6.1. Dövlət-özəl tərəfdaşlığı sahəsində dövlət siyasətinin məqsədləri aşağıdakılardır:</p>
-<ul><li><strong>6.1.1.</strong> dövlət vəsaitlərindən istifadənin səmərəliliyinin artırılması;</li>
-<li><strong>6.1.2.</strong> dövlət xidmətlərinin səmərəliliyinin və keyfiyyətinin yüksəldilməsi, onlara əlçatanlığın artırılması;</li>
-<li><strong>6.1.3.</strong> iqtisadiyyatın ayrı-ayrı sahələrinin davamlı inkişafının stimullaşdırılması;</li>
-<li><strong>6.1.4.</strong> iqtisadiyyatın ayrı-ayrı sahələrinə cəlb olunmuş özəl investisiyaların, o cümlədən birbaşa xarici investisiyaların həcminin artırılması;</li>
-<li><strong>6.1.5.</strong> sosial-iqtisadi və biznes yönümlü infrastrukturun qurulması və idarə edilməsi;</li>
-<li><strong>6.1.6.</strong> yeni iş yerlərinin yaradılması, habelə regionların tarazlı inkişaf imkanlarının təmin olunması;</li>
-<li><strong>6.1.7.</strong> rəqabətqabiliyyətli məhsul ixracının artırılması;</li>
-<li><strong>6.1.8.</strong> iqtisadiyyatda səmərəliliyin və şəffaflığın yüksəldilməsi.</li></ul>
-<h3>Maddə 7. Səlahiyyətli orqan</h3>
-<p>7.1. Dövlət-özəl tərəfdaşlığı sahəsində səlahiyyətli orqanı müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqan (qurum) müəyyən edir.</p>
-<p>7.2. Səlahiyyətli orqan:</p>
-<ul><li><strong>7.2.1.</strong> dövlət-özəl tərəfdaşlığı sahəsində dövlət siyasətinin formalaşdırılmasında və həyata keçirilməsində iştirak edir;</li>
-<li><strong>7.2.2.</strong> dövlət-özəl tərəfdaşlığı layihəsinin icrası üzrə müsabiqə sənədlərinin və müqavilələrin layihəsini və ya müqavilələrin əsas şərtlərini hazırlayır;</li>
-<li><strong>7.2.3.</strong> özəl tərəfdaşın müəyyən edilməsi məqsədilə müsabiqəni və ya birbaşa danışıqları təşkil edir;</li>
-<li><strong>7.2.4.</strong> dövlət-özəl tərəfdaşlığı ilə bağlı layihə təkliflərinin qiymətləndirilməsini və bu Qanunun 35.1-ci maddəsində nəzərdə tutulan məlumat bazasının yaradılmasını təmin edir;</li>
-<li><strong>7.2.5.</strong> müsabiqənin şərtlər toplusunun hazırlanmasını və layihə üzrə dövlət tərəfdaşı ilə razılaşdırılmasını, dövlət-özəl tərəfdaşlığı layihəsinin müsabiqəyə çıxarılmasını və ya birbaşa danışıqlar əsasında müqavilənin bağlanılmasını, habelə müqaviləyə dəyişiklik edilməsini təşkil edir;</li>
-<li><strong>7.2.6.</strong> hər bir layihə üzrə müsabiqə iştirakçılarına dair tələbləri müəyyən edir;</li>
-<li><strong>7.2.7.</strong> bu Qanunun 8.1-ci maddəsində nəzərdə tutulan layihələrin siyahısını təsdiq üçün müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqana (quruma) təqdim edir;</li>
-<li><strong>7.2.8.</strong> müsabiqə üzrə layihə təkliflərinə baxılması və qalibin seçilməsi müddətini müəyyən edir;</li>
-<li><strong>7.2.9.</strong> dövlət-özəl tərəfdaşlığı müsabiqəsinə təqdim edilmiş hər bir layihə üzrə aidiyyəti dövlət orqanlarının (qurumlarının) səlahiyyətli nümayəndələrinin iştirakı ilə dövlət-özəl tərəfdaşlığı qaydalarına uyğun fəaliyyət göstərən işçi qruplar yaradır;</li>
-<li><strong>7.2.10.</strong> dövlət-özəl tərəfdaşlığı layihəsinin icrasının bu Qanunun 36-cı maddəsinə uyğun olaraq monitorinqini aparır və nəticəsi barədə müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqana (quruma) hesabat təqdim edir;</li>
-<li><strong>7.2.11.</strong> bu Qanunun 36-cı maddəsinə uyğun olaraq aparılan monitorinqin nəticələri əsasında dövlət resurslarının effektiv istifadə olunmasının qiymətləndirilməsi ilə bağlı müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqana (quruma) təkliflər təqdim edir.</li></ul>
-<h2>3-cü fəsil</h2>
-<p>Dövlət-özəl tərəfdaşlığı layihələri, onların seçilməsi qaydası və iddiaçılara dair tələblər</p>
-<h3>Maddə 8. Dövlət-özəl tərəfdaşlığı layihəsi</h3>
-<p>8.1. Səlahiyyətli orqan dövlət-özəl tərəfdaşlığı layihələrinin siyahısını qüvvədə olan strateji sənədlər əsasında hazırlayır və müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqan (qurum) tərəfindən təsdiq edildikdən sonra hər il üzrə bu Qanunun 35.1-ci maddəsində nəzərdə tutulan məlumat bazasında və özünün rəsmi internet səhifəsində yerləşdirir, habelə mediada dərc etdirir.</p>
-<p>8.2. Dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsi birdən çox dövlət tərəfdaşının səlahiyyətinə aid olduğu hallarda, səlahiyyətli orqan dövlət tərəfdaşını müəyyən edir və ya dövlət-özəl tərəfdaşlığı layihəsinin onlar tərəfindən birgə həyata keçirilməsi barədə qərar qəbul edir.</p>
-<p>8.3. Bu Qanunun 9.1-ci maddəsində nəzərdə tutulan dövlət-özəl tərəfdaşlığı layihələri aşağıdakı meyarlar nəzərə alınmaqla müəyyən edilir:</p>
-<ul><li><strong>8.3.1.</strong> layihənin əhəmiyyəti;</li>
-<li><strong>8.3.2.</strong> layihənin iqtisadi səmərəliliyi;</li>
-<li><strong>8.3.3.</strong> layihənin icrası zamanı yarana biləcək maliyyə riskləri və bu risklərin tərəflər arasında bölgüsü.</li></ul>
-<p>8.4. Dövlət-özəl tərəfdaşlığı layihəsinin maksimum müddəti 49 (qırx doqquz) ildir. Bu müddət, aşağıdakılar nəzərə alınmaqla, səlahiyyətli orqan tərəfindən müəyyən edilir:</p>
-<ul><li><strong>8.4.1.</strong> dövlət-özəl tərəfdaşlığı nəticəsində yaradılacaq infrastrukturun yararlılıq müddəti;</li>
-<li><strong>8.4.2.</strong> özəl tərəfdaş tərəfindən investisiya qoyuluşunun forması və həcmi, o cümlədən cəlb edilmiş vəsaitin qaytarılması müddəti, şərtləri və layihələr üzrə gəlirlilik.</li></ul>
-<p>8.5. Dövlət-özəl tərəfdaşlığı layihələri bu Qanunun 10-cu maddəsinə uyğun olaraq iddiaçılar tərəfindən də təqdim edilə bilər.</p>
-<h3>Maddə 9. Dövlət-özəl tərəfdaşlığı üçün layihələrin seçilməsi</h3>
-<p>9.1. Səlahiyyətli orqan tərəfindən bu Qanunun 8.1-ci maddəsində nəzərdə tutulan siyahı səlahiyyətli orqanın rəsmi internet səhifəsində, bu Qanunun 35.1-ci maddəsində nəzərdə tutulan məlumat bazasında yerləşdirildikdən və ya mediada dərc edildikdən sonra layihənin həyata keçirilməsində iştirak etmək istəyən şəxslər bu barədə niyyətlərini dövlət-özəl tərəfdaşlığı qaydalarına uyğun olaraq səlahiyyətli orqana bildirmək hüququna malikdirlər.</p>
-<p>9.2. Səlahiyyətli orqan layihənin həyata keçirilməsində iştirak etmək istəyən şəxslərin niyyətləri əsasında və ya öz təşəbbüsü ilə, bu Qanunun 24-cü maddəsi nəzərə alınmaqla, dövlət-özəl tərəfdaşlığı layihəsini bu Qanunun 12-ci maddəsinə uyğun olaraq müsabiqəyə hazırlayır.</p>
-<h3>Maddə 10. İddiaçının özəl təşəbbüsü</h3>
-<p>10.1. İddiaçı bu Qanunun 8.1-ci maddəsində nəzərdə tutulmuş siyahıdan əlavə özəl təşəbbüs irəli sürə bilər.</p>
-<p>10.2. Səlahiyyətli orqan iddiaçının özəl təşəbbüsünün bu Qanunun 8.3-cü maddəsində nəzərdə tutulan meyarlara uyğunluğunu yoxlayır.</p>
-<p>10.3. Səlahiyyətli orqan 60 (altmış) gün müddətində iddiaçının özəl təşəbbüsünün növbəti mərhələyə qəbul edilməsi, növbəti mərhələyə qeyd-şərtlə (dəyişikliklərlə) qəbul edilməsi və ya bu Qanunla müəyyən edilmiş tələblərə uyğun olmadıqda rədd edilməsi barədə qərar qəbul edir və bu barədə 2 (iki) iş günü müddətində iddiaçını məlumatlandırır.</p>
-<p>10.4. İddiaçının özəl təşəbbüsü növbəti mərhələyə qəbul edildikdə, səlahiyyətli orqan 10 (on) gün müddətində həmin özəl təşəbbüsün xülasəsini özünün rəsmi internet səhifəsində, bu Qanunun 35.1-ci maddəsində nəzərdə tutulan məlumat bazasında yerləşdirir və ya mediada dərc etdirir.</p>
-<p>10.5. İddiaçının özəl təşəbbüsü növbəti mərhələyə qeyd-şərtlə (dəyişikliklərlə) qəbul edilərsə, səlahiyyətli orqanla iddiaçı arasında, bu Qanunun 10.3-cü maddəsinə uyğun olaraq, məlumat göndərildiyi tarixdən 30 (otuz) gün müddətində həmin qeyd-şərtlərlə (dəyişikliklərlə) bağlı danışıqlar aparılır. Səlahiyyətli orqanla iddiaçı arasında qeyd-şərtlərə (dəyişikliklərə) dair razılıq əldə edildikdə, bu Qanunun 10.6-cı maddəsinə uyğun tədbirlər görülür.</p>
-<p>10.6. Səlahiyyətli orqan özəl təşəbbüs qaydasında verilmiş təklifin xülasəsini dərc etdikdən sonra 60 (altmış) gün müddətində digər şəxslər səlahiyyətli orqana müraciət etməklə həmin dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsində özəl tərəfdaş qismində iştirak etmək niyyətlərini bildirə bilərlər. Azı iki digər şəxs tərəfindən səlahiyyətli orqana belə niyyət bildirildiyi halda səlahiyyətli orqan dövlət-özəl tərəfdaşlığı layihəsini bu Qanunun 12-ci maddəsinə uyğun olaraq müsabiqəyə hazırlayır.</p>
-<p>10.7. Bu Qanunun 10.6-cı maddəsinə uyğun olaraq azı iki digər şəxs tərəfindən dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsində iştirak etmək niyyəti bildirilmədiyi halda səlahiyyətli orqan müsabiqə keçirmədən dövlət tərəfdaşının, bu Qanunun 24-cü maddəsinə uyğun olaraq, özəl tərəfdaşla 45 (qırx beş) gün müddətində müqavilə bağlamasını təşkil edir.</p>
-<p>10.8. İddiaçının özəl təşəbbüs qaydasında təqdim etdiyi təklif müsabiqəyə çıxarıldıqdan sonra həmin iddiaçının müsabiqədə iştirak etməkdən imtina etdiyi və ya müsabiqədə qalib gəlmədiyi hallarda, səlahiyyətli orqan özəl təşəbbüs irəli sürmüş iddiaçının hazırladığı sənəd və məlumatlardan istifadə etdiyi halda həmin sənədlərin hazırlanması və məlumatların əldə edilməsi üçün iddiaçının çəkdiyi xərcləri ödəməlidir. Bu zaman səlahiyyətli orqan bu xərclərin müsabiqənin qalibi tərəfindən özəl təşəbbüsü irəli sürən, lakin müsabiqədə iştirak etməkdən imtina edən və ya müsabiqədə qalib gəlməyən iddiaçıya ödənilməsini müsabiqənin şərti kimi müəyyən edir.</p>
-<h3>Maddə 11. İddiaçılara dair tələblər</h3>
-<p>11.1. Dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsində iştirak etmək üçün iddiaçılara dair tələblər aşağıdakılar nəzərə alınmaqla dövlət-özəl tərəfdaşlığı qaydaları ilə müəyyən edilir:</p>
-<ul><li><strong>11.1.1.</strong> iddiaçı müvafiq fəaliyyət və ya oxşar layihələrin icrası sahəsində təcrübəyə malik olmalı;</li>
-<li><strong>11.1.2.</strong> iddiaçı dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsi üçün maliyyə resurslarına və (və ya) həmin maliyyə resurslarını cəlb etmək imkanına malik olmalı;</li>
-<li><strong>11.1.3.</strong> iddiaçı maddi və (və ya) qeyri-maddi aktivlərə və ya həmin aktivlərin cəlb edilməsi imkanına malik olmalı;</li>
-<li><strong>11.1.4.</strong> iddiaçı idarəetmə imkanlarına, bilik, innovasiyaya və texnologiyalara və ya onların hazırlanması və ya cəlb edilməsi imkanlarına malik olmalı;</li>
-<li><strong>11.1.5.</strong> fiziki şəxsin, hüquqi şəxsin, onun təsisçisinin, iştirakçısının, benefisiar mülkiyyətçisinin, qanuni təmsilçisinin və ya icra orqanlarının üzvlərinin korrupsiya, dələduzluq, cinayət yolu ilə əldə edilmiş əmlakın leqallaşdırılması və terrorçuluğun maliyyələşdirilməsinə görə cinayət məsuliyyətinə cəlb edilməsi və ya onlar barəsində cinayət-hüquqi tədbirlərin tətbiq olunması faktı olmamalı;</li>
-<li><strong>11.1.6.</strong> fiziki şəxsin, hüquqi şəxsin, onun təsisçisinin, iştirakçısının, benefisiar mülkiyyətçisinin, qanuni təmsilçisinin və ya icra orqanlarının üzvləri barəsində beynəlxalq sanksiyalar mövcud olmamalı, habelə vətəndaşı və ya rezidenti olduğu ölkədə həmin şəxsin dövlət-özəl tərəfdaşlığı layihəsində iştirakını məhdudlaşdıran və ya qadağan edən məhdudiyyətlər tətbiq edilməməli;</li>
-<li><strong>11.1.7.</strong> fiziki şəxsin, hüquqi şəxsin, onun təsisçisinin, iştirakçısının, benefisiar mülkiyyətçisinin, qanuni təmsilçisinin və ya icra orqanlarının üzvləri barəsində dövlət-özəl tərəfdaşlığı layihəsində nəzərdə tutulan fəaliyyət növlərinin həyata keçirilməsi üçün məhkəmənin qanuni qüvvəyə minmiş qərarı ilə qoyulan məhdudiyyət və ya qadağa olmamalı;</li>
-<li><strong>11.1.8.</strong> iddiaçı barəsində onun iflası haqqında icraat, hüquqi şəxs olduğu təqdirdə isə həmçinin ləğvi haqqında icraat olmamalı.</li></ul>
-<p>11.2. Azərbaycan Respublikasının beynəlxalq öhdəlikləri ilə nəzərdə tutulduğu və ya dövlət təhlükəsizliyi baxımından müəyyən xarici iddiaçıların və ya müəyyən ölkələrdən (o cümlədən Azərbaycan Respublikasının diplomatik əlaqələri olmadığı ölkələrdən) olan xarici iddiaçıların müsabiqədə iştirak etməsinə, özəl təşəbbüs qaydasında təklif verməsinə və ya dövlət-özəl tərəfdaşlığı layihəsi üzrə birbaşa danışıqlarda iştirak etməsinə məhdudiyyətlər qoyula bilər. Səlahiyyətli orqan belə məhdudiyyətin müəyyən olunduğunu müsabiqənin şərtlər toplusunda və müsabiqə barədə elanda göstərməlidir.</p>
-<p>11.3. Bu Qanunun 11.1-ci və 11.2-ci maddələrinin müddəaları nəzərə alınmaqla, dövlət-özəl tərəfdaşlığı layihəsinin məqsədi, strukturu və xüsusiyyətlərindən asılı olaraq özəl tərəfdaşa dair tələblər səlahiyyətli orqan tərəfindən müsabiqənin şərtlər toplusunun hazırlanması mərhələsində dövlət-özəl tərəfdaşlığı qaydalarına uyğun olaraq müəyyən edilir.</p>
-<h2>4-cü fəsil</h2>
-<p>Dövlət-özəl tərəfdaşlığı müsabiqəsi</p>
-<h3>Maddə 12. Dövlət-özəl tərəfdaşlığı layihəsinin müsabiqəyə hazırlanması</h3>
-<p>12.1. Səlahiyyətli orqan tərəfindən dövlət-özəl tərəfdaşlığı layihələrinin müsabiqəyə hazırlanması mərhələləri aşağıdakılardır:</p>
-<ul><li><strong>12.1.1.</strong> dövlət tərəfdaşı tərəfindən layihə üzrə müfəssəl texniki-iqtisadi əsaslandırmanın hazırlanması və səlahiyyətli orqana təqdim edilməsi;</li>
-<li><strong>12.1.2.</strong> müsabiqənin şərtlər toplusunun hazırlanması;</li>
-<li><strong>12.1.3.</strong> iddiaçının özəl təşəbbüsünə münasibətdə dövlət tərəfdaşının müəyyən edilməsi (tələb olunduqda);</li>
-<li><strong>12.1.4.</strong> dövlət-özəl tərəfdaşlığı müqaviləsinin layihəsinin və ya müqavilənin əsas şərtlərinin hazırlanması.</li></ul>
-<p>12.2. Dövlət-özəl tərəfdaşlığı layihəsinin müfəssəl texniki-iqtisadi əsaslandırması aşağıdakıları əhatə etməlidir:</p>
-<ul><li><strong>12.2.1.</strong> dövlət-özəl tərəfdaşlığı layihəsinin ətraflı təsviri;</li>
-<li><strong>12.2.2.</strong> dövlət-özəl tərəfdaşlığı layihəsi “Ətraf mühitə təsirin qiymətləndirilməsi haqqında” Azərbaycan Respublikasının Qanununun Əlavəsində nəzərdə tutulan fəaliyyətlə bağlı olduqda həmin Qanuna uyğun olaraq ətraf mühitə təsirinin qiymətləndirilməsi nəticələrini təsdiq edən sənəd;</li>
-<li><strong>12.2.3.</strong> xarici investorların və kreditorların cəlb edilməsi nəzərdə tutulduğu halda işgüzar adətlərlə tələb olunan məlumat və sənədlər;</li>
-<li><strong>12.2.4.</strong> dövlət-özəl tərəfdaşlığı layihəsinin riskləri, onların qiymətləndirilməsi və tərəflər arasında bölüşdürülməsi;</li>
-<li><strong>12.2.5.</strong> dövlət tərəfindən veriləcək dəstək və təminatların müəyyən edilməsi.</li></ul>
-<p>12.3. Bu Qanunun 12.1.1 – 12.1.4-cü maddələrində nəzərdə tutulmuş işlər başa çatdıqdan sonra səlahiyyətli orqan dövlət-özəl tərəfdaşlığı layihəsini müsabiqəyə çıxarır.</p>
-<h3>Maddə 13. Dövlət-özəl tərəfdaşlığı müsabiqəsinin mərhələləri</h3>
-<p>13.1. Dövlət-özəl tərəfdaşlığına dair müsabiqə aşağıdakı mərhələlərdən ibarət olmaqla açıq formada keçirilir:</p>
-<ul><li><strong>13.1.1.</strong> müsabiqə barədə elanın verilməsi;</li>
-<li><strong>13.1.2.</strong> iddiaçılar tərəfindən müsabiqədə iştirakla bağlı müraciətlərin təqdim edilməsi;</li>
-<li><strong>13.1.3.</strong> müsabiqədə iştirak üçün müraciət etmiş iddiaçıların bu Qanunun 16.1-ci maddəsinə uyğun olaraq ixtisas uyğunluğunun qiymətləndirilməsi;</li>
-<li><strong>13.1.4.</strong> ixtisas uyğunluğundan keçmiş iddiaçılara müsabiqənin şərtlər toplusunun təqdim edilməsi, ixtisas uyğunluğundan keçməmiş iddiaçılara bu barədə yazılı bildirişin göndərilməsi;</li>
-<li><strong>13.1.5.</strong> iddiaçılar tərəfindən təqdim olunmuş layihə təkliflərinin qiymətləndirilməsi;</li>
-<li><strong>13.1.6.</strong> müsabiqə qalibinin, həmçinin ikinci və üçüncü yeri tutmuş iddiaçıların seçilməsi.</li></ul>
-<p>13.2. Hər bir müsabiqə iştirakçısı eyni müsabiqəyə birdən çox layihə təklifi verə bilməz. Müsabiqə iştirakçısı öz layihə təklifini təkliflərin təqdim edilməsi üçün müəyyən edilmiş son müddət başa çatanadək istənilən vaxt dəyişdirə bilər.</p>
-<h3>Maddə 14. Müsabiqənin elan edilməsi</h3>
-<p>14.1. Müsabiqənin keçirilməsi barədə elan, layihənin xüsusiyyətindən asılı olaraq, səlahiyyətli orqan tərəfindən müəyyən edilmiş müddətdə səlahiyyətli orqanın rəsmi internet səhifəsində yerləşdirilir, həmçinin mediada dərc edilir.</p>
-<p>14.2. Dövlət-özəl tərəfdaşlığı layihəsi haqqında aşağıdakı məlumatlar səlahiyyətli orqanın və dövlət tərəfdaşının rəsmi internet səhifəsində, habelə bu Qanunun 35.1-ci maddəsində nəzərdə tutulmuş məlumat bazasında yerləşdirilir:</p>
-<ul><li><strong>14.2.1.</strong> layihənin qısa təsviri və həyata keçiriləcəyi yer;</li>
-<li><strong>14.2.2.</strong> layihə üzrə dövlət dəstəyi və təminatlar (olduğu halda);</li>
-<li><strong>14.2.3.</strong> müsabiqənin şərtlər toplusunun qısa məzmunu.</li></ul>
-<p>14.3. Bu Qanunun 14.1-ci maddəsində nəzərdə tutulmuş elanda bu Qanunun 11-ci maddəsində nəzərdə tutulmuş tələblər və müsabiqədə iştirakla bağlı müraciətlərin təqdim edilməsi müddəti göstərilməlidir.</p>
-<h3>Maddə 15. İddiaçıların müsabiqədə iştirakı</h3>
-<p>15.1. Bu Qanunun 9-cu maddəsində nəzərdə tutulmuş layihənin həyata keçirilməsində iştirak etmək istəyən şəxslər və bu Qanunun 10-cu maddəsinə uyğun olaraq özəl təşəbbüs irəli sürmüş iddiaçılar, eləcə də digər şəxslər bu Qanunun 12-ci maddəsinə uyğun olaraq keçirilən müsabiqədə iştirak etmək üçün müraciət edə bilərlər.</p>
-<p>15.2. Müraciətlər elanda göstərilən müddətdə səlahiyyətli orqana təqdim edilməlidir.</p>
-<p>15.3. İddiaçılar tərəfindən müraciətə əlavə olunmalı sənədlər dövlət-özəl tərəfdaşlığı qaydaları ilə müəyyənləşdirilir.</p>
-<p>15.4. Dövlət-özəl tərəfdaşlığı layihəsində bir neçə iddiaçı öz maliyyə, təşkilati, insan resurslarını, habelə maddi-texniki bazasını və dövlət-özəl tərəfdaşlığı layihəsinin icrası üçün tələb olunan digər imkanlarını müqavilə əsasında birləşdirməklə iştirak edə bilərlər.</p>
-<p>15.5. İddiaçılar bu Qanunun 15.4-cü maddəsində nəzərdə tutulan müqaviləni səlahiyyətli orqana təqdim etməlidirlər. Həmin müqavilədə hər bir iştirakçının dövlət-özəl tərəfdaşlığı layihəsinin icrası ilə əlaqədar vəzifələri, iştirakçılar arasında məsuliyyət bölgüsü və onları təmsil etmək hüququna malik olan əsas iştirakçı müəyyən edilməlidir.</p>
-<h3>Maddə 16. Müsabiqədə ixtisas uyğunluğunun qiymətləndirilməsi</h3>
-<p>16.1. Bu Qanunun 15-ci maddəsinə uyğun olaraq müsabiqədə iştirakla bağlı müraciət təqdim etmiş iddiaçıların ixtisas göstəriciləri bu Qanunun 11-ci maddəsinin tələblərinə uyğun olaraq səlahiyyətli orqan tərəfindən iddiaçıların əqli mülkiyyəti və kommersiya sirri qorunmaqla qiymətləndirilir.</p>
-<p>16.2. İddiaçıların ixtisas uyğunluğunun qiymətləndirilməsinə dair bu Qanunun 11-ci maddəsində nəzərdə tutulanlardan başqa əlavə meyarlar, tələblər və prosedurlar nəzərdə tutula bilməz.</p>
-<h3>Maddə 17. Müsabiqənin şərtlər toplusu</h3>
-<p>17.1. Müsabiqənin şərtlər toplusuna aşağıdakı məlumatlar daxil edilir:</p>
-<ul><li><strong>17.1.1.</strong> dövlət-özəl tərəfdaşlığı layihəsinin müfəssəl təsviri;</li>
-<li><strong>17.1.2.</strong> dövlət tərəfindən təqdim edilməsi nəzərdə tutulan dəstək və təminatlar;</li>
-<li><strong>17.1.3.</strong> dövlət-özəl tərəfdaşlığı layihəsinin xüsusiyyətləri və icra müddəti, icrasının ehtimal olunan nəticələri;</li>
-<li><strong>17.1.4.</strong> dövlət-özəl tərəfdaşlığı layihəsi çərçivəsində yerli resurslardan (işçi qüvvəsi, mal, iş və xidmətlərdən) istifadəyə, onların yaradılmasına və ya inkişaf etdirilməsinə dair tələblər;</li>
-<li><strong>17.1.5.</strong> iddiaçıların layihə təkliflərinə dair tələblər;</li>
-<li><strong>17.1.6.</strong> iddiaçıların layihə təkliflərinin qüvvədə olma müddəti;</li>
-<li><strong>17.1.7.</strong> iddiaçıların layihə təkliflərinin təminatı (dövlət-özəl tərəfdaşlığı qaydalarına uyğun olaraq təminatın forması, qüvvədə olma müddəti, geri qaytarılmadığı hallar);</li>
-<li><strong>17.1.8.</strong> müsabiqənin keçirilməsi qaydasının müfəssəl təsviri, layihə təkliflərinin qiymətləndirilməsi, müsabiqə qalibinin seçilməsi meyarları, hər bir meyarın xüsusi çəkisi;</li>
-<li><strong>17.1.9.</strong> dövlət-özəl tərəfdaşlığı müqaviləsinin bu Qanunun 22-ci maddəsində göstərilən əsas şərtləri;</li>
-<li><strong>17.1.10.</strong> layihə şirkətində dövlət tərəfdaşının iştirakı (qərar qəbul olunduqda), layihə şirkətinin iştirakçıları (səhmdarları) arasında müqavilənin əsas şərtləri.</li></ul>
-<p>17.2. Müsabiqə başlandıqdan sonra müsabiqənin şərtlər toplusunda dəyişikliklər edildikdə, müsabiqənin müddəti dövlət-özəl tərəfdaşlığı qaydalarında müəyyən edilmiş müddət daxilində uzadıla bilər. Belə dəyişikliklər barədə müsabiqənin bütün iddiaçılarına məlumat verilməlidir.</p>
-<h3>Maddə 18. Layihə təkliflərinin hazırlanması və təqdim edilməsi</h3>
-<p>18.1. İddiaçılar layihə təkliflərini bu Qanunun 17-ci maddəsində nəzərdə tutulan müsabiqənin şərtlər toplusuna uyğun hazırlamalı və təqdim etməlidirlər.</p>
-<p>18.2. Layihə təklifləri müsabiqənin şərtlər toplusu ilə müəyyən edilmiş son müddətə qədər təqdim olunmalıdır. Müəyyən edilmiş müddətdən sonra təqdim olunan təkliflər qəbul edilmir.</p>
-<h3>Maddə 19. Layihə təkliflərinin qiymətləndirilməsi</h3>
-<p>19.1. Layihə təkliflərinin qiymətləndirilməsi səlahiyyətli orqan tərəfindən aşağıdakı qaydada aparılır:</p>
-<ul><li><strong>19.1.1.</strong> layihə təkliflərinin müsabiqənin şərtlər toplusu ilə müəyyən edilmiş minimal texniki tələblərə uyğunluğu yoxlanılır və belə tələblərə cavab verməyən təkliflərə baxılmır;</li>
-<li><strong>19.1.2.</strong> səlahiyyətli orqan tərəfindən layihə təklifləri müsabiqənin bu Qanunun 19.2-ci maddəsində nəzərdə tutulan hər bir meyar üzrə həmin meyarın xüsusi çəkisi nəzərə alınmaqla balların verilməsi üsulu ilə qiymətləndirilir.</li></ul>
-<p>19.2. Dövlət-özəl tərəfdaşlığı layihəsinin xüsusiyyətlərindən asılı olaraq layihə təklifləri aşağıdakı meyarlar üzrə qiymətləndirilir:</p>
-<ul><li><strong>19.2.1.</strong> dövlət tərəfdaşı tərəfindən özəl tərəfdaşa ediləcək ödənişlərin məbləği və bunların dövlət-özəl tərəfdaşlığı müddətində bölüşdürülməsi;</li>
-<li><strong>19.2.2.</strong> özəl tərəfdaşa verilən dövlət dəstəyi və təminatların məbləği, səviyyəsi və bunların dövlət-özəl tərəfdaşlığı müqaviləsi müddətində bölüşdürülməsi;</li>
-<li><strong>19.2.3.</strong> layihənin icra müddəti özəl tərəfdaş tərəfindən təklif edildiyi halda dövlət-özəl tərəfdaşlığının müddəti;</li>
-<li><strong>19.2.4.</strong> dövlət-özəl tərəfdaşlığı layihəsinin icrası zamanı gözlənilən nəticələr və müqavilə öhdəliklərinin yerinə yetirilməməsinə görə dəymiş zərərin ödənilməsi;</li>
-<li><strong>19.2.5.</strong> layihə təklifinin texniki, estetik-funksional, innovativ xassələri;</li>
-<li><strong>19.2.6.</strong> iddiaçı tərəfindən risklərin qarşısını almaq üçün təklif olunan tədbirlər.</li></ul>
-<p>19.3. Layihə təkliflərinin qiymətləndirilməsi meyarları və hər bir meyarın xüsusi çəkisi müsabiqənin şərtlər toplusunda göstərilməlidir. Dövlət-özəl tərəfdaşlığı qaydalarında müəyyən edildiyi hallarda, müsabiqənin şərtlər toplusunda layihə təkliflərinin əsaslandırılmaqla yalnız bir meyar əsasında qiymətləndirilməsi nəzərdə tutula bilər.</p>
-<h3>Maddə 20. Müsabiqənin qalibinin elan edilməsi və layihə şirkəti</h3>
-<p>20.1. Layihə təkliflərinin qiymətləndirilməsi nəticəsində ən çox bal toplamış iddiaçı müsabiqənin qalibi elan olunur və ona, habelə müsabiqədə ikinci və üçüncü yerləri tutmuş iddiaçılara bu barədə 5 (beş) iş günü müddətində bildiriş göndərilir.</p>
-<p>20.2. Müsabiqənin qalibi, ikinci və üçüncü yer tutmuş iddiaçılar barədə məlumat səlahiyyətli orqanın rəsmi internet səhifəsində yerləşdirilir.</p>
-<p>20.3. Müsabiqənin qalibi və ya müsabiqənin şərtlər toplusunda nəzərdə tutulduğu halda müsabiqə qalibinin layihənin icrası üçün yaratdığı layihə şirkəti ilə dövlət-özəl tərəfdaşlığı müqaviləsi 60 (altmış) gün müddətində bağlanılır, bu müddət tərəflərin qarşılıqlı razılığı ilə uzadıla bilər.</p>
-<p>20.4. Müsabiqənin qalibi dövlət-özəl tərəfdaşlığı müqaviləsini bağlamaqdan imtina etdiyi halda onun təminatı geri qaytarılmır. Bu zaman dövlət-özəl tərəfdaşlığı müqaviləsi ikinci və ya müvafiq olaraq üçüncü yer tutmuş iddiaçı ilə bağlanıla bilər və bu barədə məlumat səlahiyyətli orqanın rəsmi internet səhifəsində və bu Qanunun 35.1-ci maddəsində nəzərdə tutulan məlumat bazasında yerləşdirilir.</p>
-<p>20.5. Müsabiqənin şərtlər toplusu ilə müəyyən edildiyi halda səlahiyyətli orqan dövlət-özəl tərəfdaşlığı müqaviləsinin, digər layihə müqavilələrinin hazırlanması və ya dövlət-özəl tərəfdaşlığı layihəsinin texniki şərtlərinin dəqiqləşdirilməsi məqsədilə müsabiqənin qalibi ilə son danışıqlar apara bilər.</p>
-<p>20.6. Dövlət-özəl tərəfdaşlığı layihəsinin icrasını təmin etmək məqsədilə iddiaçı layihə şirkəti yarada bilər. Dövlət-özəl tərəfdaşlığı layihəsinin icrası məqsədilə layihə şirkətinin yaradılması müsabiqənin şərtlər toplusunda nəzərdə tutula bilər.</p>
-<p>20.7. Səlahiyyətli orqan layihə şirkətində dövlət tərəfdaşının iştirakı (nizamnamə kapitalının 49 faizindən çox olmamaq şərtilə) barədə qərar qəbul edə bilər.</p>
-<p>20.8. Müsabiqənin şərtlər toplusunda layihə şirkətinin yaradılması nəzərdə tutulduqda, şərtlər toplusunda həmin layihə şirkətinə dair tələblər müəyyən edilir. Layihə şirkəti yalnız dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsi fəaliyyəti ilə məşğul ola bilər.</p>
-<p>20.9. Layihə şirkəti yaradıldığı halda müsabiqənin şərtlər toplusunda iddiaçı tərəfindən layihə şirkətinin öhdəlikləri üzrə təminatın verilməsi nəzərdə tutula bilər.</p>
-<p>20.10. Dövlət-özəl tərəfdaşlığı müqaviləsində müəyyən edilmiş müddət ərzində iddiaçının layihə şirkəti üzərində nəzarətinin saxlanılmasına (iddiaçı tərəfindən layihə şirkətinin nizamnamə kapitalında üstün iştirakına və ya iddiaçı və layihə şirkəti arasında müqaviləyə əsasən layihə şirkətinin qərarlarını müəyyənləşdirmək hüququ) dair müddəalar nəzərdə tutula bilər.</p>
-<h2>5-ci fəsil</h2>
-<p>Dövlət-özəl tərəfdaşlığı müqaviləsinin şərtləri, bağlanılması, dəyişdirilməsi və ləğvi qaydası</p>
-<h3>Maddə 21. Dövlət-özəl tərəfdaşlığı müqaviləsi</h3>
-<p>21.1. Dövlət-özəl tərəfdaşlığı müsabiqəsinin qalibi və ya birbaşa danışıqlar aparılması yolu ilə cəlb edilmiş özəl tərəfdaşla bu Qanunun 20.3-cü maddəsinə uyğun olaraq dövlət-özəl tərəfdaşlığı müqaviləsi bağlanılır.</p>
-<p>21.2. Dövlət-özəl tərəfdaşlığı layihəsi kreditor (kreditorlar) tərəfindən maliyyələşdirildikdə kreditora (kreditorlara) əlavə təminat verilməsi məqsədilə dövlət tərəfdaşı, özəl tərəfdaş və kreditor (kreditorlar) arasında birbaşa müqavilə imzalana bilər. Kreditorlarla birbaşa müqaviləyə tərəflər arasında dövlət-özəl tərəfdaşlığı layihəsinə dair məlumat mübadiləsi, kreditorun (kreditorların) hüquqları və bu hüquqların həyata keçirilməsi şərtlərini nəzərdə tutan işgüzar adətlərlə tələb olunan müddəalar daxil edilə bilər.</p>
-<p>21.3. Özəl tərəfdaş xarici fiziki və ya hüquqi şəxs, xarici hüquqi şəxsin filialı və ya payların (səhmlərin) nəzarət zərfi xarici fiziki və ya hüquqi şəxsin mülkiyyətində olan hüquqi şəxs olduğu təqdirdə və ya dövlət-özəl tərəfdaşlığı layihəsi xarici və ya beynəlxalq kredit təşkilatı, bank və ya maliyyə qurumu tərəfindən maliyyələşdirildikdə dövlət-özəl tərəfdaşlığı müqaviləsi və digər layihə müqavilələri xarici elementli mülki hüquqi münasibət hesab olunur və tərəflər onlar arasında olan mülki hüquq münasibətlərinə tətbiq edilən hüququ “Beynəlxalq xüsusi hüquq haqqında” Azərbaycan Respublikasının Qanununa əsasən seçə bilərlər.</p>
-<h3>Maddə 22. Dövlət-özəl tərəfdaşlığı müqaviləsinin şərtləri</h3>
-<p>22.1. Dövlət-özəl tərəfdaşlığı müqaviləsində aşağıdakılar nəzərdə tutulmalıdır:</p>
-<ul><li><strong>22.1.1.</strong> müqavilənin tərəfləri;</li>
-<li><strong>22.1.2.</strong> müqavilənin predmeti, istehsal ediləcək malların, yerinə yetiriləcək işlərin və göstəriləcək xidmətlərin həcmi və xüsusiyyətləri, infrastrukturun yaradılması, idarəetməyə verilməsi;</li>
-<li><strong>22.1.3.</strong> müqavilədə nəzərdə tutulmuş infrastruktura mülkiyyət hüquqlarının tərəflər arasında ötürülməsi və bölüşdürülməsi qaydası (olduğu halda);</li>
-<li><strong>22.1.4.</strong> müqavilənin müddəti;</li>
-<li><strong>22.1.5.</strong> layihə üzrə tərəflərin öhdəlikləri, o cümlədən maliyyə öhdəlikləri;</li>
-<li><strong>22.1.6.</strong> dövlət dəstəyi və (və ya) özəl tərəfdaşa nəzərdə tutulan güzəştlər (olduğu halda);</li>
-<li><strong>22.1.7.</strong> müqaviləyə xitam verilməsi qaydası və onun nəticələri;</li>
-<li><strong>22.1.8.</strong> layihə tərəflərinin dəyişdirilməsinin şərtləri və qaydası;</li>
-<li><strong>22.1.9.</strong> dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsi üçün torpaq sahəsinin ayrılması nəzərdə tutulduğu halda, səlahiyyətli orqan və özəl tərəfdaş arasında torpaq icarəsi və ya istifadəsi ilə bağlı münasibətlərin tənzimlənməsi;</li>
-<li><strong>22.1.10.</strong> özəl tərəfdaşa verilən dövlət təminatı;</li>
-<li><strong>22.1.11.</strong> dövlət-özəl tərəfdaşlığı layihəsi çərçivəsində dövlət tərəfdaşı və özəl tərəfdaş arasında öhdəliklərin bölüşdürülməsi;</li>
-<li><strong>22.1.12.</strong> layihənin ümumi dəyərində dövlət tərəfdaşının və özəl tərəfdaşın iştirak payı;</li>
-<li><strong>22.1.13.</strong> dövlət tərəfdaşı (layihənin xüsusiyyətindən asılı olaraq səlahiyyətli orqan) və özəl tərəfdaş arasında investisiya qoyuluşuna dair məsələlər;</li>
-<li><strong>22.1.14.</strong> podratçılara və subpodratçılara dair tələblər (olduğu halda).</li></ul>
-<p>22.2. Müsabiqənin şərtlər toplusunda özəl tərəfdaşa dövlət dəstəyinin və təminatların verilməsi nəzərdə tutulduğu halda, özəl tərəfdaşla dövlət təminatı müqaviləsini müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqan (qurum) bağlayır.</p>
-<p>22.3. Dövlət-özəl tərəfdaşlığı müqaviləsinin tərəfləri, özəl tərəfdaşın öhdəliklərini yerinə yetirməsi şərtilə, özəl tərəfdaşın çəkdiyi xərclərə, qoyduğu investisiyaya və üzərinə götürdüyü öhdəliklərə mütənasib kompensasiya və gəlir əldə etməsinə nail olmaq üçün ödəniş şərtlərini, eyni zamanda belə ödəniş şərtlərinin vaxtaşırı olaraq nəzərdən keçirilməsi və dəyişən şəraitə uyğunlaşdırılması mexanizmlərini razılaşdırmaq və dövlət-özəl tərəfdaşlığı müqaviləsinə daxil etmək hüququna malikdirlər.</p>
-<h3>Maddə 23. Müqavilənin dəyişdirilməsi və ləğv edilməsi</h3>
-<p>23.1. Dövlət-özəl tərəfdaşlığı qaydalarının tələbləri nəzərə alınmaqla dövlət-özəl tərəfdaşlığı müqaviləsi ilə müəyyən edilmiş hallarda dövlət-özəl tərəfdaşlığı müqaviləsi Azərbaycan Respublikasının Mülki Məcəlləsinə uyğun dəyişdirilə və ya ləğv edilə bilər.</p>
-<p>23.2. Dövlət-özəl tərəfdaşlığı müqaviləsində onun ləğvi və ya ona xitam verilməsinin nəticələri müəyyən edilməlidir. Bunlara aşağıdakılar aiddir:</p>
-<ul><li><strong>23.2.1.</strong> bu Qanunun 29-cu maddəsi ilə müəyyən edilmiş nəticələr;</li>
-<li><strong>23.2.2.</strong> bu Qanunun 22.3-cü maddəsində nəzərdə tutulmuş kompensasiya məbləğinin müəyyən edilməsi və onun ödənilməsi qaydası;</li>
-<li><strong>23.2.3.</strong> dövlət-özəl tərəfdaşlığı layihəsi üzrə zəruri olan infrastruktur və əqli mülkiyyət üzərində hüquq sahibinin müəyyən edilməsi.</li></ul>
-<h3>Maddə 24. Birbaşa danışıqlar əsasında müqavilənin bağlanılması</h3>
-<p>24.1. Aşağıdakı hallarda müsabiqə keçirilmədən birbaşa danışıqlar əsasında səlahiyyətli orqanın qərarı ilə iddiaçı ilə dövlət-özəl tərəfdaşlığı müqaviləsi bağlanılır:</p>
-<ul><li><strong>24.1.1.</strong> dövlət-özəl tərəfdaşlığı layihəsində nəzərdə tutulan dövlət xidmətini yalnız bir iddiaçı həyata keçirmək imkanına malik olduqda;</li>
-<li><strong>24.1.2.</strong> müdafiə və təhlükəsizlik məqsədləri ilə əlaqədar dövlət-özəl tərəfdaşlığı layihələri həyata keçirildikdə;</li>
-<li><strong>24.1.3.</strong> müsabiqə elan edildiyi halda daxil olmuş təkliflər bu Qanunun və müsabiqənin şərtlər toplusu ilə müəyyən edilmiş layihə təkliflərinin qiymətləndirmə meyarlarına uyğun olmadıqda və ya yalnız bir layihə təklifi daxil olduqda;</li>
-<li><strong>24.1.4.</strong> bu Qanunun 10.7-ci, 29-cu və 37.3-cü maddələrində nəzərdə tutulmuş hallarda.</li></ul>
-<h2>6-cı fəsil</h2>
-<p>Özəl tərəfdaşlara və kreditorlara verilən dövlət dəstəyi və təminatlar</p>
-<h3>Maddə 25. Dövlət dəstəyinin formaları</h3>
-<p>25.1. Dövlət-özəl tərəfdaşlığı layihəsinə “İnvestisiya fəaliyyəti haqqında” Azərbaycan Respublikasının Qanununda nəzərdə tutulan təşviq tədbirləri, habelə vergi və digər dövlət ödənişləri üzrə güzəştlər, əlavə maliyyə dəstəyi, təminatlar, azadolmalar və kompensasiyalar şamil edilir.</p>
-<p>25.2. Özəl tərəfdaşa müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqanla (qurumla) razılaşdırmaqla dövlət tərəfindən müsabiqənin şərtlər toplusunda nəzərdə tutulmuş aşağıdakı dövlət dəstəyi və təminatlar verilə bilər:</p>
-<ul><li><strong>25.2.1.</strong> dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsi üçün mal, material, xammal, avadanlığın verilməsinin təşkili;</li>
-<li><strong>25.2.2.</strong> dövlət-özəl tərəfdaşlığı layihəsinin gəlirlərinin minimum səviyyəsinə təminat;</li>
-<li><strong>25.2.3.</strong> dövlət-özəl tərəfdaşlığı layihəsi çərçivəsində istehsal edilən məhsulların, göstərilən xidmətlərin, görülən işlərin müəyyən həcmdə alınmasına dair təminat;</li>
-<li><strong>25.2.4.</strong> subsidiyaların və (və ya) kreditlərin verilməsi, kapital qoyuluşu;</li>
-<li><strong>25.2.5.</strong> tənzimlənən qiymətlərin səviyyəsinə dair təminat;</li>
-<li><strong>25.2.6.</strong> Azərbaycan Respublikasının ərazisi və ya onun bir hissəsində xidmətlərin göstərilməsi, işlərin görülməsi, məhsulun satışı üzrə müvəqqəti olaraq müstəsna hüquqların verilməsi;</li>
-<li><strong>25.2.7.</strong> dövlət-özəl tərəfdaşlığı müqaviləsində nəzərdə tutulan hallarda, özəl tərəfdaşın çəkdiyi xərclərin və əldən çıxmış faydanın əvəzinin ödənilməsi.</li></ul>
-<h3>Maddə 26. Özəl tərəfdaşın fəaliyyətinə təminat</h3>
-<p>Özəl tərəfdaşın investisiyası, məhsulları və ya gəlirləri üzərində müstəqil sərəncam vermək, dövlət-özəl tərəfdaşlığı layihəsinə aid olan əmlakı və fəaliyyəti idarə etmək və ona nəzarət etmək hüququnu məhdudlaşdıran və ya özəl tərəfdaşın fəaliyyətinə mane olan və Azərbaycan Respublikasının qanunları ilə qadağan olunan hər hansı formada müdaxiləyə yol verilmir.</p>
-<h3>Maddə 27. Qanunvericiliyin dəyişməsinin təsirlərinə dair təminat</h3>
-<p>Dövlət-özəl tərəfdaşlığı müqaviləsinin bağlandığı tarixdən sonra Azərbaycan Respublikasının normativ hüquqi aktlarında edilən dəyişikliklər özəl tərəfdaşın dövlət-özəl tərəfdaşlığı müqaviləsi üzrə xərclərinin artmasına və ya əldə edəcəyi gəlirin azalmasına səbəb olduqda, özəl tərəfdaşa dövlət-özəl tərəfdaşlığı qaydaları ilə müəyyən edilmiş qaydada kompensasiya ödənilir. Bu zaman ödəniləcək kompensasiyanın məbləği dövlət-özəl tərəfdaşlığı müqaviləsində müəyyən edilə bilər.</p>
-<h3>Maddə 28. Kreditorların hüquqlarının təminatı</h3>
-<p>28.1. Dövlət-özəl tərəfdaşlığı müqaviləsi ilə müəyyən olunan istisnalar nəzərə alınmaqla, özəl tərəfdaş dövlət-özəl tərəfdaşlığı layihəsinin kənardan maliyyələşməsinə nail olmaq məqsədilə kreditorların xeyrinə tələblər və hüquqlar da daxil olmaqla, dövlət-özəl tərəfdaşlığı layihəsinə münasibətdə özünün mülkiyyətində olan (və ya gələcəkdə olacaq) bütün və ya hər hansı əmlakı, habelə özünün malik olduğu iştirak payları (səhmləri) üzərində Azərbaycan Respublikasının Mülki Məcəlləsi, “Daşınar əmlakın yüklülüyü haqqında” Azərbaycan Respublikası Qanunu və bu sahədə münasibətləri tənzimləyən digər qanunlarla qadağan olunmayan istənilən yüklülük yarada və (və ya) öhdəliyin icrasının digər təminat üsullarından istifadə edə bilər.</p>
-<p>28.2. Dövlət tərəfdaşı layihə şirkətində iştirak etdiyi halda, dövlət payı (səhmləri) üzərində girovun və ya digər yüklülüyün yaradılması Azərbaycan Respublikasının tərəfdar çıxdığı beynəlxalq müqavilələr üzrə götürdüyü öhdəliklər nəzərə alınmaqla həyata keçirilə bilər.</p>
-<p>28.3. Kreditorlarla birbaşa müqavilədə nəzərdə tutulduğu halda, bu Qanunun 28.1-ci maddəsində müəyyən edilmiş yüklülüyə tutma yönəldilərkən, səlahiyyətli orqan yüklü edilmiş əmlakı satınalmaqda üstünlük hüququna malik ola bilər.</p>
-<p>28.4. Dövlət-özəl tərəfdaşlığı müqaviləsində və (və ya) kreditorlarla birbaşa müqavilədə tərəflərin razılaşdırdığı və kreditorların hüquqlarının qorunması və təmin edilməsinə dair Azərbaycan Respublikasının qanunlarına zidd olmayan digər müddəalar (dövlət-özəl tərəfdaşlığı müqaviləsinə vaxtından əvvəl xitam verildikdə kreditorlara ödənilməli olan kompensasiyalar və ya özəl tərəfdaşa edilməli olan ödənişlərin birbaşa olaraq kreditor (kreditorlar) tərəfindən alınmasına dair müddəalar) nəzərdə tutula bilər.</p>
-<h3>Maddə 29. Dövlət tərəfdaşının və kreditorların dövlət-özəl tərəfdaşlığı layihəsini idarə etmək hüquqları</h3>
-<p>29.1. Dövlət-özəl tərəfdaşlığı müqaviləsində nəzərdə tutulan risk halları yarandıqda, dövlət-özəl tərəfdaşlığı qaydalarına uyğun olaraq dövlət tərəfdaşı səlahiyyətli orqanın müəyyən etdiyi qaydada layihəni idarə etmək hüququndan istifadə edə bilər və ya bu Qanunun 24-cü maddəsinə uyğun olaraq səlahiyyətli orqan və ya onun razılığı ilə kreditor (kreditorlar) tərəfindən yeni özəl tərəfdaş təyin edilə bilər.</p>
-<p>29.2. Kreditorlarla birbaşa müqavilədə dövlət-özəl tərəfdaşlığı layihəsinin idarə edilməsi hüququndan dövlət tərəfdaşının və ya kreditorun (kreditorlar) istifadə edəcəyinə dair müddəalar müəyyən edilməlidir.</p>
-<h3>Maddə 30. Dövlət-özəl tərəfdaşlığında maliyyələşmə üsullarının seçilməsinə təminat</h3>
-<p>Dövlət-özəl tərəfdaşlığı layihəsinin maliyyələşdirilməsi üzrə bir neçə üsulun tətbiqi mümkün olduqda, iddiaçılara dövlət-özəl tərəfdaşlığı layihəsinin maliyyələşdirilməsi üsullarından birinin əsaslandırılmaqla seçilməsi təklif oluna bilər.</p>
-<h3>Maddə 31. Hesablaşma və valyuta ilə əməliyyatların aparılmasına təminat</h3>
-<p>31.1. Özəl tərəfdaş dövlət-özəl tərəfdaşlığı layihəsinin maliyyələşdirilməsi üçün qeyri-rezident banklardan aldığı kreditlər üzrə öhdəliklərini yerinə yetirmək məqsədilə qeyri-rezident banklarda bank hesabları açmaq və həmin öhdəliklərin yerinə yetirilməsi üçün tələb olunan həddə xarici valyuta vəsaitini həmin hesablara mədaxil etmək (və ya köçürmək), Azərbaycan Respublikasında əldə etdiyi gəliri qeyri-rezident banklarda açdığı bank hesablarına köçürmək, həmin hesablarda saxlamaq və həmin hesablardan ödənişləri həyata keçirmək hüququna malikdir.</p>
-<p>31.2. Müsabiqənin şərtlər toplusunda nəzərdə tutulduğu halda xarici elementli dövlət-özəl tərəfdaşlığı müqaviləsində Azərbaycan Respublikasının milli valyutasının xarici valyutalara qarşı dəyərinin dəyişməsinin dövlət-özəl tərəfdaşlığı layihəsinə mənfi təsirinin azaldılmasına və ya aradan qaldırılmasına dair müddəalar nəzərdə tutula bilər.</p>
-<h3>Maddə 32. Tənzimlənən qiymətlərlə bağlı təminat</h3>
-<p>“Tənzimlənən qiymətlər haqqında” Azərbaycan Respublikasının Qanununa uyğun olaraq göstərilən xidmətlərin tariflərinin dəyişməsi dövlət-özəl tərəfdaşlığı layihəsinin iqtisadi göstəricilərinə mənfi təsir göstərdiyi hallarda, dövlət-özəl tərəfdaşlığı müqaviləsində belə mənfi təsirin azaldılması və ya aradan qaldırılması şərtləri müəyyən edilə bilər.</p>
-<h3>Maddə 33. Əmlakdan istifadəyə və mülkiyyətə təminat</h3>
-<p>33.1. Dövlət-özəl tərəfdaşlığı müqaviləsində həmin müqavilə başa çatdıqdan və ya ona xitam verildikdən sonra özəl tərəfdaşa verilməli olan, habelə dövlətə qaytarılmalı və ya verilməli olan əmlak müəyyən edilməlidir.</p>
-<p>33.2. Dövlət-özəl tərəfdaşlığı müqaviləsində başqa hal nəzərdə tutulmadıqda, özəl tərəfdaş dövlət tərəfdaşının əvvəlcədən yazılı razılığı ilə infrastrukturu dövlət-özəl tərəfdaşlığı müqaviləsində müəyyən edilmiş müddətdən artıq olmayan müddətə icarəyə və ya istifadəyə vermək hüququna malikdir.</p>
-<p>33.3. Dövlət-özəl tərəfdaşlığı müqaviləsində başqa qayda nəzərdə tutulmadığı halda, həmin müqavilə ləğv edildikdə və ya ona xitam verildikdə:</p>
-<ul><li><strong>33.3.1.</strong> özəl tərəfdaşın yaratdığı infrastruktur özəl tərəfdaşın mülkiyyətində qala və ya dövlət tərəfdaşının mülkiyyətinə keçə bilər;</li>
-<li><strong>33.3.2.</strong> dövlət tərəfdaşı özəl tərəfdaşın yaratdığı infrastrukturu sonuncudan satın almaqda üstünlük hüququna malik ola və ya belə öhdəlik daşıya bilər;</li>
-<li><strong>33.3.3.</strong> dövlətin infrastrukturu özəl tərəfdaşın mülkiyyətinə verilə bilər və ya özəl tərəfdaş onun idarəetməsinə verilmiş infrastrukturu dövlətdən satın almaqda üstünlük hüququna malik ola bilər.</li></ul>
-<h3>Maddə 34. Özəl tərəfdaşa torpaq sahəsinin ayrılması</h3>
-<p>34.1. Dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsi üçün tələb olunan torpaq sahələrinin müsabiqənin şərtlər toplusunda nəzərdə tutulduğu formada və müddətdə, lakin dövlət-özəl tərəfdaşlığı müddətindən çox olmamaq şərtilə özəl tərəfdaşa ayrılması Azərbaycan Respublikasının mülki və torpaq qanunvericiliyinin tələblərinə uyğun olaraq səlahiyyətli orqan tərəfindən təşkil olunur.</p>
-<p>34.2. Dövlət mülkiyyətində olan torpaq sahəsi özəl tərəfdaşa icarəyə, istifadəyə verilə bilər və ya layihə şirkətinə pay şəklində qoyula bilər. Dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsi özəl tərəfdaşa dövlət mülkiyyətində olan torpaq sahəsinin icarəyə verilməsini zəruri edirsə, özəl tərəfdaşla torpaq sahəsinin icarə müqaviləsi səlahiyyətli orqan tərəfindən bağlanılır. Özəl tərəfdaşa icarəyə verilən torpaq sahəsinin icarə haqqı “Torpaq icarəsi haqqında” Azərbaycan Respublikasının Qanununa uyğun olaraq dövlət-özəl tərəfdaşlığı layihəsinin maliyyə-iqtisadi göstəriciləri nəzərə alınmaqla müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqan (qurum) tərəfindən müəyyən edilir. Bu Qanunun 34.3-cü və 34.4-cü maddələrinə uyğun olaraq icarəyə götürülmüş torpaq sahələri özəl tərəfdaşa icarəyə və ya istifadəyə verilə bilər.</p>
-<p>34.3. Dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsi üçün tələb olunan bələdiyyə mülkiyyətində olan torpaq sahələri üzərində hüquqların özəl tərəfdaşa ötürülməsi məqsədilə həmin torpaq sahələri açıq torpaq hərracları və ya müsabiqələri keçirilmədən dövlət mülkiyyətinə və ya icarəsinə verilir.</p>
-<p>34.4. Dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsi üçün tələb olunan xüsusi mülkiyyətdə olan torpaq sahələri üzərində hüquqların özəl tərəfdaşa ötürülməsi məqsədilə həmin torpaq sahələri mülkiyyətçi ilə müqavilə əsasında dövlət tərəfindən satın alınır və ya icarəyə götürülür.</p>
-<p>34.5. “Torpaqların dövlət ehtiyacları üçün alınması haqqında” Azərbaycan Respublikasının Qanununa əsasən dövlət-özəl tərəfdaşlığı layihəsi dövlət ehtiyacı hesab edildikdə, torpaqların alınması həmin Qanun əsasında həyata keçirilir.</p>
-<h2>7-ci fəsil</h2>
-<p>Dövlət-özəl tərəfdaşlığı layihələrinin icrasının monitorinqi və hesabatlılığı</p>
-<h3>Maddə 35. Dövlət-özəl tərəfdaşlığı layihələrinin məlumat bazası</h3>
-<p>35.1. Səlahiyyətli orqan dövlət-özəl tərəfdaşlığı layihəsi, müsabiqə qalibinin seçilməsi şərtləri və meyarları, dövlət-özəl tərəfdaşlığı müqaviləsinin əsas şərtləri, dövlət-özəl tərəfdaşlığı layihələrinin hazırlanması və həyata keçirilməsi, o cümlədən dövlət-özəl tərəfdaşlığı müqaviləsi çərçivəsində davam edən və başa çatdırılmış layihələr, layihələrin icra vəziyyətinə dair hesabatlar haqqında elektron məlumat bazasını yaradır və idarə edir.</p>
-<p>35.2. Dövlət-özəl tərəfdaşlığı müqaviləsinin tərəfləri dövlət-özəl tərəfdaşlığı müqaviləsinin surətini, ona edilən dəyişiklikləri müvafiq sənədlərlə birlikdə bu Qanunun 35.1-ci maddəsində nəzərdə tutulan məlumat bazasına daxil edilməsi məqsədilə müqavilə bağlandıqdan və ya ona dəyişiklik edildikdən sonra 7 (yeddi) iş günü müddətində səlahiyyətli orqana təqdim etməlidir.</p>
-<p>35.3. Dövlət, kommersiya və vergi sirri təşkil edən məlumatlar, habelə fərdi məlumatlar istisna olmaqla, bu Qanunun 35.1-ci maddəsində nəzərdə tutulan məlumat bazası ictimaiyyətə açıq olmalıdır.</p>
-<h3>Maddə 36. Dövlət-özəl tərəfdaşlığı layihələrinin icrasının monitorinqi</h3>
-<p>Səlahiyyətli orqan dövlət-özəl tərəfdaşlığı müqaviləsində nəzərdə tutulan öhdəliklərin icra vəziyyətini dövlət-özəl tərəfdaşlığı qaydalarına uyğun olaraq monitorinq etmək hüququna malikdir.</p>
-<h3>Maddə 37. Dövlət-özəl tərəfdaşlığı layihəsinin hesabatlılığı</h3>
-<p>37.1. Dövlət-özəl tərəfdaşlığı müqaviləsinin tərəfləri dövlət-özəl tərəfdaşlığı layihəsinin və tərəflərin öhdəliklərinin icra vəziyyəti barədə ildə bir dəfə səlahiyyətli orqana dövlət-özəl tərəfdaşlığı qaydalarında nəzərdə tutulan formada və qaydada hesabat təqdim edir.</p>
-<p>37.2. Səlahiyyətli orqan dövlət-özəl tərəfdaşlığı qaydalarında müəyyən edilmiş formada dövlət-özəl tərəfdaşlığı layihələri ilə bağlı illik hesabatları özünün rəsmi internet səhifəsində və bu Qanunun 35.1-ci maddəsində nəzərdə tutulmuş məlumat bazasında yerləşdirir.</p>
-<p>37.3. Səlahiyyətli orqan bu Qanunun 37.1-ci maddəsində nəzərdə tutulan hesabat əsasında dövlət-özəl tərəfdaşlığı layihəsinin icraçısının müqavilə öhdəliklərini yerinə yetirmədiyini və ya yerinə yetirmək iqtidarında olmadığını müəyyən etdikdə, layihənin başa çatdırılması üçün yeni tərəfdaşın seçilməsi məqsədilə dövlət-özəl tərəfdaşlığı qaydalarına uyğun olaraq müsabiqə keçirir və ya birbaşa danışıqlar yolu ilə müqavilənin bağlanılmasını təşkil edir.</p>
-<p>37.4. Səlahiyyətli orqan bu Qanunun 37.1-ci maddəsində nəzərdə tutulan hesabatlar əsasında dövlət-özəl tərəfdaşlığının təkmilləşdirilməsi barədə təkliflər hazırlayaraq müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqana (quruma) təqdim edir.</p>
-<h2>8-ci fəsil</h2>
-<p>Yekun müddəalar</p>
-<h3>Maddə 38. Mübahisələrin həlli</h3>
-<p>38.1. İddiaçılar səlahiyyətli orqanın müsabiqənin təşkili və keçirilməsi ilə bağlı qərarlarından, hərəkətlərindən (və ya hərəkətsizliyindən) inzibati qaydada və məhkəməyə şikayət verə bilərlər.</p>
-<p>38.2. Dövlət-özəl tərəfdaşlığı müqaviləsinin və dövlət-özəl tərəfdaşlığı layihəsinə dair digər müqavilələrin tərəfləri arasında mübahisələr həmin müqavilələrdə nəzərdə tutulmuş qaydada həll olunur. Həmin müqavilələrdə mübahisələrin həlli qaydası nəzərdə tutulmadığı halda, mübahisələr Azərbaycan Respublikasının qanunları ilə nəzərdə tutulmuş qaydada həll olunur.</p>
-<h3>Maddə 39. Bu Qanunun pozulmasına görə məsuliyyət</h3>
-<p>Bu Qanunun tələblərini pozan şəxslər Azərbaycan Respublikasının Mülki Məcəlləsində, Azərbaycan Respublikasının İnzibati Xətalar Məcəlləsində və Azərbaycan Respublikasının Cinayət Məcəlləsində nəzərdə tutulmuş hallarda məsuliyyət daşıyırlar.</p>
-<h3>Maddə 40. Keçid müddəalar</h3>
-<p>40.1. Bu Qanun qüvvəyə mindiyi gündən “Tikinti və infrastruktur obyektləri ilə əlaqədar investisiya layihələrinin xüsusi maliyyələşmə əsasında həyata keçirilməsi haqqında” Azərbaycan Respublikasının Qanunu (Azərbaycan Respublikasının Qanunvericilik Toplusu, 2016, № 4, maddə 633; 2019, № 1, maddə 30, № 6, maddə 990, № 11, maddə 1689; 2021, № 7, maddə 701) ləğv edilir.</p>
-<p>40.2. “Tikinti və infrastruktur obyektləri ilə əlaqədar investisiya layihələrinin xüsusi maliyyələşmə əsasında həyata keçirilməsi haqqında” Azərbaycan Respublikasının Qanunu əsasında bağlanılmış müqavilələrə Azərbaycan Respublikası Mülki Məcəlləsinin və “İnvestisiya fəaliyyəti haqqında” Azərbaycan Respublikası Qanununun müddəaları tətbiq edilir.</p>
-<p class="signature">İlham ƏLİYEV,</p>
-<p>Azərbaycan Respublikasının Prezidenti</p>
-<p class="signature">Bakı şəhəri, 9 dekabr 2022-ci il</p>
-<p>№ 691-VIQ</p>
+                    <p>Bu Qanun Azərbaycan Respublikası Konstitusiyasının 94-cü maddəsinin I hissəsinin 11-ci, 12-ci və
+                        13-cü bəndlərinə uyğun olaraq, dövlət-özəl tərəfdaşlığı sahəsində fəaliyyətin həyata
+                        keçirilməsinin təşkilati, hüquqi və iqtisadi əsaslarını müəyyən edir.</p>
+                </div>
+                <h2>1-ci fəsil</h2>
+                <p>Ümumi müddəalar</p>
+                <h3>Maddə 1. Əsas anlayışlar</h3>
+                <p>1.1. Bu Qanunun məqsədləri üçün istifadə olunan əsas anlayışlar aşağıdakı mənaları ifadə edir:</p>
+                <ul>
+                    <li><strong>1.1.1.</strong> dövlət-özəl tərəfdaşlığı – dövlət xidmətlərinin göstərilməsinə, eləcə də
+                        həmin xidmətlərin göstərilməsi ilə bağlı infrastrukturun yaradılmasına və idarəedilməsinə dair
+                        bu Qanuna uyğun olaraq bağlanılan müqaviləyə əsaslanan dövlət tərəfdaşı ilə özəl tərəfdaşın
+                        birgə fəaliyyəti;</li>
+                    <li><strong>1.1.2.</strong> dövlət-özəl tərəfdaşlığı layihəsi – ümumi dəyəri müvafiq icra
+                        hakimiyyəti orqanının müəyyən etdiyi orqan (qurum) tərəfindən müəyyən edilmiş məbləğdən yuxarı
+                        olan dövlət-özəl tərəfdaşlığının həyata keçirilməsinə yönəlmiş təşkilati, hüquqi, elmi,
+                        texnoloji və iqtisadi tədbirlərin məcmusu;</li>
+                    <li><strong>1.1.3.</strong> dövlət-özəl tərəfdaşlığı qaydaları – müvafiq icra hakimiyyəti orqanının
+                        müəyyən etdiyi orqan (qurum) tərəfindən müəyyən edilən və dövlət-özəl tərəfdaşlığının həyata
+                        keçirilməsini tənzimləyən sənəd;</li>
+                    <li><strong>1.1.4.</strong> iddiaçı – dövlət-özəl tərəfdaşlığı layihəsinin icrası üçün keçirilən
+                        müsabiqədə və ya birbaşa danışıqlarda iştirak edən və ya özəl təşəbbüs irəli sürən fiziki və ya
+                        hüquqi şəxs;</li>
+                    <li><strong>1.1.5.</strong> dövlət tərəfdaşı – özəl tərəfdaşla dövlət-özəl tərəfdaşlığı müqaviləsini
+                        bağlayan dövlət orqanları (qurumları), habelə bələdiyyələr və ya bələdiyyə müəssisələri;</li>
+                    <li><strong>1.1.6.</strong> özəl tərəfdaş – dövlət tərəfdaşı ilə dövlət-özəl tərəfdaşlığı
+                        müqaviləsini bağlayan, müsabiqə və ya birbaşa danışıqlar əsasında dövlət-özəl tərəfdaşlığı
+                        layihəsinin icrası üçün seçilmiş fiziki və ya hüquqi şəxs;</li>
+                    <li><strong>1.1.7.</strong> dövlət xidmətləri – dövlət orqanları (qurumları) tərəfindən istehsal
+                        edilən mal, göstərilən xidmət, görülən iş, habelə dövlət əmlakının, o cümlədən dövlətin iştirak
+                        payı olan hüquqi şəxslərin idarə edilməsi;</li>
+                    <li><strong>1.1.8.</strong> infrastruktur – dövlət xidmətlərinin göstərilməsi üçün nəzərdə tutulmuş
+                        maddi və qeyri-maddi aktivlər;</li>
+                    <li><strong>1.1.9.</strong> strateji sənədlər – dövlət-özəl tərəfdaşlığı layihələrini özündə ehtiva
+                        edən dövlət proqramları, strategiyaları, konsepsiyaları və milli fəaliyyət planları;</li>
+                    <li><strong>1.1.10.</strong> səlahiyyətli orqan – müvafiq icra hakimiyyəti orqanının müəyyən etdiyi
+                        orqan (qurum);</li>
+                    <li><strong>1.1.11.</strong> layihə şirkəti – dövlət-özəl tərəfdaşlığı layihəsinin icrasını təmin
+                        etmək məqsədilə özəl tərəfdaş tərəfindən yaradılan hüquqi şəxs.</li>
+                </ul>
+                <p>1.2. Bu Qanunda istifadə olunan digər anlayışlar Azərbaycan Respublikasının normativ hüquqi aktları
+                    ilə müəyyən edilmiş mənaları ifadə edir.</p>
+                <h3>Maddə 2. Dövlət-özəl tərəfdaşlığına dair qanunvericilik</h3>
+                <p>Dövlət-özəl tərəfdaşlığına dair Azərbaycan Respublikasının qanunvericiliyi Azərbaycan Respublikasının
+                    Konstitusiyasından, bu Qanundan, Azərbaycan Respublikasının Mülki Məcəlləsindən, “İnvestisiya
+                    fəaliyyəti haqqında”, “Lisenziyalar və icazələr haqqında” Azərbaycan Respublikasının qanunlarından
+                    və bu sahədə münasibətləri tənzimləyən Azərbaycan Respublikasının digər normativ hüquqi aktlarından,
+                    habelə Azərbaycan Respublikasının tərəfdar çıxdığı beynəlxalq müqavilələrdən ibarətdir.</p>
+                <h3>Maddə 3. Bu Qanunun tətbiq dairəsi</h3>
+                <p>3.1. Bu Qanun dövlət-özəl tərəfdaşlığı sahəsində münasibətləri tənzimləyən Azərbaycan Respublikasının
+                    digər qanunlarının müddəaları nəzərə alınmaqla, Azərbaycan Respublikasının ərazisində dövlət
+                    xidmətlərinin göstərilməsi, eləcə də həmin xidmətlərin göstərilməsi üçün infrastrukturun yaradılması
+                    və idarə edilməsi ilə bağlı dövlət-özəl tərəfdaşlığı layihələrinin icrasında dövlət, səlahiyyətli
+                    orqan, dövlət tərəfdaşı və özəl tərəfdaş, habelə iddiaçı arasında yaranan münasibətləri tənzimləyir.
+                </p>
+                <p>3.2. “Dövlət satınalmaları haqqında” və “Dövlət əmlakının özəlləşdirilməsi haqqında” Azərbaycan
+                    Respublikasının qanunları bu Qanunla tənzimlənən münasibətlərə şamil edilmir.</p>
+                <p>3.3. Bu Qanunun müddəaları “Yerin təki haqqında” Azərbaycan Respublikasının Qanununa uyğun olaraq
+                    neft-qaz sahəsində fəaliyyətə şamil edilmir.</p>
+                <p>3.4. Elektrik enerjisi istehsalında bərpa olunan enerji mənbələrindən istifadə ilə bağlı dövlət-özəl
+                    tərəfdaşlığı “Elektrik enerjisi istehsalında bərpa olunan enerji mənbələrindən istifadə haqqında”
+                    Azərbaycan Respublikasının Qanununa uyğun olaraq həyata keçirilir.</p>
+                <p>3.5. Ələt azad iqtisadi zonasında dövlət-özəl tərəfdaşlığı sahəsində münasibətlər “Ələt azad iqtisadi
+                    zonası haqqında” Azərbaycan Respublikası Qanununun tələblərinə uyğun olaraq tənzimlənir.</p>
+                <h3>Maddə 4. Dövlət-özəl tərəfdaşlığının əsas prinsipləri</h3>
+                <p>4.1. Dövlət-özəl tərəfdaşlığı aşağıdakı prinsiplər əsasında həyata keçirilir:</p>
+                <ul>
+                    <li><strong>4.1.1.</strong> qanunun aliliyi;</li>
+                    <li><strong>4.1.2.</strong> azad rəqabətin qorunması;</li>
+                    <li><strong>4.1.3.</strong> şəffaflıq və səmərəliliyin artırılması;</li>
+                    <li><strong>4.1.4.</strong> iddiaçıların hüquq bərabərliyi;</li>
+                    <li><strong>4.1.5.</strong> tərəflər arasında maraq və risk balansının qorunması.</li>
+                </ul>
+                <h3>Maddə 5. Dövlət-özəl tərəfdaşlığı layihələrində dövlətin iştirakı</h3>
+                <p>5.1. Dövlət-özəl tərəfdaşlığı layihələri Azərbaycan Respublikasının qanunları ilə qadağan olunmayan
+                    mənbələr hesabına maliyyələşdirilir.</p>
+                <p>5.2. Dövlət-özəl tərəfdaşlığı layihəsində dövlətin iştirak forması və üsulları səlahiyyətli orqan
+                    tərəfindən dövlət-özəl tərəfdaşlığı layihəsinin texniki-iqtisadi əsaslandırılmasına əsasən müəyyən
+                    edilir və müsabiqənin şərtlər toplusunda qeyd olunur.</p>
+                <p>5.3. Dövlət-özəl tərəfdaşlığı layihəsində dövlətin iştirak forması və üsulları (səlahiyyətli orqanın
+                    razılığı əsasında iqtisadi və (və ya) maliyyə əsaslandırmaları olduğu hallar istisna olmaqla)
+                    dövlət-özəl tərəfdaşlığı müqaviləsinin bağlanılmasından sonra dəyişdirilə bilməz.</p>
+                <p>5.4. Bu Qanunun 5.2-ci maddəsi nəzərə alınmaqla, dövlət-özəl tərəfdaşlığı ilə bağlı dövlət
+                    öhdəliyinin yuxarı həddi hər layihə üzrə səlahiyyətli orqan tərəfindən müəyyən edilir.</p>
+                <h2>2-ci fəsil</h2>
+                <p>Dövlət-özəl tərəfdaşlığının tənzimlənməsi</p>
+                <h3>Maddə 6. Dövlət-özəl tərəfdaşlığı sahəsində dövlət siyasəti</h3>
+                <p>6.1. Dövlət-özəl tərəfdaşlığı sahəsində dövlət siyasətinin məqsədləri aşağıdakılardır:</p>
+                <ul>
+                    <li><strong>6.1.1.</strong> dövlət vəsaitlərindən istifadənin səmərəliliyinin artırılması;</li>
+                    <li><strong>6.1.2.</strong> dövlət xidmətlərinin səmərəliliyinin və keyfiyyətinin yüksəldilməsi,
+                        onlara əlçatanlığın artırılması;</li>
+                    <li><strong>6.1.3.</strong> iqtisadiyyatın ayrı-ayrı sahələrinin davamlı inkişafının
+                        stimullaşdırılması;</li>
+                    <li><strong>6.1.4.</strong> iqtisadiyyatın ayrı-ayrı sahələrinə cəlb olunmuş özəl investisiyaların,
+                        o cümlədən birbaşa xarici investisiyaların həcminin artırılması;</li>
+                    <li><strong>6.1.5.</strong> sosial-iqtisadi və biznes yönümlü infrastrukturun qurulması və idarə
+                        edilməsi;</li>
+                    <li><strong>6.1.6.</strong> yeni iş yerlərinin yaradılması, habelə regionların tarazlı inkişaf
+                        imkanlarının təmin olunması;</li>
+                    <li><strong>6.1.7.</strong> rəqabətqabiliyyətli məhsul ixracının artırılması;</li>
+                    <li><strong>6.1.8.</strong> iqtisadiyyatda səmərəliliyin və şəffaflığın yüksəldilməsi.</li>
+                </ul>
+                <h3>Maddə 7. Səlahiyyətli orqan</h3>
+                <p>7.1. Dövlət-özəl tərəfdaşlığı sahəsində səlahiyyətli orqanı müvafiq icra hakimiyyəti orqanının
+                    müəyyən etdiyi orqan (qurum) müəyyən edir.</p>
+                <p>7.2. Səlahiyyətli orqan:</p>
+                <ul>
+                    <li><strong>7.2.1.</strong> dövlət-özəl tərəfdaşlığı sahəsində dövlət siyasətinin
+                        formalaşdırılmasında və həyata keçirilməsində iştirak edir;</li>
+                    <li><strong>7.2.2.</strong> dövlət-özəl tərəfdaşlığı layihəsinin icrası üzrə müsabiqə sənədlərinin
+                        və müqavilələrin layihəsini və ya müqavilələrin əsas şərtlərini hazırlayır;</li>
+                    <li><strong>7.2.3.</strong> özəl tərəfdaşın müəyyən edilməsi məqsədilə müsabiqəni və ya birbaşa
+                        danışıqları təşkil edir;</li>
+                    <li><strong>7.2.4.</strong> dövlət-özəl tərəfdaşlığı ilə bağlı layihə təkliflərinin
+                        qiymətləndirilməsini və bu Qanunun 35.1-ci maddəsində nəzərdə tutulan məlumat bazasının
+                        yaradılmasını təmin edir;</li>
+                    <li><strong>7.2.5.</strong> müsabiqənin şərtlər toplusunun hazırlanmasını və layihə üzrə dövlət
+                        tərəfdaşı ilə razılaşdırılmasını, dövlət-özəl tərəfdaşlığı layihəsinin müsabiqəyə çıxarılmasını
+                        və ya birbaşa danışıqlar əsasında müqavilənin bağlanılmasını, habelə müqaviləyə dəyişiklik
+                        edilməsini təşkil edir;</li>
+                    <li><strong>7.2.6.</strong> hər bir layihə üzrə müsabiqə iştirakçılarına dair tələbləri müəyyən
+                        edir;</li>
+                    <li><strong>7.2.7.</strong> bu Qanunun 8.1-ci maddəsində nəzərdə tutulan layihələrin siyahısını
+                        təsdiq üçün müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqana (quruma) təqdim edir;</li>
+                    <li><strong>7.2.8.</strong> müsabiqə üzrə layihə təkliflərinə baxılması və qalibin seçilməsi
+                        müddətini müəyyən edir;</li>
+                    <li><strong>7.2.9.</strong> dövlət-özəl tərəfdaşlığı müsabiqəsinə təqdim edilmiş hər bir layihə üzrə
+                        aidiyyəti dövlət orqanlarının (qurumlarının) səlahiyyətli nümayəndələrinin iştirakı ilə
+                        dövlət-özəl tərəfdaşlığı qaydalarına uyğun fəaliyyət göstərən işçi qruplar yaradır;</li>
+                    <li><strong>7.2.10.</strong> dövlət-özəl tərəfdaşlığı layihəsinin icrasının bu Qanunun 36-cı
+                        maddəsinə uyğun olaraq monitorinqini aparır və nəticəsi barədə müvafiq icra hakimiyyəti
+                        orqanının müəyyən etdiyi orqana (quruma) hesabat təqdim edir;</li>
+                    <li><strong>7.2.11.</strong> bu Qanunun 36-cı maddəsinə uyğun olaraq aparılan monitorinqin
+                        nəticələri əsasında dövlət resurslarının effektiv istifadə olunmasının qiymətləndirilməsi ilə
+                        bağlı müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqana (quruma) təkliflər təqdim edir.
+                    </li>
+                </ul>
+                <h2>3-cü fəsil</h2>
+                <p>Dövlət-özəl tərəfdaşlığı layihələri, onların seçilməsi qaydası və iddiaçılara dair tələblər</p>
+                <h3>Maddə 8. Dövlət-özəl tərəfdaşlığı layihəsi</h3>
+                <p>8.1. Səlahiyyətli orqan dövlət-özəl tərəfdaşlığı layihələrinin siyahısını qüvvədə olan strateji
+                    sənədlər əsasında hazırlayır və müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqan (qurum)
+                    tərəfindən təsdiq edildikdən sonra hər il üzrə bu Qanunun 35.1-ci maddəsində nəzərdə tutulan məlumat
+                    bazasında və özünün rəsmi internet səhifəsində yerləşdirir, habelə mediada dərc etdirir.</p>
+                <p>8.2. Dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsi birdən çox dövlət tərəfdaşının
+                    səlahiyyətinə aid olduğu hallarda, səlahiyyətli orqan dövlət tərəfdaşını müəyyən edir və ya
+                    dövlət-özəl tərəfdaşlığı layihəsinin onlar tərəfindən birgə həyata keçirilməsi barədə qərar qəbul
+                    edir.</p>
+                <p>8.3. Bu Qanunun 9.1-ci maddəsində nəzərdə tutulan dövlət-özəl tərəfdaşlığı layihələri aşağıdakı
+                    meyarlar nəzərə alınmaqla müəyyən edilir:</p>
+                <ul>
+                    <li><strong>8.3.1.</strong> layihənin əhəmiyyəti;</li>
+                    <li><strong>8.3.2.</strong> layihənin iqtisadi səmərəliliyi;</li>
+                    <li><strong>8.3.3.</strong> layihənin icrası zamanı yarana biləcək maliyyə riskləri və bu risklərin
+                        tərəflər arasında bölgüsü.</li>
+                </ul>
+                <p>8.4. Dövlət-özəl tərəfdaşlığı layihəsinin maksimum müddəti 49 (qırx doqquz) ildir. Bu müddət,
+                    aşağıdakılar nəzərə alınmaqla, səlahiyyətli orqan tərəfindən müəyyən edilir:</p>
+                <ul>
+                    <li><strong>8.4.1.</strong> dövlət-özəl tərəfdaşlığı nəticəsində yaradılacaq infrastrukturun
+                        yararlılıq müddəti;</li>
+                    <li><strong>8.4.2.</strong> özəl tərəfdaş tərəfindən investisiya qoyuluşunun forması və həcmi, o
+                        cümlədən cəlb edilmiş vəsaitin qaytarılması müddəti, şərtləri və layihələr üzrə gəlirlilik.</li>
+                </ul>
+                <p>8.5. Dövlət-özəl tərəfdaşlığı layihələri bu Qanunun 10-cu maddəsinə uyğun olaraq iddiaçılar
+                    tərəfindən də təqdim edilə bilər.</p>
+                <h3>Maddə 9. Dövlət-özəl tərəfdaşlığı üçün layihələrin seçilməsi</h3>
+                <p>9.1. Səlahiyyətli orqan tərəfindən bu Qanunun 8.1-ci maddəsində nəzərdə tutulan siyahı səlahiyyətli
+                    orqanın rəsmi internet səhifəsində, bu Qanunun 35.1-ci maddəsində nəzərdə tutulan məlumat bazasında
+                    yerləşdirildikdən və ya mediada dərc edildikdən sonra layihənin həyata keçirilməsində iştirak etmək
+                    istəyən şəxslər bu barədə niyyətlərini dövlət-özəl tərəfdaşlığı qaydalarına uyğun olaraq
+                    səlahiyyətli orqana bildirmək hüququna malikdirlər.</p>
+                <p>9.2. Səlahiyyətli orqan layihənin həyata keçirilməsində iştirak etmək istəyən şəxslərin niyyətləri
+                    əsasında və ya öz təşəbbüsü ilə, bu Qanunun 24-cü maddəsi nəzərə alınmaqla, dövlət-özəl tərəfdaşlığı
+                    layihəsini bu Qanunun 12-ci maddəsinə uyğun olaraq müsabiqəyə hazırlayır.</p>
+                <h3>Maddə 10. İddiaçının özəl təşəbbüsü</h3>
+                <p>10.1. İddiaçı bu Qanunun 8.1-ci maddəsində nəzərdə tutulmuş siyahıdan əlavə özəl təşəbbüs irəli sürə
+                    bilər.</p>
+                <p>10.2. Səlahiyyətli orqan iddiaçının özəl təşəbbüsünün bu Qanunun 8.3-cü maddəsində nəzərdə tutulan
+                    meyarlara uyğunluğunu yoxlayır.</p>
+                <p>10.3. Səlahiyyətli orqan 60 (altmış) gün müddətində iddiaçının özəl təşəbbüsünün növbəti mərhələyə
+                    qəbul edilməsi, növbəti mərhələyə qeyd-şərtlə (dəyişikliklərlə) qəbul edilməsi və ya bu Qanunla
+                    müəyyən edilmiş tələblərə uyğun olmadıqda rədd edilməsi barədə qərar qəbul edir və bu barədə 2 (iki)
+                    iş günü müddətində iddiaçını məlumatlandırır.</p>
+                <p>10.4. İddiaçının özəl təşəbbüsü növbəti mərhələyə qəbul edildikdə, səlahiyyətli orqan 10 (on) gün
+                    müddətində həmin özəl təşəbbüsün xülasəsini özünün rəsmi internet səhifəsində, bu Qanunun 35.1-ci
+                    maddəsində nəzərdə tutulan məlumat bazasında yerləşdirir və ya mediada dərc etdirir.</p>
+                <p>10.5. İddiaçının özəl təşəbbüsü növbəti mərhələyə qeyd-şərtlə (dəyişikliklərlə) qəbul edilərsə,
+                    səlahiyyətli orqanla iddiaçı arasında, bu Qanunun 10.3-cü maddəsinə uyğun olaraq, məlumat
+                    göndərildiyi tarixdən 30 (otuz) gün müddətində həmin qeyd-şərtlərlə (dəyişikliklərlə) bağlı
+                    danışıqlar aparılır. Səlahiyyətli orqanla iddiaçı arasında qeyd-şərtlərə (dəyişikliklərə) dair
+                    razılıq əldə edildikdə, bu Qanunun 10.6-cı maddəsinə uyğun tədbirlər görülür.</p>
+                <p>10.6. Səlahiyyətli orqan özəl təşəbbüs qaydasında verilmiş təklifin xülasəsini dərc etdikdən sonra 60
+                    (altmış) gün müddətində digər şəxslər səlahiyyətli orqana müraciət etməklə həmin dövlət-özəl
+                    tərəfdaşlığı layihəsinin həyata keçirilməsində özəl tərəfdaş qismində iştirak etmək niyyətlərini
+                    bildirə bilərlər. Azı iki digər şəxs tərəfindən səlahiyyətli orqana belə niyyət bildirildiyi halda
+                    səlahiyyətli orqan dövlət-özəl tərəfdaşlığı layihəsini bu Qanunun 12-ci maddəsinə uyğun olaraq
+                    müsabiqəyə hazırlayır.</p>
+                <p>10.7. Bu Qanunun 10.6-cı maddəsinə uyğun olaraq azı iki digər şəxs tərəfindən dövlət-özəl
+                    tərəfdaşlığı layihəsinin həyata keçirilməsində iştirak etmək niyyəti bildirilmədiyi halda
+                    səlahiyyətli orqan müsabiqə keçirmədən dövlət tərəfdaşının, bu Qanunun 24-cü maddəsinə uyğun olaraq,
+                    özəl tərəfdaşla 45 (qırx beş) gün müddətində müqavilə bağlamasını təşkil edir.</p>
+                <p>10.8. İddiaçının özəl təşəbbüs qaydasında təqdim etdiyi təklif müsabiqəyə çıxarıldıqdan sonra həmin
+                    iddiaçının müsabiqədə iştirak etməkdən imtina etdiyi və ya müsabiqədə qalib gəlmədiyi hallarda,
+                    səlahiyyətli orqan özəl təşəbbüs irəli sürmüş iddiaçının hazırladığı sənəd və məlumatlardan istifadə
+                    etdiyi halda həmin sənədlərin hazırlanması və məlumatların əldə edilməsi üçün iddiaçının çəkdiyi
+                    xərcləri ödəməlidir. Bu zaman səlahiyyətli orqan bu xərclərin müsabiqənin qalibi tərəfindən özəl
+                    təşəbbüsü irəli sürən, lakin müsabiqədə iştirak etməkdən imtina edən və ya müsabiqədə qalib gəlməyən
+                    iddiaçıya ödənilməsini müsabiqənin şərti kimi müəyyən edir.</p>
+                <h3>Maddə 11. İddiaçılara dair tələblər</h3>
+                <p>11.1. Dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsində iştirak etmək üçün iddiaçılara dair
+                    tələblər aşağıdakılar nəzərə alınmaqla dövlət-özəl tərəfdaşlığı qaydaları ilə müəyyən edilir:</p>
+                <ul>
+                    <li><strong>11.1.1.</strong> iddiaçı müvafiq fəaliyyət və ya oxşar layihələrin icrası sahəsində
+                        təcrübəyə malik olmalı;</li>
+                    <li><strong>11.1.2.</strong> iddiaçı dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsi üçün
+                        maliyyə resurslarına və (və ya) həmin maliyyə resurslarını cəlb etmək imkanına malik olmalı;
+                    </li>
+                    <li><strong>11.1.3.</strong> iddiaçı maddi və (və ya) qeyri-maddi aktivlərə və ya həmin aktivlərin
+                        cəlb edilməsi imkanına malik olmalı;</li>
+                    <li><strong>11.1.4.</strong> iddiaçı idarəetmə imkanlarına, bilik, innovasiyaya və texnologiyalara
+                        və ya onların hazırlanması və ya cəlb edilməsi imkanlarına malik olmalı;</li>
+                    <li><strong>11.1.5.</strong> fiziki şəxsin, hüquqi şəxsin, onun təsisçisinin, iştirakçısının,
+                        benefisiar mülkiyyətçisinin, qanuni təmsilçisinin və ya icra orqanlarının üzvlərinin korrupsiya,
+                        dələduzluq, cinayət yolu ilə əldə edilmiş əmlakın leqallaşdırılması və terrorçuluğun
+                        maliyyələşdirilməsinə görə cinayət məsuliyyətinə cəlb edilməsi və ya onlar barəsində
+                        cinayət-hüquqi tədbirlərin tətbiq olunması faktı olmamalı;</li>
+                    <li><strong>11.1.6.</strong> fiziki şəxsin, hüquqi şəxsin, onun təsisçisinin, iştirakçısının,
+                        benefisiar mülkiyyətçisinin, qanuni təmsilçisinin və ya icra orqanlarının üzvləri barəsində
+                        beynəlxalq sanksiyalar mövcud olmamalı, habelə vətəndaşı və ya rezidenti olduğu ölkədə həmin
+                        şəxsin dövlət-özəl tərəfdaşlığı layihəsində iştirakını məhdudlaşdıran və ya qadağan edən
+                        məhdudiyyətlər tətbiq edilməməli;</li>
+                    <li><strong>11.1.7.</strong> fiziki şəxsin, hüquqi şəxsin, onun təsisçisinin, iştirakçısının,
+                        benefisiar mülkiyyətçisinin, qanuni təmsilçisinin və ya icra orqanlarının üzvləri barəsində
+                        dövlət-özəl tərəfdaşlığı layihəsində nəzərdə tutulan fəaliyyət növlərinin həyata keçirilməsi
+                        üçün məhkəmənin qanuni qüvvəyə minmiş qərarı ilə qoyulan məhdudiyyət və ya qadağa olmamalı;</li>
+                    <li><strong>11.1.8.</strong> iddiaçı barəsində onun iflası haqqında icraat, hüquqi şəxs olduğu
+                        təqdirdə isə həmçinin ləğvi haqqında icraat olmamalı.</li>
+                </ul>
+                <p>11.2. Azərbaycan Respublikasının beynəlxalq öhdəlikləri ilə nəzərdə tutulduğu və ya dövlət
+                    təhlükəsizliyi baxımından müəyyən xarici iddiaçıların və ya müəyyən ölkələrdən (o cümlədən
+                    Azərbaycan Respublikasının diplomatik əlaqələri olmadığı ölkələrdən) olan xarici iddiaçıların
+                    müsabiqədə iştirak etməsinə, özəl təşəbbüs qaydasında təklif verməsinə və ya dövlət-özəl
+                    tərəfdaşlığı layihəsi üzrə birbaşa danışıqlarda iştirak etməsinə məhdudiyyətlər qoyula bilər.
+                    Səlahiyyətli orqan belə məhdudiyyətin müəyyən olunduğunu müsabiqənin şərtlər toplusunda və müsabiqə
+                    barədə elanda göstərməlidir.</p>
+                <p>11.3. Bu Qanunun 11.1-ci və 11.2-ci maddələrinin müddəaları nəzərə alınmaqla, dövlət-özəl
+                    tərəfdaşlığı layihəsinin məqsədi, strukturu və xüsusiyyətlərindən asılı olaraq özəl tərəfdaşa dair
+                    tələblər səlahiyyətli orqan tərəfindən müsabiqənin şərtlər toplusunun hazırlanması mərhələsində
+                    dövlət-özəl tərəfdaşlığı qaydalarına uyğun olaraq müəyyən edilir.</p>
+                <h2>4-cü fəsil</h2>
+                <p>Dövlət-özəl tərəfdaşlığı müsabiqəsi</p>
+                <h3>Maddə 12. Dövlət-özəl tərəfdaşlığı layihəsinin müsabiqəyə hazırlanması</h3>
+                <p>12.1. Səlahiyyətli orqan tərəfindən dövlət-özəl tərəfdaşlığı layihələrinin müsabiqəyə hazırlanması
+                    mərhələləri aşağıdakılardır:</p>
+                <ul>
+                    <li><strong>12.1.1.</strong> dövlət tərəfdaşı tərəfindən layihə üzrə müfəssəl texniki-iqtisadi
+                        əsaslandırmanın hazırlanması və səlahiyyətli orqana təqdim edilməsi;</li>
+                    <li><strong>12.1.2.</strong> müsabiqənin şərtlər toplusunun hazırlanması;</li>
+                    <li><strong>12.1.3.</strong> iddiaçının özəl təşəbbüsünə münasibətdə dövlət tərəfdaşının müəyyən
+                        edilməsi (tələb olunduqda);</li>
+                    <li><strong>12.1.4.</strong> dövlət-özəl tərəfdaşlığı müqaviləsinin layihəsinin və ya müqavilənin
+                        əsas şərtlərinin hazırlanması.</li>
+                </ul>
+                <p>12.2. Dövlət-özəl tərəfdaşlığı layihəsinin müfəssəl texniki-iqtisadi əsaslandırması aşağıdakıları
+                    əhatə etməlidir:</p>
+                <ul>
+                    <li><strong>12.2.1.</strong> dövlət-özəl tərəfdaşlığı layihəsinin ətraflı təsviri;</li>
+                    <li><strong>12.2.2.</strong> dövlət-özəl tərəfdaşlığı layihəsi “Ətraf mühitə təsirin
+                        qiymətləndirilməsi haqqında” Azərbaycan Respublikasının Qanununun Əlavəsində nəzərdə tutulan
+                        fəaliyyətlə bağlı olduqda həmin Qanuna uyğun olaraq ətraf mühitə təsirinin qiymətləndirilməsi
+                        nəticələrini təsdiq edən sənəd;</li>
+                    <li><strong>12.2.3.</strong> xarici investorların və kreditorların cəlb edilməsi nəzərdə tutulduğu
+                        halda işgüzar adətlərlə tələb olunan məlumat və sənədlər;</li>
+                    <li><strong>12.2.4.</strong> dövlət-özəl tərəfdaşlığı layihəsinin riskləri, onların
+                        qiymətləndirilməsi və tərəflər arasında bölüşdürülməsi;</li>
+                    <li><strong>12.2.5.</strong> dövlət tərəfindən veriləcək dəstək və təminatların müəyyən edilməsi.
+                    </li>
+                </ul>
+                <p>12.3. Bu Qanunun 12.1.1 – 12.1.4-cü maddələrində nəzərdə tutulmuş işlər başa çatdıqdan sonra
+                    səlahiyyətli orqan dövlət-özəl tərəfdaşlığı layihəsini müsabiqəyə çıxarır.</p>
+                <h3>Maddə 13. Dövlət-özəl tərəfdaşlığı müsabiqəsinin mərhələləri</h3>
+                <p>13.1. Dövlət-özəl tərəfdaşlığına dair müsabiqə aşağıdakı mərhələlərdən ibarət olmaqla açıq formada
+                    keçirilir:</p>
+                <ul>
+                    <li><strong>13.1.1.</strong> müsabiqə barədə elanın verilməsi;</li>
+                    <li><strong>13.1.2.</strong> iddiaçılar tərəfindən müsabiqədə iştirakla bağlı müraciətlərin təqdim
+                        edilməsi;</li>
+                    <li><strong>13.1.3.</strong> müsabiqədə iştirak üçün müraciət etmiş iddiaçıların bu Qanunun 16.1-ci
+                        maddəsinə uyğun olaraq ixtisas uyğunluğunun qiymətləndirilməsi;</li>
+                    <li><strong>13.1.4.</strong> ixtisas uyğunluğundan keçmiş iddiaçılara müsabiqənin şərtlər toplusunun
+                        təqdim edilməsi, ixtisas uyğunluğundan keçməmiş iddiaçılara bu barədə yazılı bildirişin
+                        göndərilməsi;</li>
+                    <li><strong>13.1.5.</strong> iddiaçılar tərəfindən təqdim olunmuş layihə təkliflərinin
+                        qiymətləndirilməsi;</li>
+                    <li><strong>13.1.6.</strong> müsabiqə qalibinin, həmçinin ikinci və üçüncü yeri tutmuş iddiaçıların
+                        seçilməsi.</li>
+                </ul>
+                <p>13.2. Hər bir müsabiqə iştirakçısı eyni müsabiqəyə birdən çox layihə təklifi verə bilməz. Müsabiqə
+                    iştirakçısı öz layihə təklifini təkliflərin təqdim edilməsi üçün müəyyən edilmiş son müddət başa
+                    çatanadək istənilən vaxt dəyişdirə bilər.</p>
+                <h3>Maddə 14. Müsabiqənin elan edilməsi</h3>
+                <p>14.1. Müsabiqənin keçirilməsi barədə elan, layihənin xüsusiyyətindən asılı olaraq, səlahiyyətli orqan
+                    tərəfindən müəyyən edilmiş müddətdə səlahiyyətli orqanın rəsmi internet səhifəsində yerləşdirilir,
+                    həmçinin mediada dərc edilir.</p>
+                <p>14.2. Dövlət-özəl tərəfdaşlığı layihəsi haqqında aşağıdakı məlumatlar səlahiyyətli orqanın və dövlət
+                    tərəfdaşının rəsmi internet səhifəsində, habelə bu Qanunun 35.1-ci maddəsində nəzərdə tutulmuş
+                    məlumat bazasında yerləşdirilir:</p>
+                <ul>
+                    <li><strong>14.2.1.</strong> layihənin qısa təsviri və həyata keçiriləcəyi yer;</li>
+                    <li><strong>14.2.2.</strong> layihə üzrə dövlət dəstəyi və təminatlar (olduğu halda);</li>
+                    <li><strong>14.2.3.</strong> müsabiqənin şərtlər toplusunun qısa məzmunu.</li>
+                </ul>
+                <p>14.3. Bu Qanunun 14.1-ci maddəsində nəzərdə tutulmuş elanda bu Qanunun 11-ci maddəsində nəzərdə
+                    tutulmuş tələblər və müsabiqədə iştirakla bağlı müraciətlərin təqdim edilməsi müddəti
+                    göstərilməlidir.</p>
+                <h3>Maddə 15. İddiaçıların müsabiqədə iştirakı</h3>
+                <p>15.1. Bu Qanunun 9-cu maddəsində nəzərdə tutulmuş layihənin həyata keçirilməsində iştirak etmək
+                    istəyən şəxslər və bu Qanunun 10-cu maddəsinə uyğun olaraq özəl təşəbbüs irəli sürmüş iddiaçılar,
+                    eləcə də digər şəxslər bu Qanunun 12-ci maddəsinə uyğun olaraq keçirilən müsabiqədə iştirak etmək
+                    üçün müraciət edə bilərlər.</p>
+                <p>15.2. Müraciətlər elanda göstərilən müddətdə səlahiyyətli orqana təqdim edilməlidir.</p>
+                <p>15.3. İddiaçılar tərəfindən müraciətə əlavə olunmalı sənədlər dövlət-özəl tərəfdaşlığı qaydaları ilə
+                    müəyyənləşdirilir.</p>
+                <p>15.4. Dövlət-özəl tərəfdaşlığı layihəsində bir neçə iddiaçı öz maliyyə, təşkilati, insan
+                    resurslarını, habelə maddi-texniki bazasını və dövlət-özəl tərəfdaşlığı layihəsinin icrası üçün
+                    tələb olunan digər imkanlarını müqavilə əsasında birləşdirməklə iştirak edə bilərlər.</p>
+                <p>15.5. İddiaçılar bu Qanunun 15.4-cü maddəsində nəzərdə tutulan müqaviləni səlahiyyətli orqana təqdim
+                    etməlidirlər. Həmin müqavilədə hər bir iştirakçının dövlət-özəl tərəfdaşlığı layihəsinin icrası ilə
+                    əlaqədar vəzifələri, iştirakçılar arasında məsuliyyət bölgüsü və onları təmsil etmək hüququna malik
+                    olan əsas iştirakçı müəyyən edilməlidir.</p>
+                <h3>Maddə 16. Müsabiqədə ixtisas uyğunluğunun qiymətləndirilməsi</h3>
+                <p>16.1. Bu Qanunun 15-ci maddəsinə uyğun olaraq müsabiqədə iştirakla bağlı müraciət təqdim etmiş
+                    iddiaçıların ixtisas göstəriciləri bu Qanunun 11-ci maddəsinin tələblərinə uyğun olaraq səlahiyyətli
+                    orqan tərəfindən iddiaçıların əqli mülkiyyəti və kommersiya sirri qorunmaqla qiymətləndirilir.</p>
+                <p>16.2. İddiaçıların ixtisas uyğunluğunun qiymətləndirilməsinə dair bu Qanunun 11-ci maddəsində nəzərdə
+                    tutulanlardan başqa əlavə meyarlar, tələblər və prosedurlar nəzərdə tutula bilməz.</p>
+                <h3>Maddə 17. Müsabiqənin şərtlər toplusu</h3>
+                <p>17.1. Müsabiqənin şərtlər toplusuna aşağıdakı məlumatlar daxil edilir:</p>
+                <ul>
+                    <li><strong>17.1.1.</strong> dövlət-özəl tərəfdaşlığı layihəsinin müfəssəl təsviri;</li>
+                    <li><strong>17.1.2.</strong> dövlət tərəfindən təqdim edilməsi nəzərdə tutulan dəstək və təminatlar;
+                    </li>
+                    <li><strong>17.1.3.</strong> dövlət-özəl tərəfdaşlığı layihəsinin xüsusiyyətləri və icra müddəti,
+                        icrasının ehtimal olunan nəticələri;</li>
+                    <li><strong>17.1.4.</strong> dövlət-özəl tərəfdaşlığı layihəsi çərçivəsində yerli resurslardan (işçi
+                        qüvvəsi, mal, iş və xidmətlərdən) istifadəyə, onların yaradılmasına və ya inkişaf etdirilməsinə
+                        dair tələblər;</li>
+                    <li><strong>17.1.5.</strong> iddiaçıların layihə təkliflərinə dair tələblər;</li>
+                    <li><strong>17.1.6.</strong> iddiaçıların layihə təkliflərinin qüvvədə olma müddəti;</li>
+                    <li><strong>17.1.7.</strong> iddiaçıların layihə təkliflərinin təminatı (dövlət-özəl tərəfdaşlığı
+                        qaydalarına uyğun olaraq təminatın forması, qüvvədə olma müddəti, geri qaytarılmadığı hallar);
+                    </li>
+                    <li><strong>17.1.8.</strong> müsabiqənin keçirilməsi qaydasının müfəssəl təsviri, layihə
+                        təkliflərinin qiymətləndirilməsi, müsabiqə qalibinin seçilməsi meyarları, hər bir meyarın xüsusi
+                        çəkisi;</li>
+                    <li><strong>17.1.9.</strong> dövlət-özəl tərəfdaşlığı müqaviləsinin bu Qanunun 22-ci maddəsində
+                        göstərilən əsas şərtləri;</li>
+                    <li><strong>17.1.10.</strong> layihə şirkətində dövlət tərəfdaşının iştirakı (qərar qəbul
+                        olunduqda), layihə şirkətinin iştirakçıları (səhmdarları) arasında müqavilənin əsas şərtləri.
+                    </li>
+                </ul>
+                <p>17.2. Müsabiqə başlandıqdan sonra müsabiqənin şərtlər toplusunda dəyişikliklər edildikdə, müsabiqənin
+                    müddəti dövlət-özəl tərəfdaşlığı qaydalarında müəyyən edilmiş müddət daxilində uzadıla bilər. Belə
+                    dəyişikliklər barədə müsabiqənin bütün iddiaçılarına məlumat verilməlidir.</p>
+                <h3>Maddə 18. Layihə təkliflərinin hazırlanması və təqdim edilməsi</h3>
+                <p>18.1. İddiaçılar layihə təkliflərini bu Qanunun 17-ci maddəsində nəzərdə tutulan müsabiqənin şərtlər
+                    toplusuna uyğun hazırlamalı və təqdim etməlidirlər.</p>
+                <p>18.2. Layihə təklifləri müsabiqənin şərtlər toplusu ilə müəyyən edilmiş son müddətə qədər təqdim
+                    olunmalıdır. Müəyyən edilmiş müddətdən sonra təqdim olunan təkliflər qəbul edilmir.</p>
+                <h3>Maddə 19. Layihə təkliflərinin qiymətləndirilməsi</h3>
+                <p>19.1. Layihə təkliflərinin qiymətləndirilməsi səlahiyyətli orqan tərəfindən aşağıdakı qaydada
+                    aparılır:</p>
+                <ul>
+                    <li><strong>19.1.1.</strong> layihə təkliflərinin müsabiqənin şərtlər toplusu ilə müəyyən edilmiş
+                        minimal texniki tələblərə uyğunluğu yoxlanılır və belə tələblərə cavab verməyən təkliflərə
+                        baxılmır;</li>
+                    <li><strong>19.1.2.</strong> səlahiyyətli orqan tərəfindən layihə təklifləri müsabiqənin bu Qanunun
+                        19.2-ci maddəsində nəzərdə tutulan hər bir meyar üzrə həmin meyarın xüsusi çəkisi nəzərə
+                        alınmaqla balların verilməsi üsulu ilə qiymətləndirilir.</li>
+                </ul>
+                <p>19.2. Dövlət-özəl tərəfdaşlığı layihəsinin xüsusiyyətlərindən asılı olaraq layihə təklifləri
+                    aşağıdakı meyarlar üzrə qiymətləndirilir:</p>
+                <ul>
+                    <li><strong>19.2.1.</strong> dövlət tərəfdaşı tərəfindən özəl tərəfdaşa ediləcək ödənişlərin məbləği
+                        və bunların dövlət-özəl tərəfdaşlığı müddətində bölüşdürülməsi;</li>
+                    <li><strong>19.2.2.</strong> özəl tərəfdaşa verilən dövlət dəstəyi və təminatların məbləği,
+                        səviyyəsi və bunların dövlət-özəl tərəfdaşlığı müqaviləsi müddətində bölüşdürülməsi;</li>
+                    <li><strong>19.2.3.</strong> layihənin icra müddəti özəl tərəfdaş tərəfindən təklif edildiyi halda
+                        dövlət-özəl tərəfdaşlığının müddəti;</li>
+                    <li><strong>19.2.4.</strong> dövlət-özəl tərəfdaşlığı layihəsinin icrası zamanı gözlənilən nəticələr
+                        və müqavilə öhdəliklərinin yerinə yetirilməməsinə görə dəymiş zərərin ödənilməsi;</li>
+                    <li><strong>19.2.5.</strong> layihə təklifinin texniki, estetik-funksional, innovativ xassələri;
+                    </li>
+                    <li><strong>19.2.6.</strong> iddiaçı tərəfindən risklərin qarşısını almaq üçün təklif olunan
+                        tədbirlər.</li>
+                </ul>
+                <p>19.3. Layihə təkliflərinin qiymətləndirilməsi meyarları və hər bir meyarın xüsusi çəkisi müsabiqənin
+                    şərtlər toplusunda göstərilməlidir. Dövlət-özəl tərəfdaşlığı qaydalarında müəyyən edildiyi hallarda,
+                    müsabiqənin şərtlər toplusunda layihə təkliflərinin əsaslandırılmaqla yalnız bir meyar əsasında
+                    qiymətləndirilməsi nəzərdə tutula bilər.</p>
+                <h3>Maddə 20. Müsabiqənin qalibinin elan edilməsi və layihə şirkəti</h3>
+                <p>20.1. Layihə təkliflərinin qiymətləndirilməsi nəticəsində ən çox bal toplamış iddiaçı müsabiqənin
+                    qalibi elan olunur və ona, habelə müsabiqədə ikinci və üçüncü yerləri tutmuş iddiaçılara bu barədə 5
+                    (beş) iş günü müddətində bildiriş göndərilir.</p>
+                <p>20.2. Müsabiqənin qalibi, ikinci və üçüncü yer tutmuş iddiaçılar barədə məlumat səlahiyyətli orqanın
+                    rəsmi internet səhifəsində yerləşdirilir.</p>
+                <p>20.3. Müsabiqənin qalibi və ya müsabiqənin şərtlər toplusunda nəzərdə tutulduğu halda müsabiqə
+                    qalibinin layihənin icrası üçün yaratdığı layihə şirkəti ilə dövlət-özəl tərəfdaşlığı müqaviləsi 60
+                    (altmış) gün müddətində bağlanılır, bu müddət tərəflərin qarşılıqlı razılığı ilə uzadıla bilər.</p>
+                <p>20.4. Müsabiqənin qalibi dövlət-özəl tərəfdaşlığı müqaviləsini bağlamaqdan imtina etdiyi halda onun
+                    təminatı geri qaytarılmır. Bu zaman dövlət-özəl tərəfdaşlığı müqaviləsi ikinci və ya müvafiq olaraq
+                    üçüncü yer tutmuş iddiaçı ilə bağlanıla bilər və bu barədə məlumat səlahiyyətli orqanın rəsmi
+                    internet səhifəsində və bu Qanunun 35.1-ci maddəsində nəzərdə tutulan məlumat bazasında
+                    yerləşdirilir.</p>
+                <p>20.5. Müsabiqənin şərtlər toplusu ilə müəyyən edildiyi halda səlahiyyətli orqan dövlət-özəl
+                    tərəfdaşlığı müqaviləsinin, digər layihə müqavilələrinin hazırlanması və ya dövlət-özəl tərəfdaşlığı
+                    layihəsinin texniki şərtlərinin dəqiqləşdirilməsi məqsədilə müsabiqənin qalibi ilə son danışıqlar
+                    apara bilər.</p>
+                <p>20.6. Dövlət-özəl tərəfdaşlığı layihəsinin icrasını təmin etmək məqsədilə iddiaçı layihə şirkəti
+                    yarada bilər. Dövlət-özəl tərəfdaşlığı layihəsinin icrası məqsədilə layihə şirkətinin yaradılması
+                    müsabiqənin şərtlər toplusunda nəzərdə tutula bilər.</p>
+                <p>20.7. Səlahiyyətli orqan layihə şirkətində dövlət tərəfdaşının iştirakı (nizamnamə kapitalının 49
+                    faizindən çox olmamaq şərtilə) barədə qərar qəbul edə bilər.</p>
+                <p>20.8. Müsabiqənin şərtlər toplusunda layihə şirkətinin yaradılması nəzərdə tutulduqda, şərtlər
+                    toplusunda həmin layihə şirkətinə dair tələblər müəyyən edilir. Layihə şirkəti yalnız dövlət-özəl
+                    tərəfdaşlığı layihəsinin həyata keçirilməsi fəaliyyəti ilə məşğul ola bilər.</p>
+                <p>20.9. Layihə şirkəti yaradıldığı halda müsabiqənin şərtlər toplusunda iddiaçı tərəfindən layihə
+                    şirkətinin öhdəlikləri üzrə təminatın verilməsi nəzərdə tutula bilər.</p>
+                <p>20.10. Dövlət-özəl tərəfdaşlığı müqaviləsində müəyyən edilmiş müddət ərzində iddiaçının layihə
+                    şirkəti üzərində nəzarətinin saxlanılmasına (iddiaçı tərəfindən layihə şirkətinin nizamnamə
+                    kapitalında üstün iştirakına və ya iddiaçı və layihə şirkəti arasında müqaviləyə əsasən layihə
+                    şirkətinin qərarlarını müəyyənləşdirmək hüququ) dair müddəalar nəzərdə tutula bilər.</p>
+                <h2>5-ci fəsil</h2>
+                <p>Dövlət-özəl tərəfdaşlığı müqaviləsinin şərtləri, bağlanılması, dəyişdirilməsi və ləğvi qaydası</p>
+                <h3>Maddə 21. Dövlət-özəl tərəfdaşlığı müqaviləsi</h3>
+                <p>21.1. Dövlət-özəl tərəfdaşlığı müsabiqəsinin qalibi və ya birbaşa danışıqlar aparılması yolu ilə cəlb
+                    edilmiş özəl tərəfdaşla bu Qanunun 20.3-cü maddəsinə uyğun olaraq dövlət-özəl tərəfdaşlığı
+                    müqaviləsi bağlanılır.</p>
+                <p>21.2. Dövlət-özəl tərəfdaşlığı layihəsi kreditor (kreditorlar) tərəfindən maliyyələşdirildikdə
+                    kreditora (kreditorlara) əlavə təminat verilməsi məqsədilə dövlət tərəfdaşı, özəl tərəfdaş və
+                    kreditor (kreditorlar) arasında birbaşa müqavilə imzalana bilər. Kreditorlarla birbaşa müqaviləyə
+                    tərəflər arasında dövlət-özəl tərəfdaşlığı layihəsinə dair məlumat mübadiləsi, kreditorun
+                    (kreditorların) hüquqları və bu hüquqların həyata keçirilməsi şərtlərini nəzərdə tutan işgüzar
+                    adətlərlə tələb olunan müddəalar daxil edilə bilər.</p>
+                <p>21.3. Özəl tərəfdaş xarici fiziki və ya hüquqi şəxs, xarici hüquqi şəxsin filialı və ya payların
+                    (səhmlərin) nəzarət zərfi xarici fiziki və ya hüquqi şəxsin mülkiyyətində olan hüquqi şəxs olduğu
+                    təqdirdə və ya dövlət-özəl tərəfdaşlığı layihəsi xarici və ya beynəlxalq kredit təşkilatı, bank və
+                    ya maliyyə qurumu tərəfindən maliyyələşdirildikdə dövlət-özəl tərəfdaşlığı müqaviləsi və digər
+                    layihə müqavilələri xarici elementli mülki hüquqi münasibət hesab olunur və tərəflər onlar arasında
+                    olan mülki hüquq münasibətlərinə tətbiq edilən hüququ “Beynəlxalq xüsusi hüquq haqqında” Azərbaycan
+                    Respublikasının Qanununa əsasən seçə bilərlər.</p>
+                <h3>Maddə 22. Dövlət-özəl tərəfdaşlığı müqaviləsinin şərtləri</h3>
+                <p>22.1. Dövlət-özəl tərəfdaşlığı müqaviləsində aşağıdakılar nəzərdə tutulmalıdır:</p>
+                <ul>
+                    <li><strong>22.1.1.</strong> müqavilənin tərəfləri;</li>
+                    <li><strong>22.1.2.</strong> müqavilənin predmeti, istehsal ediləcək malların, yerinə yetiriləcək
+                        işlərin və göstəriləcək xidmətlərin həcmi və xüsusiyyətləri, infrastrukturun yaradılması,
+                        idarəetməyə verilməsi;</li>
+                    <li><strong>22.1.3.</strong> müqavilədə nəzərdə tutulmuş infrastruktura mülkiyyət hüquqlarının
+                        tərəflər arasında ötürülməsi və bölüşdürülməsi qaydası (olduğu halda);</li>
+                    <li><strong>22.1.4.</strong> müqavilənin müddəti;</li>
+                    <li><strong>22.1.5.</strong> layihə üzrə tərəflərin öhdəlikləri, o cümlədən maliyyə öhdəlikləri;
+                    </li>
+                    <li><strong>22.1.6.</strong> dövlət dəstəyi və (və ya) özəl tərəfdaşa nəzərdə tutulan güzəştlər
+                        (olduğu halda);</li>
+                    <li><strong>22.1.7.</strong> müqaviləyə xitam verilməsi qaydası və onun nəticələri;</li>
+                    <li><strong>22.1.8.</strong> layihə tərəflərinin dəyişdirilməsinin şərtləri və qaydası;</li>
+                    <li><strong>22.1.9.</strong> dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsi üçün torpaq
+                        sahəsinin ayrılması nəzərdə tutulduğu halda, səlahiyyətli orqan və özəl tərəfdaş arasında torpaq
+                        icarəsi və ya istifadəsi ilə bağlı münasibətlərin tənzimlənməsi;</li>
+                    <li><strong>22.1.10.</strong> özəl tərəfdaşa verilən dövlət təminatı;</li>
+                    <li><strong>22.1.11.</strong> dövlət-özəl tərəfdaşlığı layihəsi çərçivəsində dövlət tərəfdaşı və
+                        özəl tərəfdaş arasında öhdəliklərin bölüşdürülməsi;</li>
+                    <li><strong>22.1.12.</strong> layihənin ümumi dəyərində dövlət tərəfdaşının və özəl tərəfdaşın
+                        iştirak payı;</li>
+                    <li><strong>22.1.13.</strong> dövlət tərəfdaşı (layihənin xüsusiyyətindən asılı olaraq səlahiyyətli
+                        orqan) və özəl tərəfdaş arasında investisiya qoyuluşuna dair məsələlər;</li>
+                    <li><strong>22.1.14.</strong> podratçılara və subpodratçılara dair tələblər (olduğu halda).</li>
+                </ul>
+                <p>22.2. Müsabiqənin şərtlər toplusunda özəl tərəfdaşa dövlət dəstəyinin və təminatların verilməsi
+                    nəzərdə tutulduğu halda, özəl tərəfdaşla dövlət təminatı müqaviləsini müvafiq icra hakimiyyəti
+                    orqanının müəyyən etdiyi orqan (qurum) bağlayır.</p>
+                <p>22.3. Dövlət-özəl tərəfdaşlığı müqaviləsinin tərəfləri, özəl tərəfdaşın öhdəliklərini yerinə
+                    yetirməsi şərtilə, özəl tərəfdaşın çəkdiyi xərclərə, qoyduğu investisiyaya və üzərinə götürdüyü
+                    öhdəliklərə mütənasib kompensasiya və gəlir əldə etməsinə nail olmaq üçün ödəniş şərtlərini, eyni
+                    zamanda belə ödəniş şərtlərinin vaxtaşırı olaraq nəzərdən keçirilməsi və dəyişən şəraitə
+                    uyğunlaşdırılması mexanizmlərini razılaşdırmaq və dövlət-özəl tərəfdaşlığı müqaviləsinə daxil etmək
+                    hüququna malikdirlər.</p>
+                <h3>Maddə 23. Müqavilənin dəyişdirilməsi və ləğv edilməsi</h3>
+                <p>23.1. Dövlət-özəl tərəfdaşlığı qaydalarının tələbləri nəzərə alınmaqla dövlət-özəl tərəfdaşlığı
+                    müqaviləsi ilə müəyyən edilmiş hallarda dövlət-özəl tərəfdaşlığı müqaviləsi Azərbaycan
+                    Respublikasının Mülki Məcəlləsinə uyğun dəyişdirilə və ya ləğv edilə bilər.</p>
+                <p>23.2. Dövlət-özəl tərəfdaşlığı müqaviləsində onun ləğvi və ya ona xitam verilməsinin nəticələri
+                    müəyyən edilməlidir. Bunlara aşağıdakılar aiddir:</p>
+                <ul>
+                    <li><strong>23.2.1.</strong> bu Qanunun 29-cu maddəsi ilə müəyyən edilmiş nəticələr;</li>
+                    <li><strong>23.2.2.</strong> bu Qanunun 22.3-cü maddəsində nəzərdə tutulmuş kompensasiya məbləğinin
+                        müəyyən edilməsi və onun ödənilməsi qaydası;</li>
+                    <li><strong>23.2.3.</strong> dövlət-özəl tərəfdaşlığı layihəsi üzrə zəruri olan infrastruktur və
+                        əqli mülkiyyət üzərində hüquq sahibinin müəyyən edilməsi.</li>
+                </ul>
+                <h3>Maddə 24. Birbaşa danışıqlar əsasında müqavilənin bağlanılması</h3>
+                <p>24.1. Aşağıdakı hallarda müsabiqə keçirilmədən birbaşa danışıqlar əsasında səlahiyyətli orqanın
+                    qərarı ilə iddiaçı ilə dövlət-özəl tərəfdaşlığı müqaviləsi bağlanılır:</p>
+                <ul>
+                    <li><strong>24.1.1.</strong> dövlət-özəl tərəfdaşlığı layihəsində nəzərdə tutulan dövlət xidmətini
+                        yalnız bir iddiaçı həyata keçirmək imkanına malik olduqda;</li>
+                    <li><strong>24.1.2.</strong> müdafiə və təhlükəsizlik məqsədləri ilə əlaqədar dövlət-özəl
+                        tərəfdaşlığı layihələri həyata keçirildikdə;</li>
+                    <li><strong>24.1.3.</strong> müsabiqə elan edildiyi halda daxil olmuş təkliflər bu Qanunun və
+                        müsabiqənin şərtlər toplusu ilə müəyyən edilmiş layihə təkliflərinin qiymətləndirmə meyarlarına
+                        uyğun olmadıqda və ya yalnız bir layihə təklifi daxil olduqda;</li>
+                    <li><strong>24.1.4.</strong> bu Qanunun 10.7-ci, 29-cu və 37.3-cü maddələrində nəzərdə tutulmuş
+                        hallarda.</li>
+                </ul>
+                <h2>6-cı fəsil</h2>
+                <p>Özəl tərəfdaşlara və kreditorlara verilən dövlət dəstəyi və təminatlar</p>
+                <h3>Maddə 25. Dövlət dəstəyinin formaları</h3>
+                <p>25.1. Dövlət-özəl tərəfdaşlığı layihəsinə “İnvestisiya fəaliyyəti haqqında” Azərbaycan
+                    Respublikasının Qanununda nəzərdə tutulan təşviq tədbirləri, habelə vergi və digər dövlət ödənişləri
+                    üzrə güzəştlər, əlavə maliyyə dəstəyi, təminatlar, azadolmalar və kompensasiyalar şamil edilir.</p>
+                <p>25.2. Özəl tərəfdaşa müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqanla (qurumla)
+                    razılaşdırmaqla dövlət tərəfindən müsabiqənin şərtlər toplusunda nəzərdə tutulmuş aşağıdakı dövlət
+                    dəstəyi və təminatlar verilə bilər:</p>
+                <ul>
+                    <li><strong>25.2.1.</strong> dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsi üçün mal,
+                        material, xammal, avadanlığın verilməsinin təşkili;</li>
+                    <li><strong>25.2.2.</strong> dövlət-özəl tərəfdaşlığı layihəsinin gəlirlərinin minimum səviyyəsinə
+                        təminat;</li>
+                    <li><strong>25.2.3.</strong> dövlət-özəl tərəfdaşlığı layihəsi çərçivəsində istehsal edilən
+                        məhsulların, göstərilən xidmətlərin, görülən işlərin müəyyən həcmdə alınmasına dair təminat;
+                    </li>
+                    <li><strong>25.2.4.</strong> subsidiyaların və (və ya) kreditlərin verilməsi, kapital qoyuluşu;</li>
+                    <li><strong>25.2.5.</strong> tənzimlənən qiymətlərin səviyyəsinə dair təminat;</li>
+                    <li><strong>25.2.6.</strong> Azərbaycan Respublikasının ərazisi və ya onun bir hissəsində
+                        xidmətlərin göstərilməsi, işlərin görülməsi, məhsulun satışı üzrə müvəqqəti olaraq müstəsna
+                        hüquqların verilməsi;</li>
+                    <li><strong>25.2.7.</strong> dövlət-özəl tərəfdaşlığı müqaviləsində nəzərdə tutulan hallarda, özəl
+                        tərəfdaşın çəkdiyi xərclərin və əldən çıxmış faydanın əvəzinin ödənilməsi.</li>
+                </ul>
+                <h3>Maddə 26. Özəl tərəfdaşın fəaliyyətinə təminat</h3>
+                <p>Özəl tərəfdaşın investisiyası, məhsulları və ya gəlirləri üzərində müstəqil sərəncam vermək,
+                    dövlət-özəl tərəfdaşlığı layihəsinə aid olan əmlakı və fəaliyyəti idarə etmək və ona nəzarət etmək
+                    hüququnu məhdudlaşdıran və ya özəl tərəfdaşın fəaliyyətinə mane olan və Azərbaycan Respublikasının
+                    qanunları ilə qadağan olunan hər hansı formada müdaxiləyə yol verilmir.</p>
+                <h3>Maddə 27. Qanunvericiliyin dəyişməsinin təsirlərinə dair təminat</h3>
+                <p>Dövlət-özəl tərəfdaşlığı müqaviləsinin bağlandığı tarixdən sonra Azərbaycan Respublikasının normativ
+                    hüquqi aktlarında edilən dəyişikliklər özəl tərəfdaşın dövlət-özəl tərəfdaşlığı müqaviləsi üzrə
+                    xərclərinin artmasına və ya əldə edəcəyi gəlirin azalmasına səbəb olduqda, özəl tərəfdaşa
+                    dövlət-özəl tərəfdaşlığı qaydaları ilə müəyyən edilmiş qaydada kompensasiya ödənilir. Bu zaman
+                    ödəniləcək kompensasiyanın məbləği dövlət-özəl tərəfdaşlığı müqaviləsində müəyyən edilə bilər.</p>
+                <h3>Maddə 28. Kreditorların hüquqlarının təminatı</h3>
+                <p>28.1. Dövlət-özəl tərəfdaşlığı müqaviləsi ilə müəyyən olunan istisnalar nəzərə alınmaqla, özəl
+                    tərəfdaş dövlət-özəl tərəfdaşlığı layihəsinin kənardan maliyyələşməsinə nail olmaq məqsədilə
+                    kreditorların xeyrinə tələblər və hüquqlar da daxil olmaqla, dövlət-özəl tərəfdaşlığı layihəsinə
+                    münasibətdə özünün mülkiyyətində olan (və ya gələcəkdə olacaq) bütün və ya hər hansı əmlakı, habelə
+                    özünün malik olduğu iştirak payları (səhmləri) üzərində Azərbaycan Respublikasının Mülki Məcəlləsi,
+                    “Daşınar əmlakın yüklülüyü haqqında” Azərbaycan Respublikası Qanunu və bu sahədə münasibətləri
+                    tənzimləyən digər qanunlarla qadağan olunmayan istənilən yüklülük yarada və (və ya) öhdəliyin
+                    icrasının digər təminat üsullarından istifadə edə bilər.</p>
+                <p>28.2. Dövlət tərəfdaşı layihə şirkətində iştirak etdiyi halda, dövlət payı (səhmləri) üzərində
+                    girovun və ya digər yüklülüyün yaradılması Azərbaycan Respublikasının tərəfdar çıxdığı beynəlxalq
+                    müqavilələr üzrə götürdüyü öhdəliklər nəzərə alınmaqla həyata keçirilə bilər.</p>
+                <p>28.3. Kreditorlarla birbaşa müqavilədə nəzərdə tutulduğu halda, bu Qanunun 28.1-ci maddəsində müəyyən
+                    edilmiş yüklülüyə tutma yönəldilərkən, səlahiyyətli orqan yüklü edilmiş əmlakı satınalmaqda üstünlük
+                    hüququna malik ola bilər.</p>
+                <p>28.4. Dövlət-özəl tərəfdaşlığı müqaviləsində və (və ya) kreditorlarla birbaşa müqavilədə tərəflərin
+                    razılaşdırdığı və kreditorların hüquqlarının qorunması və təmin edilməsinə dair Azərbaycan
+                    Respublikasının qanunlarına zidd olmayan digər müddəalar (dövlət-özəl tərəfdaşlığı müqaviləsinə
+                    vaxtından əvvəl xitam verildikdə kreditorlara ödənilməli olan kompensasiyalar və ya özəl tərəfdaşa
+                    edilməli olan ödənişlərin birbaşa olaraq kreditor (kreditorlar) tərəfindən alınmasına dair
+                    müddəalar) nəzərdə tutula bilər.</p>
+                <h3>Maddə 29. Dövlət tərəfdaşının və kreditorların dövlət-özəl tərəfdaşlığı layihəsini idarə etmək
+                    hüquqları</h3>
+                <p>29.1. Dövlət-özəl tərəfdaşlığı müqaviləsində nəzərdə tutulan risk halları yarandıqda, dövlət-özəl
+                    tərəfdaşlığı qaydalarına uyğun olaraq dövlət tərəfdaşı səlahiyyətli orqanın müəyyən etdiyi qaydada
+                    layihəni idarə etmək hüququndan istifadə edə bilər və ya bu Qanunun 24-cü maddəsinə uyğun olaraq
+                    səlahiyyətli orqan və ya onun razılığı ilə kreditor (kreditorlar) tərəfindən yeni özəl tərəfdaş
+                    təyin edilə bilər.</p>
+                <p>29.2. Kreditorlarla birbaşa müqavilədə dövlət-özəl tərəfdaşlığı layihəsinin idarə edilməsi hüququndan
+                    dövlət tərəfdaşının və ya kreditorun (kreditorlar) istifadə edəcəyinə dair müddəalar müəyyən
+                    edilməlidir.</p>
+                <h3>Maddə 30. Dövlət-özəl tərəfdaşlığında maliyyələşmə üsullarının seçilməsinə təminat</h3>
+                <p>Dövlət-özəl tərəfdaşlığı layihəsinin maliyyələşdirilməsi üzrə bir neçə üsulun tətbiqi mümkün olduqda,
+                    iddiaçılara dövlət-özəl tərəfdaşlığı layihəsinin maliyyələşdirilməsi üsullarından birinin
+                    əsaslandırılmaqla seçilməsi təklif oluna bilər.</p>
+                <h3>Maddə 31. Hesablaşma və valyuta ilə əməliyyatların aparılmasına təminat</h3>
+                <p>31.1. Özəl tərəfdaş dövlət-özəl tərəfdaşlığı layihəsinin maliyyələşdirilməsi üçün qeyri-rezident
+                    banklardan aldığı kreditlər üzrə öhdəliklərini yerinə yetirmək məqsədilə qeyri-rezident banklarda
+                    bank hesabları açmaq və həmin öhdəliklərin yerinə yetirilməsi üçün tələb olunan həddə xarici valyuta
+                    vəsaitini həmin hesablara mədaxil etmək (və ya köçürmək), Azərbaycan Respublikasında əldə etdiyi
+                    gəliri qeyri-rezident banklarda açdığı bank hesablarına köçürmək, həmin hesablarda saxlamaq və həmin
+                    hesablardan ödənişləri həyata keçirmək hüququna malikdir.</p>
+                <p>31.2. Müsabiqənin şərtlər toplusunda nəzərdə tutulduğu halda xarici elementli dövlət-özəl
+                    tərəfdaşlığı müqaviləsində Azərbaycan Respublikasının milli valyutasının xarici valyutalara qarşı
+                    dəyərinin dəyişməsinin dövlət-özəl tərəfdaşlığı layihəsinə mənfi təsirinin azaldılmasına və ya
+                    aradan qaldırılmasına dair müddəalar nəzərdə tutula bilər.</p>
+                <h3>Maddə 32. Tənzimlənən qiymətlərlə bağlı təminat</h3>
+                <p>“Tənzimlənən qiymətlər haqqında” Azərbaycan Respublikasının Qanununa uyğun olaraq göstərilən
+                    xidmətlərin tariflərinin dəyişməsi dövlət-özəl tərəfdaşlığı layihəsinin iqtisadi göstəricilərinə
+                    mənfi təsir göstərdiyi hallarda, dövlət-özəl tərəfdaşlığı müqaviləsində belə mənfi təsirin
+                    azaldılması və ya aradan qaldırılması şərtləri müəyyən edilə bilər.</p>
+                <h3>Maddə 33. Əmlakdan istifadəyə və mülkiyyətə təminat</h3>
+                <p>33.1. Dövlət-özəl tərəfdaşlığı müqaviləsində həmin müqavilə başa çatdıqdan və ya ona xitam
+                    verildikdən sonra özəl tərəfdaşa verilməli olan, habelə dövlətə qaytarılmalı və ya verilməli olan
+                    əmlak müəyyən edilməlidir.</p>
+                <p>33.2. Dövlət-özəl tərəfdaşlığı müqaviləsində başqa hal nəzərdə tutulmadıqda, özəl tərəfdaş dövlət
+                    tərəfdaşının əvvəlcədən yazılı razılığı ilə infrastrukturu dövlət-özəl tərəfdaşlığı müqaviləsində
+                    müəyyən edilmiş müddətdən artıq olmayan müddətə icarəyə və ya istifadəyə vermək hüququna malikdir.
+                </p>
+                <p>33.3. Dövlət-özəl tərəfdaşlığı müqaviləsində başqa qayda nəzərdə tutulmadığı halda, həmin müqavilə
+                    ləğv edildikdə və ya ona xitam verildikdə:</p>
+                <ul>
+                    <li><strong>33.3.1.</strong> özəl tərəfdaşın yaratdığı infrastruktur özəl tərəfdaşın mülkiyyətində
+                        qala və ya dövlət tərəfdaşının mülkiyyətinə keçə bilər;</li>
+                    <li><strong>33.3.2.</strong> dövlət tərəfdaşı özəl tərəfdaşın yaratdığı infrastrukturu sonuncudan
+                        satın almaqda üstünlük hüququna malik ola və ya belə öhdəlik daşıya bilər;</li>
+                    <li><strong>33.3.3.</strong> dövlətin infrastrukturu özəl tərəfdaşın mülkiyyətinə verilə bilər və ya
+                        özəl tərəfdaş onun idarəetməsinə verilmiş infrastrukturu dövlətdən satın almaqda üstünlük
+                        hüququna malik ola bilər.</li>
+                </ul>
+                <h3>Maddə 34. Özəl tərəfdaşa torpaq sahəsinin ayrılması</h3>
+                <p>34.1. Dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsi üçün tələb olunan torpaq sahələrinin
+                    müsabiqənin şərtlər toplusunda nəzərdə tutulduğu formada və müddətdə, lakin dövlət-özəl tərəfdaşlığı
+                    müddətindən çox olmamaq şərtilə özəl tərəfdaşa ayrılması Azərbaycan Respublikasının mülki və torpaq
+                    qanunvericiliyinin tələblərinə uyğun olaraq səlahiyyətli orqan tərəfindən təşkil olunur.</p>
+                <p>34.2. Dövlət mülkiyyətində olan torpaq sahəsi özəl tərəfdaşa icarəyə, istifadəyə verilə bilər və ya
+                    layihə şirkətinə pay şəklində qoyula bilər. Dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsi
+                    özəl tərəfdaşa dövlət mülkiyyətində olan torpaq sahəsinin icarəyə verilməsini zəruri edirsə, özəl
+                    tərəfdaşla torpaq sahəsinin icarə müqaviləsi səlahiyyətli orqan tərəfindən bağlanılır. Özəl
+                    tərəfdaşa icarəyə verilən torpaq sahəsinin icarə haqqı “Torpaq icarəsi haqqında” Azərbaycan
+                    Respublikasının Qanununa uyğun olaraq dövlət-özəl tərəfdaşlığı layihəsinin maliyyə-iqtisadi
+                    göstəriciləri nəzərə alınmaqla müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqan (qurum)
+                    tərəfindən müəyyən edilir. Bu Qanunun 34.3-cü və 34.4-cü maddələrinə uyğun olaraq icarəyə götürülmüş
+                    torpaq sahələri özəl tərəfdaşa icarəyə və ya istifadəyə verilə bilər.</p>
+                <p>34.3. Dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsi üçün tələb olunan bələdiyyə
+                    mülkiyyətində olan torpaq sahələri üzərində hüquqların özəl tərəfdaşa ötürülməsi məqsədilə həmin
+                    torpaq sahələri açıq torpaq hərracları və ya müsabiqələri keçirilmədən dövlət mülkiyyətinə və ya
+                    icarəsinə verilir.</p>
+                <p>34.4. Dövlət-özəl tərəfdaşlığı layihəsinin həyata keçirilməsi üçün tələb olunan xüsusi mülkiyyətdə
+                    olan torpaq sahələri üzərində hüquqların özəl tərəfdaşa ötürülməsi məqsədilə həmin torpaq sahələri
+                    mülkiyyətçi ilə müqavilə əsasında dövlət tərəfindən satın alınır və ya icarəyə götürülür.</p>
+                <p>34.5. “Torpaqların dövlət ehtiyacları üçün alınması haqqında” Azərbaycan Respublikasının Qanununa
+                    əsasən dövlət-özəl tərəfdaşlığı layihəsi dövlət ehtiyacı hesab edildikdə, torpaqların alınması həmin
+                    Qanun əsasında həyata keçirilir.</p>
+                <h2>7-ci fəsil</h2>
+                <p>Dövlət-özəl tərəfdaşlığı layihələrinin icrasının monitorinqi və hesabatlılığı</p>
+                <h3>Maddə 35. Dövlət-özəl tərəfdaşlığı layihələrinin məlumat bazası</h3>
+                <p>35.1. Səlahiyyətli orqan dövlət-özəl tərəfdaşlığı layihəsi, müsabiqə qalibinin seçilməsi şərtləri və
+                    meyarları, dövlət-özəl tərəfdaşlığı müqaviləsinin əsas şərtləri, dövlət-özəl tərəfdaşlığı
+                    layihələrinin hazırlanması və həyata keçirilməsi, o cümlədən dövlət-özəl tərəfdaşlığı müqaviləsi
+                    çərçivəsində davam edən və başa çatdırılmış layihələr, layihələrin icra vəziyyətinə dair hesabatlar
+                    haqqında elektron məlumat bazasını yaradır və idarə edir.</p>
+                <p>35.2. Dövlət-özəl tərəfdaşlığı müqaviləsinin tərəfləri dövlət-özəl tərəfdaşlığı müqaviləsinin
+                    surətini, ona edilən dəyişiklikləri müvafiq sənədlərlə birlikdə bu Qanunun 35.1-ci maddəsində
+                    nəzərdə tutulan məlumat bazasına daxil edilməsi məqsədilə müqavilə bağlandıqdan və ya ona dəyişiklik
+                    edildikdən sonra 7 (yeddi) iş günü müddətində səlahiyyətli orqana təqdim etməlidir.</p>
+                <p>35.3. Dövlət, kommersiya və vergi sirri təşkil edən məlumatlar, habelə fərdi məlumatlar istisna
+                    olmaqla, bu Qanunun 35.1-ci maddəsində nəzərdə tutulan məlumat bazası ictimaiyyətə açıq olmalıdır.
+                </p>
+                <h3>Maddə 36. Dövlət-özəl tərəfdaşlığı layihələrinin icrasının monitorinqi</h3>
+                <p>Səlahiyyətli orqan dövlət-özəl tərəfdaşlığı müqaviləsində nəzərdə tutulan öhdəliklərin icra
+                    vəziyyətini dövlət-özəl tərəfdaşlığı qaydalarına uyğun olaraq monitorinq etmək hüququna malikdir.
+                </p>
+                <h3>Maddə 37. Dövlət-özəl tərəfdaşlığı layihəsinin hesabatlılığı</h3>
+                <p>37.1. Dövlət-özəl tərəfdaşlığı müqaviləsinin tərəfləri dövlət-özəl tərəfdaşlığı layihəsinin və
+                    tərəflərin öhdəliklərinin icra vəziyyəti barədə ildə bir dəfə səlahiyyətli orqana dövlət-özəl
+                    tərəfdaşlığı qaydalarında nəzərdə tutulan formada və qaydada hesabat təqdim edir.</p>
+                <p>37.2. Səlahiyyətli orqan dövlət-özəl tərəfdaşlığı qaydalarında müəyyən edilmiş formada dövlət-özəl
+                    tərəfdaşlığı layihələri ilə bağlı illik hesabatları özünün rəsmi internet səhifəsində və bu Qanunun
+                    35.1-ci maddəsində nəzərdə tutulmuş məlumat bazasında yerləşdirir.</p>
+                <p>37.3. Səlahiyyətli orqan bu Qanunun 37.1-ci maddəsində nəzərdə tutulan hesabat əsasında dövlət-özəl
+                    tərəfdaşlığı layihəsinin icraçısının müqavilə öhdəliklərini yerinə yetirmədiyini və ya yerinə
+                    yetirmək iqtidarında olmadığını müəyyən etdikdə, layihənin başa çatdırılması üçün yeni tərəfdaşın
+                    seçilməsi məqsədilə dövlət-özəl tərəfdaşlığı qaydalarına uyğun olaraq müsabiqə keçirir və ya birbaşa
+                    danışıqlar yolu ilə müqavilənin bağlanılmasını təşkil edir.</p>
+                <p>37.4. Səlahiyyətli orqan bu Qanunun 37.1-ci maddəsində nəzərdə tutulan hesabatlar əsasında
+                    dövlət-özəl tərəfdaşlığının təkmilləşdirilməsi barədə təkliflər hazırlayaraq müvafiq icra
+                    hakimiyyəti orqanının müəyyən etdiyi orqana (quruma) təqdim edir.</p>
+                <h2>8-ci fəsil</h2>
+                <p>Yekun müddəalar</p>
+                <h3>Maddə 38. Mübahisələrin həlli</h3>
+                <p>38.1. İddiaçılar səlahiyyətli orqanın müsabiqənin təşkili və keçirilməsi ilə bağlı qərarlarından,
+                    hərəkətlərindən (və ya hərəkətsizliyindən) inzibati qaydada və məhkəməyə şikayət verə bilərlər.</p>
+                <p>38.2. Dövlət-özəl tərəfdaşlığı müqaviləsinin və dövlət-özəl tərəfdaşlığı layihəsinə dair digər
+                    müqavilələrin tərəfləri arasında mübahisələr həmin müqavilələrdə nəzərdə tutulmuş qaydada həll
+                    olunur. Həmin müqavilələrdə mübahisələrin həlli qaydası nəzərdə tutulmadığı halda, mübahisələr
+                    Azərbaycan Respublikasının qanunları ilə nəzərdə tutulmuş qaydada həll olunur.</p>
+                <h3>Maddə 39. Bu Qanunun pozulmasına görə məsuliyyət</h3>
+                <p>Bu Qanunun tələblərini pozan şəxslər Azərbaycan Respublikasının Mülki Məcəlləsində, Azərbaycan
+                    Respublikasının İnzibati Xətalar Məcəlləsində və Azərbaycan Respublikasının Cinayət Məcəlləsində
+                    nəzərdə tutulmuş hallarda məsuliyyət daşıyırlar.</p>
+                <h3>Maddə 40. Keçid müddəalar</h3>
+                <p>40.1. Bu Qanun qüvvəyə mindiyi gündən “Tikinti və infrastruktur obyektləri ilə əlaqədar investisiya
+                    layihələrinin xüsusi maliyyələşmə əsasında həyata keçirilməsi haqqında” Azərbaycan Respublikasının
+                    Qanunu (Azərbaycan Respublikasının Qanunvericilik Toplusu, 2016, № 4, maddə 633; 2019, № 1, maddə
+                    30, № 6, maddə 990, № 11, maddə 1689; 2021, № 7, maddə 701) ləğv edilir.</p>
+                <p>40.2. “Tikinti və infrastruktur obyektləri ilə əlaqədar investisiya layihələrinin xüsusi maliyyələşmə
+                    əsasında həyata keçirilməsi haqqında” Azərbaycan Respublikasının Qanunu əsasında bağlanılmış
+                    müqavilələrə Azərbaycan Respublikası Mülki Məcəlləsinin və “İnvestisiya fəaliyyəti haqqında”
+                    Azərbaycan Respublikası Qanununun müddəaları tətbiq edilir.</p>
+                <p class="signature">İlham ƏLİYEV,</p>
+                <p>Azərbaycan Respublikasının Prezidenti</p>
+                <p class="signature">Bakı şəhəri, 9 dekabr 2022-ci il</p>
+                <p>№ 691-VIQ</p>
 
-                
+
                 <hr style="margin: 3rem 0; border-top: 1px solid rgba(255,255,255,0.1);">
 
                 <h3>Rəsmi Mənbə</h3>
                 <p>
-                    <a href="https://e-qanun.az/framework/53020" target="_blank" class="document-link">E-qanun.az saytında tam mətni oxuyun</a>
+                    <a href="https://e-qanun.az/framework/53020" target="_blank" class="document-link">E-qanun.az
+                        saytında tam mətni oxuyun</a>
                 </p>
             </div>
 
         </div>
 
-        
+
         <!-- RUSSIAN CONTENT (Translated) -->
         <div class="lang-ru">
             <header class="article-header">
@@ -876,16 +1439,22 @@
 
             <div class="content">
                 <div class="article-block">
-                    <p>Настоящий Закон определяет организационные, правовые и экономические основы осуществления деятельности в сфере государственно-частного партнерства.</p>
+                    <p>Настоящий Закон определяет организационные, правовые и экономические основы осуществления
+                        деятельности в сфере государственно-частного партнерства.</p>
                 </div>
-                
+
                 <h2>Основные моменты</h2>
                 <ul>
-                    <li><strong>Государственно-частное сотрудничество:</strong> Устанавливает четкие рамки сотрудничества между государством и частными организациями.</li>
-                    <li><strong>30-летние контракты:</strong> Разрешение на долгосрочные контракты (до 49 лет), обеспечивающие стабильность для инвесторов.</li>
-                    <li><strong>Гарантии стабильности инвестиций:</strong> Защита прав инвесторов и гарантии от неблагоприятных законодательных изменений.</li>
-                    <li><strong>Обязательства государства:</strong> Четкое определение государственной поддержки и обязательств перед частными партнерами.</li>
-                    <li><strong>Привлечение крупных девелоперов:</strong> Поощрение участия крупных разработчиков в инфраструктурных и сервисных проектах.</li>
+                    <li><strong>Государственно-частное сотрудничество:</strong> Устанавливает четкие рамки
+                        сотрудничества между государством и частными организациями.</li>
+                    <li><strong>30-летние контракты:</strong> Разрешение на долгосрочные контракты (до 49 лет),
+                        обеспечивающие стабильность для инвесторов.</li>
+                    <li><strong>Гарантии стабильности инвестиций:</strong> Защита прав инвесторов и гарантии от
+                        неблагоприятных законодательных изменений.</li>
+                    <li><strong>Обязательства государства:</strong> Четкое определение государственной поддержки и
+                        обязательств перед частными партнерами.</li>
+                    <li><strong>Привлечение крупных девелоперов:</strong> Поощрение участия крупных разработчиков в
+                        инфраструктурных и сервисных проектах.</li>
                 </ul>
 
                 <p><em>(Полный текст доступен на азербайджанском языке)</em></p>
@@ -894,7 +1463,8 @@
 
                 <h3>Официальный источник</h3>
                 <p>
-                    <a href="https://e-qanun.az/framework/53020" target="_blank" class="document-link">Читать полный текст на e-qanun.az</a>
+                    <a href="https://e-qanun.az/framework/53020" target="_blank" class="document-link">Читать полный
+                        текст на e-qanun.az</a>
                 </p>
             </div>
         </div>
@@ -902,36 +1472,56 @@
     </article>
 
     <script>
-        function toggleDarkMode() {
-            const body = document.body;
-            const toggle = document.querySelector('.dark-mode-toggle');
-            toggle.classList.add('clicked');
-            setTimeout(() => toggle.classList.remove('clicked'), 600);
-            body.classList.toggle('light-mode');
-            const isLight = body.classList.contains('light-mode');
-            localStorage.setItem('themeMode', isLight ? 'light' : 'dark');
+        // Check for saved theme preference or default to dark
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
         }
 
-        (function initTheme() {
-            const themeMode = localStorage.getItem('themeMode');
-            if (themeMode === 'light') {
-                document.body.classList.add('light-mode');
+        // Check for saved language preference or default to English
+        const savedLang = localStorage.getItem('language') || 'en';
+        document.body.setAttribute('data-lang', savedLang);
+        updateCurrentLangButton(savedLang);
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+
+            const toggleButton = document.querySelectorAll('.dark-mode-toggle');
+            toggleButton.forEach(btn => {
+                btn.classList.add('clicked');
+                setTimeout(() => {
+                    btn.classList.remove('clicked');
+                }, 600);
+            });
+        }
+
+        function setLanguage(lang) {
+            document.body.setAttribute('data-lang', lang);
+            localStorage.setItem('language', lang);
+            updateCurrentLangButton(lang);
+            // Also need to update translations for nav items if using translation.js key logic
+            if (typeof updateTextContent === 'function') {
+                updateTextContent();
             }
-        })();
+        }
+
+        function updateCurrentLangButton(lang) {
+            const btn = document.getElementById('currentLang');
+            const mobileBtn = document.getElementById('currentLangMobile');
+            if (btn) btn.textContent = lang.toUpperCase();
+            if (mobileBtn) mobileBtn.textContent = lang.toUpperCase();
+        }
 
         function toggleMobileMenu() {
-            const mobileMenu = document.querySelector('.mobile-menu');
-            const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
-            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const menu = document.querySelector('.mobile-menu');
+            const overlay = document.querySelector('.mobile-menu-overlay');
+            const btn = document.querySelector('.mobile-menu-btn');
 
-            mobileMenu.classList.toggle('active');
-            mobileMenuOverlay.classList.toggle('active');
-            mobileMenuBtn.classList.toggle('active');
-            if (mobileMenu.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
-            }
+            menu.classList.toggle('active');
+            overlay.classList.toggle('active');
+            btn.classList.toggle('active');
         }
     </script>
 </body>

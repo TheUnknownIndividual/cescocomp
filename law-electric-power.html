@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Law on Electric Power | Republic of Azerbaijan</title>
+    <link rel="icon" type="image/png" href="/tablogo.png">
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
         rel="stylesheet">
@@ -317,6 +318,21 @@
             padding: 8rem 2rem 4rem;
         }
 
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--az-blue);
+        }
+
         .article-header {
             border-bottom: 2px solid var(--az-blue);
             padding-bottom: 2rem;
@@ -545,29 +561,96 @@
         import { inject } from 'https://cdn.jsdelivr.net/npm/@vercel/analytics/+esm';
         inject();
     </script>
+    <script type="module" src="translations.js"></script>
+    <style>
+        .lang-en,
+        .lang-az,
+        .lang-ru {
+            display: none;
+        }
+
+        [data-lang="en"] .lang-en {
+            display: block;
+        }
+
+        [data-lang="az"] .lang-az {
+            display: block;
+        }
+
+        [data-lang="ru"] .lang-ru {
+            display: block;
+        }
+
+        html:not([data-lang]) .lang-en {
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
     <nav>
         <div class="nav-container">
-            <div class="nav-left">
-                <a href="regulatory-framework.html" class="back-link">
-                    <i>←</i> Back to Regulatory Framework
-                </a>
-            </div>
-            <div class="btn-group">
-                <div class="lang-switcher">
-                    <button class="lang-btn active" onclick="switchLang('en')">EN</button>
-                    <button class="lang-btn" onclick="switchLang('az')">AZ</button>
-                    <button class="lang-btn" onclick="switchLang('ru')">RU</button>
+            <a href="/" class="logo">
+                <img src="pluginlogo.png" alt="Plugin.az" class="logo-img dark-mode-logo">
+                <img src="lightmodeplugin.png" alt="Plugin.az" class="logo-img light-mode-logo">
+            </a>
+            <div class="nav-links">
+                <a href="#features" data-i18n="nav.features">Features</a>
+                <a href="#map" data-i18n="nav.map">Interactive Map</a>
+                <a href="#about" data-i18n="nav.about">About</a>
+                <a href="solar-calculator" data-i18n="nav.calculator">Solar Calculator</a>
+                <a href="regulatory-framework" class="cta-button" data-i18n="nav.framework">Regulatory Framework</a>
+
+                <div class="language-switcher">
+                    <button class="lang-btn" id="currentLang">EN</button>
+                    <div class="lang-dropdown">
+                        <button onclick="setLanguage('en')">🇬🇧 EN</button>
+                        <button onclick="setLanguage('ru')">🇷🇺 RU</button>
+                        <button onclick="setLanguage('az')">🇦🇿 AZ</button>
+                    </div>
                 </div>
+
                 <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
                     <img src="darkmode.png" alt="Dark Mode" class="light-icon">
                     <img src="lightmode.png" alt="Light Mode" class="dark-icon">
                 </button>
             </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <a href="/" data-i18n="nav.home" onclick="toggleMobileMenu()">Home</a>
+        <a href="regulatory-framework" data-i18n="nav.framework" onclick="toggleMobileMenu()">Frameworks</a>
+        <a href="/energy-map" data-i18n="nav.energyMap" onclick="toggleMobileMenu()">Map</a>
+        <a href="/solar-calculator.html" data-i18n="nav.calculator" onclick="toggleMobileMenu()">Solar Calculator</a>
+
+        <div class="mobile-controls">
+            <div class="language-switcher">
+                <button class="lang-btn" id="currentLangMobile">EN</button>
+                <div class="lang-dropdown">
+                    <button onclick="setLanguage('en'); toggleMobileMenu();">🇬🇧 EN</button>
+                    <button onclick="setLanguage('ru'); toggleMobileMenu();">🇷🇺 RU</button>
+                    <button onclick="setLanguage('az'); toggleMobileMenu();">🇦🇿 AZ</button>
+                </div>
+            </div>
+
+            <button onclick="toggleDarkMode()" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                <img src="darkmode.png" alt="Dark Mode" class="light-icon">
+                <img src="lightmode.png" alt="Light Mode" class="dark-icon">
+            </button>
+        </div>
+    </div>
 
     <div class="toc-container">
         <div class="toc-title">Contents</div>
@@ -575,8 +658,12 @@
     </div>
 
     <article>
+        <a href="regulatory-framework.html" class="back-link">
+            <span class="back-arrow">←</span> <span data-i18n="nav.framework">Back to Frameworks</span>
+        </a>
         <!-- ENGLISH CONTENT -->
-        <div id="content-en" class="content-section active">
+        <!-- ENGLISH CONTENT -->
+        <div class="lang-en">
             <header class="article-header">
                 <div class="category">Law of the Republic of Azerbaijan</div>
                 <h1>Law on Electric Power</h1>
@@ -665,7 +752,8 @@
         </div>
 
         <!-- AZERBAIJANI CONTENT -->
-        <div id="content-az" class="content-section">
+        <!-- AZERBAIJANI CONTENT -->
+        <div class="lang-az">
             <header class="article-header">
                 <div class="category">Azərbaycan Respublikasının Qanunu</div>
                 <h1>Elektroenergetika haqqında</h1>
@@ -781,7 +869,8 @@
         </div>
 
         <!-- RUSSIAN CONTENT -->
-        <div id="content-ru" class="content-section">
+        <!-- RUSSIAN CONTENT -->
+        <div class="lang-ru">
             <header class="article-header">
                 <div class="category">Закон Азербайджанской Республики</div>
                 <h1>Об электроэнергетике</h1>
@@ -861,16 +950,63 @@
     </article>
 
     <script>
-        function switchLang(lang) {
-            document.querySelectorAll('.content-section').forEach(el => el.classList.remove('active'));
-            document.getElementById(`content-${lang}`).classList.add('active');
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+        // Check for saved theme preference or default to dark
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+        }
+
+        // Check for saved language preference or default to English
+        const savedLang = localStorage.getItem('language') || 'en';
+        document.body.setAttribute('data-lang', savedLang);
+        updateCurrentLangButton(savedLang);
+        updateTOC(savedLang);
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+
+            const toggleButton = document.querySelectorAll('.dark-mode-toggle');
+            toggleButton.forEach(btn => {
+                btn.classList.add('clicked');
+                setTimeout(() => {
+                    btn.classList.remove('clicked');
+                }, 600);
+            });
+        }
+
+        function setLanguage(lang) {
+            document.body.setAttribute('data-lang', lang);
+            localStorage.setItem('language', lang);
+            updateCurrentLangButton(lang);
             updateTOC(lang);
+            // Also need to update translations for nav items if using translation.js key logic
+            if (typeof updateTextContent === 'function') {
+                updateTextContent();
+            }
+        }
+
+        function updateCurrentLangButton(lang) {
+            const btn = document.getElementById('currentLang');
+            const mobileBtn = document.getElementById('currentLangMobile');
+            if (btn) btn.textContent = lang.toUpperCase();
+            if (mobileBtn) mobileBtn.textContent = lang.toUpperCase();
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.querySelector('.mobile-menu');
+            const overlay = document.querySelector('.mobile-menu-overlay');
+            const btn = document.querySelector('.mobile-menu-btn');
+
+            menu.classList.toggle('active');
+            overlay.classList.toggle('active');
+            btn.classList.toggle('active');
         }
 
         function updateTOC(lang) {
             const tocList = document.getElementById('toc-list');
+            if (!tocList) return;
             tocList.innerHTML = '';
             let headings;
             if (lang === 'en') {
@@ -897,24 +1033,6 @@
                 tocList.appendChild(li);
             });
         }
-        updateTOC('en');
-
-        function toggleDarkMode() {
-            const body = document.body;
-            const toggle = document.querySelector('.dark-mode-toggle');
-            toggle.classList.add('clicked');
-            setTimeout(() => toggle.classList.remove('clicked'), 600);
-            body.classList.toggle('light-mode');
-            const isLight = body.classList.contains('light-mode');
-            localStorage.setItem('themeMode', isLight ? 'light' : 'dark');
-        }
-
-        (function initTheme() {
-            const themeMode = localStorage.getItem('themeMode');
-            if (themeMode === 'light') { document.body.classList.add('light-mode'); }
-        })();
-
-        document.querySelector('.lang-btn.active').classList.add('active');
     </script>
 </body>
 

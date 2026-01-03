@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solar Calculator | Green Energy Azerbaijan</title>
+    <link rel="icon" type="image/png" href="/tablogo.png">
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
         rel="stylesheet">
@@ -443,6 +444,7 @@
         /* Custom styled checkboxes - small cute squares */
         .checkbox-item input[type="checkbox"],
         .checkbox-item input[type="radio"] {
+            -webkit-appearance: none;
             appearance: none;
             width: 14px;
             height: 14px;
@@ -877,7 +879,7 @@
     <nav>
         <div class="nav-container">
             <a href="/" class="logo"
-                style="font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #6f91a8 0%, #509E2F 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none;">
+                style="font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #6f91a8 0%, #509E2F 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none;">
                 <span>🇦🇿</span>
                 <span>CECSO</span>
             </a>
@@ -1425,12 +1427,12 @@
 
 
 
-        function displayResults(panels, kWp, production, area, yield, coords) {
+        function displayResults(panels, kWp, production, area, solarYield, coords) {
             document.getElementById('main-result').textContent = panels;
             document.getElementById('system-size').textContent = kWp.toFixed(1);
             document.getElementById('annual-production').textContent = Math.round(production).toLocaleString();
             document.getElementById('roof-area').textContent = Math.round(area);
-            document.getElementById('solar-yield').textContent = Math.round(yield);
+            document.getElementById('solar-yield').textContent = Math.round(solarYield);
 
             // Calculate estimated cost (1 kW = 1000 ₼)
             const estimatedCost = Math.round(kWp * 1000);
@@ -1463,7 +1465,7 @@
         // Mode switching
         function switchMode(mode) {
             currentMode = mode;
-            
+
             // Toggle active states
             document.querySelectorAll('.calc-mode').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));

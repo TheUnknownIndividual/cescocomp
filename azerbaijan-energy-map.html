@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Azerbaijan Renewable Energy Map | Interactive Geographic Visualization</title>
-    <meta name="description" content="Interactive map of Azerbaijan's renewable energy zones with precise data on solar, wind, and hydro potential from academic and governmental sources.">
-    
+    <link rel="icon" type="image/png" href="/tablogo.png">
+    <meta name="description"
+        content="Interactive map of Azerbaijan's renewable energy zones with precise data on solar, wind, and hydro potential from academic and governmental sources.">
+
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
+
     <style>
         * {
             margin: 0;
@@ -163,6 +166,7 @@
             background: rgba(255, 255, 255, 0.1);
             outline: none;
             -webkit-appearance: none;
+            appearance: none;
         }
 
         .slider-container input[type="range"]::-webkit-slider-thumb {
@@ -362,7 +366,9 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* Comparison Panel */
@@ -410,6 +416,7 @@
         inject();
     </script>
 </head>
+
 <body>
     <!-- Loading Indicator -->
     <div class="loading" id="loading">
@@ -507,7 +514,7 @@
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    
+
     <script>
         // Initialize map centered on Azerbaijan
         const map = L.map('map', {
@@ -946,7 +953,7 @@
             layer.on({
                 mouseover: highlightFeature,
                 mouseout: resetHighlight,
-                click: function(e) {
+                click: function (e) {
                     layer.bindPopup(createPopupContent(feature.properties)).openPopup();
                 }
             });
@@ -983,7 +990,7 @@
             const marker = L.marker([project.lat, project.lng], {
                 icon: projectIcons[project.status]
             }).addTo(map);
-            
+
             marker.bindPopup(`
                 <div class="region-popup">
                     <h3>${project.name}</h3>
@@ -996,7 +1003,7 @@
                     </div>
                 </div>
             `);
-            
+
             projectMarkers.push({ marker, project });
         });
 
@@ -1005,7 +1012,7 @@
         let activeStatusFilter = 'all';
 
         document.querySelectorAll('[data-filter]').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 document.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
                 activeResourceFilter = this.dataset.filter;
@@ -1014,7 +1021,7 @@
         });
 
         document.querySelectorAll('[data-status]').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 document.querySelectorAll('[data-status]').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
                 activeStatusFilter = this.dataset.status;
@@ -1027,32 +1034,32 @@
             regionsLayer.eachLayer(layer => {
                 const props = layer.feature.properties;
                 let show = true;
-                
+
                 if (activeResourceFilter !== 'all') {
                     if (activeResourceFilter === 'solar' && props.solarCapacity === 0) show = false;
                     if (activeResourceFilter === 'wind' && props.windCapacity === 0) show = false;
                     if (activeResourceFilter === 'hydro' && props.hydroCapacity === 0) show = false;
                 }
-                
+
                 if (show) {
                     layer.setStyle({ fillOpacity: 0.5, opacity: 1 });
                 } else {
                     layer.setStyle({ fillOpacity: 0.1, opacity: 0.3 });
                 }
             });
-            
+
             // Filter project markers
             projectMarkers.forEach(({ marker, project }) => {
                 let show = true;
-                
+
                 if (activeStatusFilter !== 'all' && project.status !== activeStatusFilter) {
                     show = false;
                 }
-                
+
                 if (activeResourceFilter !== 'all' && project.type !== activeResourceFilter) {
                     show = false;
                 }
-                
+
                 if (show) {
                     marker.setOpacity(1);
                 } else {
@@ -1064,10 +1071,10 @@
         // Capacity slider
         const capacitySlider = document.getElementById('capacitySlider');
         const capacityValue = document.getElementById('capacityValue');
-        
-        capacitySlider.addEventListener('input', function() {
+
+        capacitySlider.addEventListener('input', function () {
             capacityValue.textContent = parseInt(this.value).toLocaleString();
-            
+
             projectMarkers.forEach(({ marker, project }) => {
                 if (project.capacity <= parseInt(this.value)) {
                     marker.setOpacity(1);
@@ -1080,13 +1087,13 @@
         // Timeline slider
         const timelineSlider = document.getElementById('timelineSlider');
         const timelineValue = document.getElementById('timelineValue');
-        
-        timelineSlider.addEventListener('input', function() {
+
+        timelineSlider.addEventListener('input', function () {
             timelineValue.textContent = this.value;
         });
 
         // Fullscreen toggle
-        document.getElementById('fullscreenBtn').addEventListener('click', function() {
+        document.getElementById('fullscreenBtn').addEventListener('click', function () {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen();
             } else {
@@ -1096,10 +1103,10 @@
 
         // Comparison tool
         let comparisonRegions = [];
-        document.getElementById('compareBtn').addEventListener('click', function() {
+        document.getElementById('compareBtn').addEventListener('click', function () {
             const panel = document.getElementById('comparisonPanel');
             panel.classList.toggle('active');
-            
+
             if (comparisonRegions.length === 0) {
                 // Select top 2 regions by total capacity
                 const sorted = regionsData.features.sort((a, b) => {
@@ -1107,7 +1114,7 @@
                     const totalB = b.properties.solarCapacity + b.properties.windCapacity + b.properties.hydroCapacity;
                     return totalB - totalA;
                 });
-                
+
                 comparisonRegions = [sorted[0], sorted[1]];
                 updateComparison();
             }
@@ -1132,7 +1139,7 @@
         }
 
         // Export functionality
-        document.getElementById('exportBtn').addEventListener('click', function() {
+        document.getElementById('exportBtn').addEventListener('click', function () {
             const dataStr = JSON.stringify(regionsData, null, 2);
             const dataBlob = new Blob([dataStr], { type: 'application/json' });
             const url = URL.createObjectURL(dataBlob);
@@ -1148,7 +1155,7 @@
         }, 1000);
 
         // Add zoom animation
-        map.on('zoomend', function() {
+        map.on('zoomend', function () {
             const zoom = map.getZoom();
             regionsLayer.eachLayer(layer => {
                 const weight = zoom > 8 ? 3 : 2;
@@ -1157,4 +1164,5 @@
         });
     </script>
 </body>
+
 </html>

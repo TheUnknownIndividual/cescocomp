@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Green Energy Zones Initiative | Plugin.az</title>
+    <link rel="icon" type="image/png" href="/tablogo.png">
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
         rel="stylesheet">
@@ -421,6 +422,21 @@
             padding: 8rem 2rem 4rem;
         }
 
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--az-blue);
+        }
+
         .article-header {
             border-bottom: 2px solid var(--az-blue);
             padding-bottom: 2rem;
@@ -558,10 +574,11 @@
                 <img src="lightmodeplugin.png" alt="Plugin.az" class="logo-img light-mode-logo">
             </a>
             <div class="nav-links">
-                <a href="/" data-i18n="nav.home">Home</a>
-                <a href="/regulatory-framework" data-i18n="nav.framework">Framework</a>
-                <a href="/energy-map" data-i18n="nav.energyMap">Energy Map</a>
-                <a href="/solar-calculator.html" data-i18n="nav.calculator">Solar Calculator</a>
+                <a href="#features" data-i18n="nav.features">Features</a>
+                <a href="#map" data-i18n="nav.map">Interactive Map</a>
+                <a href="#about" data-i18n="nav.about">About</a>
+                <a href="solar-calculator" data-i18n="nav.calculator">Solar Calculator</a>
+                <a href="regulatory-framework" class="cta-button" data-i18n="nav.framework">Regulatory Framework</a>
 
                 <div class="language-switcher">
                     <button class="lang-btn" id="currentLang">EN</button>
@@ -615,6 +632,9 @@
     </div>
 
     <article>
+        <a href="regulatory-framework.html" class="back-link">
+            <span class="back-arrow">←</span> <span data-i18n="nav.framework">Back to Frameworks</span>
+        </a>
         <!-- ENGLISH CONTENT -->
         <div class="lang-en">
 
@@ -628,38 +648,56 @@
 
             <div class="content">
                 <div class="article-block">
-                   
-<p>The wide application of renewable energy sources has been identified as a priority of Azerbaijan's energy policy. The transition to green energy and establishing a low-carbon economy are key targets.</p>
 
-<h3>Potential and Current Status</h3>
-<p>Azerbaijan has 135 GW onshore and 157 GW offshore renewable energy potential. Currently, RES account for about 18.8% of total capacity, with major hydro, wind, and solar plants in operation.</p>
+                    <p>The wide application of renewable energy sources has been identified as a priority of
+                        Azerbaijan's energy policy. The transition to green energy and establishing a low-carbon economy
+                        are key targets.</p>
 
-<h3>Major Projects</h3>
-<ul>
-    <li><strong>Garadagh Solar Power Plant (230 MW):</strong> Operational since Oct 2023, built with Masdar (UAE).</li>
-    <li><strong>Khizi-Absheron Wind Power Plant (240 MW):</strong> Under construction with ACWA Power (Saudi Arabia).</li>
-    <li><strong>Shafag Solar Power Plant (240 MW):</strong> Implemented in Jabrayil with bp, utilizing virtual power transmission.</li>
-    <li><strong>Mega Project (Masdar):</strong> 1 GW capacity including solar in Bilasuvar/Neftchala and wind in Absheron/Garadagh.</li>
-    <li><strong>Gobustan & Floating Solar:</strong> 100 MW solar plant and pilot floating solar on Boyukshor Lake.</li>
-</ul>
+                    <h3>Potential and Current Status</h3>
+                    <p>Azerbaijan has 135 GW onshore and 157 GW offshore renewable energy potential. Currently, RES
+                        account for about 18.8% of total capacity, with major hydro, wind, and solar plants in
+                        operation.</p>
 
-<h3>Green Energy Zones: Karabakh and East Zangezur</h3>
-<p>A Green Energy Zone concept is being applied in liberated territories. Solar panels are installed in over 1500 buildings, and 38 hydro plants (307 MW) are operational. New solar projects like Ufug and Shams are underway.</p>
+                    <h3>Major Projects</h3>
+                    <ul>
+                        <li><strong>Garadagh Solar Power Plant (230 MW):</strong> Operational since Oct 2023, built with
+                            Masdar (UAE).</li>
+                        <li><strong>Khizi-Absheron Wind Power Plant (240 MW):</strong> Under construction with ACWA
+                            Power (Saudi Arabia).</li>
+                        <li><strong>Shafag Solar Power Plant (240 MW):</strong> Implemented in Jabrayil with bp,
+                            utilizing virtual power transmission.</li>
+                        <li><strong>Mega Project (Masdar):</strong> 1 GW capacity including solar in Bilasuvar/Neftchala
+                            and wind in Absheron/Garadagh.</li>
+                        <li><strong>Gobustan & Floating Solar:</strong> 100 MW solar plant and pilot floating solar on
+                            Boyukshor Lake.</li>
+                    </ul>
 
-<h3>Green Energy Corridors</h3>
-<p><strong>Caspian-Black Sea-Europe:</strong> Strategic partnership with Georgia, Romania, and Hungary to export green energy via subsea cable.</p>
-<p><strong>Central Asia-Azerbaijan:</strong> Agreement with Kazakhstan and Uzbekistan to transmit green energy across the Caspian.</p>
-<p><strong>Azerbaijan-Türkiye-Europe:</strong> Integration of infrastructure to export electricity through Nakhchivan (Jabrayil-Nakhchivan-Türkiye route).</p>
+                    <h3>Green Energy Zones: Karabakh and East Zangezur</h3>
+                    <p>A Green Energy Zone concept is being applied in liberated territories. Solar panels are installed
+                        in over 1500 buildings, and 38 hydro plants (307 MW) are operational. New solar projects like
+                        Ufug and Shams are underway.</p>
+
+                    <h3>Green Energy Corridors</h3>
+                    <p><strong>Caspian-Black Sea-Europe:</strong> Strategic partnership with Georgia, Romania, and
+                        Hungary to export green energy via subsea cable.</p>
+                    <p><strong>Central Asia-Azerbaijan:</strong> Agreement with Kazakhstan and Uzbekistan to transmit
+                        green energy across the Caspian.</p>
+                    <p><strong>Azerbaijan-Türkiye-Europe:</strong> Integration of infrastructure to export electricity
+                        through Nakhchivan (Jabrayil-Nakhchivan-Türkiye route).</p>
 
                 </div>
 
                 <h2>Key Highlights</h2>
                 <ul>
-                    
-<li><strong>Karabakh, Nakhchivan & Green Corridors:</strong> Strategic focus on liberated territories and regional connectivity.</li>
-<li><strong>Karabakh Projects:</strong> 240 MW Shafag SPP (bp), Ufug & Shams (2x50 MW), Hydro power on rivers.</li>
-<li><strong>Nakhchivan Initiatives:</strong> Plans for Green Energy Zone and 1,000+ MW export capacity.</li>
-<li><strong>Green Corridors:</strong> Routes to Europe (Black Sea cable) and Central Asia integration.</li>
+
+                    <li><strong>Karabakh, Nakhchivan & Green Corridors:</strong> Strategic focus on liberated
+                        territories and regional connectivity.</li>
+                    <li><strong>Karabakh Projects:</strong> 240 MW Shafag SPP (bp), Ufug & Shams (2x50 MW), Hydro power
+                        on rivers.</li>
+                    <li><strong>Nakhchivan Initiatives:</strong> Plans for Green Energy Zone and 1,000+ MW export
+                        capacity.</li>
+                    <li><strong>Green Corridors:</strong> Routes to Europe (Black Sea cable) and Central Asia
+                        integration.</li>
 
                 </ul>
 
@@ -667,20 +705,28 @@
 
                 <h3>Official Source & Resources</h3>
                 <p>
-                    <a href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade" target="_blank" class="document-link">Ministry of Energy Overview</a>
+                    <a href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade"
+                        target="_blank" class="document-link">Ministry of Energy Overview</a>
                 </p>
-                
-<div style="margin-top: 2rem;">
-<h4>Additional Resources</h4>
-<ul style="list-style: none; padding-left: 0;">
-    <li style="margin-bottom: 0.5rem;"><a href="https://area.gov.az/en/page/layiheler/yasil-enerji-zonasi/yasil" target="_blank" class="document-link">Green Energy Zone Projects (AREA)</a></li>
-    <li style="margin-bottom: 0.5rem;"><a href="https://cop29.az/en/pages/green-energy-pledge-background-information" target="_blank" class="document-link">COP29 Green Energy Pledge Background</a></li>
-    <li style="margin-bottom: 0.5rem;"><a href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade" target="_blank" class="document-link">Ministry of Energy - Renewable Energy Overview</a></li>
-</ul>
-</div>
+
+                <div style="margin-top: 2rem;">
+                    <h4>Additional Resources</h4>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li style="margin-bottom: 0.5rem;"><a
+                                href="https://area.gov.az/en/page/layiheler/yasil-enerji-zonasi/yasil" target="_blank"
+                                class="document-link">Green Energy Zone Projects (AREA)</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a
+                                href="https://cop29.az/en/pages/green-energy-pledge-background-information"
+                                target="_blank" class="document-link">COP29 Green Energy Pledge Background</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a
+                                href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade"
+                                target="_blank" class="document-link">Ministry of Energy - Renewable Energy Overview</a>
+                        </li>
+                    </ul>
+                </div>
 
             </div>
-    
+
         </div>
 
         <!-- AZERBAIJANI CONTENT -->
@@ -696,40 +742,58 @@
 
             <div class="content">
                 <div class="article-block">
-                   
-<p>The wide application of renewable energy sources has been identified as a priority of Azerbaijan's energy policy. The transition to green energy and establishing a low-carbon economy are key targets.</p>
 
-<h3>Potential and Current Status</h3>
-<p>Azerbaijan has 135 GW onshore and 157 GW offshore renewable energy potential. Currently, RES account for about 18.8% of total capacity, with major hydro, wind, and solar plants in operation.</p>
+                    <p>The wide application of renewable energy sources has been identified as a priority of
+                        Azerbaijan's energy policy. The transition to green energy and establishing a low-carbon economy
+                        are key targets.</p>
 
-<h3>Major Projects</h3>
-<ul>
-    <li><strong>Garadagh Solar Power Plant (230 MW):</strong> Operational since Oct 2023, built with Masdar (UAE).</li>
-    <li><strong>Khizi-Absheron Wind Power Plant (240 MW):</strong> Under construction with ACWA Power (Saudi Arabia).</li>
-    <li><strong>Shafag Solar Power Plant (240 MW):</strong> Implemented in Jabrayil with bp, utilizing virtual power transmission.</li>
-    <li><strong>Mega Project (Masdar):</strong> 1 GW capacity including solar in Bilasuvar/Neftchala and wind in Absheron/Garadagh.</li>
-    <li><strong>Gobustan & Floating Solar:</strong> 100 MW solar plant and pilot floating solar on Boyukshor Lake.</li>
-</ul>
+                    <h3>Potential and Current Status</h3>
+                    <p>Azerbaijan has 135 GW onshore and 157 GW offshore renewable energy potential. Currently, RES
+                        account for about 18.8% of total capacity, with major hydro, wind, and solar plants in
+                        operation.</p>
 
-<h3>Green Energy Zones: Karabakh and East Zangezur</h3>
-<p>A Green Energy Zone concept is being applied in liberated territories. Solar panels are installed in over 1500 buildings, and 38 hydro plants (307 MW) are operational. New solar projects like Ufug and Shams are underway.</p>
+                    <h3>Major Projects</h3>
+                    <ul>
+                        <li><strong>Garadagh Solar Power Plant (230 MW):</strong> Operational since Oct 2023, built with
+                            Masdar (UAE).</li>
+                        <li><strong>Khizi-Absheron Wind Power Plant (240 MW):</strong> Under construction with ACWA
+                            Power (Saudi Arabia).</li>
+                        <li><strong>Shafag Solar Power Plant (240 MW):</strong> Implemented in Jabrayil with bp,
+                            utilizing virtual power transmission.</li>
+                        <li><strong>Mega Project (Masdar):</strong> 1 GW capacity including solar in Bilasuvar/Neftchala
+                            and wind in Absheron/Garadagh.</li>
+                        <li><strong>Gobustan & Floating Solar:</strong> 100 MW solar plant and pilot floating solar on
+                            Boyukshor Lake.</li>
+                    </ul>
 
-<h3>Green Energy Corridors</h3>
-<p><strong>Caspian-Black Sea-Europe:</strong> Strategic partnership with Georgia, Romania, and Hungary to export green energy via subsea cable.</p>
-<p><strong>Central Asia-Azerbaijan:</strong> Agreement with Kazakhstan and Uzbekistan to transmit green energy across the Caspian.</p>
-<p><strong>Azerbaijan-Türkiye-Europe:</strong> Integration of infrastructure to export electricity through Nakhchivan (Jabrayil-Nakhchivan-Türkiye route).</p>
+                    <h3>Green Energy Zones: Karabakh and East Zangezur</h3>
+                    <p>A Green Energy Zone concept is being applied in liberated territories. Solar panels are installed
+                        in over 1500 buildings, and 38 hydro plants (307 MW) are operational. New solar projects like
+                        Ufug and Shams are underway.</p>
+
+                    <h3>Green Energy Corridors</h3>
+                    <p><strong>Caspian-Black Sea-Europe:</strong> Strategic partnership with Georgia, Romania, and
+                        Hungary to export green energy via subsea cable.</p>
+                    <p><strong>Central Asia-Azerbaijan:</strong> Agreement with Kazakhstan and Uzbekistan to transmit
+                        green energy across the Caspian.</p>
+                    <p><strong>Azerbaijan-Türkiye-Europe:</strong> Integration of infrastructure to export electricity
+                        through Nakhchivan (Jabrayil-Nakhchivan-Türkiye route).</p>
 
                 </div>
-                
+
                 <p><em>(Məzmun ingilis dilindədir / Content available in English)</em></p>
 
                 <h2>Əsas Məqamlar</h2>
                 <ul>
-                    
-<li><strong>Karabakh, Nakhchivan & Green Corridors:</strong> Strategic focus on liberated territories and regional connectivity.</li>
-<li><strong>Karabakh Projects:</strong> 240 MW Shafag SPP (bp), Ufug & Shams (2x50 MW), Hydro power on rivers.</li>
-<li><strong>Nakhchivan Initiatives:</strong> Plans for Green Energy Zone and 1,000+ MW export capacity.</li>
-<li><strong>Green Corridors:</strong> Routes to Europe (Black Sea cable) and Central Asia integration.</li>
+
+                    <li><strong>Karabakh, Nakhchivan & Green Corridors:</strong> Strategic focus on liberated
+                        territories and regional connectivity.</li>
+                    <li><strong>Karabakh Projects:</strong> 240 MW Shafag SPP (bp), Ufug & Shams (2x50 MW), Hydro power
+                        on rivers.</li>
+                    <li><strong>Nakhchivan Initiatives:</strong> Plans for Green Energy Zone and 1,000+ MW export
+                        capacity.</li>
+                    <li><strong>Green Corridors:</strong> Routes to Europe (Black Sea cable) and Central Asia
+                        integration.</li>
 
                 </ul>
 
@@ -737,20 +801,28 @@
 
                 <h3>Rəsmi Mənbə</h3>
                 <p>
-                    <a href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade" target="_blank" class="document-link">Ministry of Energy Overview</a>
+                    <a href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade"
+                        target="_blank" class="document-link">Ministry of Energy Overview</a>
                 </p>
-                 
-<div style="margin-top: 2rem;">
-<h4>Additional Resources</h4>
-<ul style="list-style: none; padding-left: 0;">
-    <li style="margin-bottom: 0.5rem;"><a href="https://area.gov.az/en/page/layiheler/yasil-enerji-zonasi/yasil" target="_blank" class="document-link">Green Energy Zone Projects (AREA)</a></li>
-    <li style="margin-bottom: 0.5rem;"><a href="https://cop29.az/en/pages/green-energy-pledge-background-information" target="_blank" class="document-link">COP29 Green Energy Pledge Background</a></li>
-    <li style="margin-bottom: 0.5rem;"><a href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade" target="_blank" class="document-link">Ministry of Energy - Renewable Energy Overview</a></li>
-</ul>
-</div>
+
+                <div style="margin-top: 2rem;">
+                    <h4>Additional Resources</h4>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li style="margin-bottom: 0.5rem;"><a
+                                href="https://area.gov.az/en/page/layiheler/yasil-enerji-zonasi/yasil" target="_blank"
+                                class="document-link">Green Energy Zone Projects (AREA)</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a
+                                href="https://cop29.az/en/pages/green-energy-pledge-background-information"
+                                target="_blank" class="document-link">COP29 Green Energy Pledge Background</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a
+                                href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade"
+                                target="_blank" class="document-link">Ministry of Energy - Renewable Energy Overview</a>
+                        </li>
+                    </ul>
+                </div>
 
             </div>
-    
+
         </div>
 
         <!-- RUSSIAN CONTENT -->
@@ -766,28 +838,42 @@
 
             <div class="content">
                 <div class="article-block">
-                   
-<p>The wide application of renewable energy sources has been identified as a priority of Azerbaijan's energy policy. The transition to green energy and establishing a low-carbon economy are key targets.</p>
 
-<h3>Potential and Current Status</h3>
-<p>Azerbaijan has 135 GW onshore and 157 GW offshore renewable energy potential. Currently, RES account for about 18.8% of total capacity, with major hydro, wind, and solar plants in operation.</p>
+                    <p>The wide application of renewable energy sources has been identified as a priority of
+                        Azerbaijan's energy policy. The transition to green energy and establishing a low-carbon economy
+                        are key targets.</p>
 
-<h3>Major Projects</h3>
-<ul>
-    <li><strong>Garadagh Solar Power Plant (230 MW):</strong> Operational since Oct 2023, built with Masdar (UAE).</li>
-    <li><strong>Khizi-Absheron Wind Power Plant (240 MW):</strong> Under construction with ACWA Power (Saudi Arabia).</li>
-    <li><strong>Shafag Solar Power Plant (240 MW):</strong> Implemented in Jabrayil with bp, utilizing virtual power transmission.</li>
-    <li><strong>Mega Project (Masdar):</strong> 1 GW capacity including solar in Bilasuvar/Neftchala and wind in Absheron/Garadagh.</li>
-    <li><strong>Gobustan & Floating Solar:</strong> 100 MW solar plant and pilot floating solar on Boyukshor Lake.</li>
-</ul>
+                    <h3>Potential and Current Status</h3>
+                    <p>Azerbaijan has 135 GW onshore and 157 GW offshore renewable energy potential. Currently, RES
+                        account for about 18.8% of total capacity, with major hydro, wind, and solar plants in
+                        operation.</p>
 
-<h3>Green Energy Zones: Karabakh and East Zangezur</h3>
-<p>A Green Energy Zone concept is being applied in liberated territories. Solar panels are installed in over 1500 buildings, and 38 hydro plants (307 MW) are operational. New solar projects like Ufug and Shams are underway.</p>
+                    <h3>Major Projects</h3>
+                    <ul>
+                        <li><strong>Garadagh Solar Power Plant (230 MW):</strong> Operational since Oct 2023, built with
+                            Masdar (UAE).</li>
+                        <li><strong>Khizi-Absheron Wind Power Plant (240 MW):</strong> Under construction with ACWA
+                            Power (Saudi Arabia).</li>
+                        <li><strong>Shafag Solar Power Plant (240 MW):</strong> Implemented in Jabrayil with bp,
+                            utilizing virtual power transmission.</li>
+                        <li><strong>Mega Project (Masdar):</strong> 1 GW capacity including solar in Bilasuvar/Neftchala
+                            and wind in Absheron/Garadagh.</li>
+                        <li><strong>Gobustan & Floating Solar:</strong> 100 MW solar plant and pilot floating solar on
+                            Boyukshor Lake.</li>
+                    </ul>
 
-<h3>Green Energy Corridors</h3>
-<p><strong>Caspian-Black Sea-Europe:</strong> Strategic partnership with Georgia, Romania, and Hungary to export green energy via subsea cable.</p>
-<p><strong>Central Asia-Azerbaijan:</strong> Agreement with Kazakhstan and Uzbekistan to transmit green energy across the Caspian.</p>
-<p><strong>Azerbaijan-Türkiye-Europe:</strong> Integration of infrastructure to export electricity through Nakhchivan (Jabrayil-Nakhchivan-Türkiye route).</p>
+                    <h3>Green Energy Zones: Karabakh and East Zangezur</h3>
+                    <p>A Green Energy Zone concept is being applied in liberated territories. Solar panels are installed
+                        in over 1500 buildings, and 38 hydro plants (307 MW) are operational. New solar projects like
+                        Ufug and Shams are underway.</p>
+
+                    <h3>Green Energy Corridors</h3>
+                    <p><strong>Caspian-Black Sea-Europe:</strong> Strategic partnership with Georgia, Romania, and
+                        Hungary to export green energy via subsea cable.</p>
+                    <p><strong>Central Asia-Azerbaijan:</strong> Agreement with Kazakhstan and Uzbekistan to transmit
+                        green energy across the Caspian.</p>
+                    <p><strong>Azerbaijan-Türkiye-Europe:</strong> Integration of infrastructure to export electricity
+                        through Nakhchivan (Jabrayil-Nakhchivan-Türkiye route).</p>
 
                 </div>
 
@@ -795,11 +881,15 @@
 
                 <h2>Основные моменты</h2>
                 <ul>
-                    
-<li><strong>Karabakh, Nakhchivan & Green Corridors:</strong> Strategic focus on liberated territories and regional connectivity.</li>
-<li><strong>Karabakh Projects:</strong> 240 MW Shafag SPP (bp), Ufug & Shams (2x50 MW), Hydro power on rivers.</li>
-<li><strong>Nakhchivan Initiatives:</strong> Plans for Green Energy Zone and 1,000+ MW export capacity.</li>
-<li><strong>Green Corridors:</strong> Routes to Europe (Black Sea cable) and Central Asia integration.</li>
+
+                    <li><strong>Karabakh, Nakhchivan & Green Corridors:</strong> Strategic focus on liberated
+                        territories and regional connectivity.</li>
+                    <li><strong>Karabakh Projects:</strong> 240 MW Shafag SPP (bp), Ufug & Shams (2x50 MW), Hydro power
+                        on rivers.</li>
+                    <li><strong>Nakhchivan Initiatives:</strong> Plans for Green Energy Zone and 1,000+ MW export
+                        capacity.</li>
+                    <li><strong>Green Corridors:</strong> Routes to Europe (Black Sea cable) and Central Asia
+                        integration.</li>
 
                 </ul>
 
@@ -807,54 +897,82 @@
 
                 <h3>Официальный источник</h3>
                 <p>
-                    <a href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade" target="_blank" class="document-link">Ministry of Energy Overview</a>
+                    <a href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade"
+                        target="_blank" class="document-link">Ministry of Energy Overview</a>
                 </p>
-                 
-<div style="margin-top: 2rem;">
-<h4>Additional Resources</h4>
-<ul style="list-style: none; padding-left: 0;">
-    <li style="margin-bottom: 0.5rem;"><a href="https://area.gov.az/en/page/layiheler/yasil-enerji-zonasi/yasil" target="_blank" class="document-link">Green Energy Zone Projects (AREA)</a></li>
-    <li style="margin-bottom: 0.5rem;"><a href="https://cop29.az/en/pages/green-energy-pledge-background-information" target="_blank" class="document-link">COP29 Green Energy Pledge Background</a></li>
-    <li style="margin-bottom: 0.5rem;"><a href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade" target="_blank" class="document-link">Ministry of Energy - Renewable Energy Overview</a></li>
-</ul>
-</div>
+
+                <div style="margin-top: 2rem;">
+                    <h4>Additional Resources</h4>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li style="margin-bottom: 0.5rem;"><a
+                                href="https://area.gov.az/en/page/layiheler/yasil-enerji-zonasi/yasil" target="_blank"
+                                class="document-link">Green Energy Zone Projects (AREA)</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a
+                                href="https://cop29.az/en/pages/green-energy-pledge-background-information"
+                                target="_blank" class="document-link">COP29 Green Energy Pledge Background</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a
+                                href="https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade"
+                                target="_blank" class="document-link">Ministry of Energy - Renewable Energy Overview</a>
+                        </li>
+                    </ul>
+                </div>
 
             </div>
-    
+
         </div>
     </article>
 
     <script>
-        function toggleDarkMode() {
-            const body = document.body;
-            const toggle = document.querySelector('.dark-mode-toggle');
-            toggle.classList.add('clicked');
-            setTimeout(() => toggle.classList.remove('clicked'), 600);
-            body.classList.toggle('light-mode');
-            const isLight = body.classList.contains('light-mode');
-            localStorage.setItem('themeMode', isLight ? 'light' : 'dark');
+        // Check for saved theme preference or default to dark
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
         }
 
-        (function initTheme() {
-            const themeMode = localStorage.getItem('themeMode');
-            if (themeMode === 'light') {
-                document.body.classList.add('light-mode');
+        // Check for saved language preference or default to English
+        const savedLang = localStorage.getItem('language') || 'en';
+        document.body.setAttribute('data-lang', savedLang);
+        updateCurrentLangButton(savedLang);
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+
+            const toggleButton = document.querySelectorAll('.dark-mode-toggle');
+            toggleButton.forEach(btn => {
+                btn.classList.add('clicked');
+                setTimeout(() => {
+                    btn.classList.remove('clicked');
+                }, 600);
+            });
+        }
+
+        function setLanguage(lang) {
+            document.body.setAttribute('data-lang', lang);
+            localStorage.setItem('language', lang);
+            updateCurrentLangButton(lang);
+            // Also need to update translations for nav items if using translation.js key logic
+            if (typeof updateTextContent === 'function') {
+                updateTextContent();
             }
-        })();
+        }
+
+        function updateCurrentLangButton(lang) {
+            const btn = document.getElementById('currentLang');
+            const mobileBtn = document.getElementById('currentLangMobile');
+            if (btn) btn.textContent = lang.toUpperCase();
+            if (mobileBtn) mobileBtn.textContent = lang.toUpperCase();
+        }
 
         function toggleMobileMenu() {
-            const mobileMenu = document.querySelector('.mobile-menu');
-            const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
-            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const menu = document.querySelector('.mobile-menu');
+            const overlay = document.querySelector('.mobile-menu-overlay');
+            const btn = document.querySelector('.mobile-menu-btn');
 
-            mobileMenu.classList.toggle('active');
-            mobileMenuOverlay.classList.toggle('active');
-            mobileMenuBtn.classList.toggle('active');
-            if (mobileMenu.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
-            }
+            menu.classList.toggle('active');
+            overlay.classList.toggle('active');
+            btn.classList.toggle('active');
         }
     </script>
 </body>
