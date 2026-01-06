@@ -417,8 +417,77 @@ if (window.translationsInitialized) {
         }
     };
 
+    // Detect language based on IP and keyboard settings
+    async function detectUserLanguage() {
+        try {
+            // First, try to detect keyboard language
+            if (navigator.keyboard && navigator.keyboard.getLayoutMap) {
+                const layoutMap = await navigator.keyboard.getLayoutMap();
+                // This is experimental, but we'll try it
+                console.log('Keyboard layout detected');
+            }
+
+            // Check browser language for keyboard settings
+            const browserLang = navigator.language || navigator.userLanguage;
+            if (browserLang) {
+                const langCode = browserLang.toLowerCase();
+                if (langCode.startsWith('az')) {
+                    return 'az'; // Azerbaijani keyboard
+                } else if (langCode.startsWith('ru')) {
+                    return 'ru'; // Russian keyboard
+                }
+            }
+
+            // Fallback: detect country via IP address using a free geolocation API
+            try {
+                const response = await fetch('https://ipapi.co/json/', {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const countryCode = data.country_code;
+
+                    if (countryCode === 'AZ') {
+                        // User is in Azerbaijan, default to Azerbaijani
+                        return 'az';
+                    }
+                    // Check for Russian-speaking countries
+                    const russianCountries = ['RU', 'BY', 'KZ', 'KG', 'TJ', 'UZ', 'TM'];
+                    if (russianCountries.includes(countryCode)) {
+                        return 'ru';
+                    }
+                }
+            } catch (ipError) {
+                console.log('IP geolocation not available:', ipError);
+            }
+
+            // Default to English if no detection works
+            return 'en';
+        } catch (error) {
+            console.log('Language detection error:', error);
+            return 'en';
+        }
+    }
+
     // Language management
-    let currentLanguage = localStorage.getItem('language') || 'en';
+    let currentLanguage = localStorage.getItem('language') || null;
+
+    // Auto-detect language on first visit
+    if (!currentLanguage) {
+        detectUserLanguage().then(detectedLang => {
+            currentLanguage = detectedLang;
+            localStorage.setItem('language', detectedLang);
+            const currentLangElement = document.getElementById('currentLang');
+            const currentLangMobile = document.getElementById('currentLangMobile');
+            if (currentLangElement) currentLangElement.textContent = detectedLang.toUpperCase();
+            if (currentLangMobile) currentLangMobile.textContent = detectedLang.toUpperCase();
+            document.body.setAttribute('data-lang', detectedLang);
+            updatePageLanguage();
+        });
+        currentLanguage = 'en'; // Temporary default while detecting
+    }
 
     function setLanguage(lang) {
         currentLanguage = lang;
