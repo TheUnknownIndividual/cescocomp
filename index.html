@@ -1293,6 +1293,15 @@
             .overflow-x-auto {
                 max-width: 100% !important;
                 overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+            }
+
+            /* Allow tables inside scroll containers to exceed container width */
+            div[style*="overflow-x: auto"] table,
+            .overflow-x-auto table {
+                max-width: none !important;
+                width: auto !important;
+                min-width: 100% !important;
             }
 
             .nav-links {
@@ -2313,7 +2322,7 @@
                     </tbody>
                 </table>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 1.5rem; font-style: italic;">
+            <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 1rem; font-style: italic;">
                 Source: Imamverdiyev, N.S. (2021). <a
                     href="https://aak.gov.az/upload/dissertasion/co_rafiya/Avtoreferat_(AZ)1.pdf" target="_blank"
                     style="color: var(--az-blue);">Geographical Investigation of Azerbaijan's
@@ -2496,7 +2505,7 @@
                     </tbody>
                 </table>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 1.5rem; font-style: italic;">
+            <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 1rem; font-style: italic;">
                 Source: Imamverdiyev, N.S. (2021). <a
                     href="https://aak.gov.az/upload/dissertasion/co_rafiya/Avtoreferat_(AZ)1.pdf" target="_blank"
                     style="color: var(--az-blue);">Geographical Investigation of Azerbaijan's
