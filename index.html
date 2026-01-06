@@ -1528,27 +1528,40 @@
                 padding-right: 1rem !important;
             }
 
-            /* Make Karabakh region grid single column on mobile */
-            div[style*="grid-template-columns: repeat(auto-fit, minmax(450px, 1fr))"] {
-                grid-template-columns: 1fr !important;
-            }
-
-            /* Ensure cards don't overflow */
-            section>div,
-            .map-section>div {
-                max-width: 100vw;
-                overflow-x: hidden;
-            }
-
-            /* Fix solar panel table sections on mobile */
-            body>div[style*="margin-top: 3rem"] {
-                max-width: 100vw !important;
+            /* CRITICAL FIX: Prevent Grid Blowout */
+            /* This forces the grid track to respect the container width instead of expanding to fit content */
+            div[style*="display: grid"] {
+                display: grid !important;
+                grid-template-columns: minmax(0, 1fr) !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
                 box-sizing: border-box !important;
             }
 
-            /* Constrain table card containers */
-            div[style*="background: var(--card-bg)"] {
+            /* Ensure grid items (cards) don't overflow */
+            div[style*="display: grid"]>div {
+                min-width: 0 !important;
+                /* Critical for grid items to shrink */
                 max-width: 100% !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            /* Fix solar panel table parent containers specifically */
+            body>div[style*="margin-top: 3rem"]>div {
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 1rem !important;
+                /* Proper padding for mobile */
+            }
+
+            /* Ensure solar panel table sections don't overflow */
+            div[style*="background: var(--card-bg)"][style*="border-radius: 16px"] {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
                 box-sizing: border-box !important;
             }
 
