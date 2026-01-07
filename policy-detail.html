@@ -73,14 +73,29 @@
         }
 
         .logo {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
             text-decoration: none;
+        }
+
+        .logo-img {
+            object-fit: contain;
+        }
+
+        .light-mode-logo {
+            display: none !important;
+        }
+
+        .dark-mode-logo {
+            display: block !important;
+        }
+
+        body.light-mode .light-mode-logo {
+            display: block !important;
+        }
+
+        body.light-mode .dark-mode-logo {
+            display: none !important;
         }
 
         .nav-links {

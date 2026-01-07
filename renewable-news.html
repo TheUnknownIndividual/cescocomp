@@ -105,12 +105,29 @@
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
             text-decoration: none;
+        }
+
+        .logo-img {
+            object-fit: contain;
+        }
+
+        .light-mode-logo {
+            display: none !important;
+        }
+
+        .dark-mode-logo {
+            display: block !important;
+        }
+
+        body.light-mode .light-mode-logo {
+            display: block !important;
+        }
+
+        body.light-mode .dark-mode-logo {
+            display: none !important;
         }
 
         .nav-links {
@@ -147,37 +164,89 @@
             width: 100%;
         }
 
-        .theme-toggle {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: var(--text-primary);
-            font-size: 1.2rem;
-        }
-
-        .theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .lang-dropdown {
+        .language-switcher {
             position: relative;
         }
 
-        .lang-dropdown button {
+        .lang-btn {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: var(--text-primary);
             padding: 0.5rem 1rem;
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s ease;
             font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        body.light-mode .lang-btn {
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .lang-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 0.5rem;
+            min-width: 120px;
+            box-shadow: var(--shadow-lg);
+            z-index: 1001;
+        }
+
+        .language-switcher.active .lang-dropdown {
+            display: block;
+        }
+
+        .lang-dropdown button {
+            width: 100%;
+            text-align: left;
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .lang-dropdown button:hover {
+            background: rgba(111, 145, 168, 0.2);
+        }
+
+        .dark-mode-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 6px 20px rgba(111, 145, 168, 0.3);
+        }
+
+        .dark-mode-toggle img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
         /* Page Header */
@@ -405,23 +474,142 @@
             flex: 1;
         }
 
-        .news-source {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 0.85rem;
-            color: var(--text-muted);
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.85);
+            animation: fadeIn 0.3s ease;
         }
 
-        body.light-mode .news-source {
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            margin: 2rem;
+            padding: 2rem;
+            border-radius: 16px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            right: 1.5rem;
+            top: 1.5rem;
+            font-size: 2rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            transform: rotate(90deg);
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+
+        .modal-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .modal-body {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+        }
+
+        .modal-footer {
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode .modal-footer {
             border-top: 1px solid rgba(0, 0, 0, 0.1);
         }
 
-        .external-link {
-            color: var(--az-blue);
+        .source-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--gradient-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
             font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .source-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(111, 145, 168, 0.3);
         }
 
         .no-results {
@@ -520,19 +708,29 @@
     <!-- Navigation -->
     <nav>
         <div class="nav-container">
-            <a href="/" class="logo">PLUGIN.AZ</a>
+            <a href="/" class="logo">
+                <img src="pluginlogo.png" alt="Plugin.az" class="logo-img dark-mode-logo"
+                    style="height: 50px; width: auto;">
+                <img src="lightmodeplugin.png" alt="Plugin.az" class="logo-img light-mode-logo"
+                    style="height: 50px; width: auto;">
+            </a>
             <div class="nav-links">
                 <a href="/" data-translate="nav.home">Home</a>
                 <a href="/azerbaijan-rayon-energy-map.html" data-translate="nav.energyMap">Energy Map</a>
                 <a href="/solar-calculator.html" data-translate="nav.calculator">Solar Calculator</a>
                 <a href="/regulatory-framework.html" data-translate="nav.framework">Regulatory Framework</a>
                 <a href="/renewable-news.html" data-translate="nav.news">News</a>
-                <div class="lang-dropdown">
-                    <button id="langBtn">🌐 <span id="currentLang">EN</span></button>
+                <div class="language-switcher">
+                    <button class="lang-btn" id="langBtn"><span id="currentLang">EN</span></button>
+                    <div class="lang-dropdown">
+                        <button onclick="setLanguage('en')">🇬🇧 EN</button>
+                        <button onclick="setLanguage('ru')">🇷🇺 RU</button>
+                        <button onclick="setLanguage('az')">🇦🇿 AZ</button>
+                    </div>
                 </div>
-                <button class="theme-toggle" id="themeToggle">
-                    <span class="dark-icon">🌙</span>
-                    <span class="light-icon">☀️</span>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Light/Dark Mode">
+                    <img src="lightmode.png" alt="Light Mode" class="light-icon">
+                    <img src="darkmode.png" alt="Dark Mode" class="dark-icon">
                 </button>
             </div>
         </div>
@@ -597,6 +795,34 @@
             <p data-translate="news.tryDifferent">Try a different search term or category</p>
         </div>
     </main>
+
+    <!-- Modal -->
+    <div id="newsModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <img id="modalImage" class="modal-image" alt="">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="modal-title"></h2>
+                <div class="modal-meta">
+                    <span class="news-category" id="modalCategory"></span>
+                    <span class="news-date" id="modalDate"></span>
+                </div>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <p>Bu xəbər haqqında ətraflı məlumat üçün aşağıdakı mənbəyə baxın.</p>
+                <p>For more details about this news, please visit the source below.</p>
+                <p>Для получения подробной информации посетите источник ниже.</p>
+            </div>
+            <div class="modal-footer">
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                    <strong>İstinad / Reference / Источник:</strong>
+                </p>
+                <a id="modalSourceLink" class="source-link" target="_blank" rel="noopener">
+                    📰 Read full article on renewables.az →
+                </a>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -703,8 +929,8 @@
             }
 
             // Render cards
-            grid.innerHTML = filteredNews.map(article => `
-                <a href="${article.link}" target="_blank" rel="noopener" class="news-card">
+            grid.innerHTML = filteredNews.map((article, index) => `
+                <div class="news-card" onclick="openModal(${index}, '${currentCategory}', '${currentSearchTerm}')">
                     ${article.image ? `<img src="${article.image}" alt="${article.title}" class="news-image" loading="lazy">` : '<div class="news-image" style="background: var(--bg-darker); display: flex; align-items: center; justify-content: center; font-size: 3rem;">📰</div>'}
                     <div class="news-content">
                         <div class="news-meta">
@@ -712,18 +938,60 @@
                             ${article.date ? `<span class="news-date">📅 ${article.date}</span>` : ''}
                         </div>
                         <h3 class="news-title">${article.title}</h3>
-                        <div class="news-source">
-                            <span>${article.source}</span>
-                            <span class="external-link">Read more →</span>
-                        </div>
                     </div>
-                </a>
+                </div>
             `).join('');
         }
 
-        // Category filter
-        document.querySelectorAll('.category-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
+        // Open modal
+        function openModal(index, category, searchTerm) {
+            // Get filtered news array matching current filters
+            let filteredNews = newsData;
+            if (category && category !== 'all') {
+                filteredNews = filteredNews.filter(article => article.category === category);
+            }
+            if (searchTerm) {
+                filteredNews = filteredNews.filter(article =>
+                    article.title.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            }
+
+            const article = filteredNews[index];
+            if (!article) return;
+
+            document.getElementById('modalImage').src = article.image || '';
+            document.getElementById('modalImage').style.display = article.image ? 'block' : 'none';
+            document.getElementById('modalTitle').textContent = article.title;
+            document.getElementById('modalCategory').textContent = article.category;
+           Dark mode toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('light-mode');
+            const theme = document.body.classList.contains('light-mode') ? 'light' : 'dark';
+            localStorage.setItem('theme', theme);
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+        }
+
+        // Language switching
+        function setLanguage(lang) {
+            localStorage.setItem('language', lang);
+            document.getElementById('currentLang').textContent = lang.toUpperCase();
+            if (typeof updateTranslations === 'function') {
+                updateTranslations();
+            }
+        }
+
+        document.getElementById('langBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.querySelector('.language-switcher').classList.toggle('active');
+        });
+
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.language-switcher').forEach(s => s.classList.remove('active')r('click', () => {
                 document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 currentCategory = btn.dataset.category;

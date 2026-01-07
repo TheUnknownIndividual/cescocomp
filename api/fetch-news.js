@@ -69,24 +69,23 @@ function parseNewsCards(html) {
 async function scrapeAllNews() {
     console.log('🌱 Fetching news from renewables.az...');
     
-    const allNews = [];
-    
-    for (const category of CATEGORIES) {
+    // Fetch all categories in parallel for speed
+    const fetchPromises = CATEGORIES.map(async (category) => {
         try {
             const html = await fetchPage(category.url);
             const news = parseNewsCards(html);
             
             news.forEach(item => item.category = category.name);
-            allNews.push(...news);
-            
             console.log(`✓ ${category.name}: ${news.length} articles`);
-            
-            // Small delay to be respectful
-            await new Promise(resolve => setTimeout(resolve, 500));
+            return news;
         } catch (error) {
             console.error(`✗ Error fetching ${category.name}:`, error.message);
+            return [];
         }
-    }
+    });
+    
+    const results = await Promise.all(fetchPromises);
+    const allNews = results.flat();
     
     // Remove duplicates based on link
     const uniqueNews = Array.from(
