@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test News API</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .status {
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .loading { background: #fff3cd; color: #856404; }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #6f91a8;
+        }
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+        .articles {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .article {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .article:last-child { border-bottom: none; }
+        .article-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .article-meta {
+            font-size: 12px;
+            color: #666;
+        }
+        button {
+            background: #6f91a8;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        button:hover {
+            background: #5a7a8d;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 News API Test</h1>
+    
+    <button onclick="testAPI()">🔄 Test API</button>
+    
+    <div id="status" class="status loading">
+        Click "Test API" to check if the news fetching works
+    </div>
+    
+    <div id="stats" class="stats" style="display: none;"></div>
+    
+    <div id="articles" class="articles" style="display: none;"></div>
+    
+    <script>
+        async function testAPI() {
+            const statusEl = document.getElementById('status');
+            const statsEl = document.getElementById('stats');
+            const articlesEl = document.getElementById('articles');
+            
+            statusEl.className = 'status loading';
+            statusEl.textContent = '⏳ Fetching news from API...';
+            statsEl.style.display = 'none';
+            articlesEl.style.display = 'none';
+            
+            const startTime = Date.now();
+            
+            try {
+                const response = await fetch('/api/fetch-news');
+                const data = await response.json();
+                const loadTime = Date.now() - startTime;
+                
+                statusEl.className = 'status success';
+                statusEl.innerHTML = `
+                    ✅ <strong>API Working!</strong><br>
+                    Loaded in ${loadTime}ms<br>
+                    ${data.cached ? `📦 From cache (${Math.floor(data.cacheAge / 60)} minutes old)` : '🆕 Fresh scrape'}
+                `;
+                
+                // Show stats
+                statsEl.style.display = 'grid';
+                statsEl.innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-value">${data.totalArticles}</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${loadTime}ms</div>
+                        <div class="stat-label">Load Time</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${data.cached ? '📦' : '🆕'}</div>
+                        <div class="stat-label">${data.cached ? 'Cached' : 'Fresh'}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${new Date(data.lastUpdated).toLocaleTimeString()}</div>
+                        <div class="stat-label">Last Updated</div>
+                    </div>
+                `;
+                
+                // Show first 10 articles
+                articlesEl.style.display = 'block';
+                articlesEl.innerHTML = `
+                    <h3>Latest Articles (showing first 10)</h3>
+                    ${data.articles.slice(0, 10).map(article => `
+                        <div class="article">
+                            <div class="article-title">${article.title}</div>
+                            <div class="article-meta">
+                                ${article.category} • ${article.date || 'No date'} • 
+                                <a href="${article.link}" target="_blank">View on renewables.az →</a>
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
+                
+            } catch (error) {
+                statusEl.className = 'status error';
+                statusEl.innerHTML = `
+                    ❌ <strong>API Error</strong><br>
+                    ${error.message}<br>
+                    <br>
+                    This is normal when running locally. Deploy to Vercel to test the API.
+                `;
+                
+                console.error('API Error:', error);
+            }
+        }
+        
+        // Auto-test on load
+        window.addEventListener('load', () => {
+            setTimeout(testAPI, 500);
+        });
+    </script>
+</body>
+</html>

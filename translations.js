@@ -18,7 +18,8 @@ if (window.translationsInitialized) {
                 energyMap: "Energy Map",
                 laws: "Laws",
                 commitments: "Commitments",
-                investment: "Investment"
+                investment: "Investment",
+                news: "News"
             },
             hero: {
                 title1: "Azerbaijan's",
@@ -141,6 +142,30 @@ if (window.translationsInitialized) {
                 gwTarget: "GW Target by 2030",
                 resShare: "RES Share Target",
                 resLawEnacted: "RES Law Enacted"
+            },
+            news: {
+                title: "🌱 Renewable Energy News",
+                subtitle: "Latest developments in Azerbaijan's clean energy transition and global renewable innovations",
+                attribution: "News content curated from",
+                attributionNote: "All articles link to original source",
+                searchPlaceholder: "Search news articles...",
+                filterAll: "🌐 All News",
+                filterAzerbaijan: "🇦🇿 Azerbaijan",
+                filterRegion: "🌍 Region",
+                filterWorld: "🗺️ World",
+                filterSolar: "☀️ Solar",
+                filterWind: "💨 Wind",
+                filterHydro: "💧 Hydro",
+                noResults: "No articles found",
+                tryDifferent: "Try a different search term or category"
+            },
+            footer: {
+                powered: "Powered by CECSO - Clean Energy Compound System Observatory",
+                source: "News aggregated from",
+                home: "Home",
+                map: "Energy Map",
+                calculator: "Solar Calculator",
+                framework: "Framework"
             }
         },
         ru: {
@@ -154,7 +179,8 @@ if (window.translationsInitialized) {
                 energyMap: "Энергетическая карта",
                 laws: "Законы",
                 commitments: "Обязательства",
-                investment: "Инвестиции"
+                investment: "Инвестиции",
+                news: "Новости"
             },
             hero: {
                 title1: "Чистая энергия",
@@ -277,6 +303,30 @@ if (window.translationsInitialized) {
                 gwTarget: "Целевая мощность ГВт к 2030",
                 resShare: "Целевая доля ВИЭ",
                 resLawEnacted: "Закон о ВИЭ принят"
+            },
+            news: {
+                title: "🌱 Новости возобновляемой энергии",
+                subtitle: "Последние события в области перехода Азербайджана к чистой энергии и глобальные инновации в возобновляемой энергии",
+                attribution: "Новостной контент собран с",
+                attributionNote: "Все статьи ссылаются на исходный источник",
+                searchPlaceholder: "Поиск новостных статей...",
+                filterAll: "🌐 Все новости",
+                filterAzerbaijan: "🇦🇿 Азербайджан",
+                filterRegion: "🌍 Регион",
+                filterWorld: "🗺️ Мир",
+                filterSolar: "☀️ Солнечная",
+                filterWind: "💨 Ветровая",
+                filterHydro: "💧 Гидро",
+                noResults: "Статьи не найдены",
+                tryDifferent: "Попробуйте другой поисковый запрос или категорию"
+            },
+            footer: {
+                powered: "При поддержке CECSO - Обсерватория комплексных систем чистой энергии",
+                source: "Новости агрегированы с",
+                home: "Главная",
+                map: "Энергетическая карта",
+                calculator: "Солнечный калькулятор",
+                framework: "Нормативная база"
             }
         },
         az: {
@@ -290,6 +340,7 @@ if (window.translationsInitialized) {
                 energyMap: "Enerji Xəritəsi",
                 laws: "Qanunlar",
                 commitments: "Öhdəliklər",
+                news: "Xəbərlər",
                 investment: "İnvestisiya"
             },
             hero: {
@@ -413,6 +464,30 @@ if (window.translationsInitialized) {
                 gwTarget: "2030-cu ilə GW Hədəfi",
                 resShare: "BEM Payı Hədəfi",
                 resLawEnacted: "BEM Qanunu Qəbul Edilib"
+            },
+            news: {
+                title: "🌱 Bərpa Olunan Enerji Xəbərləri",
+                subtitle: "Azərbaycanın təmiz enerjiyə keçidində son inkişaflar və qlobal bərpa olunan enerji yenilikləri",
+                attribution: "Xəbər məzmunu aşağıdakı mənbədən toplanmışdır",
+                attributionNote: "Bütün məqalələr orijinal mənbəyə keçid verir",
+                searchPlaceholder: "Xəbər məqalələrini axtarın...",
+                filterAll: "🌐 Bütün Xəbərlər",
+                filterAzerbaijan: "🇦🇿 Azərbaycan",
+                filterRegion: "🌍 Region",
+                filterWorld: "🗺️ Dünya",
+                filterSolar: "☀️ Günəş",
+                filterWind: "💨 Külək",
+                filterHydro: "💧 Hidro",
+                noResults: "Heç bir məqalə tapılmadı",
+                tryDifferent: "Fərqli axtarış termini və ya kateqoriya sınayın"
+            },
+            footer: {
+                powered: "CECSO tərəfindən dəstəklənir - Təmiz Enerji Kompleks Sistem Rəsədxanası",
+                source: "Xəbərlər aşağıdakı mənbədən toplanıb",
+                home: "Əsas səhifə",
+                map: "Enerji Xəritəsi",
+                calculator: "Günəş Kalkulyatoru",
+                framework: "Tənzimləyici Çərçivə"
             }
         }
     };

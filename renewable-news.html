@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/tablogo.png">
+    <link rel="apple-touch-icon" href="/tablogo.png">
+
+    <!-- Primary Meta Tags -->
+    <title>Renewable Energy News - Plugin.az | Bərpa Olunan Enerji Xəbərləri</title>
+    <meta name="title" content="Azerbaijan Renewable Energy News - Plugin.az">
+    <meta name="description"
+        content="Latest renewable energy news from Azerbaijan and the world. Solar, wind, hydro developments, policy updates, and clean energy innovations. Curated from renewables.az">
+    <meta name="keywords"
+        content="Azerbaijan renewable energy news, bərpa olunan enerji xəbərləri, green energy news, solar news Azerbaijan, wind energy news, возобновляемая энергия новости">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://plugin.az/renewable-news">
+    <meta property="og:title" content="Azerbaijan Renewable Energy News - Plugin.az">
+    <meta property="og:description"
+        content="Stay updated with the latest renewable energy developments in Azerbaijan and globally.">
+    <meta property="og:image" content="https://plugin.az/tablogo.png">
+
+    <link rel="canonical" href="https://plugin.az/renewable-news">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --az-blue: #6f91a8;
+            --az-green: #509E2F;
+            --az-red: #EF3340;
+            --accent-bronze: #c68661;
+            --bg-dark: #0a0b0d;
+            --bg-darker: #0f1116;
+            --card-bg: #161719;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --accent-green: #27AE60;
+            --accent-blue: #6f91a8;
+            --gradient-primary: linear-gradient(135deg, var(--az-blue) 0%, var(--az-green) 100%);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        body.light-mode {
+            --bg-dark: #ffffff;
+            --bg-darker: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        /* Navigation */
+        nav {
+            background: transparent;
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode nav {
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-dropdown {
+            position: relative;
+        }
+
+        .lang-dropdown button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('test2.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 6rem 2rem 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.85);
+            max-width: 700px;
+        }
+
+        .attribution {
+            margin-top: 1.5rem;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .attribution p {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .attribution a {
+            color: var(--az-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .attribution a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Controls */
+        .controls {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        body.light-mode .controls {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .search-box::before {
+            content: '🔍';
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+        }
+
+        body.light-mode .search-box input {
+            border: 2px solid #e5e5e5;
+            background: #ffffff;
+            color: #1a1a1a;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--az-blue);
+            box-shadow: 0 0 0 3px rgba(111, 145, 168, 0.1);
+        }
+
+        .category-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .category-btn {
+            padding: 0.625rem 1.125rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        body.light-mode .category-btn {
+            border: 2px solid #e5e5e5;
+            background: #ffffff;
+            color: #525252;
+        }
+
+        .category-btn:hover {
+            border-color: var(--az-blue);
+            color: var(--az-blue);
+            transform: translateY(-2px);
+        }
+
+        .category-btn.active {
+            background: var(--az-blue);
+            color: white;
+            border-color: var(--az-blue);
+        }
+
+        /* News Grid */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .news-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body.light-mode .news-card {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .news-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--az-blue);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: var(--bg-darker);
+        }
+
+        .news-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .news-category {
+            background: rgba(111, 145, 168, 0.15);
+            color: var(--az-blue);
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .news-date {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .news-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            flex: 1;
+        }
+
+        .news-source {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        body.light-mode .news-source {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .external-link {
+            color: var(--az-blue);
+            font-weight: 600;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .no-results h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-darker);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        body.light-mode footer {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--az-blue);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-links a {
+                font-size: 0.85rem;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-filters {
+                justify-content: center;
+            }
+        }
+
+        .light-icon {
+            display: none !important;
+        }
+
+        .dark-icon {
+            display: block !important;
+        }
+
+        body.light-mode .light-icon {
+            display: block !important;
+        }
+
+        body.light-mode .dark-icon {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">PLUGIN.AZ</a>
+            <div class="nav-links">
+                <a href="/" data-translate="nav.home">Home</a>
+                <a href="/azerbaijan-rayon-energy-map.html" data-translate="nav.energyMap">Energy Map</a>
+                <a href="/solar-calculator.html" data-translate="nav.calculator">Solar Calculator</a>
+                <a href="/regulatory-framework.html" data-translate="nav.framework">Regulatory Framework</a>
+                <a href="/renewable-news.html" data-translate="nav.news">News</a>
+                <div class="lang-dropdown">
+                    <button id="langBtn">🌐 <span id="currentLang">EN</span></button>
+                </div>
+                <button class="theme-toggle" id="themeToggle">
+                    <span class="dark-icon">🌙</span>
+                    <span class="light-icon">☀️</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <h1 data-translate="news.title">🌱 Renewable Energy News</h1>
+        <p data-translate="news.subtitle">Latest developments in Azerbaijan's clean energy transition and global
+            renewable innovations</p>
+        <div class="attribution">
+            <p>
+                📰 <span data-translate="news.attribution">News content curated from</span>
+                <a href="https://renewables.az" target="_blank" rel="noopener">renewables.az</a>
+                <br>
+                <small data-translate="news.attributionNote">All articles link to original source</small>
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Controls -->
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" data-translate-placeholder="news.searchPlaceholder"
+                    placeholder="Search news articles...">
+            </div>
+            <div class="category-filters">
+                <button class="category-btn active" data-category="all" data-translate="news.filterAll">
+                    🌐 All News
+                </button>
+                <button class="category-btn" data-category="Azərbaycan" data-translate="news.filterAzerbaijan">
+                    🇦🇿 Azerbaijan
+                </button>
+                <button class="category-btn" data-category="Region" data-translate="news.filterRegion">
+                    🌍 Region
+                </button>
+                <button class="category-btn" data-category="Dünya" data-translate="news.filterWorld">
+                    🗺️ World
+                </button>
+                <button class="category-btn" data-category="Günəş" data-translate="news.filterSolar">
+                    ☀️ Solar
+                </button>
+                <button class="category-btn" data-category="Külək" data-translate="news.filterWind">
+                    💨 Wind
+                </button>
+                <button class="category-btn" data-category="Hidro" data-translate="news.filterHydro">
+                    💧 Hydro
+                </button>
+            </div>
+        </div>
+
+        <!-- News Grid -->
+        <div class="news-grid" id="newsGrid">
+            <!-- News cards will be dynamically loaded -->
+        </div>
+
+        <!-- No Results Message -->
+        <div class="no-results" id="noResults" style="display: none;">
+            <h3 data-translate="news.noResults">No articles found</h3>
+            <p data-translate="news.tryDifferent">Try a different search term or category</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p data-translate="footer.powered">Powered by CECSO - Clean Energy Compound System Observatory</p>
+            <p data-translate="footer.source">News aggregated from <a href="https://renewables.az" target="_blank"
+                    rel="noopener">renewables.az</a></p>
+            <div class="footer-links">
+                <a href="/" data-translate="footer.home">Home</a>
+                <a href="/azerbaijan-rayon-energy-map.html" data-translate="footer.map">Energy Map</a>
+                <a href="/solar-calculator.html" data-translate="footer.calculator">Solar Calculator</a>
+                <a href="/regulatory-framework.html" data-translate="footer.framework">Framework</a>
+            </div>
+            <p style="margin-top: 1.5rem; font-size: 0.85rem;">© 2026 Plugin.az - COP29 Clean Energy Initiative</p>
+        </div>
+    </footer>
+
+    <!-- Load translations first -->
+    <script src="/translations.js"></script>
+
+    <!-- Main Script -->
+    <script>
+        let newsData = [];
+        let currentCategory = 'all';
+        let currentSearchTerm = '';
+
+        // Load news data dynamically from API
+        async function loadNews() {
+            const newsGrid = document.getElementById('newsGrid');
+            
+            // Show loading state
+            newsGrid.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 4rem 2rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🔄</div>
+                    <p style="color: var(--text-secondary);">Loading latest renewable energy news...</p>
+                </div>
+            `;
+            
+            try {
+                // Try API endpoint first (for dynamic updates)
+                const response = await fetch('/api/fetch-news');
+                const data = await response.json();
+                
+                newsData = data.articles;
+                
+                // Show cache status in console
+                if (data.cached) {
+                    const age = data.cacheAge ? `${Math.floor(data.cacheAge / 60)} min ago` : 'unknown age';
+                    console.log(`📰 Using cached news (${age})`);
+                } else {
+                    console.log('📰 Fresh news loaded from renewables.az');
+                }
+                
+                renderNews();
+                
+            } catch (error) {
+                console.warn('API fetch failed, falling back to static JSON:', error);
+                
+                // Fallback to static JSON file
+                try {
+                    const response = await fetch('/news-data.json');
+                    const data = await response.json();
+                    newsData = data.articles;
+                    console.log('📰 Loaded news from static file');
+                    renderNews();
+                } catch (fallbackError) {
+                    console.error('Error loading news from both sources:', fallbackError);
+                    newsGrid.innerHTML =
+                        '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">Unable to load news at this time. Please try again later.</p>';
+                }
+            }
+        }
+
+        // Render news cards
+        function renderNews() {
+            const grid = document.getElementById('newsGrid');
+            const noResults = document.getElementById('noResults');
+
+            // Filter news
+            let filteredNews = newsData;
+
+            // Apply category filter
+            if (currentCategory !== 'all') {
+                filteredNews = filteredNews.filter(article =>
+                    article.category === currentCategory
+                );
+            }
+
+            // Apply search filter
+            if (currentSearchTerm) {
+                filteredNews = filteredNews.filter(article =>
+                    article.title.toLowerCase().includes(currentSearchTerm.toLowerCase())
+                );
+            }
+
+            // Show/hide no results message
+            if (filteredNews.length === 0) {
+                grid.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            } else {
+                grid.style.display = 'grid';
+                noResults.style.display = 'none';
+            }
+
+            // Render cards
+            grid.innerHTML = filteredNews.map(article => `
+                <a href="${article.link}" target="_blank" rel="noopener" class="news-card">
+                    ${article.image ? `<img src="${article.image}" alt="${article.title}" class="news-image" loading="lazy">` : '<div class="news-image" style="background: var(--bg-darker); display: flex; align-items: center; justify-content: center; font-size: 3rem;">📰</div>'}
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <span class="news-category">${article.category}</span>
+                            ${article.date ? `<span class="news-date">📅 ${article.date}</span>` : ''}
+                        </div>
+                        <h3 class="news-title">${article.title}</h3>
+                        <div class="news-source">
+                            <span>${article.source}</span>
+                            <span class="external-link">Read more →</span>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        // Category filter
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentCategory = btn.dataset.category;
+                renderNews();
+            });
+        });
+
+        // Search
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            currentSearchTerm = e.target.value;
+            renderNews();
+        });
+
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            const theme = document.body.classList.contains('light-mode') ? 'light' : 'dark';
+            localStorage.setItem('theme', theme);
+        });
+
+        // Language switching
+        const langBtn = document.getElementById('langBtn');
+        const currentLangSpan = document.getElementById('currentLang');
+
+        langBtn.addEventListener('click', () => {
+            const currentLang = localStorage.getItem('language') || 'en';
+            const langs = ['en', 'az', 'ru'];
+            const currentIndex = langs.indexOf(currentLang);
+            const nextLang = langs[(currentIndex + 1) % langs.length];
+
+            localStorage.setItem('language', nextLang);
+            currentLangSpan.textContent = nextLang.toUpperCase();
+            updateTranslations();
+        });
+
+        // Update current language display
+        const lang = localStorage.getItem('language') || 'en';
+        currentLangSpan.textContent = lang.toUpperCase();
+
+        // Initialize
+        loadNews();
+        updateTranslations();
+    </script>
+</body>
+
+</html>
