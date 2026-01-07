@@ -84,13 +84,13 @@ articles.forEach((article, index) => {
         ARTICLE_DATE: article.date || 'Recent',
         ARTICLE_DATE_ISO: formatDateISO(article.date),
         ARTICLE_IMAGE: article.image || '/tablogo.png',
-        ARTICLE_EXCERPT: createExcerpt(article.title),
+        ARTICLE_EXCERPT: article.excerpt || createExcerpt(article.title),
         ARTICLE_KEYWORDS: extractKeywords(article.title, article.category || 'renewable energy'),
         ORIGINAL_LINK: article.link,
-        ARTICLE_CONTENT: `
+        ARTICLE_CONTENT: article.content || `
             <p>${article.title}</p>
-            <p>This article provides important updates on renewable energy developments in Azerbaijan and the region.</p>
-            <p>For the full article content, please visit the original source linked below.</p>
+            <p>Bu xəbər Azərbaycanda bərpa olunan enerji sahəsində mühüm inkişaflar haqqında məlumat verir.</p>
+            <p>Ətraflı məlumat üçün aşağıdakı orijinal mənbəyə baxın.</p>
         `
     };
 
