@@ -975,7 +975,33 @@
             document.getElementById('modalImage').style.display = article.image ? 'block' : 'none';
             document.getElementById('modalTitle').textContent = article.title;
             document.getElementById('modalCategory').textContent = article.category;
-           Dark mode toggle
+            document.getElementById('modalDate').textContent = article.date || '';
+            document.getElementById('modalSource').textContent = article.source || 'renewables.az';
+            document.getElementById('modalLink').href = article.link;
+
+            document.getElementById('newsModal').style.display = 'flex';
+            setTimeout(() => {
+                document.getElementById('newsModal').classList.add('active');
+            }, 10);
+        }
+
+        // Close modal
+        function closeModal() {
+            const modal = document.getElementById('newsModal');
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        }
+
+        // Close on outside click
+        document.getElementById('newsModal').addEventListener('click', (e) => {
+            if (e.target.id === 'newsModal') {
+                closeModal();
+            }
+        });
+
+        // Dark mode toggle
         function toggleDarkMode() {
             document.body.classList.toggle('light-mode');
             const theme = document.body.classList.contains('light-mode') ? 'light' : 'dark';
@@ -1003,7 +1029,12 @@
         });
 
         document.addEventListener('click', () => {
-            document.querySelectorAll('.language-switcher').forEach(s => s.classList.remove('active')r('click', () => {
+            document.querySelectorAll('.language-switcher').forEach(s => s.classList.remove('active'));
+        });
+
+        // Category filtering
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
                 document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 currentCategory = btn.dataset.category;
@@ -1019,11 +1050,6 @@
 
         // Theme toggle
         const themeToggle = document.getElementById('themeToggle');
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'light') {
-            document.body.classList.add('light-mode');
-        }
-
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('light-mode');
             const theme = document.body.classList.contains('light-mode') ? 'light' : 'dark';
