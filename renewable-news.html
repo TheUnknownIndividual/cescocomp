@@ -159,37 +159,165 @@
             width: 100%;
         }
 
-        .theme-toggle {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 10px;
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
             cursor: pointer;
-            transition: all 0.3s ease;
-            color: var(--text-primary);
-            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        .theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .dark-mode-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 6px 20px rgba(0, 153, 204, 0.3);
         }
 
-        .lang-dropdown {
+        .dark-mode-toggle:active {
+            transform: scale(0.95) rotate(-15deg);
+        }
+
+        .dark-mode-toggle img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: absolute;
+        }
+
+        .dark-mode-toggle .light-icon {
+            opacity: 0;
+            transform: rotate(180deg) scale(0);
+        }
+
+        .dark-mode-toggle .dark-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        body.light-mode .dark-mode-toggle {
+            border-color: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .dark-mode-toggle .light-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        body.light-mode .dark-mode-toggle .dark-icon {
+            opacity: 0;
+            transform: rotate(-180deg) scale(0);
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .dark-mode-toggle::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--az-blue);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .dark-mode-toggle.clicked::after {
+            animation: ripple 0.6s ease-out;
+        }
+
+        /* Language Switcher */
+        .language-switcher {
             position: relative;
         }
 
-        .lang-dropdown button {
+        .lang-btn {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: var(--text-primary);
             padding: 0.5rem 1rem;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        body.light-mode .lang-btn {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .lang-btn:hover {
+            background: rgba(111, 145, 168, 0.2);
+            border-color: var(--az-blue);
+        }
+
+        .lang-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.5rem;
+            min-width: 120px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        body.light-mode .lang-dropdown {
+            background: white;
+            border-color: rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .language-switcher.active .lang-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-dropdown button {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            padding: 0.75rem 1rem;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 6px;
             transition: all 0.2s ease;
             font-size: 0.9rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+        }
+
+        .lang-dropdown button:hover {
+            background: rgba(111, 145, 168, 0.2);
         }
 
         /* Page Header */
@@ -643,6 +771,109 @@
         body.light-mode .dark-mode-logo {
             display: none !important;
         }
+
+        /* Mobile Menu Styles */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 10000;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 400px;
+            height: 100vh;
+            background: var(--card-bg);
+            padding: 5rem 2rem 2rem;
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 1rem 0;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.2s ease;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--az-blue);
+            padding-left: 0.5rem;
+        }
+
+        .mobile-controls {
+            display: flex;
+            gap: 1rem;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
     </style>
 </head>
 
@@ -650,30 +881,36 @@
     <!-- Navigation -->
     <nav>
         <div class="nav-container">
-            <a href="/" class="logo">
+            <div class="logo">
                 <img src="pluginlogo.png" alt="Plugin.az" class="logo-img dark-mode-logo"
                     style="height: 50px; width: auto;">
                 <img src="lightmodeplugin.png" alt="Plugin.az" class="logo-img light-mode-logo"
-                    style="height: 50px; width: auto;">
-            </a>
+                    style="height: 50px; width: auto; display: none;">
+            </div>
 
             <!-- Desktop Navigation -->
             <div class="nav-links">
-                <a href="/" data-translate="nav.home">Home</a>
-                <a href="/azerbaijan-rayon-energy-map.html" data-translate="nav.energyMap">Energy Map</a>
-                <a href="/solar-calculator.html" data-translate="nav.calculator">Solar Calculator</a>
-                <a href="/regulatory-framework.html" data-translate="nav.framework">Regulatory Framework</a>
-                <a href="/renewable-news.html" data-translate="nav.news">News</a>
+                <a href="/" data-i18n="nav.home">Home</a>
+                <a href="#map" data-i18n="nav.map">Interactive Map</a>
+                <a href="/solar-calculator" data-i18n="nav.calculator">Solar Calculator</a>
+                <a href="/regulatory-framework" data-i18n="nav.framework">Regulatory Framework</a>
+                <a href="/renewable-news" data-i18n="nav.news">News</a>
 
                 <!-- Language Switcher -->
-                <div class="lang-dropdown">
-                    <button id="langBtn">🌐 <span id="currentLang">EN</span></button>
+                <div class="language-switcher">
+                    <button class="lang-btn" id="currentLang">EN</button>
+                    <div class="lang-dropdown">
+                        <button onclick="setLanguage('en')">🇬🇧 EN</button>
+                        <button onclick="setLanguage('ru')">🇷🇺 RU</button>
+                        <button onclick="setLanguage('az')">🇦🇿 AZ</button>
+                    </div>
                 </div>
 
                 <!-- Dark Mode Toggle -->
-                <button class="theme-toggle" id="themeToggle">
-                    <span class="dark-icon">🌙</span>
-                    <span class="light-icon">☀️</span>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Light/Dark Mode"
+                    aria-label="Toggle Light/Dark Mode">
+                    <img src="lightmode.png" alt="Light Mode" class="light-icon">
+                    <img src="darkmode.png" alt="Dark Mode" class="dark-icon">
                 </button>
             </div>
 
@@ -691,38 +928,42 @@
 
     <!-- Mobile Menu -->
     <div class="mobile-menu">
-        <a href="/" data-translate="nav.home" onclick="toggleMobileMenu()">Home</a>
-        <a href="/azerbaijan-rayon-energy-map.html" data-translate="nav.energyMap" onclick="toggleMobileMenu()">Energy
-            Map</a>
-        <a href="/solar-calculator.html" data-translate="nav.calculator" onclick="toggleMobileMenu()">Solar
-            Calculator</a>
-        <a href="/regulatory-framework.html" data-translate="nav.framework" onclick="toggleMobileMenu()">Regulatory
-            Framework</a>
-        <a href="/renewable-news.html" data-translate="nav.news" onclick="toggleMobileMenu()">News</a>
+        <a href="/" data-i18n="nav.home" onclick="toggleMobileMenu()">Home</a>
+        <a href="#map" data-i18n="nav.map" onclick="toggleMobileMenu()">Interactive Map</a>
+        <a href="/solar-calculator" data-i18n="nav.calculator" onclick="toggleMobileMenu()">Solar Calculator</a>
+        <a href="/regulatory-framework" data-i18n="nav.framework" onclick="toggleMobileMenu()">Regulatory Framework</a>
+        <a href="/renewable-news" data-i18n="nav.news" onclick="toggleMobileMenu()">News</a>
 
+        <!-- Language Switcher and Dark Mode Toggle on Same Level -->
         <div class="mobile-controls">
-            <div class="lang-dropdown">
-                <button id="langBtnMobile">🌐 <span id="currentLangMobile">EN</span></button>
+            <div class="language-switcher">
+                <button class="lang-btn" id="currentLangMobile">EN</button>
+                <div class="lang-dropdown">
+                    <button onclick="setLanguage('en'); toggleMobileMenu();">🇬🇧 EN</button>
+                    <button onclick="setLanguage('ru'); toggleMobileMenu();">🇷🇺 RU</button>
+                    <button onclick="setLanguage('az'); toggleMobileMenu();">🇦🇿 AZ</button>
+                </div>
             </div>
 
-            <button class="theme-toggle" id="themeToggleMobile">
-                <span class="dark-icon">🌙</span>
-                <span class="light-icon">☀️</span>
+            <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Light/Dark Mode"
+                aria-label="Toggle Light/Dark Mode">
+                <img src="lightmode.png" alt="Light Mode" class="light-icon">
+                <img src="darkmode.png" alt="Dark Mode" class="dark-icon">
             </button>
         </div>
     </div>
 
     <!-- Page Header -->
     <header class="page-header">
-        <h1 data-translate="news.title">🌱 Renewable Energy News</h1>
-        <p data-translate="news.subtitle">Latest developments in Azerbaijan's clean energy transition and global
+        <h1 data-i18n="news.title">🌱 Renewable Energy News</h1>
+        <p data-i18n="news.subtitle">Latest developments in Azerbaijan's clean energy transition and global
             renewable innovations</p>
         <div class="attribution">
             <p>
-                📰 <span data-translate="news.attribution">News content curated from</span>
+                📰 <span data-i18n="news.attribution">News content curated from</span>
                 <a href="https://renewables.az" target="_blank" rel="noopener">renewables.az</a>
                 <br>
-                <small data-translate="news.attributionNote">All articles link to original source</small>
+                <small data-i18n="news.attributionNote">All articles link to original source</small>
             </p>
         </div>
     </header>
@@ -732,29 +973,29 @@
         <!-- Controls -->
         <div class="controls">
             <div class="search-box">
-                <input type="text" id="searchInput" data-translate-placeholder="news.searchPlaceholder"
+                <input type="text" id="searchInput" data-i18n-placeholder="news.searchPlaceholder"
                     placeholder="Search news articles...">
             </div>
             <div class="category-filters">
-                <button class="category-btn active" data-category="all" data-translate="news.filterAll">
+                <button class="category-btn active" data-category="all" data-i18n="news.filterAll">
                     🌐 All News
                 </button>
-                <button class="category-btn" data-category="Azərbaycan" data-translate="news.filterAzerbaijan">
+                <button class="category-btn" data-category="Azərbaycan" data-i18n="news.filterAzerbaijan">
                     🇦🇿 Azerbaijan
                 </button>
-                <button class="category-btn" data-category="Region" data-translate="news.filterRegion">
+                <button class="category-btn" data-category="Region" data-i18n="news.filterRegion">
                     🌍 Region
                 </button>
-                <button class="category-btn" data-category="Dünya" data-translate="news.filterWorld">
+                <button class="category-btn" data-category="Dünya" data-i18n="news.filterWorld">
                     🗺️ World
                 </button>
-                <button class="category-btn" data-category="Günəş" data-translate="news.filterSolar">
+                <button class="category-btn" data-category="Günəş" data-i18n="news.filterSolar">
                     ☀️ Solar
                 </button>
-                <button class="category-btn" data-category="Külək" data-translate="news.filterWind">
+                <button class="category-btn" data-category="Külək" data-i18n="news.filterWind">
                     💨 Wind
                 </button>
-                <button class="category-btn" data-category="Hidro" data-translate="news.filterHydro">
+                <button class="category-btn" data-category="Hidro" data-i18n="news.filterHydro">
                     💧 Hydro
                 </button>
             </div>
@@ -767,22 +1008,22 @@
 
         <!-- No Results Message -->
         <div class="no-results" id="noResults" style="display: none;">
-            <h3 data-translate="news.noResults">No articles found</h3>
-            <p data-translate="news.tryDifferent">Try a different search term or category</p>
+            <h3 data-i18n="news.noResults">No articles found</h3>
+            <p data-i18n="news.tryDifferent">Try a different search term or category</p>
         </div>
     </main>
 
     <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <p data-translate="footer.powered">Powered by CECSO - Clean Energy Compound System Observatory</p>
-            <p data-translate="footer.source">News aggregated from <a href="https://renewables.az" target="_blank"
+            <p data-i18n="footer.powered">Powered by CECSO - Clean Energy Compound System Observatory</p>
+            <p data-i18n="footer.source">News aggregated from <a href="https://renewables.az" target="_blank"
                     rel="noopener">renewables.az</a></p>
             <div class="footer-links">
-                <a href="/" data-translate="footer.home">Home</a>
-                <a href="/azerbaijan-rayon-energy-map.html" data-translate="footer.map">Energy Map</a>
-                <a href="/solar-calculator.html" data-translate="footer.calculator">Solar Calculator</a>
-                <a href="/regulatory-framework.html" data-translate="footer.framework">Framework</a>
+                <a href="/" data-i18n="footer.home">Home</a>
+                <a href="/azerbaijan-rayon-energy-map.html" data-i18n="footer.map">Energy Map</a>
+                <a href="/solar-calculator.html" data-i18n="footer.calculator">Solar Calculator</a>
+                <a href="/regulatory-framework.html" data-i18n="footer.framework">Framework</a>
             </div>
             <p style="margin-top: 1.5rem; font-size: 0.85rem;">© 2026 Plugin.az - COP29 Clean Energy Initiative</p>
         </div>
@@ -796,6 +1037,78 @@
         let newsData = [];
         let currentCategory = 'all';
         let currentSearchTerm = '';
+        let translationCache = {}; // Cache translations to avoid repeated API calls
+
+        // Simple translation function using MyMemory Translation API (free, no API key needed)
+        async function translateText(text, targetLang) {
+            // Don't translate if already in target language or if target is Azerbaijani (original)
+            if (targetLang === 'az') return text;
+            
+            // Check cache first
+            const cacheKey = `${text}_${targetLang}`;
+            if (translationCache[cacheKey]) {
+                return translationCache[cacheKey];
+            }
+
+            try {
+                const sourceLang = 'az'; // News titles are in Azerbaijani
+                const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceLang}|${targetLang}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.responseStatus === 200 && data.responseData.translatedText) {
+                    const translated = data.responseData.translatedText;
+                    translationCache[cacheKey] = translated;
+                    return translated;
+                }
+            } catch (error) {
+                console.warn('Translation failed for:', text, error);
+            }
+            
+            // Return original text if translation fails
+            return text;
+        }
+
+        // Translate category names
+        const categoryTranslations = {
+            'Azərbaycan': {
+                en: 'Azerbaijan',
+                ru: 'Азербайджан',
+                az: 'Azərbaycan'
+            },
+            'Region': {
+                en: 'Region',
+                ru: 'Регион',
+                az: 'Region'
+            },
+            'Dünya': {
+                en: 'World',
+                ru: 'Мир',
+                az: 'Dünya'
+            },
+            'Günəş': {
+                en: 'Solar',
+                ru: 'Солнечная',
+                az: 'Günəş'
+            },
+            'Külək': {
+                en: 'Wind',
+                ru: 'Ветровая',
+                az: 'Külək'
+            },
+            'Hidro': {
+                en: 'Hydro',
+                ru: 'Гидро',
+                az: 'Hidro'
+            }
+        };
+
+        function translateCategory(category, lang) {
+            if (categoryTranslations[category] && categoryTranslations[category][lang]) {
+                return categoryTranslations[category][lang];
+            }
+            return category;
+        }
 
         // Load news data dynamically from API
         async function loadNews() {
@@ -845,9 +1158,10 @@
         }
 
         // Render news cards
-        function renderNews() {
+        async function renderNews() {
             const grid = document.getElementById('newsGrid');
             const noResults = document.getElementById('noResults');
+            const currentLang = localStorage.getItem('language') || 'en';
 
             // Filter news
             let filteredNews = newsData;
@@ -876,8 +1190,8 @@
                 noResults.style.display = 'none';
             }
 
-            // Render cards - Link to internal article pages for SEO
-            grid.innerHTML = filteredNews.map(article => {
+            // Render cards with translation
+            const cardsHTML = await Promise.all(filteredNews.map(async article => {
                 const slug = article.title
                     .toLowerCase()
                     .replace(/[^\w\s-]/g, '')
@@ -886,16 +1200,22 @@
                     .trim()
                     .substring(0, 100);
 
+                // Translate title if not in Azerbaijani
+                const translatedTitle = currentLang !== 'az' ? await translateText(article.title, currentLang) : article.title;
+                
+                // Translate category
+                const translatedCategory = translateCategory(article.category, currentLang);
+
                 return `
                 <div class="news-card">
                     <a href="/news/${slug}.html" style="text-decoration: none; color: inherit;">
-                        ${article.image ? `<img src="${article.image}" alt="${article.title}" class="news-image" loading="lazy">` : '<div class="news-image" style="background: var(--bg-darker); display: flex; align-items: center; justify-content: center; font-size: 3rem;">📰</div>'}
+                        ${article.image ? `<img src="${article.image}" alt="${translatedTitle}" class="news-image" loading="lazy">` : '<div class="news-image" style="background: var(--bg-darker); display: flex; align-items: center; justify-content: center; font-size: 3rem;">📰</div>'}
                         <div class="news-content">
                             <div class="news-meta">
-                                <span class="news-category">${article.category}</span>
+                                <span class="news-category">${translatedCategory}</span>
                                 ${article.date ? `<span class="news-date">📅 ${article.date}</span>` : ''}
                             </div>
-                            <h3 class="news-title">${article.title}</h3>
+                            <h3 class="news-title">${translatedTitle}</h3>
                         </div>
                     </a>
                     <div class="news-source" style="padding: 0 1.5rem 1.5rem;">
@@ -904,7 +1224,9 @@
                     </div>
                 </div>
             `;
-            }).join('');
+            }));
+            
+            grid.innerHTML = cardsHTML.join('');
         }
 
         // Category filter
@@ -924,24 +1246,30 @@
         });
 
         // Theme toggle
-        const themeToggle = document.getElementById('themeToggle');
-        const themeToggleMobile = document.getElementById('themeToggleMobile');
-        const savedTheme = localStorage.getItem('theme');
+        function toggleDarkMode() {
+            const body = document.body;
+            const toggles = document.querySelectorAll('.dark-mode-toggle');
+
+            // Add ripple effect to all toggles
+            toggles.forEach(toggle => {
+                toggle.classList.add('clicked');
+                setTimeout(() => {
+                    toggle.classList.remove('clicked');
+                }, 600);
+            });
+
+            // Toggle light mode (default is dark)
+            body.classList.toggle('light-mode');
+
+            // Save preference to localStorage
+            const isLight = body.classList.contains('light-mode');
+            localStorage.setItem('themeMode', isLight ? 'light' : 'dark');
+        }
+
+        // Initialize theme on page load
+        const savedTheme = localStorage.getItem('themeMode');
         if (savedTheme === 'light') {
             document.body.classList.add('light-mode');
-        }
-
-        function toggleTheme() {
-            document.body.classList.toggle('light-mode');
-            const theme = document.body.classList.contains('light-mode') ? 'light' : 'dark';
-            localStorage.setItem('theme', theme);
-        }
-
-        if (themeToggle) {
-            themeToggle.addEventListener('click', toggleTheme);
-        }
-        if (themeToggleMobile) {
-            themeToggleMobile.addEventListener('click', toggleTheme);
         }
 
         // Mobile menu toggle
@@ -954,42 +1282,35 @@
                 menu.classList.toggle('active');
                 overlay.classList.toggle('active');
                 btn.classList.toggle('active');
+                
+                // Prevent body scroll when menu is open
+                if (menu.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
             }
         }
 
-        // Language switching
-        const langBtn = document.getElementById('langBtn');
-        const langBtnMobile = document.getElementById('langBtnMobile');
-        const currentLangSpan = document.getElementById('currentLang');
-        const currentLangMobileSpan = document.getElementById('currentLangMobile');
-
-        function switchLanguage() {
-            const currentLang = localStorage.getItem('language') || 'en';
-            const langs = ['en', 'az', 'ru'];
-            const currentIndex = langs.indexOf(currentLang);
-            const nextLang = langs[(currentIndex + 1) % langs.length];
-
-            localStorage.setItem('language', nextLang);
-            if (currentLangSpan) currentLangSpan.textContent = nextLang.toUpperCase();
-            if (currentLangMobileSpan) currentLangMobileSpan.textContent = nextLang.toUpperCase();
-            updateTranslations();
-        }
-
-        if (langBtn) {
-            langBtn.addEventListener('click', switchLanguage);
-        }
-        if (langBtnMobile) {
-            langBtnMobile.addEventListener('click', switchLanguage);
-        }
-
-        // Update current language display
-        const lang = localStorage.getItem('language') || 'en';
-        if (currentLangSpan) currentLangSpan.textContent = lang.toUpperCase();
-        if (currentLangMobileSpan) currentLangMobileSpan.textContent = lang.toUpperCase();
+        // Language switching - remove old implementation
+        // The new implementation is in translations.js which is loaded at the bottom
+        
+        // Listen for language changes to re-render news with translations
+        window.addEventListener('languageChanged', () => {
+            renderNews();
+        });
 
         // Initialize - Load news immediately to reduce perceived loading time
         loadNews();
-        updateTranslations();
+        
+        // Initialize language display after translations.js loads
+        setTimeout(() => {
+            const lang = localStorage.getItem('language') || 'en';
+            const currentLangSpan = document.getElementById('currentLang');
+            const currentLangMobileSpan = document.getElementById('currentLangMobile');
+            if (currentLangSpan) currentLangSpan.textContent = lang.toUpperCase();
+            if (currentLangMobileSpan) currentLangMobileSpan.textContent = lang.toUpperCase();
+        }, 100);
     </script>
 </body>
 

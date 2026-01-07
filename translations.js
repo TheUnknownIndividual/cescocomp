@@ -604,6 +604,9 @@ if (window.translationsInitialized) {
         // Close dropdown
         const switchers = document.querySelectorAll('.language-switcher');
         switchers.forEach(s => s.classList.remove('active'));
+        
+        // Dispatch custom event for language change (for news page to re-render)
+        window.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: lang } }));
     }
     window.setLanguage = setLanguage;
 
