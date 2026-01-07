@@ -861,6 +861,8 @@
                 </div>
             `;
             
+            console.log('🌱 Fetching news from renewables.az...');
+            
             try {
                 // Try API endpoint first (for dynamic updates)
                 const response = await fetch('/api/fetch-news');
@@ -868,13 +870,23 @@
                 
                 newsData = data.articles;
                 
-                // Show cache status in console
+                // Show cache status and article count
                 if (data.cached) {
                     const age = data.cacheAge ? `${Math.floor(data.cacheAge / 60)} min ago` : 'unknown age';
                     console.log(`📰 Using cached news (${age})`);
                 } else {
-                    console.log('📰 Fresh news loaded from renewables.az');
+                    console.log('✅ Fresh news loaded from renewables.az');
                 }
+                
+                // Log article counts by category
+                const categories = ['Azərbaycan', 'Region', 'Dünya', 'Günəş', 'Külək', 'Hidro'];
+                categories.forEach(cat => {
+                    const count = newsData.filter(a => a.category === cat).length;
+                    if (count > 0) {
+                        console.log(`✓ ${cat}: ${count} articles`);
+                    }
+                });
+                console.log(`✅ Fetched ${data.totalArticles} articles`);
                 
                 renderNews();
                 
