@@ -1,0 +1,84 @@
+name: Auto Update News Articles
+
+on:
+  schedule:
+    # Run every Monday at 9:00 AM (UTC+4 = 05:00 UTC)
+    - cron: '0 5 * * 1'
+  
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  update-news:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: 📰 Fetch latest news with full content
+        run: |
+          echo "Fetching latest news from renewables.az..."
+          node scraper/fetch-full-articles.js
+      
+      - name: 📄 Generate article pages
+        run: |
+          echo "Generating SEO-optimized article pages..."
+          node generate-news-pages.js
+      
+      - name: 🗺️ Update sitemap
+        run: |
+          echo "Updating sitemap.xml..."
+          node update-sitemap.js
+      
+      - name: 📊 Count articles
+        id: count
+        run: |
+          ARTICLE_COUNT=$(ls -1 news/*.html 2>/dev/null | wc -l | tr -d ' ')
+          echo "count=$ARTICLE_COUNT" >> $GITHUB_OUTPUT
+          echo "Found $ARTICLE_COUNT articles"
+      
+      - name: 📦 Commit changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add news/ news-data.json sitemap.xml
+          git diff --staged --quiet || git commit -m "chore: Auto-update news articles - ${{ steps.count.outputs.count }} articles
+
+          - Fetched latest news from renewables.az (automated)
+          - Generated ${{ steps.count.outputs.count }} SEO-optimized pages
+          - Updated sitemap.xml
+          - Full article content with proper attribution
+          
+          Automated update: $(date '+%Y-%m-%d %H:%M:%S UTC')"
+      
+      - name: 🚀 Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+      
+      - name: 🔔 Notify completion
+        run: |
+          echo "✅ News update complete!"
+          echo "📊 Total articles: ${{ steps.count.outputs.count }}"
+          echo "🌐 Vercel will auto-deploy in ~2-3 minutes"
+      
+      - name: 📡 Ping Google for sitemap
+        run: |
+          echo "Notifying Google about sitemap update..."
+          curl -s "https://www.google.com/ping?sitemap=https://plugin.az/sitemap.xml" || true
+          echo "✅ Google notified"
+      
+      - name: 📡 Ping Bing for sitemap
+        run: |
+          echo "Notifying Bing about sitemap update..."
+          curl -s "https://www.bing.com/ping?sitemap=https://plugin.az/sitemap.xml" || true
+          echo "✅ Bing notified"

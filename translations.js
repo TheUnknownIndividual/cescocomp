@@ -157,7 +157,15 @@ if (window.translationsInitialized) {
                 filterWind: "💨 Wind",
                 filterHydro: "💧 Hydro",
                 noResults: "No articles found",
-                tryDifferent: "Try a different search term or category"
+                tryDifferent: "Try a different search term or category",
+                backToNews: "Back to News",
+                sourceAttribution: "Article Source & Attribution",
+                originallyPublished: "This article was originally published on",
+                curatedText: "Plugin.az curates and aggregates renewable energy news from trusted sources to provide comprehensive coverage of Azerbaijan's clean energy sector. All credit goes to the original authors and publishers.",
+                readOriginal: "Read the original article:",
+                relatedArticles: "Related Articles",
+                noRelated: "No related articles found.",
+                recent: "Recent"
             },
             footer: {
                 powered: "Powered by CECSO - Clean Energy Compound System Observatory",
@@ -318,7 +326,15 @@ if (window.translationsInitialized) {
                 filterWind: "💨 Ветровая",
                 filterHydro: "💧 Гидро",
                 noResults: "Статьи не найдены",
-                tryDifferent: "Попробуйте другой поисковый запрос или категорию"
+                tryDifferent: "Попробуйте другой поисковый запрос или категорию",
+                backToNews: "Назад к новостям",
+                sourceAttribution: "Источник статьи и атрибуция",
+                originallyPublished: "Эта статья была первоначально опубликована на",
+                curatedText: "Plugin.az собирает и агрегирует новости о возобновляемой энергии из надежных источников для всестороннего освещения сектора чистой энергетики Азербайджана. Все права принадлежат оригинальным авторам и издателям.",
+                readOriginal: "Читать оригинальную статью:",
+                relatedArticles: "Связанные статьи",
+                noRelated: "Похожие статьи не найдены.",
+                recent: "Недавно"
             },
             footer: {
                 powered: "При поддержке CECSO - Обсерватория комплексных систем чистой энергии",
@@ -479,7 +495,15 @@ if (window.translationsInitialized) {
                 filterWind: "💨 Külək",
                 filterHydro: "💧 Hidro",
                 noResults: "Heç bir məqalə tapılmadı",
-                tryDifferent: "Fərqli axtarış termini və ya kateqoriya sınayın"
+                tryDifferent: "Fərqli axtarış termini və ya kateqoriya sınayın",
+                backToNews: "Xəbərlərə qayıt",
+                sourceAttribution: "Məqalənin Mənbəyi və İstinad",
+                originallyPublished: "Bu məqalə ilk dəfə nəşr olunub",
+                curatedText: "Plugin.az Azərbaycanın təmiz enerji sektorunun hərtərəfli əhatəsini təmin etmək üçün etibarlı mənbələrdən bərpa olunan enerji xəbərlərini toplayır və təqdim edir. Bütün kreditlər orijinal müəlliflərə və naşirlərə aiddir.",
+                readOriginal: "Orijinal məqaləni oxuyun:",
+                relatedArticles: "Əlaqəli Məqalələr",
+                noRelated: "Əlaqəli məqalə tapılmadı.",
+                recent: "Son"
             },
             footer: {
                 powered: "CECSO tərəfindən dəstəklənir - Təmiz Enerji Kompleks Sistem Rəsədxanası",
@@ -598,7 +622,27 @@ if (window.translationsInitialized) {
                 element.textContent = translation;
             }
         });
+
+        // Also update elements with data-translate attribute (alternative)
+        document.querySelectorAll('[data-translate]').forEach(element => {
+            const keys = element.getAttribute('data-translate').split('.');
+            let translation = translations[currentLanguage];
+
+            for (const key of keys) {
+                translation = translation[key];
+                if (!translation) break;
+            }
+
+            if (translation) {
+                element.textContent = translation;
+            }
+        });
     }
+
+    // Make updateTranslations available globally
+    window.updateTranslations = updatePageLanguage;
+    window.translations = translations;
+    window.getCurrentLanguage = () => currentLanguage;
 
     // Initialize language on page load
     document.addEventListener('DOMContentLoaded', () => {
