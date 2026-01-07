@@ -63,33 +63,91 @@ function parseNewsCards(html) {
     return newsItems;
 }
 
-// NEW: Fetch full article content from individual article page
+// Enhanced: Fetch full article content from individual article page
 async function fetchArticleContent(articleUrl) {
     try {
         console.log(`  → Fetching content from: ${articleUrl}`);
         const html = await fetchPage(articleUrl);
 
-        // Extract article content
-        const contentMatch = html.match(/<div class="blog-details-content">([\s\S]*?)<\/div>\s*<\/div>\s*<div class="blog-details-share/);
+        // Try multiple patterns to extract article content
         let content = '';
 
-        if (contentMatch) {
+        // Pattern 1: blog-post-content (ACTUAL structure!)
+        let contentMatch = html.match(/<div class="blog-post-content">([\s\S]*?)<\/div>\s*<div class="row justify-content/);
+
+        // Pattern 2: Try to get all blog-post-content divs
+        if (!contentMatch) {
+            const matches = html.match(/<div class="blog-post-content">([\s\S]*?)<\/div>/g);
+            if (matches && matches.length > 0) {
+                // Combine all matches
+                content = matches.join('\n');
+                contentMatch = [null, content]; // Fake match for processing below
+            }
+        }
+
+        // Pattern 3: Try news-details as fallback
+        if (!contentMatch) {
+            contentMatch = html.match(/<div class="news-details">([\s\S]*?)<\/div>\s*<\/div>/);
+        }
+
+        // Pattern 4: Try article-content
+        if (!contentMatch) {
+            contentMatch = html.match(/<div class="article-content">([\s\S]*?)<\/div>/);
+        }
+
+        if (contentMatch && contentMatch[1]) {
             content = contentMatch[1]
-                .replace(/<script[\s\S]*?<\/script>/gi, '') // Remove scripts
-                .replace(/<style[\s\S]*?<\/style>/gi, '') // Remove styles
-                .replace(/<img[^>]*>/gi, '') // Remove images (we'll use featured image)
-                .replace(/<h3[^>]*>/gi, '<h2>') // Convert h3 to h2
+                // Remove scripts and styles
+                .replace(/<script[\s\S]*?<\/script>/gi, '')
+                .replace(/<style[\s\S]*?<\/style>/gi, '')
+                // Keep images but make them responsive
+                .replace(/<img /gi, '<img style="max-width: 100%; height: auto;" ')
+                // Convert h3 to h2 for better SEO
+                .replace(/<h3([^>]*)>/gi, '<h2$1>')
                 .replace(/<\/h3>/gi, '</h2>')
-                .replace(/\s+/g, ' ') // Normalize whitespace
+                // Remove share buttons and similar
+                .replace(/<div class="news-details-share[\s\S]*?<\/div>/gi, '')
+                .replace(/<div class="news-details-tags[\s\S]*?<\/div>/gi, '')
+                .replace(/<div class="row justify-content[\s\S]*?<\/div>/gi, '')
+                // Clean up excessive whitespace but preserve paragraph structure
+                .replace(/\s\s+/g, ' ')
                 .trim();
         }
 
+        // If still no content, try to extract just paragraphs
+        if (!content || content.length < 50) {
+            const paragraphs = html.match(/<p[^>]*>[\s\S]*?<\/p>/gi);
+            if (paragraphs && paragraphs.length > 0) {
+                content = paragraphs
+                    .filter(p => p.length > 20) // Filter out tiny paragraphs
+                    .slice(0, 15) // Take first 15 paragraphs
+                    .join('\n');
+            }
+        }
+
         // Extract excerpt from first paragraph
-        const excerptMatch = content.match(/<p>(.*?)<\/p>/);
-        const excerpt = excerptMatch ? excerptMatch[1].replace(/<[^>]*>/g, '').substring(0, 155) : '';
+        const excerptMatch = content.match(/<p[^>]*>(.*?)<\/p>/);
+        let excerpt = '';
+        if (excerptMatch) {
+            excerpt = excerptMatch[1]
+                .replace(/<[^>]*>/g, '') // Remove HTML tags
+                .replace(/&[^;]+;/g, ' ') // Remove HTML entities
+                .replace(/\s+/g, ' ') // Normalize whitespace
+                .trim()
+                .substring(0, 155);
+        }
+
+        // Final check - if content is too short, use fallback
+        if (!content || content.length < 50) {
+            console.warn(`  ⚠️  Short content for: ${articleUrl}`);
+            content = '<p>Ətraflı məlumat üçün orijinal mənbəyə baxın.</p>';
+            excerpt = 'Azərbaycanda bərpa olunan enerji sahəsində son xəbərlər və yeniliklər.';
+        } else {
+            console.log(`  ✓ Extracted ${content.length} chars`);
+        }
 
         return {
-            content: content || '<p>Ətraflı məlumat üçün orijinal mənbəyə baxın.</p>',
+            content,
             excerpt: excerpt || 'Azərbaycanda bərpa olunan enerji sahəsində son xəbərlər və yeniliklər.'
         };
     } catch (error) {
@@ -110,9 +168,9 @@ async function scrapeAllNews() {
             const html = await fetchPage(category.url);
             const news = parseNewsCards(html);
 
-            // Fetch full content for each article (limit to 5 per category to avoid overload)
+            // Fetch full content for ALL articles (no limit!)
             const newsWithContent = [];
-            for (let i = 0; i < Math.min(news.length, 5); i++) {
+            for (let i = 0; i < news.length; i++) {
                 const article = news[i];
                 const { content, excerpt } = await fetchArticleContent(article.link);
                 newsWithContent.push({
