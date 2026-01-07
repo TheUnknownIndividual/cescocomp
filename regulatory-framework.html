@@ -120,9 +120,75 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        body.light-mode nav {
+            background: transparent;
+            border-bottom: 1px solid transparent;
+        }
+
         body.light-mode nav.scrolled {
             background: rgba(255, 255, 255, 0.8);
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Keep text white in light mode when at top of page */
+        body.light-mode .nav-links a {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        body.light-mode nav.scrolled .nav-links a {
+            color: var(--text-secondary);
+        }
+        
+        body.light-mode .lang-btn {
+            background: transparent;
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+        }
+        
+        body.light-mode nav.scrolled .lang-btn {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.1);
+            color: var(--text-primary);
+        }
+        
+        body.light-mode .dark-mode-toggle {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: transparent;
+        }
+        
+        body.light-mode nav.scrolled .dark-mode-toggle {
+            border-color: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Logo switching in light mode */
+        .logo-img {
+            object-fit: contain;
+        }
+
+        .light-mode-logo {
+            display: none !important;
+        }
+
+        .dark-mode-logo {
+            display: block !important;
+        }
+
+        body.light-mode .light-mode-logo {
+            display: none !important;
+        }
+
+        body.light-mode .dark-mode-logo {
+            display: block !important;
+        }
+        
+        /* When scrolled in light mode, switch to light mode logo */
+        body.light-mode nav.scrolled .light-mode-logo {
+            display: block !important;
+        }
+
+        body.light-mode nav.scrolled .dark-mode-logo {
+            display: none !important;
         }
 
 
