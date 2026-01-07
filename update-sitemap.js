@@ -17,56 +17,21 @@ function slugify(text) {
         .substring(0, 100);
 }
 
-// Helper function to format date with strict YYYY-MM-DD validation
+// Helper function to format date
 function formatDate(dateStr) {
     if (!dateStr) return new Date().toISOString().split('T')[0];
 
     try {
-        // Handle various date formats
-        let date;
-        
-        // Check if already in YYYY-MM-DD format
-        if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
-            date = new Date(dateStr);
-        }
-        // Handle DD.MM.YYYY or DD-MM-YYYY or DD/MM/YYYY formats
-        else if (/^\d{1,2}[.\-\/]\d{1,2}[.\-\/]\d{4}$/.test(dateStr)) {
-            const parts = dateStr.split(/[.\-\/]/);
-            const day = parts[0].padStart(2, '0');
-            const month = parts[1].padStart(2, '0');
-            const year = parts[2];
-            date = new Date(`${year}-${month}-${day}`);
-        }
-        // Handle ISO format with time
-        else if (/^\d{4}-\d{2}-\d{2}T/.test(dateStr)) {
-            date = new Date(dateStr);
-        }
-        else {
-            // Try to parse as is
-            date = new Date(dateStr);
-        }
-        
-        // Validate the date
-        if (date instanceof Date && !isNaN(date)) {
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            
-            // Ensure valid year range (2020-2030 for renewable energy context)
-            if (year >= 2020 && year <= 2030) {
-                return `${year}-${month}-${day}`;
-            }
+        const parts = dateStr.split(/[.\-\/]/);
+        if (parts.length === 3) {
+            const [day, month, year] = parts;
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
         }
     } catch (e) {
-        console.warn(`⚠️  Could not parse date: ${dateStr}, using current date`);
+        console.warn(`Could not parse date: ${dateStr}`);
     }
 
-    // Fallback to current date in strict YYYY-MM-DD format
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    return new Date().toISOString().split('T')[0];
 }
 
 // Generate sitemap XML
