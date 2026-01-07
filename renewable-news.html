@@ -109,8 +109,11 @@
             font-weight: 700;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             text-decoration: none;
+            display: flex;
+            align-items: center;
         }
 
         .nav-links {
@@ -513,6 +516,124 @@
         body.light-mode .dark-icon {
             display: none !important;
         }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 10000;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9998;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-menu-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: var(--card-bg);
+            z-index: 9999;
+            padding: 5rem 2rem 2rem;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu a {
+            display: block;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--az-blue);
+            padding-left: 0.5rem;
+        }
+
+        .mobile-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none !important;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        .light-mode-logo {
+            display: none !important;
+        }
+
+        .dark-mode-logo {
+            display: block !important;
+        }
+
+        body.light-mode .light-mode-logo {
+            display: block !important;
+        }
+
+        body.light-mode .dark-mode-logo {
+            display: none !important;
+        }
     </style>
 </head>
 
@@ -520,23 +641,67 @@
     <!-- Navigation -->
     <nav>
         <div class="nav-container">
-            <a href="/" class="logo">PLUGIN.AZ</a>
+            <a href="/" class="logo">
+                <img src="pluginlogo.png" alt="Plugin.az" class="logo-img dark-mode-logo"
+                    style="height: 50px; width: auto;">
+                <img src="lightmodeplugin.png" alt="Plugin.az" class="logo-img light-mode-logo"
+                    style="height: 50px; width: auto;">
+            </a>
+
+            <!-- Desktop Navigation -->
             <div class="nav-links">
                 <a href="/" data-translate="nav.home">Home</a>
                 <a href="/azerbaijan-rayon-energy-map.html" data-translate="nav.energyMap">Energy Map</a>
                 <a href="/solar-calculator.html" data-translate="nav.calculator">Solar Calculator</a>
                 <a href="/regulatory-framework.html" data-translate="nav.framework">Regulatory Framework</a>
                 <a href="/renewable-news.html" data-translate="nav.news">News</a>
+
+                <!-- Language Switcher -->
                 <div class="lang-dropdown">
                     <button id="langBtn">🌐 <span id="currentLang">EN</span></button>
                 </div>
+
+                <!-- Dark Mode Toggle -->
                 <button class="theme-toggle" id="themeToggle">
                     <span class="dark-icon">🌙</span>
                     <span class="light-icon">☀️</span>
                 </button>
             </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <a href="/" data-translate="nav.home" onclick="toggleMobileMenu()">Home</a>
+        <a href="/azerbaijan-rayon-energy-map.html" data-translate="nav.energyMap" onclick="toggleMobileMenu()">Energy
+            Map</a>
+        <a href="/solar-calculator.html" data-translate="nav.calculator" onclick="toggleMobileMenu()">Solar
+            Calculator</a>
+        <a href="/regulatory-framework.html" data-translate="nav.framework" onclick="toggleMobileMenu()">Regulatory
+            Framework</a>
+        <a href="/renewable-news.html" data-translate="nav.news" onclick="toggleMobileMenu()">News</a>
+
+        <div class="mobile-controls">
+            <div class="lang-dropdown">
+                <button id="langBtnMobile">🌐 <span id="currentLangMobile">EN</span></button>
+            </div>
+
+            <button class="theme-toggle" id="themeToggleMobile">
+                <span class="dark-icon">🌙</span>
+                <span class="light-icon">☀️</span>
+            </button>
+        </div>
+    </div>
 
     <!-- Page Header -->
     <header class="page-header">
@@ -626,7 +791,7 @@
         // Load news data dynamically from API
         async function loadNews() {
             const newsGrid = document.getElementById('newsGrid');
-            
+
             // Show loading state
             newsGrid.innerHTML = `
                 <div style="grid-column: 1/-1; text-align: center; padding: 4rem 2rem;">
@@ -634,14 +799,14 @@
                     <p style="color: var(--text-secondary);">Loading latest renewable energy news...</p>
                 </div>
             `;
-            
+
             try {
                 // Try API endpoint first (for dynamic updates)
                 const response = await fetch('/api/fetch-news');
                 const data = await response.json();
-                
+
                 newsData = data.articles;
-                
+
                 // Show cache status in console
                 if (data.cached) {
                     const age = data.cacheAge ? `${Math.floor(data.cacheAge / 60)} min ago` : 'unknown age';
@@ -649,12 +814,12 @@
                 } else {
                     console.log('📰 Fresh news loaded from renewables.az');
                 }
-                
+
                 renderNews();
-                
+
             } catch (error) {
                 console.warn('API fetch failed, falling back to static JSON:', error);
-                
+
                 // Fallback to static JSON file
                 try {
                     const response = await fetch('/news-data.json');
@@ -702,23 +867,35 @@
                 noResults.style.display = 'none';
             }
 
-            // Render cards
-            grid.innerHTML = filteredNews.map(article => `
-                <a href="${article.link}" target="_blank" rel="noopener" class="news-card">
-                    ${article.image ? `<img src="${article.image}" alt="${article.title}" class="news-image" loading="lazy">` : '<div class="news-image" style="background: var(--bg-darker); display: flex; align-items: center; justify-content: center; font-size: 3rem;">📰</div>'}
-                    <div class="news-content">
-                        <div class="news-meta">
-                            <span class="news-category">${article.category}</span>
-                            ${article.date ? `<span class="news-date">📅 ${article.date}</span>` : ''}
+            // Render cards - Link to internal article pages for SEO
+            grid.innerHTML = filteredNews.map(article => {
+                const slug = article.title
+                    .toLowerCase()
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/-+/g, '-')
+                    .trim()
+                    .substring(0, 100);
+
+                return `
+                <div class="news-card">
+                    <a href="/news/${slug}.html" style="text-decoration: none; color: inherit;">
+                        ${article.image ? `<img src="${article.image}" alt="${article.title}" class="news-image" loading="lazy">` : '<div class="news-image" style="background: var(--bg-darker); display: flex; align-items: center; justify-content: center; font-size: 3rem;">📰</div>'}
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span class="news-category">${article.category}</span>
+                                ${article.date ? `<span class="news-date">📅 ${article.date}</span>` : ''}
+                            </div>
+                            <h3 class="news-title">${article.title}</h3>
                         </div>
-                        <h3 class="news-title">${article.title}</h3>
-                        <div class="news-source">
-                            <span>${article.source}</span>
-                            <span class="external-link">Read more →</span>
-                        </div>
+                    </a>
+                    <div class="news-source" style="padding: 0 1.5rem 1.5rem;">
+                        <span>${article.source}</span>
+                        <a href="${article.link}" target="_blank" rel="noopener nofollow" class="external-link">Original Source →</a>
                     </div>
-                </a>
-            `).join('');
+                </div>
+            `;
+            }).join('');
         }
 
         // Category filter
@@ -739,37 +916,69 @@
 
         // Theme toggle
         const themeToggle = document.getElementById('themeToggle');
+        const themeToggleMobile = document.getElementById('themeToggleMobile');
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'light') {
             document.body.classList.add('light-mode');
         }
 
-        themeToggle.addEventListener('click', () => {
+        function toggleTheme() {
             document.body.classList.toggle('light-mode');
             const theme = document.body.classList.contains('light-mode') ? 'light' : 'dark';
             localStorage.setItem('theme', theme);
-        });
+        }
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', toggleTheme);
+        }
+        if (themeToggleMobile) {
+            themeToggleMobile.addEventListener('click', toggleTheme);
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.querySelector('.mobile-menu');
+            const overlay = document.querySelector('.mobile-menu-overlay');
+            const btn = document.querySelector('.mobile-menu-btn');
+
+            if (menu && overlay && btn) {
+                menu.classList.toggle('active');
+                overlay.classList.toggle('active');
+                btn.classList.toggle('active');
+            }
+        }
 
         // Language switching
         const langBtn = document.getElementById('langBtn');
+        const langBtnMobile = document.getElementById('langBtnMobile');
         const currentLangSpan = document.getElementById('currentLang');
+        const currentLangMobileSpan = document.getElementById('currentLangMobile');
 
-        langBtn.addEventListener('click', () => {
+        function switchLanguage() {
             const currentLang = localStorage.getItem('language') || 'en';
             const langs = ['en', 'az', 'ru'];
             const currentIndex = langs.indexOf(currentLang);
             const nextLang = langs[(currentIndex + 1) % langs.length];
 
             localStorage.setItem('language', nextLang);
-            currentLangSpan.textContent = nextLang.toUpperCase();
+            if (currentLangSpan) currentLangSpan.textContent = nextLang.toUpperCase();
+            if (currentLangMobileSpan) currentLangMobileSpan.textContent = nextLang.toUpperCase();
             updateTranslations();
-        });
+        }
+
+        if (langBtn) {
+            langBtn.addEventListener('click', switchLanguage);
+        }
+        if (langBtnMobile) {
+            langBtnMobile.addEventListener('click', switchLanguage);
+        }
 
         // Update current language display
         const lang = localStorage.getItem('language') || 'en';
-        currentLangSpan.textContent = lang.toUpperCase();
+        if (currentLangSpan) currentLangSpan.textContent = lang.toUpperCase();
+        if (currentLangMobileSpan) currentLangMobileSpan.textContent = lang.toUpperCase();
 
-        // Initialize
+        // Initialize - Load news immediately to reduce perceived loading time
         loadNews();
         updateTranslations();
     </script>

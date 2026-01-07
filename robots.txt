@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Allow: /news/
 
 # Sitemaps
 Sitemap: https://plugin.az/sitemap.xml
@@ -10,15 +11,19 @@ Crawl-delay: 1
 # Allow all major search engines
 User-agent: Googlebot
 Allow: /
+Allow: /news/
 
 User-agent: Bingbot
 Allow: /
+Allow: /news/
 
 User-agent: Yandex
 Allow: /
+Allow: /news/
 
 User-agent: Baiduspider
 Allow: /
+Allow: /news/
 
 # Disallow admin or private areas (if any exist in future)
 # User-agent: *
