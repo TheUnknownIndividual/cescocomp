@@ -63,91 +63,100 @@ function parseNewsCards(html) {
     return newsItems;
 }
 
-// Enhanced: Fetch full article content from individual article page
+// FIXED: Fetch full article content from individual article page
 async function fetchArticleContent(articleUrl) {
     try {
         console.log(`  → Fetching content from: ${articleUrl}`);
         const html = await fetchPage(articleUrl);
 
-        // Try multiple patterns to extract article content
+        // Strategy: Extract all <p> tags from the article, excluding navigation/related content
         let content = '';
 
-        // Pattern 1: blog-post-content (ACTUAL structure!)
-        let contentMatch = html.match(/<div class="blog-post-content">([\s\S]*?)<\/div>\s*<div class="row justify-content/);
+        // First, try to find the main article container
+        const articleMatch = html.match(/<div class="news-details">([\s\S]*?)<div class="row justify-content/);
 
-        // Pattern 2: Try to get all blog-post-content divs
-        if (!contentMatch) {
-            const matches = html.match(/<div class="blog-post-content">([\s\S]*?)<\/div>/g);
-            if (matches && matches.length > 0) {
-                // Combine all matches
-                content = matches.join('\n');
-                contentMatch = [null, content]; // Fake match for processing below
+        if (articleMatch) {
+            const articleSection = articleMatch[1];
+
+            // Extract all paragraph tags from this section
+            const paragraphs = articleSection.match(/<p[^>]*>([\s\S]*?)<\/p>/gi);
+
+            if (paragraphs && paragraphs.length > 0) {
+                // Filter out empty or very short paragraphs, and navigation elements
+                const validParagraphs = paragraphs.filter(p => {
+                    const text = p.replace(/<[^>]*>/g, '').trim();
+                    return text.length > 20 && !text.includes('href='); // Exclude link-only paragraphs
+                });
+
+                if (validParagraphs.length > 0) {
+                    content = validParagraphs.join('\n');
+                }
             }
         }
 
-        // Pattern 3: Try news-details as fallback
-        if (!contentMatch) {
-            contentMatch = html.match(/<div class="news-details">([\s\S]*?)<\/div>\s*<\/div>/);
+        // Fallback: If above didn't work, extract ALL paragraphs from page and filter
+        if (!content || content.length < 100) {
+            const allParagraphs = html.match(/<p[^>]*>[\s\S]*?<\/p>/gi);
+            if (allParagraphs && allParagraphs.length > 0) {
+                // Find paragraphs that look like article content (longer, meaningful text)
+                const contentParagraphs = allParagraphs.filter(p => {
+                    const text = p.replace(/<[^>]*>/g, '').trim();
+                    // Must be substantial text, not just links or short snippets
+                    return text.length > 50 &&
+                        !text.includes('class=') &&
+                        !text.includes('href=') &&
+                        !text.match(/^\d{2}\.\d{2}\.\d{4}/); // Not a date
+                });
+
+                if (contentParagraphs.length > 0) {
+                    // Take the first 10-15 meaningful paragraphs
+                    content = contentParagraphs.slice(0, 15).join('\n');
+                }
+            }
         }
 
-        // Pattern 4: Try article-content
-        if (!contentMatch) {
-            contentMatch = html.match(/<div class="article-content">([\s\S]*?)<\/div>/);
-        }
-
-        if (contentMatch && contentMatch[1]) {
-            content = contentMatch[1]
-                // Remove scripts and styles
+        // Clean up the content
+        if (content) {
+            content = content
+                // Remove any remaining scripts/styles
                 .replace(/<script[\s\S]*?<\/script>/gi, '')
                 .replace(/<style[\s\S]*?<\/style>/gi, '')
-                // Keep images but make them responsive
+                // Make images responsive
                 .replace(/<img /gi, '<img style="max-width: 100%; height: auto;" ')
-                // Convert h3 to h2 for better SEO
+                // Convert h3 to h2
                 .replace(/<h3([^>]*)>/gi, '<h2$1>')
                 .replace(/<\/h3>/gi, '</h2>')
-                // Remove share buttons and similar
-                .replace(/<div class="news-details-share[\s\S]*?<\/div>/gi, '')
-                .replace(/<div class="news-details-tags[\s\S]*?<\/div>/gi, '')
-                .replace(/<div class="row justify-content[\s\S]*?<\/div>/gi, '')
-                // Clean up excessive whitespace but preserve paragraph structure
+                // Clean up whitespace
                 .replace(/\s\s+/g, ' ')
                 .trim();
         }
 
-        // If still no content, try to extract just paragraphs
-        if (!content || content.length < 50) {
-            const paragraphs = html.match(/<p[^>]*>[\s\S]*?<\/p>/gi);
-            if (paragraphs && paragraphs.length > 0) {
-                content = paragraphs
-                    .filter(p => p.length > 20) // Filter out tiny paragraphs
-                    .slice(0, 15) // Take first 15 paragraphs
-                    .join('\n');
-            }
-        }
-
         // Extract excerpt from first paragraph
-        const excerptMatch = content.match(/<p[^>]*>(.*?)<\/p>/);
         let excerpt = '';
+        const excerptMatch = content.match(/<p[^>]*>(.*?)<\/p>/);
         if (excerptMatch) {
             excerpt = excerptMatch[1]
-                .replace(/<[^>]*>/g, '') // Remove HTML tags
-                .replace(/&[^;]+;/g, ' ') // Remove HTML entities
-                .replace(/\s+/g, ' ') // Normalize whitespace
+                .replace(/<[^>]*>/g, '')
+                .replace(/&quot;/g, '"')
+                .replace(/&amp;/g, '&')
+                .replace(/&[^;]+;/g, ' ')
+                .replace(/\s+/g, ' ')
                 .trim()
                 .substring(0, 155);
         }
 
-        // Final check - if content is too short, use fallback
-        if (!content || content.length < 50) {
-            console.warn(`  ⚠️  Short content for: ${articleUrl}`);
+        // Final validation
+        if (!content || content.length < 100) {
+            console.warn(`  ⚠️  Could not extract content from: ${articleUrl}`);
             content = '<p>Ətraflı məlumat üçün orijinal mənbəyə baxın.</p>';
             excerpt = 'Azərbaycanda bərpa olunan enerji sahəsində son xəbərlər və yeniliklər.';
         } else {
-            console.log(`  ✓ Extracted ${content.length} chars`);
+            console.log(`  ✓ Extracted ${content.length} chars of actual content`);
         }
 
         return {
             content,
+            excerpt,
             excerpt: excerpt || 'Azərbaycanda bərpa olunan enerji sahəsində son xəbərlər və yeniliklər.'
         };
     } catch (error) {
