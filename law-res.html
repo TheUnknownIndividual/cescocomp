@@ -591,7 +591,7 @@
         .nav-container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 1rem 2rem;
+            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -931,7 +931,9 @@
         </div>
     </div>
 
-    <header class="article-header">
+    <article>
+        <div class="lang-en">
+            <header class="article-header">
                 <div class="category">Law of the Republic of Azerbaijan</div>
                 <h1>On the Use of Renewable Energy Sources in the Production of Electricity</h1>
                 <div class="meta">
@@ -1173,7 +1175,34 @@
             menu.classList.toggle('active');
             overlay.classList.toggle('active');
             btn.classList.toggle('active');
-        }
+        
+        // Add scroll event listener for nav backdrop
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+        
+        // Language switcher toggle
+        document.querySelectorAll('.language-switcher').forEach(switcher => {
+            const btn = switcher.querySelector('.lang-btn');
+            if (btn) {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    switcher.classList.toggle('active');
+                });
+            }
+        });
+        
+        // Close language dropdown when clicking outside
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.language-switcher').forEach(switcher => {
+                switcher.classList.remove('active');
+            });
+        });
     </script>
 </body>
 
