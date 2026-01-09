@@ -5,10 +5,12 @@
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-GTDNPY8HYP"></script>
     <script>
-        window.dataLayer = window.dataLayer || []            function gt a g() {
-            dataLayer.push(argum en        
-        gtag('js', new         );
-            gtag('config', 'G-GTDHYP');
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-GTDNPY8HYP');
     </script>
 
     <meta charset="UTF-8">
@@ -1486,7 +1488,7 @@
         }
     </style>
     <script type="module">
-            import ject } from 'https://cdn.jsdelivr.net/npm/@vercel/analytics/+esm';
+        import { inject } from 'https://cdn.jsdelivr.net/npm/@vercel/analytics/+esm';
         inject();
     </script>
 </head>
@@ -1648,7 +1650,7 @@
         </div>
 
         <!-- 📜 LAWS SECTION -->
-        <div class="category-section" id="laws">
+        <div class="category-section" id="laws" style="opacity: 1 !important;">
             <div class="category-header">
                 <h2 class="category-title">
                     📜 Laws & Legislative Framework
@@ -2507,10 +2509,10 @@
 
             // Observe all category sections
             document.querySelectorAll('.category-section').forEach(section => {
-                section.style.opacity = '0';
-                section.style.transform = 'translateY(30px)';
+                section.style.opacity = '1';
+                section.style.transform = 'translateY(0)';
                 section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                sectionObserver(section);
+                sectionObserver.observe(section);
             });
 
             // Initialize
