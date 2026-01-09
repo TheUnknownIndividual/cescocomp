@@ -94,9 +94,16 @@ articles.forEach((article, index) => {
         `
     };
 
+    // Add JSON-escaped versions for usage in <script type="application/ld+json">
+    articleData.ARTICLE_TITLE_JSON = JSON.stringify(articleData.ARTICLE_TITLE).slice(1, -1);
+    articleData.ARTICLE_EXCERPT_JSON = JSON.stringify(articleData.ARTICLE_EXCERPT).slice(1, -1);
+    articleData.ARTICLE_IMAGE_JSON = JSON.stringify(articleData.ARTICLE_IMAGE).slice(1, -1);
+    articleData.ARTICLE_CATEGORY_JSON = JSON.stringify(articleData.ARTICLE_CATEGORY).slice(1, -1);
+
     // Replace placeholders in template
     let articleHTML = template;
     Object.keys(articleData).forEach(key => {
+        // Use a more specific regex to avoid partial matches if keys share prefixes (though unlikely here)
         const regex = new RegExp(`{{${key}}}`, 'g');
         articleHTML = articleHTML.replace(regex, articleData[key]);
     });
