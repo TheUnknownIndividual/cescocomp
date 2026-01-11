@@ -11,6 +11,17 @@
             "source": "/map",
             "destination": "/energy-map",
             "permanent": false
+        },
+        {
+            "source": "/:path*",
+            "has": [
+                {
+                    "type": "host",
+                    "value": "www.plugin.az"
+                }
+            ],
+            "destination": "https://plugin.az/:path*",
+            "permanent": true
         }
     ],
     "headers": [
@@ -24,6 +35,10 @@
                 {
                     "key": "X-Frame-Options",
                     "value": "SAMEORIGIN"
+                },
+                {
+                    "key": "Strict-Transport-Security",
+                    "value": "max-age=63072000; includeSubDomains; preload"
                 }
             ]
         }
