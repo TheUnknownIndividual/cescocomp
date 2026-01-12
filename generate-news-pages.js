@@ -94,6 +94,32 @@ articles.forEach((article, index) => {
         `
     };
 
+    // Generate Related Articles HTML
+    const relatedArticles = articles
+        .filter(a => a.category === article.category && a.title !== article.title)
+        .slice(0, 3);
+
+    let relatedHTML = '';
+    if (relatedArticles.length > 0) {
+        relatedHTML = relatedArticles.map(rel => {
+            const relSlug = slugify(rel.title);
+            // Use clean URL for link
+            return `
+            <a href="/news/${relSlug}" class="related-card">
+                ${rel.image ? `<img src="${rel.image}" alt="${rel.title}" loading="lazy">` : ''}
+                <div class="related-card-content">
+                    <h3>${rel.title}</h3>
+                    <p class="meta">${rel.date || 'Recent'} • ${rel.category}</p>
+                </div>
+            </a>`;
+        }).join('');
+    } else {
+        relatedHTML = '<p style="color: var(--text-secondary);">No related articles found.</p>';
+    }
+
+    // Add to article data
+    articleData.RELATED_ARTICLES_HTML = relatedHTML;
+
     // Add JSON-escaped versions for usage in <script type="application/ld+json">
     articleData.ARTICLE_TITLE_JSON = JSON.stringify(articleData.ARTICLE_TITLE).slice(1, -1);
     articleData.ARTICLE_EXCERPT_JSON = JSON.stringify(articleData.ARTICLE_EXCERPT).slice(1, -1);
@@ -103,7 +129,7 @@ articles.forEach((article, index) => {
     // Replace placeholders in template
     let articleHTML = template;
     Object.keys(articleData).forEach(key => {
-        // Use a more specific regex to avoid partial matches if keys share prefixes (though unlikely here)
+        // Use a more specific regex to avoid partial matches if keys share prefixes
         const regex = new RegExp(`{{${key}}}`, 'g');
         articleHTML = articleHTML.replace(regex, articleData[key]);
     });
@@ -121,12 +147,12 @@ console.log(`\n✅ Successfully generated ${generatedCount} news article pages i
 console.log(`📁 Articles are SEO-optimized with proper meta tags and structured data`);
 console.log(`🔗 Each article includes proper attribution to renewables.az`);
 
-// Generate a sitemap entry list
+// Generate a sitemap entry list (Clean URLs - No .html)
 const sitemapEntries = articles.map(article => {
     const slug = slugify(article.title);
     const dateISO = formatDateISO(article.date);
     return `  <url>
-    <loc>https://plugin.az/news/${slug}.html</loc>
+    <loc>https://plugin.az/news/${slug}</loc>
     <lastmod>${dateISO.split('T')[0]}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

@@ -5,12 +5,12 @@
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-GTDNPY8HYP"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-GTDNPY8HYP');
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-GTDNPY8HYP');
     </script>
-    
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -103,18 +103,18 @@
             background: transparent;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+
         /* Keep text white in light mode when at top */
         body.light-mode .nav-links a {
             color: rgba(255, 255, 255, 0.9);
         }
-        
+
         body.light-mode .lang-btn {
             background: transparent;
             border-color: rgba(255, 255, 255, 0.3);
             color: #ffffff;
         }
-        
+
         body.light-mode .dark-mode-toggle {
             border-color: rgba(255, 255, 255, 0.3);
             background: transparent;
@@ -239,6 +239,7 @@
                 transform: scale(0);
                 opacity: 1;
             }
+
             100% {
                 transform: scale(2);
                 opacity: 0;
@@ -1059,7 +1060,7 @@
         async function translateText(text, targetLang) {
             // Don't translate if already in target language or if target is Azerbaijani (original)
             if (targetLang === 'az') return text;
-            
+
             // Check cache first
             const cacheKey = `${text}_${targetLang}`;
             if (translationCache[cacheKey]) {
@@ -1071,7 +1072,7 @@
                 const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceLang}|${targetLang}`;
                 const response = await fetch(url);
                 const data = await response.json();
-                
+
                 if (data.responseStatus === 200 && data.responseData.translatedText) {
                     const translated = data.responseData.translatedText;
                     translationCache[cacheKey] = translated;
@@ -1080,7 +1081,7 @@
             } catch (error) {
                 console.warn('Translation failed for:', text, error);
             }
-            
+
             // Return original text if translation fails
             return text;
         }
@@ -1134,7 +1135,7 @@
             const cachedData = sessionStorage.getItem('newsData');
             const cacheTime = sessionStorage.getItem('newsDataTime');
             const now = Date.now();
-            
+
             // Use cache if it exists and is less than 5 minutes old
             if (cachedData && cacheTime && (now - parseInt(cacheTime)) < 300000) {
                 console.log('💾 Using cached news data');
@@ -1157,7 +1158,7 @@
                 const data = await response.json();
 
                 newsData = data.articles;
-                
+
                 // Cache the data in sessionStorage
                 sessionStorage.setItem('newsData', JSON.stringify(newsData));
                 sessionStorage.setItem('newsDataTime', now.toString());
@@ -1180,11 +1181,11 @@
                     const response = await fetch('/news-data.json');
                     const data = await response.json();
                     newsData = data.articles;
-                    
+
                     // Cache the data
                     sessionStorage.setItem('newsData', JSON.stringify(newsData));
                     sessionStorage.setItem('newsDataTime', now.toString());
-                    
+
                     console.log('📰 Loaded news from static file');
                     renderNews();
                 } catch (fallbackError) {
@@ -1240,13 +1241,13 @@
 
                 // Translate title if not in Azerbaijani
                 const translatedTitle = currentLang !== 'az' ? await translateText(article.title, currentLang) : article.title;
-                
+
                 // Translate category
                 const translatedCategory = translateCategory(article.category, currentLang);
 
                 return `
                 <div class="news-card">
-                    <a href="/news/${slug}.html" style="text-decoration: none; color: inherit;">
+                    <a href="/news/${slug}" style="text-decoration: none; color: inherit;">
                         ${article.image ? `<img src="${article.image}" alt="${translatedTitle}" class="news-image" loading="lazy">` : '<div class="news-image" style="background: var(--bg-darker); display: flex; align-items: center; justify-content: center; font-size: 3rem;">📰</div>'}
                         <div class="news-content">
                             <div class="news-meta">
@@ -1263,7 +1264,7 @@
                 </div>
             `;
             }));
-            
+
             grid.innerHTML = cardsHTML.join('');
         }
 
@@ -1320,7 +1321,7 @@
                 menu.classList.toggle('active');
                 overlay.classList.toggle('active');
                 btn.classList.toggle('active');
-                
+
                 // Prevent body scroll when menu is open
                 if (menu.classList.contains('active')) {
                     document.body.style.overflow = 'hidden';
@@ -1332,7 +1333,7 @@
 
         // Language switching - remove old implementation
         // The new implementation is in translations.js which is loaded at the bottom
-        
+
         // Listen for language changes to re-render news with translations
         window.addEventListener('languageChanged', () => {
             renderNews();
@@ -1340,7 +1341,7 @@
 
         // Initialize - Load news immediately to reduce perceived loading time
         loadNews();
-        
+
         // Initialize language display after translations.js loads
         setTimeout(() => {
             const lang = localStorage.getItem('language') || 'en';

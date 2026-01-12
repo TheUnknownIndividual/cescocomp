@@ -674,7 +674,28 @@
         <div class="related-articles">
             <h2>Related Articles</h2>
             <div class="related-grid" id="relatedArticles">
-                <!-- Will be populated dynamically -->
+                
+            <a href="/news/alimlr-ilk-df-qoz-qabndan-su-elektrik-generatoru-hazrlayblar" class="related-card">
+                <img src="https://renewables.az/storage/news_images/Mr5F44xM3x20aiYTXLA8bcvTV4IjxNmwMm6DKTeC.webp" alt="Alimlər ilk dəfə qoz qabığından su-elektrik generatoru hazırlayıblar" loading="lazy">
+                <div class="related-card-content">
+                    <h3>Alimlər ilk dəfə qoz qabığından su-elektrik generatoru hazırlayıblar</h3>
+                    <p class="meta">31.08.2025 10:32 • Dünya</p>
+                </div>
+            </a>
+            <a href="/news/b-d-dnyann-ilk-v-n-byk-quotfasilsizquot-gn-v-batareya-saxlama-layihsinin-tmli-qoyulub" class="related-card">
+                <img src="https://renewables.az/storage/news_images/Rye9bfgPeh0Qx53yc4LRKEPC8c0AhPuaeNXCeVW2.jpg" alt="BƏƏ-də dünyanın ilk və ən böyük &quot;fasiləsiz&quot; günəş və batareya saxlama layihəsinin təməli qoyulub" loading="lazy">
+                <div class="related-card-content">
+                    <h3>BƏƏ-də dünyanın ilk və ən böyük &quot;fasiləsiz&quot; günəş və batareya saxlama layihəsinin təməli qoyulub</h3>
+                    <p class="meta">27.10.2025 10:55 • Dünya</p>
+                </div>
+            </a>
+            <a href="/news/quterre-afrika-brpaolunan-super-gc-evril-bilr" class="related-card">
+                <img src="https://renewables.az/storage/news_images/QnoFHa8LEDGlwzuIFNfA6cYXkjDwpSxVrTooTaJi.jpg" alt="Quterreş: Afrika “bərpaolunan super güc”ə çevrilə bilər" loading="lazy">
+                <div class="related-card-content">
+                    <h3>Quterreş: Afrika “bərpaolunan super güc”ə çevrilə bilər</h3>
+                    <p class="meta">26.08.2025 14:14 • Dünya</p>
+                </div>
+            </a>
             </div>
         </div>
     </article>
@@ -696,50 +717,6 @@
             // Mobile menu implementation
             alert('Mobile menu - to be implemented with full navigation');
         }
-
-        // Load related articles
-        async function loadRelatedArticles() {
-            try {
-                const response = await fetch('/api/fetch-news');
-                const data = await response.json();
-
-                // Get current category
-                const currentCategory = 'Dünya';
-
-                // Filter related articles (same category, exclude current)
-                const related = data.articles
-                    .filter(article => article.category === currentCategory)
-                    .slice(0, 3);
-
-                const container = document.getElementById('relatedArticles');
-                if (related.length > 0) {
-                    container.innerHTML = related.map(article => `
-                        <a href="/news/${slugify(article.title)}.html" class="related-card">
-                            ${article.image ? `<img src="${article.image}" alt="${article.title}" loading="lazy">` : ''}
-                            <div class="related-card-content">
-                                <h3>${article.title}</h3>
-                                <p class="meta">${article.date || 'Recent'} • ${article.category}</p>
-                            </div>
-                        </a>
-                    `).join('');
-                } else {
-                    container.innerHTML = '<p style="color: var(--text-secondary);">No related articles found.</p>';
-                }
-            } catch (error) {
-                console.error('Error loading related articles:', error);
-            }
-        }
-
-        function slugify(text) {
-            return text.toLowerCase()
-                .replace(/[^\w\s-]/g, '')
-                .replace(/\s+/g, '-')
-                .replace(/-+/g, '-')
-                .trim();
-        }
-
-        // Initialize
-        loadRelatedArticles();
     </script>
 </body>
 

@@ -8,30 +8,30 @@ const newsData = JSON.parse(fs.readFileSync(newsDataPath, 'utf-8'));
 
 // Helper function to create URL-friendly slug
 function slugify(text) {
-    return text
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .trim()
-        .substring(0, 100);
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim()
+    .substring(0, 100);
 }
 
 // Helper function to format date
 function formatDate(dateStr) {
-    if (!dateStr) return new Date().toISOString().split('T')[0];
+  if (!dateStr) return new Date().toISOString().split('T')[0];
 
-    try {
-        const parts = dateStr.split(/[.\-\/]/);
-        if (parts.length === 3) {
-            const [day, month, year] = parts;
-            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-        }
-    } catch (e) {
-        console.warn(`Could not parse date: ${dateStr}`);
+  try {
+    const parts = dateStr.split(/[.\-\/]/);
+    if (parts.length === 3) {
+      const [day, month, year] = parts;
+      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
     }
+  } catch (e) {
+    console.warn(`Could not parse date: ${dateStr}`);
+  }
 
-    return new Date().toISOString().split('T')[0];
+  return new Date().toISOString().split('T')[0];
 }
 
 // Generate sitemap XML
@@ -52,10 +52,10 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
   
   <!-- Solar Calculator -->
   <url>
-    <loc>https://plugin.az/solar-calculator.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://plugin.az/solar-calculator.html"/>
-    <xhtml:link rel="alternate" hreflang="az" href="https://plugin.az/solar-calculator.html"/>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://plugin.az/solar-calculator.html"/>
+    <loc>https://plugin.az/solar-calculator</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://plugin.az/solar-calculator"/>
+    <xhtml:link rel="alternate" hreflang="az" href="https://plugin.az/solar-calculator"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://plugin.az/solar-calculator"/>
     <lastmod>2026-01-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -63,10 +63,10 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
   
   <!-- Regulatory Framework -->
   <url>
-    <loc>https://plugin.az/regulatory-framework.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://plugin.az/regulatory-framework.html"/>
-    <xhtml:link rel="alternate" hreflang="az" href="https://plugin.az/regulatory-framework.html"/>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://plugin.az/regulatory-framework.html"/>
+    <loc>https://plugin.az/regulatory-framework</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://plugin.az/regulatory-framework"/>
+    <xhtml:link rel="alternate" hreflang="az" href="https://plugin.az/regulatory-framework"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://plugin.az/regulatory-framework"/>
     <lastmod>2026-01-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -74,7 +74,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
   
   <!-- Energy Map -->
   <url>
-    <loc>https://plugin.az/azerbaijan-rayon-energy-map.html</loc>
+    <loc>https://plugin.az/azerbaijan-rayon-energy-map</loc>
     <lastmod>2026-01-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -82,10 +82,10 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
   
   <!-- News Hub -->
   <url>
-    <loc>https://plugin.az/renewable-news.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://plugin.az/renewable-news.html"/>
-    <xhtml:link rel="alternate" hreflang="az" href="https://plugin.az/renewable-news.html"/>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://plugin.az/renewable-news.html"/>
+    <loc>https://plugin.az/renewable-news</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://plugin.az/renewable-news"/>
+    <xhtml:link rel="alternate" hreflang="az" href="https://plugin.az/renewable-news"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://plugin.az/renewable-news"/>
     <lastmod>2026-01-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
@@ -93,10 +93,10 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
   
   <!-- Policy Detail Pages -->
   <url>
-    <loc>https://plugin.az/policy-detail.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://plugin.az/policy-detail.html"/>
-    <xhtml:link rel="alternate" hreflang="az" href="https://plugin.az/policy-detail.html"/>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://plugin.az/policy-detail.html"/>
+    <loc>https://plugin.az/policy-detail</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://plugin.az/policy-detail"/>
+    <xhtml:link rel="alternate" hreflang="az" href="https://plugin.az/policy-detail"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://plugin.az/policy-detail"/>
     <lastmod>2026-01-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -104,10 +104,10 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
   
   <!-- News Articles (${newsData.articles.length} articles) -->
 ${newsData.articles.map(article => {
-    const slug = slugify(article.title);
-    const date = formatDate(article.date);
-    return `  <url>
-    <loc>https://plugin.az/news/${slug}.html</loc>
+  const slug = slugify(article.title);
+  const date = formatDate(article.date);
+  return `  <url>
+    <loc>https://plugin.az/news/${slug}</loc>
     <lastmod>${date}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
