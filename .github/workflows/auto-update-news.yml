@@ -2,8 +2,8 @@ name: Auto Update News Articles
 
 on:
   schedule:
-    # Run every Monday at 9:00 AM (UTC+4 = 05:00 UTC)
-    - cron: '0 5 * * 1'
+    # Run every day at 9:00 AM UTC
+    - cron: '0 9 * * *'
   
   # Allow manual trigger
   workflow_dispatch:
