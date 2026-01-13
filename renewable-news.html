@@ -1127,7 +1127,7 @@
             return category;
         }
 
-        // Load news data dynamically from API
+        // Load news data dynamically
         async function loadNews() {
             const newsGrid = document.getElementById('newsGrid');
 
@@ -1153,46 +1153,23 @@
             `;
 
             try {
-                // Try API endpoint first (for dynamic updates)
-                const response = await fetch('/api/fetch-news');
-                const data = await response.json();
+                // Direct fetch from static JSON file (most reliable)
+                const response = await fetch('/news-data.json');
+                if (!response.ok) throw new Error('Network response was not ok');
 
+                const data = await response.json();
                 newsData = data.articles;
 
-                // Cache the data in sessionStorage
+                // Cache the data
                 sessionStorage.setItem('newsData_v4', JSON.stringify(newsData));
                 sessionStorage.setItem('newsDataTime_v4', now.toString());
 
-                // Show cache status in console
-                if (data.cached) {
-                    const age = data.cacheAge ? `${Math.floor(data.cacheAge / 60)} min ago` : 'unknown age';
-                    console.log(`📰 Using cached news (${age})`);
-                } else {
-                    console.log('📰 Fresh news loaded from renewables.az');
-                }
-
+                console.log('📰 Loaded news from static file');
                 renderNews();
-
             } catch (error) {
-                console.warn('API fetch failed, falling back to static JSON:', error);
-
-                // Fallback to static JSON file
-                try {
-                    const response = await fetch('/news-data.json');
-                    const data = await response.json();
-                    newsData = data.articles;
-
-                    // Cache the data
-                    sessionStorage.setItem('newsData_v4', JSON.stringify(newsData));
-                    sessionStorage.setItem('newsDataTime_v4', now.toString());
-
-                    console.log('📰 Loaded news from static file');
-                    renderNews();
-                } catch (fallbackError) {
-                    console.error('Error loading news from both sources:', fallbackError);
-                    newsGrid.innerHTML =
-                        '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">Unable to load news at this time. Please try again later.</p>';
-                }
+                console.error('Error loading news:', error);
+                newsGrid.innerHTML =
+                    '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">Unable to load news at this time. Please try again later.</p>';
             }
         }
 
