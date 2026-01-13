@@ -1132,8 +1132,8 @@
             const newsGrid = document.getElementById('newsGrid');
 
             // Check if we have cached data in sessionStorage
-            const cachedData = sessionStorage.getItem('newsData_v2');
-            const cacheTime = sessionStorage.getItem('newsDataTime_v2');
+            const cachedData = sessionStorage.getItem('newsData_v3');
+            const cacheTime = sessionStorage.getItem('newsDataTime_v3');
             const now = Date.now();
 
             // Use cache if it exists and is less than 5 minutes old
@@ -1160,8 +1160,8 @@
                 newsData = data.articles;
 
                 // Cache the data in sessionStorage
-                sessionStorage.setItem('newsData_v2', JSON.stringify(newsData));
-                sessionStorage.setItem('newsDataTime_v2', now.toString());
+                sessionStorage.setItem('newsData_v3', JSON.stringify(newsData));
+                sessionStorage.setItem('newsDataTime_v3', now.toString());
 
                 // Show cache status in console
                 if (data.cached) {
@@ -1183,8 +1183,8 @@
                     newsData = data.articles;
 
                     // Cache the data
-                    sessionStorage.setItem('newsData_v2', JSON.stringify(newsData));
-                    sessionStorage.setItem('newsDataTime_v2', now.toString());
+                    sessionStorage.setItem('newsData_v3', JSON.stringify(newsData));
+                    sessionStorage.setItem('newsDataTime_v3', now.toString());
 
                     console.log('📰 Loaded news from static file');
                     renderNews();

@@ -212,7 +212,24 @@ async function scrapeAllNews() {
     // Sort by date (most recent first)
     uniqueNews.sort((a, b) => {
         if (!a.date || !b.date) return 0;
-        return b.date.localeCompare(a.date);
+
+        // Parse "DD.MM.YYYY HH:mm" or "DD.MM.YYYY" to Date objects for comparison
+        function parseDate(dateStr) {
+            try {
+                const parts = dateStr.split(/[.\s]/); // Split by dot or space
+                if (parts.length >= 3) {
+                    const day = parts[0];
+                    const month = parts[1];
+                    const year = parts[2];
+                    // Optional time
+                    const time = parts.length > 3 ? parts[3] : '00:00';
+                    return new Date(`${year}-${month}-${day}T${time}:00`);
+                }
+            } catch (e) { return new Date(0); }
+            return new Date(0);
+        }
+
+        return parseDate(b.date) - parseDate(a.date);
     });
 
     return {
