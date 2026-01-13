@@ -1,4 +1,6 @@
 {
+    "cleanUrls": true,
+    "trailingSlash": false,
     "redirects": [
         {
             "source": "/welcome",
@@ -9,17 +11,6 @@
             "source": "/map",
             "destination": "/energy-map",
             "permanent": false
-        },
-        {
-            "source": "/:path*",
-            "has": [
-                {
-                    "type": "host",
-                    "value": "www.plugin.az"
-                }
-            ],
-            "destination": "https://plugin.az/:path*",
-            "permanent": true
         }
     ],
     "headers": [
