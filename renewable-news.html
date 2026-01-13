@@ -1230,7 +1230,7 @@
             }
 
             // Render cards with translation
-            const cardsHTML = await Promise.all(filteredNews.map(async article => {
+            const cardsHTML = filteredNews.map(article => {
                 const slug = article.title
                     .toLowerCase()
                     .replace(/[^\w\s-]/g, '')
@@ -1239,8 +1239,8 @@
                     .trim()
                     .substring(0, 100);
 
-                // Translate title if not in Azerbaijani
-                const translatedTitle = currentLang !== 'az' ? await translateText(article.title, currentLang) : article.title;
+                // Use original title to prevent 429 errors from translation API
+                const title = article.title;
 
                 // Translate category
                 const translatedCategory = translateCategory(article.category, currentLang);
@@ -1248,13 +1248,13 @@
                 return `
                 <div class="news-card">
                     <a href="/news/${slug}" style="text-decoration: none; color: inherit;">
-                        ${article.image ? `<img src="${article.image}" alt="${translatedTitle}" class="news-image" loading="lazy">` : '<div class="news-image" style="background: var(--bg-darker); display: flex; align-items: center; justify-content: center; font-size: 3rem;">📰</div>'}
+                        ${article.image ? `<img src="${article.image}" alt="${title}" class="news-image" loading="lazy">` : '<div class="news-image" style="background: var(--bg-darker); display: flex; align-items: center; justify-content: center; font-size: 3rem;">📰</div>'}
                         <div class="news-content">
                             <div class="news-meta">
                                 <span class="news-category">${translatedCategory}</span>
                                 ${article.date ? `<span class="news-date">📅 ${article.date}</span>` : ''}
                             </div>
-                            <h3 class="news-title">${translatedTitle}</h3>
+                            <h3 class="news-title">${title}</h3>
                         </div>
                     </a>
                     <div class="news-source" style="padding: 0 1.5rem 1.5rem;">
@@ -1263,7 +1263,7 @@
                     </div>
                 </div>
             `;
-            }));
+            });
 
             grid.innerHTML = cardsHTML.join('');
         }
