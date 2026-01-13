@@ -49,6 +49,12 @@ function parseNewsCards(html) {
             title = title.replace(/\s+/g, ' ').trim();
         }
 
+        if (title && title.includes('750 milyon')) {
+            console.log(`DEBUG: Found article "${title}"`);
+            console.log(`DEBUG: Extracted date string: "${date}"`);
+            console.log(`DEBUG: Raw date match:`, dateMatch);
+        }
+
         if (link && title) {
             newsItems.push({
                 title,
