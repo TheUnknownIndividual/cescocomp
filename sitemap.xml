@@ -65,88 +65,274 @@
     <priority>0.8</priority>
   </url>
   
-  <!-- News Articles (164 articles) -->
+  <!-- News Articles (158 articles) -->
   <url>
-    <loc>https://plugin.az/news/nazir-quotxz-aberonquot-kes-yaxn-vaxtlarda-istismara-hazr-olacaqquot</loc>
-    <lastmod>2025 15:15-10-31</lastmod>
+    <loc>https://plugin.az/news/orxan-zeynalov-beynlxalq-ayder-forumunda-itirak-edib-video</loc>
+    <lastmod>2026 17:09-01-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://plugin.az/news/azrbaycanda-3-yeni-kses-tikck-irkt-myynlib</loc>
-    <lastmod>2025 10:57-10-31</lastmod>
+    <loc>https://plugin.az/news/niy-gn-panellri-bakda-az-qarabada-is-srtl-qurulur</loc>
+    <lastmod>2026 13:02-01-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://plugin.az/news/alimlr-ilk-df-qoz-qabndan-su-elektrik-generatoru-hazrlayblar</loc>
-    <lastmod>2025 10:32-08-31</lastmod>
+    <loc>https://plugin.az/news/azrbaycan-b-d-keiriln-quotgeotermal-enerji-dialoququotnda-tmsil-olunub</loc>
+    <lastmod>2026 11:14-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/alparslan-bayraktar-quottrkiynin-ilk-atom-elektrik-stansiyas-lknin-mumi-enerji-istehsalnn-10-faizini</loc>
+    <lastmod>2026 10:00-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/xzrin-klyi-azrbaycan-yal-enerji-tminatsna-evirir-video</loc>
+    <lastmod>2026 09:39-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/mrym-l-mzrui-masdarn-azrbaycanda-ilk-klk-layihsi-maliyylm-mrhlsinddir</loc>
+    <lastmod>2026 19:44-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/azrbaycan-trkiy-enerji-forumu-rivsind-faliyyt-gstrn-brpa-olunan-enerji-zr-ii-qrupun-tbbs-il-seminar-</loc>
+    <lastmod>2026 16:14-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/prezident-enerji-effektivliyi-informasiya-sisteminin-yaradlmasn-tsdiq-edib</loc>
+    <lastmod>2026 15:20-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/tn-il-azrbaycanda-tullantlardan-enerji-istehsal-aqlanb</loc>
+    <lastmod>2026 12:46-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/energetika-nazirinin-mavini-bu-dabi-dayanqllq-hftsind-x-edib-foto-video</loc>
+    <lastmod>2026 21:35-01-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/dnya-bank-v-quotyal-enerji-dhlizi-enerji-irktiquot-mkdaln-mhkmlndirilmsini-razladrb</loc>
+    <lastmod>2026 20:28-01-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/tn-il-azrbaycanda-elektrik-enerjisi-istehsal-09-faiz-artb</loc>
+    <lastmod>2026 17:10-01-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/azrbaycanda-hidroenerji-istehsal-azalb</loc>
+    <lastmod>2026 14:19-01-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/azriq-asc-nin-klk-stansiyalarnn-istehsal-azalb</loc>
+    <lastmod>2026 14:05-01-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/naxvann-gn-enerjisi-istehsalnda-artm-qeyd-alnb</loc>
+    <lastmod>2026 13:49-01-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/respublikada-klk-enerjisi-istehsal-3-dfdn-ox-artb</loc>
+    <lastmod>2026 13:37-01-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/azrbaycanda-gn-enerjisi-istehsal-7-faizdn-ox-artb</loc>
+    <lastmod>2026 12:52-01-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/qozlukrp-ses-d-lkd-ilk-df-masir-enerji-istehsalnda-istifad-ediln-qurular-quradrlb</loc>
+    <lastmod>2026 09:45-01-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/b-nin-masdar-irkti-enerji-portfelinin-gcn-65-giqavata-atdrb</loc>
+    <lastmod>2026 19:51-01-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/2025-ci-ild-azad-edilmi-razilrd-750-milyon-kvts-hidroenerji-istehsal-edilib</loc>
+    <lastmod>2026 15:04-01-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/xzr-qara-dniz-avropa-yal-enerji-dhlizi-italiyann-elektrik-enerjisindn-faydalanmasna-imkan-yaradacaq</loc>
+    <lastmod>2026 14:42-01-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/prezident-ilham-liyev-adr-rayonunda-qozlukrp-su-elektrik-stansiyasnn-alnda-itirak-edib</loc>
+    <lastmod>2026 13:59-01-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/azrbaycan-irena-nn-16-c-assambleyasnda-v-qlobal-geotermal-alyansn-illik-iclasnda-tmsil-olunub</loc>
+    <lastmod>2026 10:57-01-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/azrbaycanda-brpa-olunan-enerji-sektorunda-mulluq-1-547-nfr-atb-irena-nn-hesabat</loc>
+    <lastmod>2026 10:11-01-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/prezident-elektrik-enerjisi-il-tchizat-btn-lkni-hat-edib</loc>
+    <lastmod>2026 21:07-01-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/irena-assambleyasnn-17-ci-sessiyasnn-vitse-prezidentliyin-azrbaycann-namizdliyi-tqdim-edilib</loc>
+    <lastmod>2026 16:17-01-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/bmt-tn-il-tmiz-enerjiy-investisiya-22-trilyon-dollara-atb-video</loc>
+    <lastmod>2026 14:19-01-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/irena-nn-ba-direktoru-lklrin-brpaolunan-enerji-strategiyalarn-gclndirmsinin-vaxt-atb-video</loc>
+    <lastmod>2026 11:46-01-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/quotmetaquot-irktl-20-illik-nv-enerjisi-mqavillri-balayb</loc>
+    <lastmod>2026 09:30-01-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/xz-aberon-klk-elektrik-stansiyas-azrbaycann-v-qafqazn-n-byk-klk-enerji-layihsi</loc>
+    <lastmod>2026 15:15-01-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/mhmmd-bunyyan-quotminm-ki-azrbaycan-hm-d-yal-enerji-ixracats-olacaqquot</loc>
+    <lastmod>2026 15:38-01-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/sfir-quotyal-keid-v-dayanql-inkiaf-hm-in-hm-d-azrbaycan-n-prioritetdirquot</loc>
+    <lastmod>2026 15:27-01-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/sudiyyli-nazir-mavini-regional-interkonnektor-tbbslri-hminin-yal-dhliz-zr-mkdalq-n-geni-imkanlar-grr</loc>
+    <lastmod>2026 15:23-01-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/azrbaycanla-sudiyy-rbistan-krall-arasnda-enerji-mkdal-mzakir-edilib</loc>
+    <lastmod>2026 15:02-01-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/prezident-quotbu-gn-azrbaycann-generasiya-gc-txminn-10-min-meqavata-brabrdirquot</loc>
+    <lastmod>2026 14:57-01-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/prezident-quotialdan-azad-edilmi-razilrd-500-600-meqavat-gcnd-kses-lr-ina-edilckquot</loc>
+    <lastmod>2026 14:11-01-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/bakda-xz-aberon-klk-elektrik-stansiyasnn-rsmi-al-mrasimi-keirilib-foto-video</loc>
+    <lastmod>2026 10:18-01-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/quotazrenerjiquot-v-quotacwa-powerquot-quotxz-aberonquot-kes-in-enerjisistem-qoulmasn-mzakir-edib</loc>
+    <lastmod>2026 20:41-01-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/britaniya-gn-enerjisin-13-milyard-funt-sterlinq-srmay-ayrmaa-hazrlar</loc>
+    <lastmod>2026 17:26-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/azrbaycanda-gn-panellrinin-istehsal-zr-zavodun-tikintisin-balanlb</loc>
+    <lastmod>2026 09:28-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/tn-gn-trkiynin-klk-enerjisi-istehsalnda-rekord-gstrici-qeyd-alnb-253-milyon-kvts</loc>
+    <lastmod>2026 20:00-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/qobustan-ges-in-tikintisin-icaz-alnmasnn-mddti-uzadlb</loc>
+    <lastmod>2026 12:04-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/irena-assambleyasnn-16-c-sessiyas-keirilck</loc>
+    <lastmod>2026 15:46-01-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/alparslan-bayraktar-2026-c-il-trkiy-n-nv-enerjisi-ili-olacaq</loc>
+    <lastmod>2026 11:34-01-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://plugin.az/news/quotsocar-greenquot-v-quotmilla-dairyquot-damst-gn-layihsi-zr-icra-mqavilsi-imzalayb</loc>
     <lastmod>2025 20:28-12-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/binalarn-enerji-effektivliyi-zr-pasportladrlmas-mcburi-olacaq</loc>
-    <lastmod>2025 16:24-12-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/energetika-nazirliyi-binalarn-enerji-effektivliyi-zr-pasportladrlmasna-nzart-edck</loc>
-    <lastmod>2025 16:20-12-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azrbaycanda-elektrik-enerjisi-n-sabit-tariflr-myyn-edilib</loc>
-    <lastmod>2025 15:08-12-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/ialdan-azad-edilmi-razilrd-mit-abonentlri-n-elektrik-bksin-qoulmaq-pulsuz-olub</loc>
-    <lastmod>2025 14:43-12-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/almaniyann-rur-universitetinin-enerji-keidi-laboratoriyasnn-azrbaycanl-icra-direktoru-yal-enerjiy-ke</loc>
-    <lastmod>2025 13:55-12-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/trkiynin-tarixi-hamam-yal-enerjidn-istifadni-sndldirib</loc>
-    <lastmod>2025 16:10-11-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azrbaycanda-drman-preparatlar-istehsal-mssissinin-damnda-710-dd-gn-panellri-quradrlb</loc>
-    <lastmod>2025 11:13-11-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/china-energy-qazaxstanda-gn-v-klk-enerjisi-layihlrin-1-milyard-dollar-srmay-qoyur</loc>
-    <lastmod>2025 12:45-10-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotmsquot-v-quotfqquot-ges-d-mumilikd-206-milyon-kvts-elektrik-enerjisi-istehsal-edilck</loc>
-    <lastmod>2025 11:16-10-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/nazir-xz-aberon-kes-noyabr-aynda-istifady-verilck</loc>
-    <lastmod>2025 15:36-09-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -163,104 +349,92 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://plugin.az/news/in-dnyada-ilk-klk-enerjisi-il-ilyn-sualt-mlumat-mrkzi-tikib</loc>
-    <lastmod>2025 15:12-10-29</lastmod>
+    <loc>https://plugin.az/news/yaponiya-15-ildn-sonra-dnyann-n-byk-atom-elektrik-stansiyasn-yenidn-i-salmaa-hazrlar</loc>
+    <lastmod>2025 12:39-12-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/vayxr-kses-d-istehsal-olunan-elektrik-enerjisinin-hcmi-aqlanb</loc>
+    <lastmod>2025 13:17-12-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/azrbaycan-indn-126-dd-klk-qurular-idxal-edib</loc>
+    <lastmod>2025 17:09-12-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/azrbaycanda-gn-enerjisinin-istehsal-10-faizdn-ox-artb</loc>
+    <lastmod>2025 11:50-12-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/azrbaycanda-klk-enerjisi-istehsal-2-df-artb</loc>
+    <lastmod>2025 11:32-12-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/trkiyd-zn-gn-enerjisi-qurular-n-su-sthlrinin-istifadsin-dair-qaydalar-drc-olunub</loc>
+    <lastmod>2025 13:06-12-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/ai-resourceeu-faliyyt-plann-qbul-etdi-rusiyadan-qaz-idxalna-son-qoymaa-hazrlar</loc>
+    <lastmod>2025 11:49-12-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/fq-ges-in-inas-n-lazm-olan-panellrin-20-faizi-cbrayla-gtirilib</loc>
+    <lastmod>2025 10:20-12-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/fq-gn-layihsi-zr-ictimaiyyt-mlumat-verilib</loc>
+    <lastmod>2025 11:19-12-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/qobustan-gn-elektrik-stansiyasnn-ilk-paneli-quradrlb-foto-video</loc>
+    <lastmod>2025 18:39-12-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/lt-azad-iqtisadi-zonasnda-tikilck-gn-panellri-mssissi-layihlndirm-mrhlsinddir</loc>
+    <lastmod>2025 15:07-12-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/naxvan-ges-in-istismara-verilmsindn-10-il-tr</loc>
+    <lastmod>2025 11:16-12-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/trkiynin-tarixi-hamam-yal-enerjidn-istifadni-sndldirib</loc>
+    <lastmod>2025 16:10-11-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/azrbaycanda-drman-preparatlar-istehsal-mssissinin-damnda-710-dd-gn-panellri-quradrlb</loc>
+    <lastmod>2025 11:13-11-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://plugin.az/news/energetika-nazirliyi-il-clean-energy-capital-mmc-irkti-arasnda-dnizd-klk-enerjisi-il-bal-icra-mqavil</loc>
     <lastmod>2025 18:11-11-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/cbraylda-fq-gn-elektrik-stansiyasnn-tmlqoyma-mrasimi-keirilib</loc>
-    <lastmod>2025 20:11-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/ilham-liyev-cbrayl-rayonunun-ahvlli-kndind-ms-v-fq-gn-elektrik-stansiyalarnn-tmlini-qoyub</loc>
-    <lastmod>2025 16:59-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotcahangirbyliquot-kses-d-istehsal-ediln-elektrik-enerjisinin-hcmi-aqlanb</loc>
-    <lastmod>2025 13:14-09-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotazerbaijan-green-energy-companyquot-mmc-nin-yaranmasndan-2-il-keir</loc>
-    <lastmod>2025 19:00-12-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/b-d-dnyann-ilk-v-n-byk-quotfasilsizquot-gn-v-batareya-saxlama-layihsinin-tmli-qoyulub</loc>
-    <lastmod>2025 10:55-10-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/mitsubishi-irkti-yaponiyann-klk-enerjisi-layihlrindn-xacaq</loc>
-    <lastmod>2025 09:23-08-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/meydan-v-qaml-kses-lrd-istehsal-ediln-enerjinin-hcmi-aqlanb</loc>
-    <lastmod>2025 16:19-05-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azrbaycan-il-bmt-arasnda-enerji-v-dayanql-inkiaf-sahsind-mkdalq-mzakir-olunub</loc>
-    <lastmod>2025 16:16-12-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/in-irktlri-azrbaycanda-mumi-gc-1-570-mvt-olan-boem-stansiyalar-tikck</loc>
-    <lastmod>2025 09:58-12-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotqaradaquot-ges-in-istismara-verilmsindn-2-il-tr</loc>
-    <lastmod>2025 11:09-10-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/trkiy-il-ab-arasnda-nv-enerjisi-sahsind-sazi-imzalanb</loc>
-    <lastmod>2025 09:49-09-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quterre-afrika-brpaolunan-super-gc-evril-bilr</loc>
-    <lastmod>2025 14:14-08-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/klbcr-1-kses-d-istehsal-olunan-elektrik-enerjisinin-hcmi-aqlanb</loc>
-    <lastmod>2025 11:22-06-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/acwa-power-irktinin-tsisisi-prezident-ilham-liyevi-tbrik-edib</loc>
-    <lastmod>2025 19:41-12-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azad-edilmi-razilrd-yal-texnologiyalarn-ttbiqi-zr-monitorinqin-aparlmasnn-2026-c-il-n-icra-qrafiki-t</loc>
-    <lastmod>2025 11:10-12-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -283,134 +457,8 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://plugin.az/news/bp-trampn-tnqidindn-sonra-ab-d-dniz-klk-layihsindn-imtina-edib</loc>
-    <lastmod>2025 12:11-10-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quottotalenergiesquot-azrbaycanda-klk-enerjisi-layihsi-zr-tklif-tqdim-edib</loc>
-    <lastmod>2025 18:41-09-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotcesi-consultingquot-azrbaycanda-dniz-klk-enerjisi-n-byk-imkan-var</loc>
-    <lastmod>2025 11:45-09-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/iraqda-krbla-gn-elektrik-stansiyasnn-birinci-mrhlsi-i-salnb</loc>
-    <lastmod>2025 11:13-09-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotsoyuqbulaqquot-kses-d-42-mln-kvts-quotyalquot-enerji-istehsal-olunub</loc>
-    <lastmod>2025 12:30-08-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotraq-1-v-quotraq-2-kses-lrd-istehsal-ediln-elektrik-enerjisinin-hcmi-aqlanb</loc>
-    <lastmod>2025 11:42-08-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotminiquot-v-quotalxaslquot-kses-lrd-istehsal-olunan-elektrik-enerjisinin-hcmi-aqlanb</loc>
-    <lastmod>2025 10:14-08-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/iranda-600-mvt-gcnd-gn-stansiyasnn-birinci-mrhlsinin-al-olub</loc>
-    <lastmod>2025 14:14-07-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/trkiynin-ilk-lisenziyal-zn-gn-elektrik-stansiyas-istismara-verilib</loc>
-    <lastmod>2025 11:49-05-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/prezidentin-enerji-strategiyasna-hsr-olunan-quotnur-zfriquot-filmi-tqdim-olunub</loc>
-    <lastmod>2025 10:54-12-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azrbaycan-ab-enerji-mkdalnn-yeni-mrhld-inkiaf-mzakir-edilib</loc>
-    <lastmod>2025 16:31-12-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/ilham-liyev-xankndi-1-elektrik-yarmstansiyasnn-alnda-itirak-edib</loc>
-    <lastmod>2025 16:04-12-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azrbaycanda-energetika-sahsind-yeni-dvlt-standartlar-qbul-edilib</loc>
-    <lastmod>2025 14:12-12-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/ember-gn-enerjisi-artq-trkiyd-n-ucuz-elektrik-mnbyidir</loc>
-    <lastmod>2025 14:14-10-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/aramco-ventures-azrbaycan-bol-klk-enerjisi-ehtiyatna-malikdir</loc>
-    <lastmod>2025 15:19-09-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/berdmhmmdov-xzr-dnizind-yeni-elektrik-stansiyas-azrbaycanla-enerji-trfdaln-gclndirck</loc>
-    <lastmod>2025 16:12-08-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/elektrik-tchizat-bklrin-qoulma-ii-qrupunun-iclas-keirilib</loc>
-    <lastmod>2025 18:42-12-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/yaponiya-15-ildn-sonra-dnyann-n-byk-atom-elektrik-stansiyasn-yenidn-i-salmaa-hazrlar</loc>
-    <lastmod>2025 12:39-12-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://plugin.az/news/qobustan-gn-elektrik-stansiyasnda-dayaq-sistemlrinin-quradrlmas-mrhlsi-icra-olunur</loc>
     <lastmod>2025 14:09-11-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/qaraba-v-rqi-zngzurdak-ses-lrd-15-milyard-kvts-quotyalquot-enerji-istehsal-olunub</loc>
-    <lastmod>2025 14:41-08-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/qaraba-v-rqi-zngzurda-mumi-gc-307-mvt-olan-38-ses-istismara-verilib</loc>
-    <lastmod>2025 13:14-08-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotaa-vngquot-quotnadirxanlquot-v-quotaykndquot-kses-lr-32-min-nfri-quotyalquot-enerji-il-tmin-edck</loc>
-    <lastmod>2025 12:27-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -421,68 +469,8 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://plugin.az/news/qarada-gn-elektrik-stansiyasnda-1-milyard-kvts-elektrik-enerjisi-istehsal-olunub</loc>
-    <lastmod>2025 10:24-10-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/klbcrd-aa-vng-nadirxanl-v-ayknd-kiik-su-elektrik-stansiyalarnn-al-olub</loc>
-    <lastmod>2025 14:09-08-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/vayxr-kses-d-istehsal-olunan-elektrik-enerjisinin-hcmi-aqlanb</loc>
-    <lastmod>2025 13:17-12-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://plugin.az/news/trkiy-cop31-iqlim-sammitin-ev-sahibliyi-edck</loc>
     <lastmod>2025 14:11-11-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azrbaycanda-dnizd-klk-enerjisinin-inkiaf-il-bal-caspian-breeze-konsorsiumu-yaradlb</loc>
-    <lastmod>2025 16:08-10-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/qaraba-v-rqi-zngzurda-quradrlan-damst-gn-panellrinin-gc-aqlanb-rsmi</loc>
-    <lastmod>2025 11:46-10-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/klbcr-v-landa-zl-investisiyalar-hesabna-13-mvt-gcnd-4-kiik-su-elektrik-stansiyas-tikilir</loc>
-    <lastmod>2025 10:55-10-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/cbraylda-ms-v-fq-gn-elektrik-stansiyalarnn-tmlinin-yaxn-zamanda-qoyulmas-planladrlr</loc>
-    <lastmod>2025 10:34-10-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotxz-aberonquot-kes-d-mumilikd-37-turbindn-35-i-quradrlb</loc>
-    <lastmod>2025 10:27-10-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/trtray-zrind-quotqozlukrpquot-kses-tikilib-hazrda-son-sazlama-mrhlsinddir</loc>
-    <lastmod>2025 15:44-09-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/ilham-liyev-su-elektrik-enerjisi-qaraba-v-rqi-zngzurda-sas-yer-tutur</loc>
-    <lastmod>2025 13:56-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -499,98 +487,8 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://plugin.az/news/bmu-kampusunda-gn-enerjisi-il-ilyn-iq-dirklri-quradrlb</loc>
-    <lastmod>2025 11:47-10-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azrbaycanda-klk-enerjisi-istehsal-son-5-ild-gerilyib-rsmi-statistika</loc>
-    <lastmod>2025 14:30-09-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotazrenerjiquotnin-ses-lrind-elektrik-istehsal-artb</loc>
-    <lastmod>2025 19:09-07-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/zbkistann-n-byk-klk-elektrik-stansiyas-istifady-verilib</loc>
-    <lastmod>2025 09:22-06-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azrbaycanda-su-obyektlrindn-energetika-mqsdil-istifad-n-razlq-tlb-olunacaq</loc>
-    <lastmod>2025 14:50-12-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/energetika-nazirliyind-kollegiya-iclas-keirilib</loc>
-    <lastmod>2025 12:28-12-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotapplequot-avropada-brpa-olunan-enerji-layihlrini-genilndirir</loc>
-    <lastmod>2025 11:11-10-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azrbaycan-116-dd-klk-qurular-idxal-edib-onlardan-112-si-indn-gtirilib</loc>
-    <lastmod>2025 14:34-09-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/respublikada-su-elektrik-stansiyalarnn-istehsal-artb</loc>
-    <lastmod>2025 16:11-06-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azrbaycan-indn-126-dd-klk-qurular-idxal-edib</loc>
-    <lastmod>2025 17:09-12-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://plugin.az/news/rusiya-pilotsuz-tyyarsi-ukraynann-odessa-vilaytindki-gn-stansiyasn-vurub</loc>
     <lastmod>2025 16:28-11-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotakkuyuquot-aes-d-tezlikl-elektrik-enerjisi-istehsalna-balanacaq</loc>
-    <lastmod>2025 13:33-10-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/respublikada-ses-lrin-istehsal-125-artb</loc>
-    <lastmod>2025 14:10-08-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/trkiy-v-oman-brpa-olunan-enerjinin-inkiaf-zr-birg-layihlr-planladrr</loc>
-    <lastmod>2025 17:16-07-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azrbaycanda-gn-enerjisinin-istehsal-10-faizdn-ox-artb</loc>
-    <lastmod>2025 11:50-12-16</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azrbaycanda-klk-enerjisi-istehsal-2-df-artb</loc>
-    <lastmod>2025 11:32-12-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -603,6 +501,192 @@
   <url>
     <loc>https://plugin.az/news/azrbaycanda-klk-enerjisinin-istehsal-61-faizdn-ox-artb</loc>
     <lastmod>2025 17:07-11-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/iea-brpa-olunan-enerji-srtl-inkiaf-edn-mnb-olaraq-qalr-hesabat</loc>
+    <lastmod>2025 12:49-11-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/quotfqquot-ges-layihsi-ilk-df-b2b-modeli-sasnda-icra-olunur</loc>
+    <lastmod>2025 16:28-11-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/in-irktinin-xzrd-200-mvt-gcnd-klk-enerjisi-layihsini-icra-edcyi-tarix-aqlanb</loc>
+    <lastmod>2025 14:01-11-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/quotxz-aberonquot-kes-d-turbinlrin-quradrlmas-ilri-baa-atb</loc>
+    <lastmod>2025 09:29-11-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/azrbaycan-in-irkti-il-100-mvt-gcnd-gn-layihsin-dair-icra-mqavilsi-imzalayb</loc>
+    <lastmod>2025 16:48-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/avstraliya-milyonlarla-insana-sutkada-3-saat-dnisiz-gn-enerjisi-verck</loc>
+    <lastmod>2025 11:11-11-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/opec-fondunun-nmayndlri-quotxz-aberonquot-kes-sfr-edib</loc>
+    <lastmod>2025 13:15-11-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/alimlr-ya-damclarndan-enerji-toplayan-zn-quru-hazrlayb</loc>
+    <lastmod>2025 16:24-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/azrbaycan-trkiynin-quotataseven-groupquot-irkti-il-klk-enerji-zr-mkdalq-edck</loc>
+    <lastmod>2025 15:36-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/bakda-gn-panelli-avtomobil-dayanaca-istifady-verilib</loc>
+    <lastmod>2025 14:13-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/quotmsquot-ges-layihsinin-dyri-63-milyon-manat-tkil-edck</loc>
+    <lastmod>2025 10:02-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/azrbaycan-qrzstan-inkiaf-fondu-kiik-ses-in-tikintisin-vsait-ayracaq</loc>
+    <lastmod>2025 09:26-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/irena-nn-ba-direktoru-dayanql-bioyanacaqlar-cop30-un-sas-mvzularndan-biri-olacaq</loc>
+    <lastmod>2025 16:12-11-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/xudafrin-v-qz-qalas-ses-in-tikintisi-il-bal-aq-tender-elan-edilib</loc>
+    <lastmod>2025 15:24-11-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/nazir-quotxz-aberonquot-kes-yaxn-vaxtlarda-istismara-hazr-olacaqquot</loc>
+    <lastmod>2025 15:15-10-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/azrbaycanda-3-yeni-kses-tikck-irkt-myynlib</loc>
+    <lastmod>2025 10:57-10-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/china-energy-qazaxstanda-gn-v-klk-enerjisi-layihlrin-1-milyard-dollar-srmay-qoyur</loc>
+    <lastmod>2025 12:45-10-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/quotmsquot-v-quotfqquot-ges-d-mumilikd-206-milyon-kvts-elektrik-enerjisi-istehsal-edilck</loc>
+    <lastmod>2025 11:16-10-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/in-dnyada-ilk-klk-enerjisi-il-ilyn-sualt-mlumat-mrkzi-tikib</loc>
+    <lastmod>2025 15:12-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/cbraylda-fq-gn-elektrik-stansiyasnn-tmlqoyma-mrasimi-keirilib</loc>
+    <lastmod>2025 20:11-10-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/ilham-liyev-cbrayl-rayonunun-ahvlli-kndind-ms-v-fq-gn-elektrik-stansiyalarnn-tmlini-qoyub</loc>
+    <lastmod>2025 16:59-10-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/b-d-dnyann-ilk-v-n-byk-quotfasilsizquot-gn-v-batareya-saxlama-layihsinin-tmli-qoyulub</loc>
+    <lastmod>2025 10:55-10-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/quotqaradaquot-ges-in-istismara-verilmsindn-2-il-tr</loc>
+    <lastmod>2025 11:09-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/bp-trampn-tnqidindn-sonra-ab-d-dniz-klk-layihsindn-imtina-edib</loc>
+    <lastmod>2025 12:11-10-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/ember-gn-enerjisi-artq-trkiyd-n-ucuz-elektrik-mnbyidir</loc>
+    <lastmod>2025 14:14-10-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/qarada-gn-elektrik-stansiyasnda-1-milyard-kvts-elektrik-enerjisi-istehsal-olunub</loc>
+    <lastmod>2025 10:24-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/azrbaycanda-dnizd-klk-enerjisinin-inkiaf-il-bal-caspian-breeze-konsorsiumu-yaradlb</loc>
+    <lastmod>2025 16:08-10-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/klbcr-v-landa-zl-investisiyalar-hesabna-13-mvt-gcnd-4-kiik-su-elektrik-stansiyas-tikilir</loc>
+    <lastmod>2025 10:55-10-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/quotxz-aberonquot-kes-d-mumilikd-37-turbindn-35-i-quradrlb</loc>
+    <lastmod>2025 10:27-10-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/quotapplequot-avropada-brpa-olunan-enerji-layihlrini-genilndirir</loc>
+    <lastmod>2025 11:11-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/quotakkuyuquot-aes-d-tezlikl-elektrik-enerjisi-istehsalna-balanacaq</loc>
+    <lastmod>2025 13:33-10-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -631,86 +715,8 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://plugin.az/news/respublikada-hidroenerji-istehsal-artb</loc>
-    <lastmod>2025 16:54-09-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/statistika-komitsi-klk-enerjisi-istehsalnda-azalma-qeyd-alb</loc>
-    <lastmod>2025 16:14-09-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/iea-brpa-olunan-enerji-srtl-inkiaf-edn-mnb-olaraq-qalr-hesabat</loc>
-    <lastmod>2025 12:49-11-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://plugin.az/news/iran-250-mvt-gcnd-yeni-gn-elektrik-stansiyalarnn-aln-edib</loc>
     <lastmod>2025 10:35-10-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/naxvann-hidroenerji-potensial-ses-lr-v-enerji-istehsal</loc>
-    <lastmod>2025 15:48-08-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotismayll-1quot-kses-d-36-milyon-kvts-dan-ox-elektrik-enerjisi-istehsal-olunub</loc>
-    <lastmod>2025 10:52-08-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotfqquot-ges-layihsi-ilk-df-b2b-modeli-sasnda-icra-olunur</loc>
-    <lastmod>2025 16:28-11-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/in-irktinin-xzrd-200-mvt-gcnd-klk-enerjisi-layihsini-icra-edcyi-tarix-aqlanb</loc>
-    <lastmod>2025 14:01-11-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotxz-aberonquot-kes-d-turbinlrin-quradrlmas-ilri-baa-atb</loc>
-    <lastmod>2025 09:29-11-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/almaniyada-gn-enerjisi-il-bal-subsidiyalar-azaldla-bilr</loc>
-    <lastmod>2025 10:14-08-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/trkiynin-klk-enerjisi-gc-son-on-ild-177-artb</loc>
-    <lastmod>2025 14:19-06-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/trkiyd-zn-gn-enerjisi-qurular-n-su-sthlrinin-istifadsin-dair-qaydalar-drc-olunub</loc>
-    <lastmod>2025 13:06-12-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azrbaycan-in-irkti-il-100-mvt-gcnd-gn-layihsin-dair-icra-mqavilsi-imzalayb</loc>
-    <lastmod>2025 16:48-11-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotxz-aberonquot-kes-d-indiydk-30-klk-turbini-quradrlb</loc>
-    <lastmod>2025 10:11-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -721,56 +727,8 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://plugin.az/news/bu-dabid-beynlxalq-brpaolunan-enerji-agentliyi-urasnn-29-cu-iclas-i-balayb</loc>
-    <lastmod>2025 21:14-09-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/acwa-power-irkti-il-klk-enerjisi-layihlrinin-icras-mzakir-olunub</loc>
-    <lastmod>2025 19:30-09-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotxz-aberonquot-kes-tamamil-yerli-ii-qvvsi-il-idar-olunacaq</loc>
-    <lastmod>2025 16:34-09-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azrbaycanda-yeni-kses-lrin-tikintisin-srf-olunacaq-vsaitin-hcmi-myynlib</loc>
-    <lastmod>2025 13:57-07-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/ai-resourceeu-faliyyt-plann-qbul-etdi-rusiyadan-qaz-idxalna-son-qoymaa-hazrlar</loc>
-    <lastmod>2025 11:49-12-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/avstraliya-milyonlarla-insana-sutkada-3-saat-dnisiz-gn-enerjisi-verck</loc>
-    <lastmod>2025 11:11-11-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://plugin.az/news/ai-nin-yal-enerji-mhsullar-idxal-2024-c-ild-146-milyard-avroya-atb</loc>
     <lastmod>2025 15:14-10-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotismayll-2quot-kses-d-30-milyon-kvts-dan-ox-elektrik-enerjisi-istehsal-edilib</loc>
-    <lastmod>2025 15:17-08-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/fq-ges-in-inas-n-lazm-olan-panellrin-20-faizi-cbrayla-gtirilib</loc>
-    <lastmod>2025 10:20-12-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -787,38 +745,8 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://plugin.az/news/opec-fondunun-nmayndlri-quotxz-aberonquot-kes-sfr-edib</loc>
-    <lastmod>2025 13:15-11-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://plugin.az/news/tramp-administrasiyas-tmiz-enerji-layihlrinin-maliyylmsini-12-milyard-dollar-azaldr</loc>
     <lastmod>2025 09:45-10-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/fq-gn-layihsi-zr-ictimaiyyt-mlumat-verilib</loc>
-    <lastmod>2025 11:19-12-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/alimlr-ya-damclarndan-enerji-toplayan-zn-quru-hazrlayb</loc>
-    <lastmod>2025 16:24-11-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/in-v-trkiy-irktlri-klk-enerjisi-sahsind-mkdalq-haqqnda-sazi-balayb</loc>
-    <lastmod>2025 15:26-09-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/energetika-nazirliyind-acwa-power-irkti-il-mzakirlr-aparlb</loc>
-    <lastmod>2026 14:35-01-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -829,128 +757,8 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://plugin.az/news/dnya-bank-trkiyd-elektrik-bksinin-masirldirilmsi-il-bal-layihnin-maliyyldirilmsini-tsdiqlyib</loc>
-    <lastmod>2025 16:06-08-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/britaniya-gn-enerjisin-13-milyard-funt-sterlinq-srmay-ayrmaa-hazrlar</loc>
-    <lastmod>2026 17:26-01-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/adb-azrbaycanda-boem-in-enerji-bklrin-inteqrasiyas-zr-layihy-start-verir</loc>
-    <lastmod>2026 15:16-01-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azad-edilmi-razilrd-7-mindn-artq-led-iqlandrma-qurusu-quradrlb</loc>
-    <lastmod>2026 11:48-01-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/ilham-liyev-qsamddtli-planlarmz-8-giqavat-enerji-ld-etmkdir</loc>
-    <lastmod>2026 10:05-01-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azrbaycanda-gn-panellrinin-istehsal-zr-zavodun-tikintisin-balanlb</loc>
-    <lastmod>2026 09:28-01-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://plugin.az/news/quotbilvquot-ses-d-620-milyon-kvts-dan-ox-elektrik-enerjisi-istehsal-olunub</loc>
     <lastmod>2025 14:44-10-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azrbaycan-startap-yeni-tipli-aquli-oxlu-klk-turbini-tklif-edir</loc>
-    <lastmod>2025 14:15-09-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/tn-gn-trkiynin-klk-enerjisi-istehsalnda-rekord-gstrici-qeyd-alnb-253-milyon-kvts</loc>
-    <lastmod>2026 20:00-01-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/cbrayl-liyev-azad-edilmi-razilrd-quradrlan-led-iqlandrma-sistemlrinin-40-faizi-gn-enerjisi-il-ilyn-h</loc>
-    <lastmod>2026 17:04-01-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/energetika-nazirliyind-enerji-smrliliyi-led-lampalara-keid-mvzusunda-brifinq-keirilib-foto-video</loc>
-    <lastmod>2026 14:36-01-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/enerji-smrliliyi-siyastin-uyun-olaraq-azrbaycanda-led-lampalarn-istifadsi-genilnir</loc>
-    <lastmod>2026 12:18-01-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/qobustan-ges-in-tikintisin-icaz-alnmasnn-mddti-uzadlb</loc>
-    <lastmod>2026 12:04-01-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azrbaycanda-yal-enerji-layihlrin-yatrlan-investisiyalarn-hcmi-aqlanb</loc>
-    <lastmod>2026 11:32-01-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azrbaycan-trkiynin-quotataseven-groupquot-irkti-il-klk-enerji-zr-mkdalq-edck</loc>
-    <lastmod>2025 15:36-11-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/bakda-gn-panelli-avtomobil-dayanaca-istifady-verilib</loc>
-    <lastmod>2025 14:13-11-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/quotmsquot-ges-layihsinin-dyri-63-milyon-manat-tkil-edck</loc>
-    <lastmod>2025 10:02-11-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/rcb-tayyib-rdoan-trkiy-brpa-olunan-enerji-gcn-gr-avropada-beinci-dnyada-on-birinci-yerddir</loc>
-    <lastmod>2025 20:24-07-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/in-500-mvt-lq-dnyann-n-gcl-hidroturbinlrini-quradrr</loc>
-    <lastmod>2025 14:02-07-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/qobustan-gn-elektrik-stansiyasnn-ilk-paneli-quradrlb-foto-video</loc>
-    <lastmod>2025 18:39-12-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/azrbaycan-qrzstan-inkiaf-fondu-kiik-ses-in-tikintisin-vsait-ayracaq</loc>
-    <lastmod>2025 09:26-11-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -973,6 +781,90 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://plugin.az/news/xzrin-sahilind-atom-elektrik-stansiyas-tikil-bilr</loc>
+    <lastmod>2025 17:28-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/nazir-xz-aberon-kes-noyabr-aynda-istifady-verilck</loc>
+    <lastmod>2025 15:36-09-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/quotcahangirbyliquot-kses-d-istehsal-ediln-elektrik-enerjisinin-hcmi-aqlanb</loc>
+    <lastmod>2025 13:14-09-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/trkiy-il-ab-arasnda-nv-enerjisi-sahsind-sazi-imzalanb</loc>
+    <lastmod>2025 09:49-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/quottotalenergiesquot-azrbaycanda-klk-enerjisi-layihsi-zr-tklif-tqdim-edib</loc>
+    <lastmod>2025 18:41-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/quotcesi-consultingquot-azrbaycanda-dniz-klk-enerjisi-n-byk-imkan-var</loc>
+    <lastmod>2025 11:45-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/iraqda-krbla-gn-elektrik-stansiyasnn-birinci-mrhlsi-i-salnb</loc>
+    <lastmod>2025 11:13-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/aramco-ventures-azrbaycan-bol-klk-enerjisi-ehtiyatna-malikdir</loc>
+    <lastmod>2025 15:19-09-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/trtray-zrind-quotqozlukrpquot-kses-tikilib-hazrda-son-sazlama-mrhlsinddir</loc>
+    <lastmod>2025 15:44-09-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/azrbaycanda-klk-enerjisi-istehsal-son-5-ild-gerilyib-rsmi-statistika</loc>
+    <lastmod>2025 14:30-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/azrbaycan-116-dd-klk-qurular-idxal-edib-onlardan-112-si-indn-gtirilib</loc>
+    <lastmod>2025 14:34-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/respublikada-hidroenerji-istehsal-artb</loc>
+    <lastmod>2025 16:54-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/bu-dabid-beynlxalq-brpaolunan-enerji-agentliyi-urasnn-29-cu-iclas-i-balayb</loc>
+    <lastmod>2025 21:14-09-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/in-v-trkiy-irktlri-klk-enerjisi-sahsind-mkdalq-haqqnda-sazi-balayb</loc>
+    <lastmod>2025 15:26-09-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://plugin.az/news/qafqaz-v-mrkzi-asiyadan-avropaya-quotyalquot-enerji-dhlizlrinin-yaradlmas-zr-tbbslr-hmiyytli-hcmd-in</loc>
     <lastmod>2025 11:21-09-03</lastmod>
     <changefreq>monthly</changefreq>
@@ -985,68 +877,140 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://plugin.az/news/balakn-kses-d-istehsal-ediln-elektrik-enerjisinin-hcmi-aqlanb</loc>
-    <lastmod>2025 11:38-08-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/irena-nn-ba-direktoru-dayanql-bioyanacaqlar-cop30-un-sas-mvzularndan-biri-olacaq</loc>
-    <lastmod>2025 16:12-11-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/rdoan-trkiy-v-azrbaycan-avropann-enerji-thlksizliyi-baxmndan-strateji-hmiyyt-dayr</loc>
-    <lastmod>2025 14:01-06-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/irena-assambleyasnn-16-c-sessiyas-keirilck</loc>
-    <lastmod>2026 15:46-01-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/alparslan-bayraktar-2026-c-il-trkiy-n-nv-enerjisi-ili-olacaq</loc>
-    <lastmod>2026 11:34-01-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/lt-azad-iqtisadi-zonasnda-tikilck-gn-panellri-mssissi-layihlndirm-mrhlsinddir</loc>
-    <lastmod>2025 15:07-12-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/naxvan-ges-in-istismara-verilmsindn-10-il-tr</loc>
-    <lastmod>2025 11:16-12-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/xudafrin-v-qz-qalas-ses-in-tikintisi-il-bal-aq-tender-elan-edilib</loc>
-    <lastmod>2025 15:24-11-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://plugin.az/news/xzrin-sahilind-atom-elektrik-stansiyas-tikil-bilr</loc>
-    <lastmod>2025 17:28-10-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://plugin.az/news/ind-26-mvt-gcnd-dniz-klk-turbininin-prototipi-quradrlb-video</loc>
     <lastmod>2025 10:23-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://plugin.az/news/2025-ci-ild-yal-enerji-sektorunda-ba-vern-sas-hadislr-xronoloji-icmal</loc>
-    <lastmod>2026 11:30-01-01</lastmod>
+    <loc>https://plugin.az/news/quotsoyuqbulaqquot-kses-d-42-mln-kvts-quotyalquot-enerji-istehsal-olunub</loc>
+    <lastmod>2025 12:30-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/quotraq-1-v-quotraq-2-kses-lrd-istehsal-ediln-elektrik-enerjisinin-hcmi-aqlanb</loc>
+    <lastmod>2025 11:42-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/quotminiquot-v-quotalxaslquot-kses-lrd-istehsal-olunan-elektrik-enerjisinin-hcmi-aqlanb</loc>
+    <lastmod>2025 10:14-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/berdmhmmdov-xzr-dnizind-yeni-elektrik-stansiyas-azrbaycanla-enerji-trfdaln-gclndirck</loc>
+    <lastmod>2025 16:12-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/qaraba-v-rqi-zngzurdak-ses-lrd-15-milyard-kvts-quotyalquot-enerji-istehsal-olunub</loc>
+    <lastmod>2025 14:41-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/qaraba-v-rqi-zngzurda-mumi-gc-307-mvt-olan-38-ses-istismara-verilib</loc>
+    <lastmod>2025 13:14-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/quotaa-vngquot-quotnadirxanlquot-v-quotaykndquot-kses-lr-32-min-nfri-quotyalquot-enerji-il-tmin-edck</loc>
+    <lastmod>2025 12:27-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/klbcrd-aa-vng-nadirxanl-v-ayknd-kiik-su-elektrik-stansiyalarnn-al-olub</loc>
+    <lastmod>2025 14:09-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/respublikada-ses-lrin-istehsal-125-artb</loc>
+    <lastmod>2025 14:10-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/naxvann-hidroenerji-potensial-ses-lr-v-enerji-istehsal</loc>
+    <lastmod>2025 15:48-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/quotismayll-1quot-kses-d-36-milyon-kvts-dan-ox-elektrik-enerjisi-istehsal-olunub</loc>
+    <lastmod>2025 10:52-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/quotismayll-2quot-kses-d-30-milyon-kvts-dan-ox-elektrik-enerjisi-istehsal-edilib</loc>
+    <lastmod>2025 15:17-08-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/dnya-bank-trkiyd-elektrik-bksinin-masirldirilmsi-il-bal-layihnin-maliyyldirilmsini-tsdiqlyib</loc>
+    <lastmod>2025 16:06-08-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/balakn-kses-d-istehsal-ediln-elektrik-enerjisinin-hcmi-aqlanb</loc>
+    <lastmod>2025 11:38-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/iranda-600-mvt-gcnd-gn-stansiyasnn-birinci-mrhlsinin-al-olub</loc>
+    <lastmod>2025 14:14-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/ilham-liyev-su-elektrik-enerjisi-qaraba-v-rqi-zngzurda-sas-yer-tutur</loc>
+    <lastmod>2025 13:56-07-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/quotazrenerjiquotnin-ses-lrind-elektrik-istehsal-artb</loc>
+    <lastmod>2025 19:09-07-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/trkiy-v-oman-brpa-olunan-enerjinin-inkiaf-zr-birg-layihlr-planladrr</loc>
+    <lastmod>2025 17:16-07-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/rcb-tayyib-rdoan-trkiy-brpa-olunan-enerji-gcn-gr-avropada-beinci-dnyada-on-birinci-yerddir</loc>
+    <lastmod>2025 20:24-07-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/zbkistann-n-byk-klk-elektrik-stansiyas-istifady-verilib</loc>
+    <lastmod>2025 09:22-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/trkiynin-klk-enerjisi-gc-son-on-ild-177-artb</loc>
+    <lastmod>2025 14:19-06-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://plugin.az/news/rdoan-trkiy-v-azrbaycan-avropann-enerji-thlksizliyi-baxmndan-strateji-hmiyyt-dayr</loc>
+    <lastmod>2025 14:01-06-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
