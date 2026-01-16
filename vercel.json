@@ -1,3 +1,4 @@
+```json
 {
     "cleanUrls": true,
     "trailingSlash": false,
@@ -11,6 +12,24 @@
             "source": "/map",
             "destination": "/energy-map",
             "permanent": false
+        }
+    ],
+    "rewrites": [
+        {
+            "source": "/renewable-news",
+            "destination": "/renewable-news.html"
+        },
+        {
+            "source": "/solar-calculator",
+            "destination": "/solar-calculator.html"
+        },
+        {
+            "source": "/regulatory-framework",
+            "destination": "/regulatory-framework.html"
+        },
+        {
+            "source": "/news/:slug",
+            "destination": "/news/:slug.html"
         }
     ],
     "headers": [
