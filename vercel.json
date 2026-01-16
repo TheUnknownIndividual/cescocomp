@@ -29,6 +29,18 @@
         {
             "source": "/news/:slug",
             "destination": "/news/:slug.html"
+        },
+        {
+            "source": "/news/az/:slug",
+            "destination": "/news/az/:slug.html"
+        },
+        {
+            "source": "/news/en/:slug",
+            "destination": "/news/en/:slug.html"
+        },
+        {
+            "source": "/news/ru/:slug",
+            "destination": "/news/ru/:slug.html"
         }
     ],
     "headers": [

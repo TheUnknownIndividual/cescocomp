@@ -1,0 +1,51 @@
+name: Daily News Update
+
+on:
+  schedule:
+    # Run every day at 2:00 AM UTC (6:00 AM Azerbaijan time)
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-news:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: |
+          npm install --production || true
+          
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+          
+      - name: Run daily news update
+        run: |
+          node automation/daily-news-update.js
+        env:
+          NODE_ENV: production
+          
+      - name: Upload logs as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: update-logs-${{ github.run_number }}
+          path: automation/logs/*.log
+          retention-days: 30
+          
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "::error::Daily news update failed. Check logs for details."
+          cat automation/logs/*.log | tail -100

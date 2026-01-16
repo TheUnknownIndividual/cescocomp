@@ -1,0 +1,10 @@
+# Automation logs
+automation/logs/*.log
+automation/logs/
+
+# Translation cache
+news-data-multilang.json
+
+# Temporary files
+*.tmp
+*.temp

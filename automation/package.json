@@ -1,0 +1,20 @@
+{
+    "name": "plugin-news-automation",
+    "version": "1.0.0",
+    "description": "Automated news update system for plugin.az",
+    "main": "automation/daily-news-update.js",
+    "scripts": {
+        "update:news": "node automation/daily-news-update.js",
+        "translate": "node automation/translate-articles.js",
+        "generate:pages": "node automation/generate-multilang-pages.js",
+        "update:seo": "node automation/update-seo.js"
+    },
+    "keywords": [
+        "automation",
+        "news",
+        "translation",
+        "seo"
+    ],
+    "author": "Plugin.az",
+    "license": "MIT"
+}
