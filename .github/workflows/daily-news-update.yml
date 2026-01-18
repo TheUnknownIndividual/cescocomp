@@ -40,31 +40,6 @@ jobs:
         env:
           NODE_ENV: production
           
-      - name: Check for changes and push
-        run: |
-          # Check if there are changes
-          if [[ -n $(git status --porcelain) ]]; then
-            echo "Changes detected, committing and pushing..."
-            git add news/ news-data.json news-data-multilang.json sitemap.xml
-            
-            ARTICLE_COUNT=$(find news -name "*.html" | wc -l | tr -d ' ')
-            TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-            
-            git commit -m "chore: Automated news update - ${ARTICLE_COUNT} articles" \
-                       -m "- Fetched latest news from renewables.az" \
-                       -m "- Generated multilingual pages (AZ/EN/RU)" \
-                       -m "- Updated sitemap and SEO metadata" \
-                       -m "- Automated update: ${TIMESTAMP}" \
-                       -m "# Added a small note for testing purposes"
-            
-            git push
-            echo "✅ Changes pushed successfully"
-          else
-            echo "⚠️ No changes to commit"
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
       - name: Upload logs as artifact
         if: always()
         uses: actions/upload-artifact@v4

@@ -2,6 +2,10 @@
 automation/logs/*.log
 automation/logs/
 
+# Dependencies and lock files
+package-lock.json
+node_modules/
+
 # Temporary files
 *.tmp
 *.temp

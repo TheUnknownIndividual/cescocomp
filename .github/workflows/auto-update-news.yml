@@ -1,10 +1,14 @@
-name: Auto Update News Articles
+name: Auto Update News Articles (Deprecated)
+
+# NOTE: This workflow has been superseded by daily-news-update.yml
+# which runs more frequently (3x daily) and has improved error handling.
+# Keeping this for reference/fallback only. Use workflow_dispatch to manually trigger if needed.
 
 on:
-  schedule:
-    # Run every day at 9:00 AM UTC
-    - cron: '0 9 * * *'
-  
+  # schedule:
+  #   # Run every day at 9:00 AM UTC
+  #   - cron: '0 9 * * *'
+
   # Allow manual trigger
   workflow_dispatch:
 
