@@ -2,9 +2,9 @@ name: Daily News Update
 
 on:
   schedule:
-    # Run three times daily: 2:00 AM, 10:00 AM, 6:00 PM UTC
-    # (6:00 AM, 2:00 PM, 10:00 PM Azerbaijan time)
-    - cron: '0 2,10,18 * * *'
+    # Run three times daily: 2:00 AM, 8:00 AM, 2:00 PM UTC
+    # (6:00 AM, 12:00 PM, 6:00 PM Azerbaijan GMT+4 time)
+    - cron: '0 2,8,14 * * *'
   workflow_dispatch: # Allow manual trigger
 
 permissions:

@@ -779,6 +779,185 @@
         }
         /* === END STANDARDIZED NAVIGATION CSS === */
 
+        /* === ARTICLE STYLING === */
+        article {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: rgba(111, 145, 168, 0.15);
+            color: var(--az-blue);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .attribution-section {
+            background: var(--card-bg);
+            border-left: 4px solid var(--az-blue);
+            padding: 1.5rem;
+            margin: 3rem 0;
+            border-radius: 8px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .attribution-section h3 {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            color: var(--az-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .attribution-section p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .source-link {
+            color: var(--az-blue);
+            text-decoration: none;
+            border-bottom: 1px solid var(--az-blue);
+            padding-bottom: 2px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .source-link:hover {
+            color: var(--accent-bronze);
+            border-bottom-color: var(--accent-bronze);
+        }
+
+        body.light-mode .attribution-section {
+            background: rgba(0, 0, 0, 0.02);
+            border-left-color: rgba(111, 145, 168, 0.5);
+        }
+
+        body.light-mode .attribution-section h3 {
+            color: var(--az-blue);
+        }
+
+        .related-articles {
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .related-articles h2 {
+            font-size: 1.75rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .related-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .related-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--az-blue);
+        }
+
+        .related-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .related-card-content {
+            padding: 1.25rem;
+        }
+
+        .related-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+            color: var(--text-primary);
+        }
+
+        .related-card .meta {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        body.light-mode .related-card {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-mode .related-card:hover {
+            border-color: var(--az-blue);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--az-blue);
+            transform: translateX(-4px);
+        }
+
+        @media (max-width: 768px) {
+            article {
+                padding: 7rem 1.5rem 3rem;
+            }
+
+            .related-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .article-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+        }
+        /* === END ARTICLE STYLING === */
+
     </style>
     <script type="module">
         import { inject } from 'https://cdn.jsdelivr.net/npm/@vercel/analytics/+esm';
@@ -888,14 +1067,17 @@
     <article>
         <div class="lang-en">
             <header class="article-header">
-                <div class="category">Law of the Republic of Azerbaijan</div>
+                <span class="category-badge">LEGISLATION</span>
                 <h1>Law on Energy</h1>
-                <div class="meta">
-                    Law №1006-VIQ
-                    <span class="meta-divider">•</span>
-                    October 24, 2023
-                    <span class="meta-divider">•</span>
-                    Signed by President Ilham Aliyev
+                <div class="article-meta">
+                    <span class="meta-item">
+                        <span>⚖️</span>
+                        <span>Law №1006-VIQ</span>
+                    </span>
+                    <span class="meta-item">
+                        <span>📅</span>
+                        <span>October 24, 2023</span>
+                    </span>
                 </div>
             </header>
 
@@ -1229,6 +1411,41 @@
                 </p>
             </div>
         </div>
+
+        <!-- Attribution Section -->
+        <div class="attribution-section">
+            <h3>📄 Official Source</h3>
+            <p>This comprehensive law establishes the legal and regulatory framework for all energy activities in the Republic of Azerbaijan, including generation, transmission, distribution, and consumption.</p>
+            <p><strong>Read the full text:</strong>
+               <a href="https://e-qanun.az/framework/48129" target="_blank" rel="noopener" class="source-link">e-qanun.az</a>
+            </p>
+        </div>
+
+        <!-- Related Laws & Policies -->
+        <div class="related-articles">
+            <h2>Related Laws & Policies</h2>
+            <div class="related-grid">
+                <a href="/law-res.html" class="related-card">
+                    <div class="related-card-content">
+                        <h3>Law on Renewable Energy Sources</h3>
+                        <p class="meta">Law №339-VIQ • May 2021</p>
+                    </div>
+                </a>
+                <a href="/law-electric-power.html" class="related-card">
+                    <div class="related-card-content">
+                        <h3>Law on Electric Power</h3>
+                        <p class="meta">Law №858-VIQ • April 2023</p>
+                    </div>
+                </a>
+                <a href="/law-efficiency.html" class="related-card">
+                    <div class="related-card-content">
+                        <h3>Law on Energy Efficiency</h3>
+                        <p class="meta">Law №359-VIQ • July 2021</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
     </article>
 
     <script>
