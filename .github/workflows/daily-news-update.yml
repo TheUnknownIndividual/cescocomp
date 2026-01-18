@@ -53,7 +53,8 @@ jobs:
                        -m "- Fetched latest news from renewables.az" \
                        -m "- Generated multilingual pages (AZ/EN/RU)" \
                        -m "- Updated sitemap and SEO metadata" \
-                       -m "- Automated update: ${TIMESTAMP}"
+                       -m "- Automated update: ${TIMESTAMP}" \
+                       -m "# Added a small note for testing purposes"
             
             git push
             echo "✅ Changes pushed successfully"
