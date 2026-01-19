@@ -1,8 +1,10 @@
 // Generate Multilingual News Pages
 // Creates AZ/EN/RU versions of each article with proper hreflang tags
+// NOW WITH INCREMENTAL PROCESSING: Only generates pages for new articles!
 
 const fs = require('fs');
 const path = require('path');
+const tracking = require('./article-tracking');
 
 // Create language directories
 const newsDir = path.join(__dirname, '../news');
@@ -74,30 +76,73 @@ function generateArticlePage(article, lang) {
     return articleHTML;
 }
 
-console.log('📄 Generating multilingual news pages...\n');
+// INCREMENTAL PAGE GENERATION (only generate for new articles)
+(async () => {
+    try {
+        console.log('📄 Generating multilingual news pages (INCREMENTAL)...\n');
 
-let totalGenerated = 0;
+        // Load processing state
+        const processingState = tracking.loadProcessedArticles();
 
-['az', 'en', 'ru'].forEach(lang => {
-    console.log(`\n🌐 Generating ${lang.toUpperCase()} pages...`);
-    const articles = newsData.articles[lang];
+        console.log(`📊 Articles needing pages: Checking...`);
 
-    articles.forEach((article, index) => {
-        const slug = slugify(article.title);
-        const fileName = `${slug}.html`;
-        const filePath = path.join(newsDir, lang, fileName);
+        let totalGenerated = 0;
+        let totalSkipped = 0;
 
-        const articleHTML = generateArticlePage(article, lang);
-        fs.writeFileSync(filePath, articleHTML, 'utf-8');
-        totalGenerated++;
+        ['az', 'en', 'ru'].forEach(lang => {
+            console.log(`\n🌐 Processing ${lang.toUpperCase()} articles...`);
+            const articles = newsData.articles[lang];
 
-        if ((index + 1) % 20 === 0) {
-            console.log(`  ✓ Generated ${index + 1}/${articles.length} articles...`);
-        }
-    });
+            // Determine which articles need page generation
+            const articlesNeedingPages = articles.filter(article => {
+                // Skip if already processed
+                const alreadyProcessed = processingState.processedArticles[article.link] &&
+                    processingState.processedArticles[article.link].stages &&
+                    processingState.processedArticles[article.link].stages.pages;
+                return !alreadyProcessed;
+            });
 
-    console.log(`  ✅ ${lang.toUpperCase()}: ${articles.length} articles generated`);
-});
+            console.log(`  Total: ${articles.length} | New: ${articlesNeedingPages.length} | Existing: ${articles.length - articlesNeedingPages.length}`);
 
-console.log(`\n✅ Total: ${totalGenerated} multilingual pages generated`);
-console.log(`📁 Location: /news/{az,en,ru}/`);
+            articlesNeedingPages.forEach((article, index) => {
+                const slug = slugify(article.title);
+                const fileName = `${slug}.html`;
+                const filePath = path.join(newsDir, lang, fileName);
+
+                const articleHTML = generateArticlePage(article, lang);
+                fs.writeFileSync(filePath, articleHTML, 'utf-8');
+                totalGenerated++;
+
+                // Mark as processed
+                if (!processingState.processedArticles[article.link]) {
+                    processingState.processedArticles[article.link] = { link: article.link, stages: {} };
+                }
+                if (!processingState.processedArticles[article.link].stages) {
+                    processingState.processedArticles[article.link].stages = {};
+                }
+                processingState.processedArticles[article.link].stages.pages = new Date().toISOString();
+
+                if ((index + 1) % 20 === 0) {
+                    console.log(`  ✓ Generated ${index + 1}/${articlesNeedingPages.length} articles...`);
+                }
+            });
+
+            totalSkipped += articles.length - articlesNeedingPages.length;
+            console.log(`  ✅ ${lang.toUpperCase()}: ${articlesNeedingPages.length} NEW pages generated`);
+        });
+
+        // Save updated processing state
+        processingState.lastPageGenerationDate = new Date().toISOString();
+        tracking.saveProcessedArticles(processingState);
+
+        console.log(`\n✅ Page generation complete!`);
+        console.log(`   - New pages: ${totalGenerated} (3 languages)`);
+        console.log(`   - Skipped: ${totalSkipped} (already existed)`);
+        console.log(`   - Efficiency: ${((totalSkipped / (totalGenerated + totalSkipped)) * 100).toFixed(1)}% reused`);
+        console.log(`📁 Location: /news/{az,en,ru}/`);
+
+    } catch (error) {
+        console.error('❌ Error generating pages:', error);
+        process.exit(1);
+    }
+})();

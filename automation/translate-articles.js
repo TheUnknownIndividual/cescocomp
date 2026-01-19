@@ -1,9 +1,11 @@
 // Translation Service for News Articles
 // Uses MyMemory Translation API (free, no API key required)
+// NOW WITH INCREMENTAL PROCESSING: Only translates new articles!
 
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
+const tracking = require('./article-tracking');
 
 class TranslationService {
     constructor() {
@@ -147,12 +149,83 @@ async function translateAllArticles(newsDataPath, outputPath) {
 
 module.exports = { TranslationService, translateAllArticles };
 
+// INCREMENTAL TRANSLATION (only translate new articles)
+async function translateNewArticlesIncrementally(newsDataPath, outputPath) {
+    console.log('🌍 Starting INCREMENTAL translation process...\n');
+
+    try {
+        // Load current state
+        const newsData = JSON.parse(fs.readFileSync(newsDataPath, 'utf-8'));
+        const existingMultilingualData = tracking.loadMultilingualNewsData();
+        const processingState = tracking.loadProcessedArticles();
+
+        console.log(`📊 News database: ${newsData.articles.length} articles`);
+        console.log(`📊 Translated: ${existingMultilingualData.articles.az ? existingMultilingualData.articles.az.length : 0} articles`);
+
+        // Find articles that need translation
+        const articlesToTranslate = tracking.filterArticlesNeedingTranslation(newsData, existingMultilingualData);
+        console.log(`✨ Articles needing translation: ${articlesToTranslate.length}\n`);
+
+        if (articlesToTranslate.length === 0) {
+            console.log('⏭️  No new articles to translate.');
+            return;
+        }
+
+        console.log(`⚡ Translating ${articlesToTranslate.length} articles to EN and RU...\n`);
+
+        const translator = new TranslationService();
+
+        // Translate to English
+        console.log('📝 Translating to English...');
+        const enTranslations = [];
+        for (const article of articlesToTranslate) {
+            const translated = await translator.translateArticle(article, 'en');
+            enTranslations.push(translated);
+        }
+
+        // Translate to Russian
+        console.log('\n📝 Translating to Russian...');
+        const ruTranslations = [];
+        for (const article of articlesToTranslate) {
+            const translated = await translator.translateArticle(article, 'ru');
+            ruTranslations.push(translated);
+        }
+
+        // Merge new translations with existing data
+        const updatedMultilingualData = tracking.mergeMultilingualData(
+            existingMultilingualData,
+            enTranslations,
+            'en'
+        );
+        tracking.mergeMultilingualData(updatedMultilingualData, ruTranslations, 'ru');
+
+        // Save merged data
+        tracking.saveMultilingualNewsData(updatedMultilingualData);
+
+        // Update processing state
+        tracking.updateTrackingStage(articlesToTranslate, 'translated', processingState);
+        processingState.lastTranslationDate = new Date().toISOString();
+        tracking.saveProcessedArticles(processingState);
+
+        console.log('\n✅ Translation complete!');
+        console.log(`   - Azerbaijani: ${updatedMultilingualData.articles.az.length} articles`);
+        console.log(`   - English: ${updatedMultilingualData.articles.en.length} articles`);
+        console.log(`   - Russian: ${updatedMultilingualData.articles.ru.length} articles`);
+        console.log(`   - NEW: ${articlesToTranslate.length} articles translated`);
+
+    } catch (error) {
+        console.error('❌ Translation failed:', error);
+        throw error;
+    }
+}
+
 // CLI usage
 if (require.main === module) {
     const newsDataPath = process.argv[2] || path.join(__dirname, '../news-data.json');
     const outputPath = process.argv[3] || path.join(__dirname, '../news-data-multilang.json');
 
-    translateAllArticles(newsDataPath, outputPath)
+    // Use incremental translation by default
+    translateNewArticlesIncrementally(newsDataPath, outputPath)
         .then(() => process.exit(0))
         .catch(error => {
             console.error('❌ Translation failed:', error);

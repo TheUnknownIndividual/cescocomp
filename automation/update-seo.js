@@ -1,8 +1,10 @@
 // Update SEO: Sitemap and Metadata
 // Generates sitemap.xml with multilingual URLs and proper SEO tags
+// With tracking for incremental processing
 
 const fs = require('fs');
 const path = require('path');
+const tracking = require('./article-tracking');
 
 const newsDataPath = path.join(__dirname, '../news-data-multilang.json');
 const sitemapPath = path.join(__dirname, '../sitemap.xml');
@@ -34,6 +36,20 @@ function formatDate(dateStr) {
 }
 
 console.log('🗺️  Updating sitemap with multilingual URLs...\n');
+
+// Load processing state for comparison
+const processingState = tracking.loadProcessedArticles();
+let previousSitemapSize = 0;
+
+// Check if sitemap exists (for comparison)
+if (fs.existsSync(sitemapPath)) {
+    try {
+        const previousSitemap = fs.readFileSync(sitemapPath, 'utf-8');
+        previousSitemapSize = (previousSitemap.match(/<url>/g) || []).length;
+    } catch (e) {
+        // Ignore errors reading old sitemap
+    }
+}
 
 const newsData = JSON.parse(fs.readFileSync(newsDataPath, 'utf-8'));
 
@@ -95,11 +111,24 @@ sitemap += `</urlset>`;
 // Write sitemap
 fs.writeFileSync(sitemapPath, sitemap, 'utf-8');
 
+// Update processing state
+processingState.lastPageGenerationDate = new Date().toISOString();
+tracking.saveProcessedArticles(processingState);
+
+const newSitemapSize = mainPages.length + newsUrls.length;
+const sizeChange = newSitemapSize - previousSitemapSize;
+
 console.log('✅ Sitemap updated successfully!');
-console.log(`📊 Total URLs: ${mainPages.length + newsUrls.length}`);
+console.log(`📊 Total URLs: ${newSitemapSize}`);
 console.log(`   - Main pages: ${mainPages.length}`);
 console.log(`   - News articles (AZ): ${newsData.articles.az.length}`);
 console.log(`   - News articles (EN): ${newsData.articles.en.length}`);
 console.log(`   - News articles (RU): ${newsData.articles.ru.length}`);
+
+if (previousSitemapSize > 0) {
+    const change = sizeChange >= 0 ? '+' : '';
+    console.log(`   - Change: ${change}${sizeChange} URLs`);
+}
+
 console.log(`📁 File: sitemap.xml`);
 console.log(`\n💡 Submit to Google Search Console: https://search.google.com/search-console`);
