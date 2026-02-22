@@ -136,7 +136,7 @@
     /* ─── DB API fetch ──────────────────────────────────────────────── */
 
     function fetchFromAPI(page, pageSize, source) {
-        var url = API_BASE + '/api/news?page=' + page + '&pageSize=' + pageSize +
+        var url = API_BASE + '/news?page=' + page + '&pageSize=' + pageSize +
                   (source && source !== 'all' ? '&source=' + encodeURIComponent(source) : '');
         return fetch(url, {
             headers: API_SECRET ? { 'Authorization': 'Bearer ' + API_SECRET } : {}
