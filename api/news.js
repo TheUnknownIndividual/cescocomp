@@ -20,14 +20,7 @@ module.exports = async function handler(req, res) {
 
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Methods', 'GET');
-    res.setHeader('Access-Control-Allow-Headers', 'Authorization');
     return res.status(200).end();
-  }
-
-  // Auth check
-  const token = (req.headers['authorization'] || '').replace('Bearer ', '');
-  if (process.env.NEWS_API_SECRET && token !== process.env.NEWS_API_SECRET) {
-    return res.status(401).json({ error: 'Unauthorized' });
   }
 
   try {

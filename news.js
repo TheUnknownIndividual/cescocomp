@@ -5,10 +5,9 @@
     var FALLBACK_IMG = 'solartower.png';
 
     // DB API — Vercel serverless function proxies to PostgreSQL directly
-    var API_BASE   = '/api';
-    var API_SECRET = window.ENV_NEWS_SECRET || '';
-    var CACHE_KEY  = 'cescocomp_news_cache';
-    var CACHE_TTL  = 10 * 60 * 1000; // 10 minutes — refresh silently after this
+    var API_BASE  = '/api';
+    var CACHE_KEY = 'cescocomp_news_cache';
+    var CACHE_TTL = 10 * 60 * 1000; // 10 minutes — refresh silently after this
 
     var allArticles = [];
     var filteredArticles = [];
@@ -138,9 +137,7 @@
     function fetchFromAPI(page, pageSize, source) {
         var url = API_BASE + '/news?page=' + page + '&pageSize=' + pageSize +
                   (source && source !== 'all' ? '&source=' + encodeURIComponent(source) : '');
-        return fetch(url, {
-            headers: API_SECRET ? { 'Authorization': 'Bearer ' + API_SECRET } : {}
-        }).then(function (r) {
+        return fetch(url).then(function (r) {
             if (!r.ok) throw new Error('API error ' + r.status);
             return r.json();
         });
