@@ -151,6 +151,12 @@
         filteredArticles = source === 'all'
             ? allArticles
             : allArticles.filter(function (a) { return a.source === source; });
+        
+        // Sort filtered articles by date (newest first)
+        filteredArticles.sort(function(a, b) {
+            return (b._ts || 0) - (a._ts || 0);
+        });
+        
         renderPage();
     }
 
@@ -224,6 +230,12 @@
                 _ts:     parseDate(a.published_at).getTime()
             };
         });
+        
+        // Sort by date (newest first)
+        allArticles.sort(function(a, b) {
+            return (b._ts || 0) - (a._ts || 0);
+        });
+        
         filteredArticles = activeSource === 'all'
             ? allArticles
             : allArticles.filter(function (a) { return a.source === activeSource; });

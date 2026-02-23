@@ -34,8 +34,8 @@ module.exports = async function handler(req, res) {
     const [rows, count] = await Promise.all([
       db.query(
         hasSource
-          ? `SELECT * FROM articles WHERE source=$3 ORDER BY fetched_at DESC LIMIT $1 OFFSET $2`
-          : `SELECT * FROM articles ORDER BY fetched_at DESC LIMIT $1 OFFSET $2`,
+          ? `SELECT * FROM articles WHERE source=$3 ORDER BY published_at DESC NULLS LAST, fetched_at DESC LIMIT $1 OFFSET $2`
+          : `SELECT * FROM articles ORDER BY published_at DESC NULLS LAST, fetched_at DESC LIMIT $1 OFFSET $2`,
         hasSource ? [pageSize, offset, source] : [pageSize, offset]
       ),
       db.query(
