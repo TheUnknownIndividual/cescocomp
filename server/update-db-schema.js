@@ -3,9 +3,13 @@
 
 const { Pool } = require('pg');
 
+if (!process.env.DATABASE_URL) {
+  console.error('❌ DATABASE_URL environment variable is required');
+  process.exit(1);
+}
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || 
-    'postgresql://cescocomp_user:Gycseb-5fetto-fahqun@db.deyerver.az:5433/cescocomp_news?sslmode=require'
+  connectionString: process.env.DATABASE_URL
 });
 
 function generateSlug(title) {
