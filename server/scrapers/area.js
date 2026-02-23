@@ -3,9 +3,10 @@ const cheerio = require('cheerio');
 
 const BASE = 'https://area.gov.az';
 const URLS = [
-  `${BASE}/az/news`,
-  `${BASE}/az/xeberler`,
-  `${BASE}/az`
+  `${BASE}/az`,
+  `${BASE}/news`,
+  `${BASE}/xeberler/arxiv`,
+  `${BASE}/az/xeberler-arxivi`
 ];
 
 async function tryUrl(url) {

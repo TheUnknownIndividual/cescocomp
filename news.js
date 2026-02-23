@@ -38,6 +38,15 @@
 
     /* ─── Card builder ──────────────────────────────────────────────── */
 
+    function generateSlug(title) {
+        return title
+            .toLowerCase()
+            .replace(/ə/g, 'e').replace(/ı/g, 'i').replace(/ş/g, 's')
+            .replace(/ç/g, 'c').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ö/g, 'o')
+            .replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
+            .substring(0, 100);
+    }
+
     function buildCard(art) {
         var article = document.createElement('article');
         article.className = 'news-card';
@@ -45,7 +54,8 @@
         var imgSrc = art.image || FALLBACK_IMG;
         var excerpt = truncateExcerpt(art.excerpt || '');
         var dateStr = formatDate(art.date);
-        var link = art.link || '#';
+        var blogSlug = generateSlug(art.title);
+        var link = '/blog/' + blogSlug; // Link to internal blog page
         var source = art.source || '';
 
         article.innerHTML =
@@ -57,7 +67,7 @@
                 '<div class="news-date">' + escHtml(dateStr) + '</div>' +
                 '<h3>' + escHtml(art.title) + '</h3>' +
                 (excerpt ? '<p>' + escHtml(excerpt) + '</p>' : '') +
-                '<a class="read-more" href="' + escHtml(link) + '" target="_blank" rel="noopener">Ətraflı oxu →</a>' +
+                '<a class="read-more" href="' + escHtml(link) + '" rel="noopener">Ətraflı oxu →</a>' +
             '</div>';
 
         // Fallback image on error
