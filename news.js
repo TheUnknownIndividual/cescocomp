@@ -43,7 +43,7 @@
         article.className = 'news-card';
 
         var imgSrc = art.image || FALLBACK_IMG;
-        var excerpt = art.excerpt || '';
+        var excerpt = truncateExcerpt(art.excerpt || '');
         var dateStr = formatDate(art.date);
         var link = art.link || '#';
         var source = art.source || '';
@@ -77,6 +77,34 @@
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;');
+    }
+
+    /* Truncate excerpt to at most 3 sentences, or 200 chars, whichever is shorter */
+    function truncateExcerpt(text, maxSentences, maxChars) {
+        if (!text) return '';
+        maxSentences = maxSentences || 3;
+        maxChars     = maxChars     || 200;
+
+        // Split on sentence-ending punctuation followed by whitespace or end-of-string
+        var sentenceRe = /[^.!?]*[.!?]+(\s|$)/g;
+        var sentences = [];
+        var match;
+        while ((match = sentenceRe.exec(text)) !== null) {
+            sentences.push(match[0]);
+        }
+
+        var truncated;
+        if (sentences.length > maxSentences) {
+            truncated = sentences.slice(0, maxSentences).join('').trim();
+        } else {
+            truncated = text.trim();
+        }
+
+        if (truncated.length > maxChars) {
+            truncated = truncated.slice(0, maxChars).replace(/\s+\S*$/, '');
+        }
+
+        return truncated.length < text.trim().length ? truncated + '...' : truncated;
     }
 
     /* ─── Render ────────────────────────────────────────────────────── */

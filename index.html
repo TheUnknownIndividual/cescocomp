@@ -199,6 +199,118 @@
         </div>
     </section>
 
+    <!-- Latest Blogs Section -->
+    <section style="background: var(--bg); padding: 4rem 0;" id="index-blogs">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 2.5rem;">
+                <h2 style="font-size: 2rem; font-family: 'Space Grotesk', sans-serif; color: var(--text-dark); margin-bottom: 0.5rem;" data-i18n="index.blogsTitle">Latest Blogs</h2>
+                <p style="color: var(--text-dark); opacity: 0.7;" data-i18n="index.blogsDesc">Recent news and updates from Azerbaijan's renewable energy sector</p>
+            </div>
+            <div id="index-news-grid" class="news-grid" style="display:grid;"></div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="news.html" class="btn" data-i18n="index.newsBtn">Read News</a>
+            </div>
+        </div>
+    </section>
+    <script>
+    (function () {
+        var FALLBACK_IMG = 'solartower.png';
+        var API_BASE = '/api';
+        var grid = document.getElementById('index-news-grid');
+
+        function escHtml(str) {
+            return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        function truncateExcerpt(text, maxSentences, maxChars) {
+            if (!text) return '';
+            maxSentences = maxSentences || 3;
+            maxChars     = maxChars     || 200;
+            var sentenceRe = /[^.!?]*[.!?]+(\s|$)/g;
+            var sentences = [];
+            var match;
+            while ((match = sentenceRe.exec(text)) !== null) { sentences.push(match[0]); }
+            var truncated;
+            if (sentences.length > maxSentences) {
+                truncated = sentences.slice(0, maxSentences).join('').trim();
+            } else {
+                truncated = text.trim();
+            }
+            if (truncated.length > maxChars) {
+                truncated = truncated.slice(0, maxChars).replace(/\s+\S*$/, '');
+            }
+            return truncated.length < text.trim().length ? truncated + '...' : truncated;
+        }
+
+        function parseDate(str) {
+            if (!str) return new Date(0);
+            var m = str.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/);
+            if (m) return new Date(+m[3], +m[2]-1, +m[1]);
+            var d = new Date(str);
+            return isNaN(d) ? new Date(0) : d;
+        }
+
+        function formatDate(str) {
+            var d = parseDate(str);
+            if (!d || d.getTime() === 0) return str || '';
+            return d.toLocaleDateString('az-AZ', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function buildCard(art) {
+            var article = document.createElement('article');
+            article.className = 'news-card';
+            var imgSrc  = art.image || FALLBACK_IMG;
+            var excerpt = truncateExcerpt(art.excerpt || '');
+            var dateStr = formatDate(art.date);
+            var link    = art.link || '#';
+            var source  = art.source || '';
+            article.innerHTML =
+                '<div class="news-card-img-wrap">' +
+                    '<img class="news-card-img" src="' + escHtml(imgSrc) + '" alt="' + escHtml(art.title) + '" loading="lazy">' +
+                '</div>' +
+                '<div class="news-card-body">' +
+                    (source ? '<span class="news-source-badge">' + escHtml(source) + '</span>' : '') +
+                    '<div class="news-date">' + escHtml(dateStr) + '</div>' +
+                    '<h3>' + escHtml(art.title) + '</h3>' +
+                    (excerpt ? '<p>' + escHtml(excerpt) + '</p>' : '') +
+                    '<a class="read-more" href="' + escHtml(link) + '" target="_blank" rel="noopener">Ətraflı oxu →</a>' +
+                '</div>';
+            var img = article.querySelector('.news-card-img');
+            img.addEventListener('error', function () {
+                if (this.src !== location.origin + '/' + FALLBACK_IMG) { this.src = FALLBACK_IMG; }
+            });
+            return article;
+        }
+
+        function init() {
+            fetch(API_BASE + '/news?page=1&pageSize=3')
+                .then(function (r) { if (!r.ok) throw new Error('API ' + r.status); return r.json(); })
+                .then(function (data) {
+                    var articles = (data.articles || []).slice(0, 3);
+                    var frag = document.createDocumentFragment();
+                    articles.forEach(function (a) {
+                        frag.appendChild(buildCard({
+                            title:   a.title        || '',
+                            date:    a.published_at || '',
+                            image:   a.image        || '',
+                            excerpt: a.excerpt      || '',
+                            link:    a.link         || '#',
+                            source:  a.source       || ''
+                        }));
+                    });
+                    grid.appendChild(frag);
+                })
+                .catch(function () { /* silently hide section on failure */ });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    })();
+    </script>
+
     <!-- Energy Landscape Section -->
     <section class="map-section" id="map" style="background: var(--bg); padding: 4rem 0;">
         <div class="container">
