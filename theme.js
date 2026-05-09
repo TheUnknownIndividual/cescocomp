@@ -1,5 +1,27 @@
 (function () {
     var STORAGE_KEY = 'az-energy-theme';
+    var LIGHT_LOGO_SRC = 'lightmodeplugin.png';
+    var DARK_LOGO_SRC = 'pluginlogo.png';
+
+    function syncLogoImages(dark) {
+        var logos = document.querySelectorAll('a.logo img.logo-img');
+        logos.forEach(function (img) {
+            var lightSrc = img.getAttribute('data-light-src');
+            var darkSrc = img.getAttribute('data-dark-src');
+
+            if (!lightSrc) {
+                lightSrc = img.getAttribute('src') || LIGHT_LOGO_SRC;
+                img.setAttribute('data-light-src', lightSrc);
+            }
+
+            if (!darkSrc) {
+                darkSrc = DARK_LOGO_SRC;
+                img.setAttribute('data-dark-src', darkSrc);
+            }
+
+            img.setAttribute('src', dark ? darkSrc : lightSrc);
+        });
+    }
 
     function isDark() {
         return document.body.classList.contains('dark-mode');
@@ -11,6 +33,7 @@
         } else {
             document.body.classList.remove('dark-mode');
         }
+        syncLogoImages(dark);
         try {
             localStorage.setItem(STORAGE_KEY, dark ? 'dark' : 'light');
         } catch (e) {}

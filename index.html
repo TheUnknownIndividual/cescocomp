@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="msvalidate.01" content="70C4F3A165BC219936E89D87F937EFDC" />
     <title>Azerbaijan Sustainable Energies Hub</title>
     <link rel="icon" href="tablogo.png" type="image/png">
     <link rel="stylesheet" href="styles.css">
+    <link rel="canonical" href="https://plugin.az/">
+    <script src="site-config.js"></script>
+    <script src="analytics.js" defer></script>
 </head>
 <body>
     <header class="hero hero-with-banner">
@@ -215,7 +219,7 @@
     <script>
     (function () {
         var FALLBACK_IMG = 'solartower.png';
-        var API_BASE = '/api';
+        var API_BASE = (window.SITE_CONFIG && window.SITE_CONFIG.newsApiBase) || '/api';
         var grid = document.getElementById('index-news-grid');
 
         function escHtml(str) {
@@ -256,6 +260,27 @@
             return d.toLocaleDateString('az-AZ', { year: 'numeric', month: 'long', day: 'numeric' });
         }
 
+        function generateSlug(title) {
+            return String(title || '')
+                .toLowerCase()
+                .replace(/ə/g, 'e').replace(/ı/g, 'i').replace(/ş/g, 's')
+                .replace(/ç/g, 'c').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ö/g, 'o')
+                .replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
+                .substring(0, 100);
+        }
+
+        function normalizeArticle(a) {
+            return {
+                title:   a.title        || '',
+                date:    a.published_at || a.date || '',
+                image:   a.image        || '',
+                excerpt: a.excerpt      || '',
+                link:    '/blog/' + generateSlug(a.title || ''),
+                source:  a.source       || '',
+                _ts:     parseDate(a.published_at || a.date).getTime()
+            };
+        }
+
         function buildCard(art) {
             var article = document.createElement('article');
             article.className = 'news-card';
@@ -273,7 +298,7 @@
                     '<div class="news-date">' + escHtml(dateStr) + '</div>' +
                     '<h3>' + escHtml(art.title) + '</h3>' +
                     (excerpt ? '<p>' + escHtml(excerpt) + '</p>' : '') +
-                    '<a class="read-more" href="' + escHtml(link) + '" target="_blank" rel="noopener">Ətraflı oxu →</a>' +
+                    '<a class="read-more" href="' + escHtml(link) + '">Ətraflı oxu →</a>' +
                 '</div>';
             var img = article.querySelector('.news-card-img');
             img.addEventListener('error', function () {
@@ -282,25 +307,35 @@
             return article;
         }
 
+        function renderArticles(articles) {
+            grid.innerHTML = '';
+            var normalized = articles.map(normalizeArticle).sort(function (a, b) {
+                return (b._ts || 0) - (a._ts || 0);
+            }).slice(0, 3);
+            var frag = document.createDocumentFragment();
+            normalized.forEach(function (a) { frag.appendChild(buildCard(a)); });
+            grid.appendChild(frag);
+        }
+
+        function fetchStaticFallback() {
+            return fetch('cecso-news.json')
+                .then(function (r) { if (!r.ok) throw new Error('fallback ' + r.status); return r.json(); })
+                .then(function (data) { renderArticles(data.articles || []); });
+        }
+
         function init() {
             fetch(API_BASE + '/news?page=1&pageSize=3')
                 .then(function (r) { if (!r.ok) throw new Error('API ' + r.status); return r.json(); })
                 .then(function (data) {
-                    var articles = (data.articles || []).slice(0, 3);
-                    var frag = document.createDocumentFragment();
-                    articles.forEach(function (a) {
-                        frag.appendChild(buildCard({
-                            title:   a.title        || '',
-                            date:    a.published_at || '',
-                            image:   a.image        || '',
-                            excerpt: a.excerpt      || '',
-                            link:    a.link         || '#',
-                            source:  a.source       || ''
-                        }));
-                    });
-                    grid.appendChild(frag);
+                    var articles = data.articles || [];
+                    if (articles.length === 0) return fetchStaticFallback();
+                    renderArticles(articles);
                 })
-                .catch(function () { /* silently hide section on failure */ });
+                .catch(function () {
+                    fetchStaticFallback().catch(function () {
+                        grid.innerHTML = '<p class="news-empty-state">Xəbərlər yüklənə bilmədi.</p>';
+                    });
+                });
         }
 
         if (document.readyState === 'loading') {
