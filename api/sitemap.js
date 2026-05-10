@@ -1,11 +1,17 @@
 const { Pool } = require('pg');
+const fs = require('fs');
+const path = require('path');
+const { BASE_URL, listPublishedCmsTranslations } = require('../lib/cms');
 
 // Connection pool
 let pool;
 function getPool() {
+  const connectionString = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+  if (!connectionString) return null;
+
   if (!pool) {
     pool = new Pool({
-      connectionString: process.env.POSTGRES_URL,
+      connectionString,
       ssl: { rejectUnauthorized: false, checkServerIdentity: () => undefined },
       max: 3,
       idleTimeoutMillis: 10000,
@@ -33,21 +39,56 @@ function escapeXml(str) {
     .replace(/'/g, '&#39;');
 }
 
+function toSitemapDate(value, fallback) {
+  if (!value) return fallback;
+  const text = String(value);
+  const match = text.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})(?:\s+(\d{1,2}):(\d{2}))?/);
+  if (match) {
+    const date = new Date(
+      Number(match[3]),
+      Number(match[2]) - 1,
+      Number(match[1]),
+      Number(match[4] || 0),
+      Number(match[5] || 0)
+    );
+    return date.toISOString();
+  }
+  const date = new Date(text);
+  return Number.isNaN(date.getTime()) ? fallback : date.toISOString();
+}
+
 module.exports = async function handler(req, res) {
-  if (req.method !== 'GET') {
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
     const db = getPool();
-    
-    // Get all articles
-    const result = await db.query(
-      'SELECT title, published_at, fetched_at FROM articles ORDER BY fetched_at DESC LIMIT 1000'
-    );
+    let articles;
 
-    const baseUrl = 'https://plugin.az';
+    if (db) {
+      try {
+        const result = await db.query(
+          'SELECT title, published_at, fetched_at FROM articles ORDER BY fetched_at DESC LIMIT 1000'
+        );
+        articles = result.rows;
+      } catch (error) {
+        if (error.code !== '42P01') throw error;
+        articles = [];
+      }
+    } else {
+      const file = path.join(__dirname, '..', 'cecso-news.json');
+      const json = JSON.parse(fs.readFileSync(file, 'utf8'));
+      articles = (json.articles || []).map(article => ({
+        title: article.title,
+        published_at: article.published_at || article.date,
+        fetched_at: null
+      }));
+    }
+
+    const baseUrl = BASE_URL;
     const now = new Date().toISOString();
+    const cmsTranslations = await listPublishedCmsTranslations();
     
     // Static pages
     let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -83,10 +124,21 @@ module.exports = async function handler(req, res) {
     <priority>0.8</priority>
   </url>`;
 
-    // Article pages
-    for (const article of result.rows) {
+    // CMS article translations
+    for (const post of cmsTranslations) {
+      sitemap += `
+  <url>
+    <loc>${baseUrl}/${escapeXml(post.lang)}/blog/${escapeXml(post.slug)}</loc>
+    <lastmod>${toSitemapDate(post.updated_at || post.published_at, now)}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>`;
+    }
+
+    // Scraped article pages
+    for (const article of articles) {
       const slug = generateSlug(article.title);
-      const lastmod = article.published_at || article.fetched_at || now;
+      const lastmod = toSitemapDate(article.published_at || article.fetched_at, now);
       
       sitemap += `
   <url>

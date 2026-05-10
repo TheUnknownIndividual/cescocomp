@@ -8,7 +8,9 @@ module.exports = {
         NODE_ENV:     'production',
         DATABASE_URL: 'postgresql://cescocomp_user:your_password@localhost:5432/cescocomp_news',
         PORT:         3001,
-        API_SECRET:   'replace_with_random_secret_token'
+        API_SECRET:   'replace_with_random_secret_token',
+        ADMIN_PASSWORD: 'replace_with_strong_admin_password',
+        SITE_URL: 'https://plugin.az'
       },
       // Restart automatically if it crashes
       autorestart:    true,

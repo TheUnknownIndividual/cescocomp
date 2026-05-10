@@ -222,6 +222,11 @@
         var API_BASE = (window.SITE_CONFIG && window.SITE_CONFIG.newsApiBase) || '/api';
         var grid = document.getElementById('index-news-grid');
 
+        function currentLang() {
+            if (window.getLanguage) return window.getLanguage();
+            try { return localStorage.getItem('az-energy-lang') || 'en'; } catch (e) { return 'en'; }
+        }
+
         function escHtml(str) {
             return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
         }
@@ -274,9 +279,13 @@
                 title:   a.title        || '',
                 date:    a.published_at || a.date || '',
                 image:   a.image        || '',
+                image_alt: a.image_alt  || a.title || '',
                 excerpt: a.excerpt      || '',
-                link:    '/blog/' + generateSlug(a.title || ''),
+                link:    a.type === 'cms' && a.slug ? '/' + (a.lang || currentLang()) + '/blog/' + a.slug : '/blog/' + generateSlug(a.title || ''),
                 source:  a.source       || '',
+                type:    a.type         || 'scraped',
+                slug:    a.slug         || '',
+                lang:    a.lang         || currentLang(),
                 _ts:     parseDate(a.published_at || a.date).getTime()
             };
         }
@@ -291,7 +300,7 @@
             var source  = art.source || '';
             article.innerHTML =
                 '<div class="news-card-img-wrap">' +
-                    '<img class="news-card-img" src="' + escHtml(imgSrc) + '" alt="' + escHtml(art.title) + '" loading="lazy">' +
+                    '<img class="news-card-img" src="' + escHtml(imgSrc) + '" alt="' + escHtml(art.image_alt || art.title) + '" loading="lazy">' +
                 '</div>' +
                 '<div class="news-card-body">' +
                     (source ? '<span class="news-source-badge">' + escHtml(source) + '</span>' : '') +
@@ -324,7 +333,7 @@
         }
 
         function init() {
-            fetch(API_BASE + '/news?page=1&pageSize=3')
+            fetch(API_BASE + '/news?lang=' + encodeURIComponent(currentLang()) + '&page=1&pageSize=3')
                 .then(function (r) { if (!r.ok) throw new Error('API ' + r.status); return r.json(); })
                 .then(function (data) {
                     var articles = data.articles || [];
@@ -343,6 +352,7 @@
         } else {
             init();
         }
+        window.addEventListener('langchange', init);
     })();
     </script>
 
@@ -632,43 +642,6 @@
             </div>
         </div>
     </footer>
-    <script src="i18n.js"></script>
-    <script src="theme.js"></script>
-    <script src="stats-counter.js"></script>
-    <script src="typewriter.js"></script>
-    <script>
-        /* Animate RES distribution bars on scroll */
-        (function () {
-            function run() {
-                var rows = document.querySelectorAll('#resDistroBars .res-bar-row');
-                if (!rows.length) return;
-                if (!('IntersectionObserver' in window)) {
-                    rows.forEach(function (row) {
-                        var fill = row.querySelector('.res-bar-fill');
-                        if (fill) fill.style.width = row.dataset.pct + '%';
-                    });
-                    return;
-                }
-                var obs = new IntersectionObserver(function (entries, o) {
-                    entries.forEach(function (entry) {
-                        if (!entry.isIntersecting) return;
-                        var fill = entry.target.querySelector('.res-bar-fill');
-                        var pct  = entry.target.dataset.pct;
-                        if (fill && pct) fill.style.width = pct + '%';
-                        o.unobserve(entry.target);
-                    });
-                }, { threshold: 0.25 });
-                rows.forEach(function (row) { obs.observe(row); });
-            }
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', run);
-            } else {
-                run();
-            }
-        })();
-    </script>
-</body>
-</html>
     <script src="i18n.js"></script>
     <script src="theme.js"></script>
     <script src="stats-counter.js"></script>

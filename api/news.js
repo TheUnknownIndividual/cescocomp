@@ -1,11 +1,17 @@
 const { Pool } = require('pg');
+const fs = require('fs');
+const path = require('path');
+const { getPublishedCmsFeed, normalizeLang } = require('../lib/cms');
 
 // Connection pool — reused across warm invocations
 let pool;
 function getPool() {
+  const connectionString = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+  if (!connectionString) return null;
+
   if (!pool) {
     pool = new Pool({
-      connectionString: process.env.POSTGRES_URL,
+      connectionString,
       ssl: { rejectUnauthorized: false, checkServerIdentity: () => undefined },
       max: 3,
       idleTimeoutMillis: 10000,
@@ -13,6 +19,30 @@ function getPool() {
     });
   }
   return pool;
+}
+
+function loadStaticArticles() {
+  const file = path.join(__dirname, '..', 'cecso-news.json');
+  const json = JSON.parse(fs.readFileSync(file, 'utf8'));
+  return Array.isArray(json.articles) ? json.articles : [];
+}
+
+function normalizeStaticArticle(article) {
+  return {
+    type: 'scraped',
+    title: article.title || '',
+    excerpt: article.excerpt || '',
+    content: article.content || null,
+    image: article.image || '',
+    link: article.link || '',
+    source: article.source || '',
+    category: article.category || null,
+    published_at: article.published_at || article.date || '',
+    fetched_at: article.fetched_at || null,
+    slug: '',
+    lang: '',
+    image_alt: article.title || ''
+  };
 }
 
 module.exports = async function handler(req, res) {
@@ -24,31 +54,72 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const db = getPool();
     const page     = Math.max(1, parseInt(req.query.page) || 1);
     const pageSize = Math.min(200, parseInt(req.query.pageSize) || 200);
     const source   = req.query.source;
+    const lang     = normalizeLang(req.query.lang);
     const offset   = (page - 1) * pageSize;
-    const hasSource = source && source !== 'all';
+    const wantsCmsOnly = source === 'Blog' || source === 'cms';
+    const db = getPool();
 
-    const [rows, count] = await Promise.all([
-      db.query(
-        hasSource
-          ? `SELECT * FROM articles WHERE source=$3 ORDER BY published_at DESC NULLS LAST, fetched_at DESC LIMIT $1 OFFSET $2`
-          : `SELECT * FROM articles ORDER BY published_at DESC NULLS LAST, fetched_at DESC LIMIT $1 OFFSET $2`,
-        hasSource ? [pageSize, offset, source] : [pageSize, offset]
-      ),
-      db.query(
-        hasSource
-          ? `SELECT COUNT(*) FROM articles WHERE source=$1`
-          : `SELECT COUNT(*) FROM articles`,
-        hasSource ? [source] : []
-      )
-    ]);
+    if (!db) {
+      if (wantsCmsOnly) {
+        return res.status(200).json({ articles: [], total: 0, page, pageSize });
+      }
+      const hasSource = source && source !== 'all';
+      const articles = loadStaticArticles()
+        .map(normalizeStaticArticle)
+        .filter(article => !hasSource || article.source === source);
+
+      return res.status(200).json({
+        articles: articles.slice(offset, offset + pageSize),
+        total: articles.length,
+        page,
+        pageSize
+      });
+    }
+
+    const hasSource = source && source !== 'all';
+    const cms = await getPublishedCmsFeed({ lang, page, pageSize, source: source || 'all' });
+
+    if (wantsCmsOnly) {
+      return res.status(200).json({ articles: cms.articles, total: cms.total, page, pageSize });
+    }
+
+    const scrapedLimit = Math.max(0, pageSize - cms.articles.length);
+    const scrapedOffset = Math.max(0, offset - cms.total);
+    const includeScraped = !hasSource || (source !== 'Blog' && source !== 'cms');
+
+    let rows;
+    let count;
+    try {
+      [rows, count] = await Promise.all([
+        includeScraped && scrapedLimit > 0 ? db.query(
+          hasSource && source !== 'all'
+            ? `SELECT * FROM articles WHERE source=$3 ORDER BY published_at DESC NULLS LAST, fetched_at DESC LIMIT $1 OFFSET $2`
+            : `SELECT * FROM articles ORDER BY published_at DESC NULLS LAST, fetched_at DESC LIMIT $1 OFFSET $2`,
+          hasSource && source !== 'all' ? [scrapedLimit, scrapedOffset, source] : [scrapedLimit, scrapedOffset]
+        ) : Promise.resolve({ rows: [] }),
+        includeScraped ? db.query(
+          hasSource && source !== 'all'
+            ? `SELECT COUNT(*) FROM articles WHERE source=$1`
+            : `SELECT COUNT(*) FROM articles`,
+          hasSource && source !== 'all' ? [source] : []
+        ) : Promise.resolve({ rows: [{ count: 0 }] })
+      ]);
+    } catch (error) {
+      if (error.code !== '42P01') throw error;
+      rows = { rows: [] };
+      count = { rows: [{ count: 0 }] };
+    }
 
     return res.status(200).json({
-      articles: rows.rows,
-      total: parseInt(count.rows[0].count),
+      articles: cms.articles.concat(rows.rows.map(row => ({
+        ...row,
+        type: 'scraped',
+        image_alt: row.title || ''
+      }))),
+      total: cms.total + parseInt(count.rows[0].count),
       page,
       pageSize
     });

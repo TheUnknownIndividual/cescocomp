@@ -5,7 +5,7 @@
     var FALLBACK_IMG = 'solartower.png';
 
     // DB API — Vercel serverless function proxies to PostgreSQL directly
-    var API_BASE  = '/api';
+    var API_BASE  = (window.SITE_CONFIG && window.SITE_CONFIG.newsApiBase) || '/api';
     var CACHE_KEY = 'cescocomp_news_cache';
     var CACHE_TTL = 10 * 60 * 1000; // 10 minutes — refresh silently after this
 
@@ -18,6 +18,11 @@
     var loading = document.getElementById('news-loading');
     var loadMoreBtn = document.getElementById('load-more-btn');
     var filterBar = document.getElementById('news-filter-bar');
+
+    function currentLang() {
+        if (window.getLanguage) return window.getLanguage();
+        try { return localStorage.getItem('az-energy-lang') || 'en'; } catch (e) { return 'en'; }
+    }
 
     /* ─── Date parsing ──────────────────────────────────────────────── */
 
@@ -55,12 +60,12 @@
         var excerpt = truncateExcerpt(art.excerpt || '');
         var dateStr = formatDate(art.date);
         var blogSlug = generateSlug(art.title);
-        var link = '/blog/' + blogSlug; // Link to internal blog page
+        var link = art.type === 'cms' && art.slug ? '/' + (art.lang || currentLang()) + '/blog/' + art.slug : '/blog/' + blogSlug;
         var source = art.source || '';
 
         article.innerHTML =
             '<div class="news-card-img-wrap">' +
-                '<img class="news-card-img" src="' + escHtml(imgSrc) + '" alt="' + escHtml(art.title) + '" loading="lazy">' +
+                '<img class="news-card-img" src="' + escHtml(imgSrc) + '" alt="' + escHtml(art.image_alt || art.title) + '" loading="lazy">' +
             '</div>' +
             '<div class="news-card-body">' +
                 (source ? '<span class="news-source-badge">' + escHtml(source) + '</span>' : '') +
@@ -179,7 +184,7 @@
     /* ─── DB API fetch ──────────────────────────────────────────────── */
 
     function fetchFromAPI(page, pageSize, source) {
-        var url = API_BASE + '/news?page=' + page + '&pageSize=' + pageSize +
+        var url = API_BASE + '/news?lang=' + encodeURIComponent(currentLang()) + '&page=' + page + '&pageSize=' + pageSize +
                   (source && source !== 'all' ? '&source=' + encodeURIComponent(source) : '');
         return fetch(url).then(function (r) {
             if (!r.ok) throw new Error('API error ' + r.status);
@@ -191,7 +196,7 @@
 
     function loadCache() {
         try {
-            var raw = localStorage.getItem(CACHE_KEY);
+            var raw = localStorage.getItem(CACHE_KEY + '_' + currentLang());
             if (!raw) return null;
             var obj = JSON.parse(raw);
             return obj;
@@ -200,7 +205,7 @@
 
     function saveCache(articles) {
         try {
-            localStorage.setItem(CACHE_KEY, JSON.stringify({
+            localStorage.setItem(CACHE_KEY + '_' + currentLang(), JSON.stringify({
                 articles: articles,
                 ts: Date.now()
             }));
@@ -222,12 +227,16 @@
         allArticles = articles.map(function (a) {
             return {
                 title:   a.title   || '',
-                date:    a.published_at || '',
+                date:    a.published_at || a.date || '',
                 image:   a.image   || '',
+                image_alt: a.image_alt || a.title || '',
                 excerpt: a.excerpt || '',
                 link:    a.link    || '#',
                 source:  a.source  || '',
-                _ts:     parseDate(a.published_at).getTime()
+                type:    a.type    || 'scraped',
+                slug:    a.slug    || '',
+                lang:    a.lang    || currentLang(),
+                _ts:     parseDate(a.published_at || a.date).getTime()
             };
         });
         
@@ -255,7 +264,7 @@
         fetchFromAPI(1, 200, 'all')
             .then(function (data) {
                 var articles = data.articles || [];
-                if (articles.length === 0) return;
+                if (articles.length === 0) return fetchStaticFallback(cache);
                 saveCache(articles);
                 // Only re-render if we got different data than cache
                 var cacheLen = (cache && cache.articles) ? cache.articles.length : 0;
@@ -267,8 +276,27 @@
                 console.warn('[news] API fetch failed:', err.message);
                 // If no cache was available either, show empty state
                 if (!cache || !cache.articles || cache.articles.length === 0) {
-                    showGrid();
-                    renderPage();
+                    fetchStaticFallback(cache).catch(function () {
+                        showGrid();
+                        renderPage();
+                    });
+                }
+            });
+    }
+
+    function fetchStaticFallback(cache) {
+        return fetch('cecso-news.json')
+            .then(function (r) {
+                if (!r.ok) throw new Error('fallback ' + r.status);
+                return r.json();
+            })
+            .then(function (data) {
+                var articles = data.articles || [];
+                if (articles.length === 0) return;
+                saveCache(articles);
+                var cacheLen = (cache && cache.articles) ? cache.articles.length : 0;
+                if (articles.length !== cacheLen || isCacheStale(cache)) {
+                    populateArticles(articles);
                 }
             });
     }
@@ -278,4 +306,11 @@
     } else {
         init();
     }
+
+    window.addEventListener('langchange', function () {
+        currentPage = 0;
+        allArticles = [];
+        filteredArticles = [];
+        init();
+    });
 })();

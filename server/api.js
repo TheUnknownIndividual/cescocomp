@@ -8,16 +8,18 @@ app.use(cors());
 app.use(express.json());
 
 function auth(req, res, next) {
+  if (!process.env.API_SECRET) return next();
+
   const header = req.headers['authorization'] || '';
   const token  = header.startsWith('Bearer ') ? header.slice(7) : header;
-  if (!process.env.API_SECRET || token !== process.env.API_SECRET) {
+  if (token !== process.env.API_SECRET) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
   next();
 }
 
 // GET /api/news?page=1&pageSize=20&source=all
-app.get('/api/news', auth, async (req, res) => {
+app.get('/api/news', async (req, res) => {
   try {
     const page     = Math.max(1, parseInt(req.query.page)     || 1);
     const pageSize = Math.min(100, parseInt(req.query.pageSize) || 20);
@@ -31,7 +33,7 @@ app.get('/api/news', auth, async (req, res) => {
 });
 
 // GET /api/news/sources
-app.get('/api/news/sources', auth, (req, res) => {
+app.get('/api/news/sources', (req, res) => {
   res.json({ sources: ['renewables.az', 'minenergy.gov.az', 'area.gov.az'] });
 });
 
