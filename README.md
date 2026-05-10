@@ -4,7 +4,7 @@ Azerbaijan Sustainable Energies Hub — a multi-language renewable energy platfo
 
 ## Features
 
-- **Solar Calculator** — PVGIS-powered system sizing with paywall-gated AI analysis (OpenAI GPT-4o-mini)
+- **Solar Calculator** — PVGIS-powered system sizing with lead capture and AI analysis (OpenAI GPT-4o-mini)
 - **News Aggregator** — Live scraping from area.gov.az, minenergy.gov.az, and renewables.az
 - **Regulatory Framework** — Azerbaijan energy law index
 - **Projects Map** — Active, in-progress, and completed renewable energy projects
@@ -15,9 +15,10 @@ Azerbaijan Sustainable Energies Hub — a multi-language renewable energy platfo
 
 ### Production (Vercel)
 
-- Deploy to Vercel. The Solar Calculator uses two serverless API routes:
+- Deploy to Vercel. The Solar Calculator uses three serverless API routes:
   - **`/api/pvgis`** — Proxies requests to PVGIS (no env var required).
-  - **`/api/ai-analysis`** — Calls OpenAI for paywalled AI insights. Set **`OPENAI_API_KEY`** in the Vercel project (Settings → Environment Variables). If unset, AI analysis will show "not configured".
+  - **`/api/ai-analysis`** — Calls OpenAI for AI insights. Set **`OPENAI_API_KEY`** in the Vercel project (Settings → Environment Variables). If unset, AI analysis will show "not configured".
+  - **`/api/solar-calculator-submit`** — Stores submitted phone numbers and calculator data. Set **`POSTGRES_URL`** or **`DATABASE_URL`** to enable database writes.
 - No `env-config.js` is needed on Vercel; secrets stay in Vercel env.
 
 ### Local development

@@ -545,6 +545,9 @@ body:not(.dark-mode) .hero-overlay {
     border-radius: 10px;
     font-size: 0.94rem;
     font-weight: 700;
+    flex-basis: 100%;
+    width: fit-content;
+    margin: -0.35rem auto 0;
     color: #fff;
     border: 1.5px solid rgba(74, 222, 128, 0.92);
     background: rgba(38, 129, 76, 0.52);

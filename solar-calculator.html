@@ -237,8 +237,8 @@
                     </div>
                 </div>
 
-                <!-- Optimization Tips (paywalled) -->
-                <div class="paywall-wrap" id="paywall-wrap">
+                <!-- Optimization Tips -->
+                <div class="recommendations-wrap" id="recommendations-wrap">
                     <div class="optimization-tips" id="optimization-tips">
                         <h3>🎯 <span data-i18n="calculator.tipsTitle">System Optimization Recommendations</span></h3>
                         <div class="tip-grid">
@@ -267,18 +267,9 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Paywall overlay (shown after calculation) -->
-                    <div class="paywall-overlay" id="paywall-overlay" style="display:none;">
-                        <div class="paywall-inner">
-                            <div class="paywall-lock">🔒</div>
-                            <p class="paywall-price">5 <span class="paywall-currency">₼</span></p>
-                            <p class="paywall-label">Ətraflı tövsiyələr üçün kilidini aç</p>
-                            <button class="btn-unlock" onclick="openPaymentModal()">Kilidi Aç — 5 Manat</button>
-                        </div>
-                    </div>
                 </div>
 
-                <!-- AI Analysis (revealed after payment) -->
+                <!-- AI Analysis -->
                 <div class="ai-analysis" id="ai-analysis" style="display:none;">
                     <h3>🤖 <span data-i18n="calculator.aiTitle">AI Analysis</span></h3>
                     <div id="ai-content" class="ai-content"></div>
@@ -296,62 +287,16 @@
         </div>
     </footer>
 
-    <!-- Payment Modal -->
-    <div id="payment-modal" class="payment-modal">
-        <div class="payment-modal-content">
-            <button class="payment-modal-close" onclick="closePaymentModal()" aria-label="Bağla">×</button>
-
-            <!-- Visual card preview -->
-            <div class="payment-card-preview">
-                <div class="card-chip"></div>
-                <div class="card-number-preview" id="card-number-preview">•••• •••• •••• ••••</div>
-                <div class="card-bottom-row">
-                    <div>
-                        <div class="card-field-label">Kart sahibi</div>
-                        <div class="card-name-preview" id="card-name-preview">AD SOYAD</div>
-                    </div>
-                    <div>
-                        <div class="card-field-label">Son tarix</div>
-                        <div class="card-expiry-preview" id="card-expiry-preview">MM/YY</div>
-                    </div>
-                </div>
-            </div>
-
-            <h2 class="payment-modal-title">Ödəniş Məlumatları</h2>
-            <p class="payment-modal-sub">Məbləğ: <strong>5.00 ₼</strong> — Sistem Optimallaşdırma + AI Analizi</p>
-
-            <div class="pay-field">
-                <label>Kart nömrəsi</label>
-                <input type="text" id="pay-card" placeholder="0000 0000 0000 0000" maxlength="19" autocomplete="cc-number" inputmode="numeric">
-            </div>
-            <div class="pay-row">
-                <div class="pay-field">
-                    <label>Son tarix</label>
-                    <input type="text" id="pay-expiry" placeholder="MM/YY" maxlength="5" autocomplete="cc-exp" inputmode="numeric">
-                </div>
-                <div class="pay-field">
-                    <label>CVV</label>
-                    <input type="password" id="pay-cvv" placeholder="•••" maxlength="3" autocomplete="cc-csc" inputmode="numeric">
-                </div>
-            </div>
-            <div class="pay-field">
-                <label>Kart üzərindəki ad</label>
-                <input type="text" id="pay-name" placeholder="AD SOYAD" autocomplete="cc-name">
-            </div>
-
-            <button class="btn-pay-submit" onclick="submitPayment()">
-                <span>🔒</span> Ödə — 5.00 ₼
-            </button>
-            <p class="pay-secure-note">🛡️ SSL ilə qorunur · Məlumatlarınız şifrələnir</p>
-        </div>
-    </div>
-
-    <!-- Success Toast -->
-    <div id="payment-toast" class="payment-toast" aria-live="polite">
-        <div class="toast-icon-wrap">✓</div>
-        <div class="toast-text">
-            <strong>Uğurlu çıxarılma</strong>
-            <p>5.00 ₼ hesabınızdan çıxarıldı</p>
+    <!-- Phone Modal -->
+    <div id="phone-modal" class="lead-modal" aria-hidden="true">
+        <div class="lead-modal-content">
+            <button class="lead-modal-close" onclick="closePhoneModal()" aria-label="Bağla">×</button>
+            <h2 data-i18n="calculator.phoneTitle">Contact number</h2>
+            <p data-i18n="calculator.phoneSub">Enter your phone number to calculate your solar system estimate.</p>
+            <label for="lead-phone" data-i18n="calculator.phoneLabel">Phone number</label>
+            <input type="tel" id="lead-phone" placeholder="+994 50 000 00 00" autocomplete="tel" inputmode="tel">
+            <small id="lead-phone-error" class="lead-error" aria-live="polite"></small>
+            <button type="button" class="btn-lead-submit" onclick="submitPhoneAndCalculate()" data-i18n="calculator.phoneSubmit">Continue to calculation</button>
         </div>
     </div>
 

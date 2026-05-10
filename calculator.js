@@ -239,49 +239,50 @@ window.toggleAdvancedOptions = function () {
     }
 };
 
-// ── Paywall ──────────────────────────────────────────────────────
+// ── Free recommendations + lead capture ───────────────────────────
 
-function applyPaywall() {
-    const tips = document.getElementById('optimization-tips');
-    const overlay = document.getElementById('paywall-overlay');
-    if (tips) tips.classList.add('optimizations-locked');
-    if (overlay) overlay.style.display = 'flex';
-}
+let capturedPhoneNumber = '';
 
-window.openPaymentModal = function () {
-    const modal = document.getElementById('payment-modal');
-    if (modal) modal.classList.add('open');
+window.openPhoneModal = function () {
+    const modal = document.getElementById('phone-modal');
+    if (modal) {
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+    }
+    const input = document.getElementById('lead-phone');
+    if (input) setTimeout(() => input.focus(), 50);
 };
 
-window.closePaymentModal = function () {
-    const modal = document.getElementById('payment-modal');
-    if (modal) modal.classList.remove('open');
+window.closePhoneModal = function () {
+    const modal = document.getElementById('phone-modal');
+    if (modal) {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+    }
 };
 
-window.submitPayment = function () {
-    closePaymentModal();
-    showSuccessToast();
-    unlockAndShowAI();
+window.submitPhoneAndCalculate = function () {
+    const input = document.getElementById('lead-phone');
+    const error = document.getElementById('lead-phone-error');
+    const phone = (input?.value || '').trim();
+    const digits = phone.replace(/\D/g, '');
+
+    if (digits.length < 7) {
+        if (error) error.textContent = 'Please enter a valid phone number.';
+        return;
+    }
+
+    if (error) error.textContent = '';
+    capturedPhoneNumber = phone;
+    closePhoneModal();
+    performCalculation(capturedPhoneNumber);
 };
 
-function showSuccessToast() {
-    const toast = document.getElementById('payment-toast');
-    if (!toast) return;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 4000);
-}
-
-function unlockAndShowAI() {
-    const tips = document.getElementById('optimization-tips');
-    const overlay = document.getElementById('paywall-overlay');
-    if (tips) tips.classList.remove('optimizations-locked');
-    if (overlay) overlay.style.display = 'none';
-
+function showRecommendationsAndAI() {
     const aiSection = document.getElementById('ai-analysis');
     if (aiSection) {
         aiSection.style.display = 'block';
         generateAIAnalysis(window._lastCalculationData || {});
-        setTimeout(() => aiSection.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
     }
 }
 
@@ -433,9 +434,13 @@ async function submitCalculatorData(phoneNumber, calculationData) {
     }
 }
 
-// Run calculation directly — no phone modal
+// Ask for a phone number before opening the calculator result.
 window.calculateSystem = function () {
-    performCalculation(null);
+    if (capturedPhoneNumber) {
+        performCalculation(capturedPhoneNumber);
+        return;
+    }
+    openPhoneModal();
 };
 
 // Run calculation (optionally with phone for API submission)
@@ -533,10 +538,11 @@ window.performCalculation = async function (phoneNumber) {
             estimated_cost_azn: estimatedCost
         };
 
-        // Store for AI analysis after payment
+        // Store for AI analysis after calculation
         window._lastCalculationData = calculationData;
 
         displayResults(actualPanels, finalKWp, finalProduction, finalArea, pvgisYield, coords, { tiltAngle, orientation, houseSizeEstimated, houseSize, peopleCount });
+        if (phoneNumber) submitCalculatorData(phoneNumber, calculationData);
 
         const pvgisNote = document.getElementById('pvgis-note');
         let baseNote = `<strong>Data source:</strong> PVGIS 5.3 (SARAH) for location (${coords.lat.toFixed(4)}, ${coords.lon.toFixed(4)}) with ${tiltAngle}° tilt, ${orientation}° orientation.`;
@@ -632,51 +638,26 @@ function displayResults(panels, kWp, production, area, solarYield, coords, opts)
         }, 100);
     }
 
-    // Apply paywall over optimization tips (reset if re-calculating)
+    // Recommendations and AI analysis are free after phone capture.
     const aiSection = document.getElementById('ai-analysis');
     if (aiSection) aiSection.style.display = 'none';
-    setTimeout(applyPaywall, 400);
+    setTimeout(showRecommendationsAndAI, 250);
 }
 
 // Initialize map when page loads
 window.addEventListener('load', () => {
     setTimeout(initMap, 100);
-    initPaymentInputs();
+    initPhoneModal();
 });
 
-function initPaymentInputs() {
-    // Card number — auto-format with spaces
-    const cardInput = document.getElementById('pay-card');
-    if (cardInput) {
-        cardInput.addEventListener('input', function () {
-            let val = this.value.replace(/\D/g, '').slice(0, 16);
-            this.value = val.replace(/(.{4})/g, '$1 ').trim();
-            const preview = document.getElementById('card-number-preview');
-            if (preview) {
-                const padded = val.padEnd(16, '•');
-                preview.textContent = padded.replace(/(.{4})/g, '$1 ').trim();
+function initPhoneModal() {
+    const input = document.getElementById('lead-phone');
+    if (input) {
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                submitPhoneAndCalculate();
             }
-        });
-    }
-
-    // Expiry — auto-insert slash
-    const expiryInput = document.getElementById('pay-expiry');
-    if (expiryInput) {
-        expiryInput.addEventListener('input', function () {
-            let val = this.value.replace(/\D/g, '').slice(0, 4);
-            if (val.length >= 3) val = val.slice(0, 2) + '/' + val.slice(2);
-            this.value = val;
-            const preview = document.getElementById('card-expiry-preview');
-            if (preview) preview.textContent = val || 'MM/YY';
-        });
-    }
-
-    // Name — mirror to card preview
-    const nameInput = document.getElementById('pay-name');
-    if (nameInput) {
-        nameInput.addEventListener('input', function () {
-            const preview = document.getElementById('card-name-preview');
-            if (preview) preview.textContent = this.value.toUpperCase() || 'AD SOYAD';
         });
     }
 }

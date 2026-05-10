@@ -14,6 +14,7 @@ app.use(express.static('.'));
 app.get('/api/news', require('../api/news.js'));
 app.get('/api/article', require('../api/article.js'));
 app.get('/api/sitemap', require('../api/sitemap.js'));
+app.post('/api/solar-calculator-submit', require('../api/solar-calculator-submit.js'));
 app.get('/sitemap.xml', require('../api/sitemap.js'));
 app.all('/api/admin', require('../api/admin.js'));
 app.all('/api/admin/*', require('../api/admin.js'));
