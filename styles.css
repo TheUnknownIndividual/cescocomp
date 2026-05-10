@@ -437,14 +437,28 @@ body:not(.dark-mode) .hero-overlay {
     gap: 1rem;
     margin-top: 2.25rem;
     flex-wrap: wrap;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
-.btn-shine {
+.btn-shine,
+.btn-hero-secondary,
+.btn-hero-call {
     position: relative;
-    overflow: hidden;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    min-height: 44px;
+    max-width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: normal;
+}
+
+.btn-shine {
+    overflow: hidden;
     padding: 0.7rem 1.75rem;
     border-radius: 10px;
     font-size: 0.97rem;
@@ -452,8 +466,6 @@ body:not(.dark-mode) .hero-overlay {
     color: #fff;
     background: rgba(74, 222, 128, 0.12);
     border: 1.5px solid rgba(74, 222, 128, 0.9);
-    cursor: pointer;
-    text-decoration: none;
     transition: transform 0.15s ease, box-shadow 0.25s ease, background 0.2s;
     letter-spacing: 0.01em;
 }
@@ -509,8 +521,6 @@ body:not(.dark-mode) .hero-overlay {
 }
 
 .btn-hero-secondary {
-    display: inline-flex;
-    align-items: center;
     padding: 0.65rem 1.4rem;
     border-radius: 10px;
     font-size: 0.9rem;
@@ -518,8 +528,6 @@ body:not(.dark-mode) .hero-overlay {
     color: rgba(253, 252, 250, 0.92);
     border: 1.5px solid rgba(253, 252, 250, 0.55);
     background: rgba(255, 255, 255, 0.08);
-    text-decoration: none;
-    cursor: pointer;
     transition: background 0.2s, color 0.2s, transform 0.15s, border-color 0.2s;
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
@@ -528,6 +536,28 @@ body:not(.dark-mode) .hero-overlay {
 .btn-hero-secondary:hover {
     background: rgba(255, 255, 255, 0.18);
     border-color: rgba(253, 252, 250, 0.85);
+    transform: scale(1.03);
+    color: #fff;
+}
+
+.btn-hero-call {
+    padding: 0.7rem 1.55rem;
+    border-radius: 10px;
+    font-size: 0.94rem;
+    font-weight: 700;
+    color: #fff;
+    border: 1.5px solid rgba(74, 222, 128, 0.92);
+    background: rgba(38, 129, 76, 0.52);
+    box-shadow: 0 0 28px rgba(74, 222, 128, 0.16);
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s, border-color 0.2s;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.btn-hero-call:hover {
+    background: rgba(74, 222, 128, 0.24);
+    border-color: rgba(253, 252, 250, 0.86);
+    box-shadow: 0 0 34px rgba(74, 222, 128, 0.32);
     transform: scale(1.03);
     color: #fff;
 }
@@ -690,6 +720,12 @@ body:not(.dark-mode) .hero-overlay {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    html,
+    body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
     .nav-burger { display: flex; }
 
     .nav-inner {
@@ -740,6 +776,50 @@ body:not(.dark-mode) .hero-overlay {
 
     .hero-subtitle {
         font-size: 0.95rem;
+    }
+
+    .hero-with-banner {
+        min-height: 680px;
+        height: auto;
+    }
+
+    .hero-content-wrap {
+        padding: 2rem 1rem 3rem;
+    }
+
+    .hero-content {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        width: 100%;
+        margin-top: 1.75rem;
+    }
+
+    .hero-buttons .btn-shine,
+    .hero-buttons .btn-hero-secondary,
+    .hero-buttons .btn-hero-call {
+        width: min(100%, 280px);
+        min-height: 46px;
+        padding: 0.72rem 1rem;
+    }
+
+    .stats-grid,
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card,
+    .feature-card,
+    .cta-card,
+    .install-panel,
+    .home-news-grid {
+        max-width: 100%;
     }
 
     .stat-number {
