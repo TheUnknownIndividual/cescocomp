@@ -417,7 +417,13 @@ async function submitCalculatorData(phoneNumber, calculationData) {
             phone_number: phoneNumber,
             email: emailField?.value || undefined,
             name: nameField?.value || undefined,
-            ...calculationData
+            ...calculationData.output_data,
+            location_name: calculationData.input_data.location_name,
+            latitude: calculationData.output_data.latitude,
+            longitude: calculationData.output_data.longitude,
+            input_data: calculationData.input_data,
+            output_data: calculationData.output_data,
+            calculation_data: calculationData
         };
         const response = await fetch('/api/solar-calculator-submit', {
             method: 'POST',
@@ -523,21 +529,45 @@ window.performCalculation = async function (phoneNumber) {
         const finalArea = actualPanels * areaPerPanel;
         const estimatedCost = Math.round(finalKWp * 1000);
 
-        const calculationData = {
-            latitude: coords.lat.toString(),
-            longitude: coords.lon.toString(),
+        const inputData = {
             location_name: location,
+            house_size_raw: houseSizeRaw,
             house_size_m2: Math.round(houseSize),
+            house_size_estimated: houseSizeEstimated,
             people_count: peopleCount,
             daytime_occupancy: daytimeOccupancy === 'yes',
             electric_cooking: document.getElementById('electric-cooking').checked,
             heavy_ac: document.getElementById('heavy-ac').checked,
             water_heater: document.getElementById('water-heater').checked,
+            roof_area_limit_m2: roofLimit && !isNaN(roofLimit) ? roofLimit : null,
+            advanced_visible: advancedVisible,
+            requested_tilt_angle: tiltAngleInput || '',
+            requested_orientation: orientationInput || ''
+        };
+
+        const outputData = {
+            latitude: coords.lat.toString(),
+            longitude: coords.lon.toString(),
+            location_name: location,
             panels_needed: actualPanels,
             system_size_kwp: finalKWp.toFixed(1),
             annual_production_kwh: Math.round(finalProduction),
             roof_area_m2: Math.round(finalArea),
-            estimated_cost_azn: estimatedCost
+            estimated_cost_azn: estimatedCost,
+            solar_yield_kwh_per_kwp_year: pvgisYield,
+            tilt_angle: tiltAngle,
+            orientation: orientation,
+            base_consumption_kwh: Math.round(baseConsumption),
+            limited_by_roof: limitedByRoof,
+            coverage_percent: coveragePercent,
+            shortfall_kwh: shortfallKWh
+        };
+
+        const calculationData = {
+            ...inputData,
+            ...outputData,
+            input_data: inputData,
+            output_data: outputData
         };
 
         // Store for AI analysis after calculation

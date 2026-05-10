@@ -15,6 +15,9 @@
     var panels = document.getElementById('translation-panels');
     var message = document.getElementById('editor-message');
     var statusPill = document.getElementById('status-pill');
+    var leadList = document.getElementById('lead-list');
+    var analyticsCards = document.getElementById('analytics-cards');
+    var indexnowMessage = document.getElementById('indexnow-message');
 
     function api(path, options) {
         options = options || {};
@@ -41,6 +44,20 @@
         return String(value || '').replace(/[&<>"']/g, function (ch) {
             return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch];
         });
+    }
+
+    function formatNumber(value) {
+        if (value === null || value === undefined || value === '') return '0';
+        return Number(value).toLocaleString();
+    }
+
+    function formatJson(value) {
+        if (!value || typeof value !== 'object') return 'No data';
+        return Object.keys(value).map(function (key) {
+            var item = value[key];
+            if (item && typeof item === 'object') item = JSON.stringify(item);
+            return esc(key.replace(/_/g, ' ')) + ': ' + esc(item);
+        }).join('\n');
     }
 
     function buildPanels() {
@@ -139,6 +156,60 @@
         loginPanel.hidden = true;
         cmsPanel.hidden = false;
         loadPosts().catch(function (err) { message.textContent = err.message; });
+        loadDashboard();
+    }
+
+    function renderAnalytics(data) {
+        var analytics = data || {};
+        var leads = analytics.leads || {};
+        var posts = analytics.posts || {};
+        analyticsCards.innerHTML = [
+            ['Total leads', formatNumber(leads.total_leads)],
+            ['Leads last 7 days', formatNumber(leads.leads_7d)],
+            ['Leads last 30 days', formatNumber(leads.leads_30d)],
+            ['Avg. system size', formatNumber(leads.avg_system_size_kwp) + ' kWp'],
+            ['Estimated pipeline', formatNumber(leads.total_estimated_cost_azn) + ' AZN'],
+            ['Published posts', formatNumber(posts.published_posts)]
+        ].map(function (card) {
+            return '<article class="analytics-card"><span>' + esc(card[0]) + '</span><strong>' + esc(card[1]) + '</strong></article>';
+        }).join('');
+    }
+
+    function renderLeads(leads) {
+        if (!leads || !leads.length) {
+            leadList.innerHTML = '<tr><td colspan="6">No calculator leads yet.</td></tr>';
+            return;
+        }
+        leadList.innerHTML = leads.map(function (lead) {
+            var created = lead.created_at ? new Date(lead.created_at).toLocaleString() : '';
+            var system = [
+                lead.panels_needed ? lead.panels_needed + ' panels' : '',
+                lead.system_size_kwp ? lead.system_size_kwp + ' kWp' : '',
+                lead.annual_production_kwh ? formatNumber(lead.annual_production_kwh) + ' kWh/year' : '',
+                lead.estimated_cost_azn ? formatNumber(lead.estimated_cost_azn) + ' AZN' : ''
+            ].filter(Boolean).join('\n');
+            return '<tr>' +
+                '<td>' + esc(created) + '</td>' +
+                '<td><a href="tel:' + esc(String(lead.phone_number || '').replace(/\s+/g, '')) + '">' + esc(lead.phone_number) + '</a></td>' +
+                '<td>' + esc(lead.location_name || '') + '</td>' +
+                '<td><pre>' + esc(system || 'No output') + '</pre></td>' +
+                '<td><pre>' + formatJson(lead.input_data || lead.calculation_data) + '</pre></td>' +
+                '<td><pre>' + formatJson(lead.output_data || lead.calculation_data) + '</pre></td>' +
+            '</tr>';
+        }).join('');
+    }
+
+    function loadDashboard() {
+        if (!leadList || !analyticsCards) return;
+        leadList.innerHTML = '<tr><td colspan="6">Loading leads...</td></tr>';
+        Promise.all([api('/analytics'), api('/leads')])
+            .then(function (responses) {
+                renderAnalytics(responses[0].analytics);
+                renderLeads(responses[1].leads);
+            })
+            .catch(function (err) {
+                leadList.innerHTML = '<tr><td colspan="6">' + esc(err.message) + '</td></tr>';
+            });
     }
 
     function insertMarkdown(kind) {
@@ -173,6 +244,17 @@
             activeLang = button.dataset.lang;
             document.querySelectorAll('.lang-tab').forEach(function (btn) { btn.classList.toggle('active', btn === button); });
             document.querySelectorAll('.translation-panel').forEach(function (panel) { panel.classList.toggle('active', panel.dataset.panel === activeLang); });
+        });
+    });
+
+    document.querySelectorAll('.admin-tab').forEach(function (button) {
+        button.addEventListener('click', function () {
+            var section = button.dataset.section;
+            document.querySelectorAll('.admin-tab').forEach(function (btn) { btn.classList.toggle('active', btn === button); });
+            document.querySelectorAll('[data-admin-section]').forEach(function (panel) {
+                panel.classList.toggle('active', panel.dataset.adminSection === section);
+            });
+            if (section === 'leads') loadDashboard();
         });
     });
 
@@ -232,6 +314,20 @@
     document.getElementById('logout-btn').addEventListener('click', function () {
         api('/logout', { method: 'POST' }).then(function () { location.reload(); });
     });
+    document.getElementById('refresh-leads-btn').addEventListener('click', loadDashboard);
+    document.getElementById('indexnow-btn').addEventListener('click', function () {
+        indexnowMessage.style.color = '#687568';
+        indexnowMessage.textContent = 'Submitting URLs to IndexNow...';
+        api('/indexnow', { method: 'POST' })
+            .then(function (result) {
+                indexnowMessage.style.color = '#197245';
+                indexnowMessage.textContent = 'Submitted ' + result.submitted + ' URLs. Key file: ' + result.keyLocation;
+            })
+            .catch(function (err) {
+                indexnowMessage.style.color = '#b42318';
+                indexnowMessage.textContent = err.message;
+            });
+    });
 
     buildPanels();
     api('/posts')
@@ -241,6 +337,7 @@
             cmsPanel.hidden = false;
             renderList();
             fillForm(posts[0] || emptyPost());
+            loadDashboard();
         })
         .catch(function () {
             loginPanel.hidden = false;

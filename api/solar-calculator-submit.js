@@ -49,10 +49,15 @@ async function ensureSchema(db) {
       annual_production_kwh INTEGER,
       roof_area_m2 INTEGER,
       estimated_cost_azn INTEGER,
+      input_data JSONB,
+      output_data JSONB,
       calculation_data JSONB NOT NULL,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )
   `);
+  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS input_data JSONB`);
+  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS output_data JSONB`);
+  await db.query(`CREATE INDEX IF NOT EXISTS idx_solar_calculator_leads_created ON solar_calculator_leads(created_at DESC)`);
 }
 
 module.exports = async function handler(req, res) {
@@ -79,8 +84,8 @@ module.exports = async function handler(req, res) {
     const result = await db.query(
       `INSERT INTO solar_calculator_leads
        (phone_number, name, email, location_name, latitude, longitude, panels_needed, system_size_kwp,
-        annual_production_kwh, roof_area_m2, estimated_cost_azn, calculation_data)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
+        annual_production_kwh, roof_area_m2, estimated_cost_azn, input_data, output_data, calculation_data)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
        RETURNING id`,
       [
         phone,
@@ -94,6 +99,8 @@ module.exports = async function handler(req, res) {
         body.annual_production_kwh ? Number(body.annual_production_kwh) : null,
         body.roof_area_m2 ? Number(body.roof_area_m2) : null,
         body.estimated_cost_azn ? Number(body.estimated_cost_azn) : null,
+        body.input_data || null,
+        body.output_data || null,
         body
       ]
     );

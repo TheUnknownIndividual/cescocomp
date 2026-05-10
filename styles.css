@@ -431,12 +431,12 @@ body:not(.dark-mode) .hero-overlay {
 
 /* ── Hero CTA Buttons ── */
 .hero-buttons {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, max-content);
     align-items: center;
     justify-content: center;
     gap: 1rem;
     margin-top: 2.25rem;
-    flex-wrap: wrap;
     max-width: 100%;
     box-sizing: border-box;
 }
@@ -541,16 +541,17 @@ body:not(.dark-mode) .hero-overlay {
 }
 
 .btn-hero-call {
-    padding: 0.7rem 1.55rem;
+    grid-column: 2;
+    justify-self: center;
+    padding: 0.7rem 1.75rem;
     border-radius: 10px;
-    font-size: 0.94rem;
-    font-weight: 700;
-    flex-basis: 100%;
-    width: fit-content;
-    margin: -0.35rem auto 0;
+    font-size: 0.97rem;
+    font-weight: 600;
+    width: auto;
+    margin: -0.35rem 0 0;
     color: #fff;
     border: 1.5px solid rgba(74, 222, 128, 0.92);
-    background: rgba(38, 129, 76, 0.52);
+    background: rgba(74, 222, 128, 0.12);
     box-shadow: 0 0 28px rgba(74, 222, 128, 0.16);
     transition: background 0.2s, transform 0.15s, box-shadow 0.2s, border-color 0.2s;
     backdrop-filter: blur(4px);
@@ -796,6 +797,7 @@ body:not(.dark-mode) .hero-overlay {
     }
 
     .hero-buttons {
+        display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;

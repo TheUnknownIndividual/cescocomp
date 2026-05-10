@@ -1,8 +1,11 @@
 const {
+  BASE_URL,
   deletePost,
   ensureSchema,
+  generateSlug,
   getPool,
   listAdminPosts,
+  listPublishedCmsTranslations,
   savePost,
   signSession,
   verifySession
@@ -64,6 +67,131 @@ function isAuthed(req) {
   return verifySession(cookies[COOKIE_NAME]);
 }
 
+async function ensureLeadSchema(db) {
+  await db.query(`
+    CREATE TABLE IF NOT EXISTS solar_calculator_leads (
+      id SERIAL PRIMARY KEY,
+      phone_number TEXT NOT NULL,
+      name TEXT,
+      email TEXT,
+      location_name TEXT,
+      latitude DOUBLE PRECISION,
+      longitude DOUBLE PRECISION,
+      panels_needed INTEGER,
+      system_size_kwp NUMERIC,
+      annual_production_kwh INTEGER,
+      roof_area_m2 INTEGER,
+      estimated_cost_azn INTEGER,
+      input_data JSONB,
+      output_data JSONB,
+      calculation_data JSONB NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `);
+  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS input_data JSONB`);
+  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS output_data JSONB`);
+  await db.query(`CREATE INDEX IF NOT EXISTS idx_solar_calculator_leads_created ON solar_calculator_leads(created_at DESC)`);
+}
+
+async function listLeads(db) {
+  await ensureLeadSchema(db);
+  const result = await db.query(`
+    SELECT id, phone_number, name, email, location_name, latitude, longitude, panels_needed,
+           system_size_kwp, annual_production_kwh, roof_area_m2, estimated_cost_azn,
+           input_data, output_data, calculation_data, created_at
+    FROM solar_calculator_leads
+    ORDER BY created_at DESC
+    LIMIT 1000
+  `);
+  return result.rows;
+}
+
+async function getAnalytics(db) {
+  await ensureLeadSchema(db);
+  const [leadTotals, postTotals, recentLocations] = await Promise.all([
+    db.query(`
+      SELECT
+        COUNT(*)::int AS total_leads,
+        COUNT(*) FILTER (WHERE created_at >= NOW() - INTERVAL '7 days')::int AS leads_7d,
+        COUNT(*) FILTER (WHERE created_at >= NOW() - INTERVAL '30 days')::int AS leads_30d,
+        COALESCE(ROUND(AVG(system_size_kwp)::numeric, 2), 0) AS avg_system_size_kwp,
+        COALESCE(SUM(estimated_cost_azn)::int, 0) AS total_estimated_cost_azn
+      FROM solar_calculator_leads
+    `),
+    db.query(`
+      SELECT
+        COUNT(*)::int AS total_posts,
+        COUNT(*) FILTER (WHERE status='published')::int AS published_posts,
+        COUNT(*) FILTER (WHERE status='draft')::int AS draft_posts
+      FROM posts
+    `),
+    db.query(`
+      SELECT COALESCE(location_name, 'Unknown') AS location_name, COUNT(*)::int AS count
+      FROM solar_calculator_leads
+      GROUP BY COALESCE(location_name, 'Unknown')
+      ORDER BY count DESC, location_name ASC
+      LIMIT 10
+    `)
+  ]);
+  return {
+    leads: leadTotals.rows[0],
+    posts: postTotals.rows[0],
+    top_locations: recentLocations.rows
+  };
+}
+
+async function collectIndexNowUrls(db) {
+  const base = BASE_URL.replace(/\/+$/, '');
+  const urls = [
+    `${base}/`,
+    `${base}/news`,
+    `${base}/projects`,
+    `${base}/solar-calculator`,
+    `${base}/regulatory-framework`
+  ];
+
+  const cmsTranslations = await listPublishedCmsTranslations();
+  for (const post of cmsTranslations) {
+    urls.push(`${base}/${post.lang}/blog/${post.slug}`);
+  }
+
+  try {
+    const articles = await db.query('SELECT title FROM articles ORDER BY fetched_at DESC LIMIT 1000');
+    for (const article of articles.rows) {
+      urls.push(`${base}/blog/${generateSlug(article.title)}`);
+    }
+  } catch (error) {
+    if (error.code !== '42P01') throw error;
+  }
+
+  return Array.from(new Set(urls));
+}
+
+async function submitIndexNow(db) {
+  const key = process.env.INDEXNOW_KEY || '4cae280f4aa943e695a3c8782f6a6b70';
+  const base = BASE_URL.replace(/\/+$/, '');
+  const host = new URL(base).host;
+  const urlList = await collectIndexNowUrls(db);
+  const response = await fetch('https://api.indexnow.org/indexnow', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify({
+      host,
+      key,
+      keyLocation: `${base}/${key}.txt`,
+      urlList
+    })
+  });
+  const text = await response.text();
+  return {
+    ok: response.ok,
+    status: response.status,
+    submitted: urlList.length,
+    keyLocation: `${base}/${key}.txt`,
+    response: text
+  };
+}
+
 async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -103,6 +231,19 @@ async function handler(req, res) {
 
     if (parts[0] === 'posts' && req.method === 'GET') {
       return json(res, 200, { posts: await listAdminPosts() });
+    }
+
+    if (parts[0] === 'leads' && req.method === 'GET') {
+      return json(res, 200, { leads: await listLeads(getPool()) });
+    }
+
+    if (parts[0] === 'analytics' && req.method === 'GET') {
+      return json(res, 200, { analytics: await getAnalytics(getPool()) });
+    }
+
+    if (parts[0] === 'indexnow' && req.method === 'POST') {
+      const result = await submitIndexNow(getPool());
+      return json(res, result.ok ? 200 : 502, result);
     }
 
     if (parts[0] === 'posts' && req.method === 'POST' && parts.length === 1) {

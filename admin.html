@@ -35,7 +35,13 @@
                 </div>
             </header>
 
-            <div class="admin-grid">
+            <nav class="admin-tabs" aria-label="Admin sections">
+                <button type="button" class="admin-tab active" data-section="posts">Posts</button>
+                <button type="button" class="admin-tab" data-section="leads">Leads & analytics</button>
+            </nav>
+
+            <div class="admin-section active" data-admin-section="posts">
+                <div class="admin-grid">
                 <aside class="post-list-wrap">
                     <h2>Posts</h2>
                     <div id="post-list" class="post-list"></div>
@@ -66,6 +72,41 @@
                     </div>
                     <p id="editor-message" class="editor-message" role="status"></p>
                 </form>
+                </div>
+            </div>
+
+            <div class="admin-section" data-admin-section="leads">
+                <section class="dashboard-panel">
+                    <div class="dashboard-header">
+                        <div>
+                            <h2>Solar calculator leads</h2>
+                            <p>Phone numbers, submitted inputs, and calculated outputs from solar calculator users.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button type="button" id="refresh-leads-btn" class="secondary">Refresh</button>
+                            <button type="button" id="indexnow-btn">Submit IndexNow URLs</button>
+                        </div>
+                    </div>
+
+                    <div id="analytics-cards" class="analytics-cards"></div>
+                    <p id="indexnow-message" class="editor-message" role="status"></p>
+
+                    <div class="table-wrap">
+                        <table class="lead-table">
+                            <thead>
+                                <tr>
+                                    <th>Created</th>
+                                    <th>Phone</th>
+                                    <th>Location</th>
+                                    <th>System</th>
+                                    <th>Inputs</th>
+                                    <th>Outputs</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lead-list"></tbody>
+                        </table>
+                    </div>
+                </section>
             </div>
         </section>
     </main>
