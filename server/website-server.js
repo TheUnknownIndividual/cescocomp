@@ -2,6 +2,12 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 
+try {
+  require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
+} catch {
+  // dotenv is optional in production; platform env vars are used there.
+}
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 

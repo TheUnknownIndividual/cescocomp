@@ -268,7 +268,9 @@ window.submitPhoneAndCalculate = function () {
     const digits = phone.replace(/\D/g, '');
 
     if (digits.length < 7) {
-        if (error) error.textContent = 'Please enter a valid phone number.';
+        if (error) {
+            error.textContent = (typeof window.getTranslation === 'function' && window.getTranslation('calculator.phoneInvalid')) || 'Please enter a valid phone number.';
+        }
         return;
     }
 
