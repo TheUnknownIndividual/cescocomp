@@ -203,15 +203,41 @@
         </div>
     </section>
 
-    <!-- Latest Blogs Section -->
-    <section style="background: var(--bg); padding: 4rem 0;" id="index-blogs">
+    <section class="install-section" id="solar-installation">
         <div class="container">
-            <div style="text-align: center; margin-bottom: 2.5rem;">
-                <h2 style="font-size: 2rem; font-family: 'Space Grotesk', sans-serif; color: var(--text-dark); margin-bottom: 0.5rem;" data-i18n="index.blogsTitle">Latest Blogs</h2>
-                <p style="color: var(--text-dark); opacity: 0.7;" data-i18n="index.blogsDesc">Recent news and updates from Azerbaijan's renewable energy sector</p>
+            <div class="install-panel">
+                <div class="install-copy">
+                    <span class="install-badge" data-i18n="index.installBadge">Solar installation</span>
+                    <h2 data-i18n="index.installTitle">Solar panels, inverters, and full on-site setup</h2>
+                    <p data-i18n="index.installDesc">We design and install complete solar energy systems for homes and businesses, including panels, inverters, mounting, wiring, grid-ready setup, and on-site configuration.</p>
+                    <div class="install-points" aria-label="Solar installation services">
+                        <span data-i18n="index.installPoint1">Panel installation</span>
+                        <span data-i18n="index.installPoint2">Inverter setup</span>
+                        <span data-i18n="index.installPoint3">Site assessment</span>
+                        <span data-i18n="index.installPoint4">System commissioning</span>
+                    </div>
+                    <div class="install-actions">
+                        <a href="tel:+994504180001" class="install-call-btn" data-i18n="index.installCall">Contact us: +994 50 418 00 01</a>
+                        <a href="solar-calculator.html" class="install-secondary-btn" data-i18n="index.installEstimate">Estimate system size</a>
+                    </div>
+                </div>
+                <figure class="install-figure">
+                    <img src="https://images.unsplash.com/photo-1624397640148-949b1732bb0a?w=1100&auto=format&fit=crop&q=78" alt="Technician installing solar panels on a roof" loading="lazy">
+                </figure>
             </div>
-            <div id="index-news-grid" class="news-grid" style="display:grid;"></div>
-            <div style="text-align: center; margin-top: 2rem;">
+        </div>
+    </section>
+
+    <!-- Latest Blogs Section -->
+    <section class="home-blogs-section" id="index-blogs">
+        <div class="container">
+            <div class="home-blogs-header">
+                <span class="section-kicker" data-i18n="index.blogsKicker">Insights</span>
+                <h2 data-i18n="index.blogsTitle">Latest Blogs</h2>
+                <p data-i18n="index.blogsDesc">Recent news and updates from Azerbaijan's renewable energy sector</p>
+            </div>
+            <div id="index-news-grid" class="news-grid home-news-grid"></div>
+            <div class="home-blogs-actions">
                 <a href="news.html" class="btn" data-i18n="index.newsBtn">Read News</a>
             </div>
         </div>
@@ -324,6 +350,7 @@
             var frag = document.createDocumentFragment();
             normalized.forEach(function (a) { frag.appendChild(buildCard(a)); });
             grid.appendChild(frag);
+            grid.classList.toggle('is-empty', normalized.length === 0);
         }
 
         function fetchStaticFallback() {

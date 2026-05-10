@@ -1067,3 +1067,309 @@ body.dark-mode .cta-card {
         font-size: 1.4rem;
     }
 }
+
+/* ── Solar Installation Service ── */
+.install-section {
+    padding: 4rem 0;
+    background: var(--bg);
+}
+
+.install-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+    gap: 0;
+    overflow: hidden;
+    background: var(--card-bg);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 14px;
+    box-shadow: var(--shadow-hover);
+}
+
+body.dark-mode .install-panel {
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.install-copy {
+    padding: clamp(2rem, 4vw, 3.5rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.install-badge,
+.section-kicker {
+    width: fit-content;
+    color: var(--primary-color);
+    background: rgba(90, 154, 110, 0.11);
+    border: 1px solid rgba(90, 154, 110, 0.24);
+    border-radius: 999px;
+    padding: 0.28rem 0.75rem;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.install-copy h2 {
+    color: var(--text-dark);
+    font-size: clamp(1.75rem, 3vw, 2.35rem);
+    line-height: 1.18;
+    margin: 0;
+}
+
+.install-copy p {
+    color: var(--text-dark);
+    opacity: 0.76;
+    line-height: 1.75;
+    max-width: 640px;
+    margin: 0;
+}
+
+.install-points {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+    margin-top: 0.4rem;
+}
+
+.install-points span {
+    color: var(--text-dark);
+    background: rgba(90, 154, 110, 0.08);
+    border: 1px solid rgba(90, 154, 110, 0.16);
+    border-radius: 8px;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.install-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 0.6rem;
+}
+
+.install-call-btn,
+.install-secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+.install-call-btn {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.install-secondary-btn {
+    color: var(--text-dark);
+    border: 1.5px solid rgba(90, 154, 110, 0.38);
+    background: transparent;
+}
+
+.install-call-btn:hover,
+.install-secondary-btn:hover {
+    transform: translateY(-2px);
+}
+
+.install-call-btn:hover {
+    background: var(--secondary-color);
+    color: #fff;
+}
+
+.install-secondary-btn:hover {
+    border-color: var(--primary-color);
+    background: rgba(90, 154, 110, 0.08);
+}
+
+.install-figure {
+    margin: 0;
+    min-height: 390px;
+    overflow: hidden;
+}
+
+.install-figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ── Home Blogs ── */
+.home-blogs-section {
+    background: linear-gradient(180deg, var(--bg) 0%, rgba(90, 154, 110, 0.06) 100%);
+    padding: 4rem 0;
+}
+
+.home-blogs-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.65rem;
+    margin-bottom: 2rem;
+}
+
+.home-blogs-header h2 {
+    color: var(--text-dark);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    line-height: 1.18;
+    margin: 0;
+}
+
+.home-blogs-header p {
+    color: var(--text-dark);
+    opacity: 0.72;
+    max-width: 620px;
+    margin: 0;
+    line-height: 1.65;
+}
+
+.home-news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+    align-items: stretch;
+}
+
+.home-news-grid .news-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+body.dark-mode .home-news-grid .news-card {
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.home-news-grid .news-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(90, 154, 110, 0.28);
+}
+
+.home-news-grid .news-card-img-wrap {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--light-color);
+}
+
+.home-news-grid .news-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s ease;
+}
+
+.home-news-grid .news-card:hover .news-card-img {
+    transform: scale(1.04);
+}
+
+.home-news-grid .news-card-body {
+    padding: 1.15rem 1.2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.home-news-grid .news-source-badge {
+    width: fit-content;
+    color: var(--primary-color);
+    background: rgba(90, 154, 110, 0.1);
+    border: 1px solid rgba(90, 154, 110, 0.25);
+    border-radius: 999px;
+    padding: 0.22rem 0.65rem;
+    margin-bottom: 0.65rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.home-news-grid .news-date {
+    color: var(--text-dark);
+    opacity: 0.56;
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.home-news-grid .news-card h3 {
+    color: var(--text-dark);
+    font-size: 1.03rem;
+    line-height: 1.42;
+    margin: 0 0 0.7rem;
+}
+
+.home-news-grid .news-card p {
+    color: var(--text-dark);
+    opacity: 0.78;
+    font-size: 0.9rem;
+    line-height: 1.58;
+    margin: 0 0 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.home-news-grid .read-more {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 700;
+    margin-top: auto;
+}
+
+.home-news-grid .read-more:hover {
+    color: var(--secondary-color);
+}
+
+.home-blogs-actions {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+@media (max-width: 980px) {
+    .home-news-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 820px) {
+    .install-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .install-figure {
+        min-height: 250px;
+        order: -1;
+    }
+}
+
+@media (max-width: 620px) {
+    .home-news-grid,
+    .install-points {
+        grid-template-columns: 1fr;
+    }
+
+    .install-call-btn,
+    .install-secondary-btn {
+        width: 100%;
+    }
+}
