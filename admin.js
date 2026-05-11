@@ -244,10 +244,13 @@
     function loadDashboard() {
         if (!leadList || !analyticsCards) return;
         leadList.innerHTML = '<tr><td colspan="6">Loading leads...</td></tr>';
-        Promise.all([api('/analytics'), api('/leads')])
-            .then(function (responses) {
-                renderAnalytics(responses[0].analytics);
-                renderLeads(responses[1].leads);
+        api('/analytics')
+            .then(function (analyticsResponse) {
+                renderAnalytics(analyticsResponse.analytics);
+                return api('/leads');
+            })
+            .then(function (leadsResponse) {
+                renderLeads(leadsResponse.leads);
             })
             .catch(function (err) {
                 if (err.relogin || err.code === 'DB_AUTH_FAILED') {

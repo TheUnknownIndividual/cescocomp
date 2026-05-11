@@ -1,6 +1,8 @@
 const { Pool } = require('pg');
 
 let pool;
+let schemaReady = false;
+let schemaPromise = null;
 
 function getPool() {
   const connectionString = process.env.POSTGRES_URL || process.env.DATABASE_URL;
@@ -35,56 +37,70 @@ function getBody(req) {
 }
 
 async function ensureSchema(db) {
-  await db.query(`
-    CREATE TABLE IF NOT EXISTS solar_calculator_leads (
-      id SERIAL PRIMARY KEY,
-      phone_number TEXT NOT NULL,
-      name TEXT,
-      email TEXT,
-      location_name TEXT,
-      latitude DOUBLE PRECISION,
-      longitude DOUBLE PRECISION,
-      house_size_m2 INTEGER,
-      people_count INTEGER,
-      daytime_occupancy BOOLEAN,
-      electric_cooking BOOLEAN,
-      heavy_ac BOOLEAN,
-      water_heater BOOLEAN,
-      panels_needed INTEGER,
-      system_size_kwp NUMERIC,
-      annual_production_kwh INTEGER,
-      roof_area_m2 INTEGER,
-      estimated_cost_azn INTEGER,
-      ip_address TEXT,
-      user_agent TEXT,
-      contacted BOOLEAN NOT NULL DEFAULT FALSE,
-      notes TEXT,
-      region_name_az TEXT,
-      region_name_en TEXT,
-      annual_electricity_usage_kwh INTEGER,
-      input_data JSONB,
-      output_data JSONB,
-      calculation_data JSONB NOT NULL,
-      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-    )
-  `);
-  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS house_size_m2 INTEGER`);
-  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS people_count INTEGER`);
-  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS daytime_occupancy BOOLEAN`);
-  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS electric_cooking BOOLEAN`);
-  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS heavy_ac BOOLEAN`);
-  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS water_heater BOOLEAN`);
-  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS ip_address TEXT`);
-  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS user_agent TEXT`);
-  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS contacted BOOLEAN NOT NULL DEFAULT FALSE`);
-  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS notes TEXT`);
-  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS region_name_az TEXT`);
-  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS region_name_en TEXT`);
-  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS annual_electricity_usage_kwh INTEGER`);
-  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS input_data JSONB`);
-  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS output_data JSONB`);
-  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS calculation_data JSONB`);
-  await db.query(`CREATE INDEX IF NOT EXISTS idx_solar_calculator_leads_created ON solar_calculator_leads(created_at DESC)`);
+  if (schemaReady) return;
+  if (schemaPromise) return schemaPromise;
+  schemaPromise = (async () => {
+    const client = await db.connect();
+    try {
+      await client.query('SELECT pg_advisory_lock($1, $2)', [4212026, 1]);
+      await client.query(`
+        CREATE TABLE IF NOT EXISTS solar_calculator_leads (
+          id SERIAL PRIMARY KEY,
+          phone_number TEXT NOT NULL,
+          name TEXT,
+          email TEXT,
+          location_name TEXT,
+          latitude DOUBLE PRECISION,
+          longitude DOUBLE PRECISION,
+          house_size_m2 INTEGER,
+          people_count INTEGER,
+          daytime_occupancy BOOLEAN,
+          electric_cooking BOOLEAN,
+          heavy_ac BOOLEAN,
+          water_heater BOOLEAN,
+          panels_needed INTEGER,
+          system_size_kwp NUMERIC,
+          annual_production_kwh INTEGER,
+          roof_area_m2 INTEGER,
+          estimated_cost_azn INTEGER,
+          ip_address TEXT,
+          user_agent TEXT,
+          contacted BOOLEAN NOT NULL DEFAULT FALSE,
+          notes TEXT,
+          region_name_az TEXT,
+          region_name_en TEXT,
+          annual_electricity_usage_kwh INTEGER,
+          input_data JSONB,
+          output_data JSONB,
+          calculation_data JSONB NOT NULL,
+          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+      `);
+      await client.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS house_size_m2 INTEGER`);
+      await client.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS people_count INTEGER`);
+      await client.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS daytime_occupancy BOOLEAN`);
+      await client.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS electric_cooking BOOLEAN`);
+      await client.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS heavy_ac BOOLEAN`);
+      await client.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS water_heater BOOLEAN`);
+      await client.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS ip_address TEXT`);
+      await client.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS user_agent TEXT`);
+      await client.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS contacted BOOLEAN NOT NULL DEFAULT FALSE`);
+      await client.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS notes TEXT`);
+      await client.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS region_name_az TEXT`);
+      await client.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS region_name_en TEXT`);
+      await client.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS annual_electricity_usage_kwh INTEGER`);
+      await client.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS input_data JSONB`);
+      await client.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS output_data JSONB`);
+      await client.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS calculation_data JSONB`);
+      await client.query(`CREATE INDEX IF NOT EXISTS idx_solar_calculator_leads_created ON solar_calculator_leads(created_at DESC)`);
+      schemaReady = true;
+    } finally {
+      await client.query('SELECT pg_advisory_unlock($1, $2)', [4212026, 1]).catch(() => {});
+      client.release();
+      schemaPromise = null;
+    }
+  })();
+  return schemaPromise;
 }
 
 module.exports = async function handler(req, res) {
