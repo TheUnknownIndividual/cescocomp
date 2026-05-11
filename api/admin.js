@@ -31,7 +31,7 @@ function publicError(error) {
     return {
       status: 503,
       body: {
-        error: 'Database authentication failed. Check DATABASE_URL/POSTGRES_URL for cescocomp_user and sign in again after it is fixed.',
+        error: 'Database authentication failed. Check DATABASE_URL or POSTGRES_URL and sign in again after it is fixed.',
         code: 'DB_AUTH_FAILED',
         relogin: true
       }

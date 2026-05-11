@@ -6,7 +6,7 @@ module.exports = {
       cwd:    '/home/deyerverdb/cescocomp-server',
       env: {
         NODE_ENV:     'production',
-        DATABASE_URL: 'postgresql://cescocomp_user:your_password@localhost:5432/cescocomp_news',
+        DATABASE_URL: 'postgresql://your_db_user:your_db_password@localhost:5432/your_db_name',
         PORT:         3001,
         API_SECRET:   'replace_with_random_secret_token',
         ADMIN_PASSWORD: 'replace_with_strong_admin_password',
