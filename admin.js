@@ -95,10 +95,13 @@
                     '<div class="toolbar" data-toolbar="' + lang + '">' +
                         '<button type="button" data-md="bold">B</button>' +
                         '<button type="button" data-md="italic">I</button>' +
-                        '<button type="button" data-md="heading">H</button>' +
+                        '<button type="button" data-md="h1">H1</button>' +
+                        '<button type="button" data-md="h2">H2</button>' +
+                        '<button type="button" data-md="h3">H3</button>' +
                         '<button type="button" data-md="link">Link</button>' +
                         '<button type="button" data-md="image">Image</button>' +
                         '<button type="button" data-md="list">List</button>' +
+                        '<button type="button" data-md="table">Table</button>' +
                         '<button type="button" data-md="quote">Quote</button>' +
                     '</div>' +
                     '<textarea data-field="markdown" data-lang="' + lang + '"></textarea>' +
@@ -270,13 +273,54 @@
         var insert = selected;
         if (kind === 'bold') insert = '**' + selected + '**';
         if (kind === 'italic') insert = '*' + selected + '*';
-        if (kind === 'heading') insert = '## ' + selected;
+        if (kind === 'h1') insert = '# ' + selected;
+        if (kind === 'h2') insert = '## ' + selected;
+        if (kind === 'h3') insert = '### ' + selected;
         if (kind === 'link') insert = '[' + selected + '](https://example.com)';
         if (kind === 'image') insert = '![' + selected + '](https://example.com/image.jpg)';
         if (kind === 'list') insert = '- ' + selected;
+        if (kind === 'table') insert = '| Column 1 | Column 2 | Column 3 |\n| --- | --- | --- |\n| Value | Value | Value |';
         if (kind === 'quote') insert = '> ' + selected;
         textarea.setRangeText(insert, start, end, 'end');
         textarea.focus();
+    }
+
+    function htmlToMarkdown(html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        function text(node) {
+            return String(node.textContent || '').replace(/\s+/g, ' ').trim();
+        }
+        function walk(node) {
+            if (node.nodeType === Node.TEXT_NODE) return node.nodeValue;
+            if (node.nodeType !== Node.ELEMENT_NODE) return '';
+            var tag = node.tagName.toLowerCase();
+            var content = Array.prototype.map.call(node.childNodes, walk).join('').trim();
+            if (tag === 'h1') return '\n# ' + content + '\n\n';
+            if (tag === 'h2') return '\n## ' + content + '\n\n';
+            if (tag === 'h3') return '\n### ' + content + '\n\n';
+            if (tag === 'h4') return '\n#### ' + content + '\n\n';
+            if (tag === 'p') return content ? content + '\n\n' : '';
+            if (tag === 'strong' || tag === 'b') return '**' + content + '**';
+            if (tag === 'em' || tag === 'i') return '*' + content + '*';
+            if (tag === 'blockquote') return content.split('\n').map(function (line) { return line.trim() ? '> ' + line.trim() : ''; }).join('\n') + '\n\n';
+            if (tag === 'br') return '\n';
+            if (tag === 'a') return '[' + content + '](' + (node.getAttribute('href') || '#') + ')';
+            if (tag === 'img') return '![' + (node.getAttribute('alt') || 'image') + '](' + (node.getAttribute('src') || '') + ')';
+            if (tag === 'li') return '- ' + content + '\n';
+            if (tag === 'ul' || tag === 'ol') return '\n' + content + '\n';
+            if (tag === 'table') {
+                var rows = Array.prototype.map.call(node.querySelectorAll('tr'), function (row) {
+                    return Array.prototype.map.call(row.children, text);
+                }).filter(function (row) { return row.length; });
+                if (!rows.length) return '';
+                var headers = rows[0];
+                var separator = headers.map(function () { return '---'; });
+                return '\n| ' + headers.join(' | ') + ' |\n| ' + separator.join(' | ') + ' |\n' +
+                    rows.slice(1).map(function (row) { return '| ' + row.join(' | ') + ' |'; }).join('\n') + '\n\n';
+            }
+            return content;
+        }
+        return Array.prototype.map.call(doc.body.childNodes, walk).join('').replace(/\n{3,}/g, '\n\n').trim();
     }
 
     loginForm.addEventListener('submit', function (event) {
@@ -310,6 +354,17 @@
     panels.addEventListener('click', function (event) {
         var button = event.target.closest('[data-md]');
         if (button) insertMarkdown(button.dataset.md);
+    });
+
+    panels.addEventListener('paste', function (event) {
+        var textarea = event.target.closest('textarea[data-field="markdown"]');
+        if (!textarea) return;
+        var html = event.clipboardData && event.clipboardData.getData('text/html');
+        if (!html) return;
+        var markdown = htmlToMarkdown(html);
+        if (!markdown) return;
+        event.preventDefault();
+        textarea.setRangeText(markdown, textarea.selectionStart, textarea.selectionEnd, 'end');
     });
 
     panels.addEventListener('blur', function (event) {

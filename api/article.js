@@ -126,8 +126,15 @@ function generateCmsArticlePage(post) {
       .article-image{width:100%;max-height:430px;object-fit:cover;border-radius:8px;margin:1rem 0 1.5rem}
       .article-meta{display:flex;gap:1rem;color:var(--text-muted);margin:.5rem 0 1rem}
       .article-content{line-height:1.75;font-size:1.08rem}
+      .article-content h1{font-size:2rem;line-height:1.2;margin:2rem 0 1rem}
+      .article-content h2{font-size:1.55rem;line-height:1.25;margin:1.8rem 0 .8rem}
+      .article-content h3{font-size:1.25rem;line-height:1.3;margin:1.4rem 0 .65rem}
       .article-content img{max-width:100%;height:auto;border-radius:8px;margin:1rem 0}
       .article-content blockquote{border-left:4px solid var(--primary-color);margin:1rem 0;padding:.5rem 1rem;background:rgba(0,0,0,.04)}
+      .md-table-wrap{width:100%;overflow-x:auto;margin:1.25rem 0}
+      .md-table{width:100%;border-collapse:collapse;min-width:520px}
+      .md-table th,.md-table td{border:1px solid rgba(120,130,120,.28);padding:.75rem;text-align:left;vertical-align:top}
+      .md-table th{background:rgba(46,125,50,.08);font-weight:800}
       .back-to-news{display:inline-flex;margin-bottom:1.25rem;color:var(--primary-color);text-decoration:none;font-weight:700}
     </style>
 </head>

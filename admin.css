@@ -164,6 +164,7 @@ label { color: var(--muted); font-size: 0.86rem; font-weight: 700; }
     background: #eef4ee;
     color: var(--ink);
     padding: 0.45rem 0.65rem;
+    min-width: 40px;
 }
 .dashboard-panel {
     background: var(--panel);
