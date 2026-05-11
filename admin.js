@@ -25,10 +25,32 @@
         options.credentials = 'include';
         return fetch('/api/admin' + path, options).then(function (res) {
             return res.json().then(function (body) {
-                if (!res.ok) throw new Error(body.error || 'Request failed');
+                if (!res.ok) {
+                    var error = new Error(body.error || 'Request failed');
+                    error.status = res.status;
+                    error.code = body.code || '';
+                    error.relogin = Boolean(body.relogin || res.status === 401);
+                    throw error;
+                }
                 return body;
             });
         });
+    }
+
+    function showLogin(messageText) {
+        loginPanel.hidden = false;
+        cmsPanel.hidden = true;
+        if (messageText) loginError.textContent = messageText;
+        var input = document.getElementById('admin-password');
+        if (input) setTimeout(function () { input.focus(); }, 50);
+    }
+
+    function handleApiError(err, target) {
+        if (err.relogin || err.code === 'DB_AUTH_FAILED') {
+            showLogin(err.message || 'Please sign in again.');
+            return;
+        }
+        if (target) target.textContent = err.message;
     }
 
     function slugify(value) {
@@ -85,6 +107,11 @@
                     '<div class="field"><label>SEO title</label><input data-field="seo_title" data-lang="' + lang + '"></div>' +
                     '<div class="field"><label>SEO keywords</label><input data-field="seo_keywords" data-lang="' + lang + '"></div>' +
                 '</div>' +
+                '<div class="two-col">' +
+                    '<div class="field"><label>Target location for SEO</label><input data-field="target_location" data-lang="' + lang + '" placeholder="Bakı, Sumqayıt, Gəncə..."></div>' +
+                    '<div class="field"><label>Location SEO title</label><input data-field="local_seo_title" data-lang="' + lang + '" placeholder="Günəş paneli quraşdırılması Bakıda"></div>' +
+                '</div>' +
+                '<div class="field"><label>Location SEO description</label><textarea data-field="local_seo_description" data-lang="' + lang + '" rows="2"></textarea></div>' +
                 '<div class="field"><label>SEO description</label><textarea data-field="seo_description" data-lang="' + lang + '" rows="3"></textarea></div>' +
                 '<div class="field"><label>Image alt text</label><input data-field="image_alt" data-lang="' + lang + '"></div>' +
             '</section>';
@@ -106,7 +133,7 @@
         statusPill.textContent = activePost.status === 'published' ? 'Published' : 'Draft';
         LANGS.forEach(function (lang) {
             var t = translation(activePost, lang);
-            ['title', 'slug', 'excerpt', 'markdown', 'seo_title', 'seo_description', 'seo_keywords', 'image_alt'].forEach(function (field) {
+            ['title', 'slug', 'excerpt', 'markdown', 'seo_title', 'seo_description', 'seo_keywords', 'target_location', 'local_seo_title', 'local_seo_description', 'image_alt'].forEach(function (field) {
                 var input = postForm.querySelector('[data-lang="' + lang + '"][data-field="' + field + '"]');
                 if (input) input.value = t[field] || '';
             });
@@ -122,7 +149,7 @@
         };
         LANGS.forEach(function (lang) {
             payload.translations[lang] = {};
-            ['title', 'slug', 'excerpt', 'markdown', 'seo_title', 'seo_description', 'seo_keywords', 'image_alt'].forEach(function (field) {
+            ['title', 'slug', 'excerpt', 'markdown', 'seo_title', 'seo_description', 'seo_keywords', 'target_location', 'local_seo_title', 'local_seo_description', 'image_alt'].forEach(function (field) {
                 var input = postForm.querySelector('[data-lang="' + lang + '"][data-field="' + field + '"]');
                 payload.translations[lang][field] = input ? input.value.trim() : '';
             });
@@ -155,7 +182,7 @@
     function showCms() {
         loginPanel.hidden = true;
         cmsPanel.hidden = false;
-        loadPosts().catch(function (err) { message.textContent = err.message; });
+        loadPosts().catch(function (err) { handleApiError(err, message); });
         loadDashboard();
     }
 
@@ -182,6 +209,21 @@
         }
         leadList.innerHTML = leads.map(function (lead) {
             var created = lead.created_at ? new Date(lead.created_at).toLocaleString() : '';
+            var inputData = lead.input_data || lead.calculation_data || {
+                house_size_m2: lead.house_size_m2,
+                people_count: lead.people_count,
+                daytime_occupancy: lead.daytime_occupancy,
+                electric_cooking: lead.electric_cooking,
+                heavy_ac: lead.heavy_ac,
+                water_heater: lead.water_heater
+            };
+            var outputData = lead.output_data || lead.calculation_data || {
+                panels_needed: lead.panels_needed,
+                system_size_kwp: lead.system_size_kwp,
+                annual_production_kwh: lead.annual_production_kwh,
+                roof_area_m2: lead.roof_area_m2,
+                estimated_cost_azn: lead.estimated_cost_azn
+            };
             var system = [
                 lead.panels_needed ? lead.panels_needed + ' panels' : '',
                 lead.system_size_kwp ? lead.system_size_kwp + ' kWp' : '',
@@ -193,8 +235,8 @@
                 '<td><a href="tel:' + esc(String(lead.phone_number || '').replace(/\s+/g, '')) + '">' + esc(lead.phone_number) + '</a></td>' +
                 '<td>' + esc(lead.location_name || '') + '</td>' +
                 '<td><pre>' + esc(system || 'No output') + '</pre></td>' +
-                '<td><pre>' + formatJson(lead.input_data || lead.calculation_data) + '</pre></td>' +
-                '<td><pre>' + formatJson(lead.output_data || lead.calculation_data) + '</pre></td>' +
+                '<td><pre>' + formatJson(inputData) + '</pre></td>' +
+                '<td><pre>' + formatJson(outputData) + '</pre></td>' +
             '</tr>';
         }).join('');
     }
@@ -208,6 +250,10 @@
                 renderLeads(responses[1].leads);
             })
             .catch(function (err) {
+                if (err.relogin || err.code === 'DB_AUTH_FAILED') {
+                    handleApiError(err, null);
+                    return;
+                }
                 leadList.innerHTML = '<tr><td colspan="6">' + esc(err.message) + '</td></tr>';
             });
     }
@@ -293,6 +339,10 @@
                 return loadPosts();
             })
             .catch(function (err) {
+                if (err.relogin || err.code === 'DB_AUTH_FAILED') {
+                    handleApiError(err, null);
+                    return;
+                }
                 message.style.color = '#b42318';
                 message.textContent = err.message;
             });
@@ -309,7 +359,7 @@
                 message.textContent = 'Deleted.';
                 return loadPosts();
             })
-            .catch(function (err) { message.textContent = err.message; });
+            .catch(function (err) { handleApiError(err, message); });
     });
     document.getElementById('logout-btn').addEventListener('click', function () {
         api('/logout', { method: 'POST' }).then(function () { location.reload(); });
@@ -324,6 +374,10 @@
                 indexnowMessage.textContent = 'Submitted ' + result.submitted + ' URLs. Key file: ' + result.keyLocation;
             })
             .catch(function (err) {
+                if (err.relogin || err.code === 'DB_AUTH_FAILED') {
+                    handleApiError(err, null);
+                    return;
+                }
                 indexnowMessage.style.color = '#b42318';
                 indexnowMessage.textContent = err.message;
             });
@@ -339,8 +393,7 @@
             fillForm(posts[0] || emptyPost());
             loadDashboard();
         })
-        .catch(function () {
-            loginPanel.hidden = false;
-            cmsPanel.hidden = true;
+        .catch(function (err) {
+            showLogin(err && (err.relogin || err.code === 'DB_AUTH_FAILED') ? err.message : '');
         });
 })();

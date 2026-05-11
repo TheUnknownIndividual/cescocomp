@@ -51,10 +51,14 @@ function jsonLd(data) {
 
 function generateCmsArticlePage(post) {
   const lang = normalizeLang(post.lang);
-  const title = escapeHtml(post.seo_title || post.title);
+  const targetLocation = String(post.target_location || '').trim();
+  const effectiveSeoTitle = post.local_seo_title || (targetLocation && post.seo_title ? `${post.seo_title} - ${targetLocation}` : post.seo_title) || post.title;
+  const effectiveDescription = post.local_seo_description || post.seo_description || post.excerpt || '';
+  const title = escapeHtml(effectiveSeoTitle);
   const displayTitle = escapeHtml(post.title);
-  const excerpt = escapeHtml(post.seo_description || post.excerpt || '').substring(0, 170);
-  const keywords = escapeHtml(post.seo_keywords || DEFAULT_KEYWORDS[lang]);
+  const excerpt = escapeHtml(effectiveDescription).substring(0, 170);
+  const locationKeywords = targetLocation ? `, ${targetLocation}` : '';
+  const keywords = escapeHtml(`${post.seo_keywords || DEFAULT_KEYWORDS[lang]}${locationKeywords}`);
   const image = escapeHtml(post.hero_image || '/solartower.png');
   const imageAlt = escapeHtml(post.image_alt || post.title);
   const canonical = `${BASE_URL}/${lang}/blog/${post.slug}`;
@@ -69,12 +73,15 @@ function generateCmsArticlePage(post) {
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
-    headline: post.title,
-    description: post.seo_description || post.excerpt || '',
+    headline: effectiveSeoTitle,
+    description: effectiveDescription,
     image: post.hero_image || `${BASE_URL}/solartower.png`,
     datePublished: published,
     dateModified: modified,
     inLanguage: lang,
+    keywords: `${post.seo_keywords || DEFAULT_KEYWORDS[lang]}${locationKeywords}`,
+    spatialCoverage: targetLocation ? { '@type': 'Place', name: targetLocation } : undefined,
+    areaServed: targetLocation ? { '@type': 'Place', name: targetLocation } : undefined,
     author: { '@type': 'Organization', name: 'CESAREC' },
     publisher: {
       '@type': 'Organization',
@@ -99,6 +106,8 @@ function generateCmsArticlePage(post) {
     <meta property="og:url" content="${escapeHtml(canonical)}">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="CESAREC">
+    <meta property="og:locale" content="${lang === 'az' ? 'az_AZ' : lang === 'ru' ? 'ru_RU' : 'en_US'}">
+    ${(post.translations || []).filter(t => t.lang !== lang).map(t => `<meta property="og:locale:alternate" content="${t.lang === 'az' ? 'az_AZ' : t.lang === 'ru' ? 'ru_RU' : 'en_US'}">`).join('\n    ')}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${title}">
     <meta name="twitter:description" content="${excerpt}">

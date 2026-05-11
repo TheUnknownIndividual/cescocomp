@@ -26,6 +26,31 @@ function json(res, status, body) {
   return res.status(status).json(body);
 }
 
+function publicError(error) {
+  if (error && error.code === '28P01') {
+    return {
+      status: 503,
+      body: {
+        error: 'Database authentication failed. Check DATABASE_URL/POSTGRES_URL for cescocomp_user and sign in again after it is fixed.',
+        code: 'DB_AUTH_FAILED',
+        relogin: true
+      }
+    };
+  }
+  if (/password authentication failed/i.test(error?.message || '')) {
+    return {
+      status: 503,
+      body: {
+        error: 'Database authentication failed. Check DATABASE_URL/POSTGRES_URL and sign in again after it is fixed.',
+        code: 'DB_AUTH_FAILED',
+        relogin: true
+      }
+    };
+  }
+  const status = /required|translation|duplicate|unique/i.test(error?.message || '') ? 400 : 500;
+  return { status, body: { error: error.message } };
+}
+
 function setSessionCookie(res, value) {
   const secure = process.env.NODE_ENV === 'production' ? '; Secure' : '';
   res.setHeader('Set-Cookie', `${COOKIE_NAME}=${encodeURIComponent(value)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=604800${secure}`);
@@ -82,14 +107,41 @@ async function ensureLeadSchema(db) {
       annual_production_kwh INTEGER,
       roof_area_m2 INTEGER,
       estimated_cost_azn INTEGER,
+      house_size_m2 INTEGER,
+      people_count INTEGER,
+      daytime_occupancy BOOLEAN,
+      electric_cooking BOOLEAN,
+      heavy_ac BOOLEAN,
+      water_heater BOOLEAN,
+      ip_address TEXT,
+      user_agent TEXT,
+      contacted BOOLEAN NOT NULL DEFAULT FALSE,
+      notes TEXT,
+      region_name_az TEXT,
+      region_name_en TEXT,
+      annual_electricity_usage_kwh INTEGER,
       input_data JSONB,
       output_data JSONB,
       calculation_data JSONB NOT NULL,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )
   `);
+  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS house_size_m2 INTEGER`);
+  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS people_count INTEGER`);
+  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS daytime_occupancy BOOLEAN`);
+  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS electric_cooking BOOLEAN`);
+  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS heavy_ac BOOLEAN`);
+  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS water_heater BOOLEAN`);
+  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS ip_address TEXT`);
+  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS user_agent TEXT`);
+  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS contacted BOOLEAN NOT NULL DEFAULT FALSE`);
+  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS notes TEXT`);
+  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS region_name_az TEXT`);
+  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS region_name_en TEXT`);
+  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS annual_electricity_usage_kwh INTEGER`);
   await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS input_data JSONB`);
   await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS output_data JSONB`);
+  await db.query(`ALTER TABLE solar_calculator_leads ADD COLUMN IF NOT EXISTS calculation_data JSONB`);
   await db.query(`CREATE INDEX IF NOT EXISTS idx_solar_calculator_leads_created ON solar_calculator_leads(created_at DESC)`);
 }
 
@@ -98,7 +150,10 @@ async function listLeads(db) {
   const result = await db.query(`
     SELECT id, phone_number, name, email, location_name, latitude, longitude, panels_needed,
            system_size_kwp, annual_production_kwh, roof_area_m2, estimated_cost_azn,
-           input_data, output_data, calculation_data, created_at
+           house_size_m2, people_count, daytime_occupancy, electric_cooking, heavy_ac,
+           water_heater, ip_address, user_agent, contacted, notes, region_name_az,
+           region_name_en, annual_electricity_usage_kwh, input_data, output_data,
+           calculation_data, created_at
     FROM solar_calculator_leads
     ORDER BY created_at DESC
     LIMIT 1000
@@ -263,8 +318,9 @@ async function handler(req, res) {
 
     return json(res, 404, { error: 'Not found' });
   } catch (error) {
-    const status = /required|translation|duplicate|unique/i.test(error.message) ? 400 : 500;
-    return json(res, status, { error: error.message });
+    const { status, body } = publicError(error);
+    if (body.relogin) clearSessionCookie(res);
+    return json(res, status, body);
   }
 }
 
