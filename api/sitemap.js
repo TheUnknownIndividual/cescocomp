@@ -1,59 +1,6 @@
-const { Pool } = require('pg');
-const fs = require('fs');
-const path = require('path');
+const { getPool } = require('../lib/db');
 const { BASE_URL, listPublishedCmsTranslations } = require('../lib/cms');
-
-// Connection pool
-let pool;
-let articleColumnCache = null;
-function getPool() {
-  const connectionString = process.env.POSTGRES_URL || process.env.DATABASE_URL;
-  if (!connectionString) return null;
-
-  if (!pool) {
-    pool = new Pool({
-      connectionString,
-      ssl: { rejectUnauthorized: false, checkServerIdentity: () => undefined },
-      max: 3,
-      idleTimeoutMillis: 10000,
-      connectionTimeoutMillis: 5000
-    });
-  }
-  return pool;
-}
-
-async function getArticleColumns(db) {
-  if (articleColumnCache) return articleColumnCache;
-  try {
-    const result = await db.query(`
-      SELECT column_name
-      FROM information_schema.columns
-      WHERE table_schema = current_schema() AND table_name = 'articles'
-    `);
-    articleColumnCache = new Set(result.rows.map(row => row.column_name));
-    return articleColumnCache;
-  } catch {
-    return new Set();
-  }
-}
-
-function articleOrderBy(columns) {
-  const parts = [];
-  if (columns.has('fetched_at')) parts.push('fetched_at DESC NULLS LAST');
-  if (columns.has('published_at')) parts.push('published_at DESC NULLS LAST');
-  if (columns.has('date')) parts.push('date DESC NULLS LAST');
-  if (columns.has('id')) parts.push('id DESC');
-  return parts.length ? parts.join(', ') : 'title ASC';
-}
-
-function generateSlug(title) {
-  return title
-    .toLowerCase()
-    .replace(/ə/g, 'e').replace(/ı/g, 'i').replace(/ş/g, 's')
-    .replace(/ç/g, 'c').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ö/g, 'o')
-    .replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
-    .substring(0, 100);
-}
+const { listSitemapArticles } = require('../lib/articles');
 
 function escapeXml(str) {
   return String(str || '')
@@ -88,45 +35,16 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const db = getPool();
-    let articles;
-
-    if (db) {
-      try {
-        const columns = await getArticleColumns(db);
-        if (columns.size) {
-          const publishedExpr = columns.has('published_at')
-            ? 'published_at'
-            : columns.has('date')
-              ? 'date AS published_at'
-              : 'NULL AS published_at';
-          const fetchedExpr = columns.has('fetched_at') ? 'fetched_at' : 'NULL AS fetched_at';
-          const result = await db.query(
-            `SELECT title, ${publishedExpr}, ${fetchedExpr} FROM articles ORDER BY ${articleOrderBy(columns)} LIMIT 1000`
-          );
-          articles = result.rows;
-        } else {
-          articles = [];
-        }
-      } catch (error) {
-        if (error.code !== '42P01' && error.code !== '42703') throw error;
-        articles = [];
-      }
-    } else {
-      const file = path.join(__dirname, '..', 'cecso-news.json');
-      const json = JSON.parse(fs.readFileSync(file, 'utf8'));
-      articles = (json.articles || []).map(article => ({
-        title: article.title,
-        published_at: article.published_at || article.date,
-        fetched_at: null
-      }));
-    }
-
     const baseUrl = BASE_URL;
     const now = new Date().toISOString();
-    const cmsTranslations = await listPublishedCmsTranslations();
-    
-    // Static pages
+    const [cmsTranslations, articles] = await Promise.all([
+      listPublishedCmsTranslations().catch(error => {
+        console.error('[api/sitemap] CMS URLs failed:', error.message);
+        return [];
+      }),
+      listSitemapArticles({ db: getPool(), limit: 1000 })
+    ]);
+
     let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
@@ -160,7 +78,6 @@ module.exports = async function handler(req, res) {
     <priority>0.8</priority>
   </url>`;
 
-    // CMS article translations
     for (const post of cmsTranslations) {
       sitemap += `
   <url>
@@ -171,15 +88,12 @@ module.exports = async function handler(req, res) {
   </url>`;
     }
 
-    // Scraped article pages
     for (const article of articles) {
-      const slug = generateSlug(article.title);
-      const lastmod = toSitemapDate(article.published_at || article.fetched_at, now);
-      
+      if (!article.slug) continue;
       sitemap += `
   <url>
-    <loc>${baseUrl}/blog/${escapeXml(slug)}</loc>
-    <lastmod>${lastmod}</lastmod>
+    <loc>${baseUrl}/blog/${escapeXml(article.slug)}</loc>
+    <lastmod>${toSitemapDate(article.published_at || article.fetched_at, now)}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>`;
@@ -189,10 +103,8 @@ module.exports = async function handler(req, res) {
 </urlset>`;
 
     res.setHeader('Content-Type', 'application/xml');
-    res.setHeader('Cache-Control', 'public, max-age=3600'); // Cache for 1 hour
-    
+    res.setHeader('Cache-Control', 'public, max-age=3600');
     return res.status(200).send(sitemap);
-    
   } catch (error) {
     console.error('[api/sitemap]', error.message);
     return res.status(500).json({ error: 'Failed to generate sitemap' });

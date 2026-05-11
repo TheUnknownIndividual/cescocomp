@@ -1,6 +1,5 @@
-const { Pool } = require('pg');
-const fs = require('fs');
-const path = require('path');
+const { getPool } = require('../lib/db');
+const { findScrapedArticleBySlug } = require('../lib/articles');
 const {
   BASE_URL,
   DEFAULT_KEYWORDS,
@@ -8,49 +7,6 @@ const {
   findCmsPostBySlug,
   normalizeLang
 } = require('../lib/cms');
-
-// Connection pool
-let pool;
-let articleColumnCache = null;
-function getPool() {
-  const connectionString = process.env.POSTGRES_URL || process.env.DATABASE_URL;
-  if (!connectionString) return null;
-
-  if (!pool) {
-    pool = new Pool({
-      connectionString,
-      ssl: { rejectUnauthorized: false, checkServerIdentity: () => undefined },
-      max: 3,
-      idleTimeoutMillis: 10000,
-      connectionTimeoutMillis: 5000
-    });
-  }
-  return pool;
-}
-
-async function getArticleColumns(db) {
-  if (articleColumnCache) return articleColumnCache;
-  try {
-    const result = await db.query(`
-      SELECT column_name
-      FROM information_schema.columns
-      WHERE table_schema = current_schema() AND table_name = 'articles'
-    `);
-    articleColumnCache = new Set(result.rows.map(row => row.column_name));
-    return articleColumnCache;
-  } catch {
-    return new Set();
-  }
-}
-
-function articleOrderBy(columns) {
-  const parts = [];
-  if (columns.has('fetched_at')) parts.push('fetched_at DESC NULLS LAST');
-  if (columns.has('published_at')) parts.push('published_at DESC NULLS LAST');
-  if (columns.has('date')) parts.push('date DESC NULLS LAST');
-  if (columns.has('id')) parts.push('id DESC');
-  return parts.length ? parts.join(', ') : 'title ASC';
-}
 
 function generateSlug(title) {
   return title
@@ -201,7 +157,7 @@ function generateArticlePage(article) {
   const content = article.content || '<p>Ətraflı məlumat üçün orijinal mənbəyə baxın.</p>';
   const image = escapeHtml(article.image || '/solartower.png');
   const source = escapeHtml(article.source || '');
-  const date = article.published_at || new Date().toISOString().split('T')[0];
+  const date = article.published_at || article.date || new Date().toISOString().split('T')[0];
   const link = escapeHtml(article.link || '#');
   
   return `<!DOCTYPE html>
@@ -393,26 +349,6 @@ function generateArticlePage(article) {
 </html>`;
 }
 
-function loadStaticArticles() {
-  const file = path.join(__dirname, '..', 'cecso-news.json');
-  const json = JSON.parse(fs.readFileSync(file, 'utf8'));
-  return Array.isArray(json.articles) ? json.articles : [];
-}
-
-function normalizeStaticArticle(article) {
-  return {
-    title: article.title || '',
-    excerpt: article.excerpt || '',
-    content: article.content || null,
-    image: article.image || '',
-    link: article.link || '#',
-    source: article.source || '',
-    category: article.category || null,
-    published_at: article.published_at || article.date || '',
-    fetched_at: article.fetched_at || null
-  };
-}
-
 module.exports = async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -425,32 +361,19 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const cmsPost = await findCmsPostBySlug({ lang, slug });
+    let cmsPost = null;
+    try {
+      cmsPost = await findCmsPostBySlug({ lang, slug });
+    } catch (error) {
+      console.error('[api/article] CMS lookup failed:', error.message);
+    }
     if (cmsPost) {
       res.setHeader('Content-Type', 'text/html');
       return res.status(200).send(generateCmsArticlePage(cmsPost));
     }
 
-    const db = getPool();
-    if (!db) {
-      const article = loadStaticArticles()
-        .map(normalizeStaticArticle)
-        .find(a => generateSlug(a.title) === slug);
-
-      if (!article) {
-        return res.status(404).send(`
-          <!DOCTYPE html>
-          <html><head><title>Məqalə tapılmadı</title></head>
-          <body><h1>Məqalə tapılmadı</h1><a href="/news">Xəbərlərə qayıt</a></body></html>
-        `);
-      }
-
-      res.setHeader('Content-Type', 'text/html');
-      return res.status(200).send(generateArticlePage(article));
-    }
-    
-    const articleColumns = await getArticleColumns(db);
-    if (!articleColumns.size) {
+    const article = await findScrapedArticleBySlug(slug, { db: getPool() });
+    if (!article) {
       return res.status(404).send(`
         <!DOCTYPE html>
         <html><head><title>Məqalə tapılmadı</title></head>
@@ -458,64 +381,6 @@ module.exports = async function handler(req, res) {
       `);
     }
 
-    // Try to find by slug first (most efficient)
-    let result;
-    if (articleColumns.has('slug')) {
-      try {
-      result = await db.query(
-        'SELECT * FROM articles WHERE slug = $1 LIMIT 1',
-        [slug]
-      );
-      } catch (error) {
-        if (error.code !== '42703' && error.code !== '42P01') throw error;
-        result = { rows: [] };
-      }
-    } else {
-      result = { rows: [] };
-    }
-
-    // If not found, try finding by generated slug from title
-    if (result.rows.length === 0) {
-      try {
-        if (articleColumns.has('link') && articleColumns.has('title')) {
-          result = await db.query(
-            'SELECT * FROM articles WHERE link LIKE $1 OR title ILIKE $2 LIMIT 1',
-            [`%${slug}%`, `%${slug.replace(/-/g, ' ')}%`]
-          );
-        } else if (articleColumns.has('title')) {
-          result = await db.query(
-            'SELECT * FROM articles WHERE title ILIKE $1 LIMIT 1',
-            [`%${slug.replace(/-/g, ' ')}%`]
-          );
-        }
-      } catch (error) {
-        if (error.code !== '42P01' && error.code !== '42703') throw error;
-        result = { rows: [] };
-      }
-    }
-
-    // If still not found, try generating slug from all titles
-    if (result.rows.length === 0) {
-      try {
-        const allArticles = await db.query(`SELECT * FROM articles ORDER BY ${articleOrderBy(articleColumns)} LIMIT 1000`);
-        const article = allArticles.rows.find(a => generateSlug(a.title) === slug);
-        if (article) {
-          result.rows = [article];
-        }
-      } catch (error) {
-        if (error.code !== '42P01') throw error;
-      }
-    }
-
-    if (result.rows.length === 0) {
-      return res.status(404).send(`
-        <!DOCTYPE html>
-        <html><head><title>Məqalə tapılmadı</title></head>
-        <body><h1>Məqalə tapılmadı</h1><a href="/news">Xəbərlərə qayıt</a></body></html>
-      `);
-    }
-
-    const article = result.rows[0];
     const html = generateArticlePage(article);
     
     res.setHeader('Content-Type', 'text/html');

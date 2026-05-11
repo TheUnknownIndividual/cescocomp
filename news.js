@@ -6,7 +6,7 @@
 
     // DB API — Vercel serverless function proxies to PostgreSQL directly
     var API_BASE  = (window.SITE_CONFIG && window.SITE_CONFIG.newsApiBase) || '/api';
-    var CACHE_KEY = 'cescocomp_news_cache';
+    var CACHE_KEY = 'cescocomp_news_cache_v2';
     var CACHE_TTL = 10 * 60 * 1000; // 10 minutes — refresh silently after this
 
     var allArticles = [];
@@ -59,8 +59,8 @@
         var imgSrc = art.image || FALLBACK_IMG;
         var excerpt = truncateExcerpt(art.excerpt || '');
         var dateStr = formatDate(art.date);
-        var blogSlug = generateSlug(art.title);
-        var link = art.type === 'cms' && art.slug ? '/' + (art.lang || currentLang()) + '/blog/' + art.slug : '/blog/' + blogSlug;
+        var blogSlug = art.slug || generateSlug(art.title);
+        var link = art.link || (art.type === 'cms' && art.slug ? '/' + (art.lang || currentLang()) + '/blog/' + art.slug : '/blog/' + blogSlug);
         var source = art.source || '';
 
         article.innerHTML =

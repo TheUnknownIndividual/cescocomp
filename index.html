@@ -308,7 +308,7 @@
                 image:   a.image        || '',
                 image_alt: a.image_alt  || a.title || '',
                 excerpt: a.excerpt      || '',
-                link:    a.type === 'cms' && a.slug ? '/' + (a.lang || currentLang()) + '/blog/' + a.slug : '/blog/' + generateSlug(a.title || ''),
+                link:    a.link || (a.type === 'cms' && a.slug ? '/' + (a.lang || currentLang()) + '/blog/' + a.slug : '/blog/' + (a.slug || generateSlug(a.title || ''))),
                 source:  a.source       || '',
                 type:    a.type         || 'scraped',
                 slug:    a.slug         || '',

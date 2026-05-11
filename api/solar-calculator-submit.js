@@ -1,23 +1,7 @@
-const { Pool } = require('pg');
+const { getPool } = require('../lib/db');
 
-let pool;
 let schemaReady = false;
 let schemaPromise = null;
-
-function getPool() {
-  const connectionString = process.env.POSTGRES_URL || process.env.DATABASE_URL;
-  if (!connectionString) return null;
-  if (!pool) {
-    pool = new Pool({
-      connectionString,
-      ssl: process.env.PGSSLMODE === 'disable' ? false : { rejectUnauthorized: false, checkServerIdentity: () => undefined },
-      max: 3,
-      idleTimeoutMillis: 10000,
-      connectionTimeoutMillis: 5000
-    });
-  }
-  return pool;
-}
 
 function getBody(req) {
   if (req.body && typeof req.body === 'object') return Promise.resolve(req.body);

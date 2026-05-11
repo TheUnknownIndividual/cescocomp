@@ -10,6 +10,7 @@ const {
   signSession,
   verifySession
 } = require('../lib/cms');
+const { listSitemapArticles } = require('../lib/articles');
 
 const COOKIE_NAME = 'cesarec_admin';
 let leadSchemaReady = false;
@@ -226,13 +227,12 @@ async function collectIndexNowUrls(db) {
     urls.push(`${base}/${post.lang}/blog/${post.slug}`);
   }
 
-  try {
-    const articles = await db.query('SELECT title FROM articles ORDER BY fetched_at DESC LIMIT 1000');
-    for (const article of articles.rows) {
+  for (const article of await listSitemapArticles({ db, limit: 1000 })) {
+    if (article.slug) {
+      urls.push(`${base}/blog/${article.slug}`);
+    } else if (article.title) {
       urls.push(`${base}/blog/${generateSlug(article.title)}`);
     }
-  } catch (error) {
-    if (error.code !== '42P01') throw error;
   }
 
   return Array.from(new Set(urls));
