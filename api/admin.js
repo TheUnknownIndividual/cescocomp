@@ -185,8 +185,8 @@ async function getAnalytics(db) {
         COUNT(*)::int AS total_leads,
         COUNT(*) FILTER (WHERE created_at >= NOW() - INTERVAL '7 days')::int AS leads_7d,
         COUNT(*) FILTER (WHERE created_at >= NOW() - INTERVAL '30 days')::int AS leads_30d,
-        COALESCE(ROUND(AVG(system_size_kwp)::numeric, 2), 0) AS avg_system_size_kwp,
-        COALESCE(SUM(estimated_cost_azn)::int, 0) AS total_estimated_cost_azn
+        COALESCE(ROUND(AVG(NULLIF(system_size_kwp::text, '')::numeric), 2), 0) AS avg_system_size_kwp,
+        COALESCE(SUM(NULLIF(estimated_cost_azn::text, '')::numeric)::int, 0) AS total_estimated_cost_azn
       FROM solar_calculator_leads
     `),
     db.query(`
