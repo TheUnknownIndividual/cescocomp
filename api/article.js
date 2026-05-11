@@ -30,6 +30,73 @@ function jsonLd(data) {
   return JSON.stringify(data).replace(/</g, '\\u003c');
 }
 
+function renderThemeToggle() {
+  return `
+        <div class="theme-toggle-wrap">
+          <button type="button" id="theme-toggle-btn" class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" aria-pressed="false">
+            <span class="theme-icon-sun" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <span class="theme-icon-moon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.4 15.3A8.5 8.5 0 0 1 8.7 3.6a8.5 8.5 0 1 0 11.7 11.7Z" fill="currentColor"/></svg></span>
+          </button>
+        </div>`;
+}
+
+function renderSiteNav() {
+  return `
+    <nav class="navbar">
+      <div class="nav-inner">
+        <a href="/" class="logo">
+          <img src="/lightmodeplugin.png" alt="AZ Energy Hub" class="logo-img">
+        </a>
+        <ul class="nav-links">
+          <li><a href="/" data-i18n="nav.home">Home</a></li>
+          <li><a href="/solar-calculator" data-i18n="nav.calculator">Solar Calculator</a></li>
+          <li><a href="/regulatory-framework" data-i18n="nav.framework">Framework</a></li>
+          <li><a href="/projects" data-i18n="nav.projects">Projects</a></li>
+          <li><a href="/news" data-i18n="nav.news">News</a></li>
+        </ul>
+        <div class="nav-right">
+          <div class="lang-switcher" id="lang-switcher">
+            <button type="button" class="lang-switcher-btn" id="lang-switcher-btn" aria-label="Change language">
+              <span id="currentLang">EN</span>
+            </button>
+          </div>
+          ${renderThemeToggle()}
+          <button type="button" class="nav-burger" id="nav-burger" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>`;
+}
+
+function renderCmsLanguageRedirectScript(lang, translations) {
+  const urls = {};
+  (translations || []).forEach(translation => {
+    if (translation && translation.lang && translation.slug) {
+      urls[translation.lang] = `/${translation.lang}/blog/${translation.slug}`;
+    }
+  });
+  return `
+    <script>
+      window.BLOG_PAGE_LANG = ${jsonLd(lang)};
+      window.BLOG_TRANSLATION_URLS = ${jsonLd(urls)};
+      try { localStorage.setItem('az-energy-lang', window.BLOG_PAGE_LANG); } catch (e) {}
+    </script>
+    <script src="/i18n.js"></script>
+    <script>
+      (function () {
+        function cleanPath(path) { return String(path || '').replace(/\\/$/, '') || '/'; }
+        window.addEventListener('langchange', function (event) {
+          var lang = (event.detail && event.detail.lang) || (window.getLanguage && window.getLanguage());
+          var target = window.BLOG_TRANSLATION_URLS && window.BLOG_TRANSLATION_URLS[lang];
+          if (target && cleanPath(target) !== cleanPath(window.location.pathname)) {
+            window.location.href = target;
+          }
+        });
+      })();
+    </script>`;
+}
+
 function generateCmsArticlePage(post) {
   const lang = normalizeLang(post.lang);
   const targetLocation = String(post.target_location || '').trim();
@@ -120,18 +187,7 @@ function generateCmsArticlePage(post) {
     </style>
 </head>
 <body>
-    <nav class="navbar">
-      <div class="nav-inner">
-        <a href="/" class="logo"><img src="/lightmodeplugin.png" alt="AZ Energy Hub" class="logo-img"></a>
-        <ul class="nav-links">
-          <li><a href="/">Home</a></li>
-          <li><a href="/solar-calculator">Solar Calculator</a></li>
-          <li><a href="/regulatory-framework">Framework</a></li>
-          <li><a href="/projects">Projects</a></li>
-          <li><a href="/news">News</a></li>
-        </ul>
-      </div>
-    </nav>
+    ${renderSiteNav()}
     <main class="main-content">
       <div class="container">
         <a href="/news" class="back-to-news">← News</a>
@@ -146,6 +202,7 @@ function generateCmsArticlePage(post) {
       </div>
     </main>
     <footer class="footer"><div class="footer-content"><p>&copy; 2026 CESAREC. Bütün hüquqlar qorunur.</p></div></footer>
+    ${renderCmsLanguageRedirectScript(lang, post.translations || [])}
     <script src="/theme.js"></script>
 </body>
 </html>`;
@@ -159,6 +216,23 @@ function generateArticlePage(article) {
   const source = escapeHtml(article.source || '');
   const date = article.published_at || article.date || new Date().toISOString().split('T')[0];
   const link = escapeHtml(article.link || '#');
+  const articleSlug = article.slug || generateSlug(article.title);
+  const canonical = `${BASE_URL}/blog/${articleSlug}`;
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: article.title,
+    description: article.excerpt || '',
+    image: article.image || `${BASE_URL}/solartower.png`,
+    datePublished: date,
+    author: { '@type': 'Organization', name: 'CESAREC' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'CESAREC',
+      logo: { '@type': 'ImageObject', url: `${BASE_URL}/tablogo.png` }
+    },
+    mainEntityOfPage: canonical
+  };
   
   return `<!DOCTYPE html>
 <html lang="az">
@@ -174,7 +248,7 @@ function generateArticlePage(article) {
     <meta property="og:title" content="${title}">
     <meta property="og:description" content="${excerpt}">
     <meta property="og:image" content="${image}">
-    <meta property="og:url" content="https://plugin.az/blog/${generateSlug(article.title)}">
+    <meta property="og:url" content="${escapeHtml(canonical)}">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="CESAREC">
     
@@ -185,34 +259,12 @@ function generateArticlePage(article) {
     <meta name="twitter:image" content="${image}">
     
     <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "NewsArticle",
-      "headline": "${title}",
-      "description": "${excerpt}",
-      "image": "${image}",
-      "datePublished": "${date}",
-      "author": {
-        "@type": "Organization",
-        "name": "CESAREC"
-      },
-      "publisher": {
-        "@type": "Organization", 
-        "name": "CESAREC",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://plugin.az/tablogo.png"
-        }
-      },
-      "mainEntityOfPage": "https://plugin.az/blog/${generateSlug(article.title)}"
-    }
-    </script>
+    <script type="application/ld+json">${jsonLd(structuredData)}</script>
     
     <link rel="icon" href="/tablogo.png" type="image/png">
     <link rel="stylesheet" href="/styles.css">
     <link rel="stylesheet" href="/pages.css">
-    <link rel="canonical" href="https://plugin.az/blog/${generateSlug(article.title)}">
+    <link rel="canonical" href="${escapeHtml(canonical)}">
     <script src="/site-config.js"></script>
     <script src="/analytics.js" defer></script>
     
@@ -285,29 +337,7 @@ function generateArticlePage(article) {
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <img src="/tablogo.png" alt="Logo" class="logo-img">
-                <span class="brand-text">CESAREC</span>
-            </div>
-            <div class="nav-inner">
-                <div class="nav-links">
-                    <a href="/" class="nav-link">Ana Səhifə</a>
-                    <a href="/projects" class="nav-link">Layihələr</a>
-                    <a href="/solar-calculator" class="nav-link">Hesablayıcı</a>
-                    <a href="/regulatory-framework" class="nav-link">Çərçivə</a>
-                    <a href="/news" class="nav-link active">Xəbərlər</a>
-                </div>
-                <div class="nav-controls">
-                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-                        <span class="theme-icon">🌙</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
+    ${renderSiteNav()}
 
     <main class="main-content">
         <div class="container">
@@ -344,6 +374,7 @@ function generateArticlePage(article) {
         </div>
     </footer>
 
+    <script src="/i18n.js"></script>
     <script src="/theme.js"></script>
 </body>
 </html>`;

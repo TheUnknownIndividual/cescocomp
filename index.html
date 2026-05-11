@@ -345,7 +345,9 @@
 
         function renderArticles(articles) {
             grid.innerHTML = '';
-            var normalized = articles.map(normalizeArticle).sort(function (a, b) {
+            var normalized = articles.map(normalizeArticle).filter(function (a) {
+                return a.title && (a.link || a.slug);
+            }).sort(function (a, b) {
                 return (b._ts || 0) - (a._ts || 0);
             }).slice(0, 3);
             var frag = document.createDocumentFragment();
@@ -365,7 +367,10 @@
                 .then(function (r) { if (!r.ok) throw new Error('API ' + r.status); return r.json(); })
                 .then(function (data) {
                     var articles = data.articles || [];
-                    if (articles.length === 0) return fetchStaticFallback();
+                    var hasRenderable = articles.some(function (a) {
+                        return a && a.title && (a.link || a.slug);
+                    });
+                    if (articles.length === 0 || !hasRenderable) return fetchStaticFallback();
                     renderArticles(articles);
                 })
                 .catch(function () {

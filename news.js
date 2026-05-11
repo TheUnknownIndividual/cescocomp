@@ -238,6 +238,8 @@
                 lang:    a.lang    || currentLang(),
                 _ts:     parseDate(a.published_at || a.date).getTime()
             };
+        }).filter(function (a) {
+            return a.title && (a.link || a.slug);
         });
         
         // Sort by date (newest first)
@@ -264,7 +266,10 @@
         fetchFromAPI(1, 200, 'all')
             .then(function (data) {
                 var articles = data.articles || [];
-                if (articles.length === 0) return fetchStaticFallback(cache);
+                var hasRenderable = articles.some(function (a) {
+                    return a && a.title && (a.link || a.slug);
+                });
+                if (articles.length === 0 || !hasRenderable) return fetchStaticFallback(cache);
                 saveCache(articles);
                 populateArticles(articles);
             })
