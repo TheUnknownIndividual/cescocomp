@@ -11,6 +11,7 @@ const {
 
 // Connection pool
 let pool;
+let articleColumnCache = null;
 function getPool() {
   const connectionString = process.env.POSTGRES_URL || process.env.DATABASE_URL;
   if (!connectionString) return null;
@@ -25,6 +26,30 @@ function getPool() {
     });
   }
   return pool;
+}
+
+async function getArticleColumns(db) {
+  if (articleColumnCache) return articleColumnCache;
+  try {
+    const result = await db.query(`
+      SELECT column_name
+      FROM information_schema.columns
+      WHERE table_schema = current_schema() AND table_name = 'articles'
+    `);
+    articleColumnCache = new Set(result.rows.map(row => row.column_name));
+    return articleColumnCache;
+  } catch {
+    return new Set();
+  }
+}
+
+function articleOrderBy(columns) {
+  const parts = [];
+  if (columns.has('fetched_at')) parts.push('fetched_at DESC NULLS LAST');
+  if (columns.has('published_at')) parts.push('published_at DESC NULLS LAST');
+  if (columns.has('date')) parts.push('date DESC NULLS LAST');
+  if (columns.has('id')) parts.push('id DESC');
+  return parts.length ? parts.join(', ') : 'title ASC';
 }
 
 function generateSlug(title) {
@@ -424,27 +449,47 @@ module.exports = async function handler(req, res) {
       return res.status(200).send(generateArticlePage(article));
     }
     
+    const articleColumns = await getArticleColumns(db);
+    if (!articleColumns.size) {
+      return res.status(404).send(`
+        <!DOCTYPE html>
+        <html><head><title>Məqalə tapılmadı</title></head>
+        <body><h1>Məqalə tapılmadı</h1><a href="/news">Xəbərlərə qayıt</a></body></html>
+      `);
+    }
+
     // Try to find by slug first (most efficient)
     let result;
-    try {
+    if (articleColumns.has('slug')) {
+      try {
       result = await db.query(
         'SELECT * FROM articles WHERE slug = $1 LIMIT 1',
         [slug]
       );
-    } catch (error) {
-      if (error.code !== '42703' && error.code !== '42P01') throw error;
+      } catch (error) {
+        if (error.code !== '42703' && error.code !== '42P01') throw error;
+        result = { rows: [] };
+      }
+    } else {
       result = { rows: [] };
     }
 
     // If not found, try finding by generated slug from title
     if (result.rows.length === 0) {
       try {
-        result = await db.query(
-          'SELECT * FROM articles WHERE link LIKE $1 OR title ILIKE $2 LIMIT 1',
-          [`%${slug}%`, `%${slug.replace(/-/g, ' ')}%`]
-        );
+        if (articleColumns.has('link') && articleColumns.has('title')) {
+          result = await db.query(
+            'SELECT * FROM articles WHERE link LIKE $1 OR title ILIKE $2 LIMIT 1',
+            [`%${slug}%`, `%${slug.replace(/-/g, ' ')}%`]
+          );
+        } else if (articleColumns.has('title')) {
+          result = await db.query(
+            'SELECT * FROM articles WHERE title ILIKE $1 LIMIT 1',
+            [`%${slug.replace(/-/g, ' ')}%`]
+          );
+        }
       } catch (error) {
-        if (error.code !== '42P01') throw error;
+        if (error.code !== '42P01' && error.code !== '42703') throw error;
         result = { rows: [] };
       }
     }
@@ -452,7 +497,7 @@ module.exports = async function handler(req, res) {
     // If still not found, try generating slug from all titles
     if (result.rows.length === 0) {
       try {
-        const allArticles = await db.query('SELECT * FROM articles ORDER BY fetched_at DESC LIMIT 1000');
+        const allArticles = await db.query(`SELECT * FROM articles ORDER BY ${articleOrderBy(articleColumns)} LIMIT 1000`);
         const article = allArticles.rows.find(a => generateSlug(a.title) === slug);
         if (article) {
           result.rows = [article];

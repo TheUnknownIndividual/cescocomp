@@ -5,6 +5,7 @@ const { getPublishedCmsFeed, normalizeLang } = require('../lib/cms');
 
 // Connection pool — reused across warm invocations
 let pool;
+let articleColumnCache = null;
 function getPool() {
   const connectionString = process.env.POSTGRES_URL || process.env.DATABASE_URL;
   if (!connectionString) return null;
@@ -19,6 +20,30 @@ function getPool() {
     });
   }
   return pool;
+}
+
+async function getArticleColumns(db) {
+  if (articleColumnCache) return articleColumnCache;
+  try {
+    const result = await db.query(`
+      SELECT column_name
+      FROM information_schema.columns
+      WHERE table_schema = current_schema() AND table_name = 'articles'
+    `);
+    articleColumnCache = new Set(result.rows.map(row => row.column_name));
+    return articleColumnCache;
+  } catch {
+    return new Set();
+  }
+}
+
+function articleOrderBy(columns) {
+  const parts = [];
+  if (columns.has('published_at')) parts.push('published_at DESC NULLS LAST');
+  if (columns.has('date')) parts.push('date DESC NULLS LAST');
+  if (columns.has('fetched_at')) parts.push('fetched_at DESC NULLS LAST');
+  if (columns.has('id')) parts.push('id DESC');
+  return parts.length ? parts.join(', ') : 'title ASC';
 }
 
 function loadStaticArticles() {
@@ -89,22 +114,27 @@ module.exports = async function handler(req, res) {
     const scrapedLimit = Math.max(0, pageSize - cms.articles.length);
     const scrapedOffset = Math.max(0, offset - cms.total);
     const includeScraped = !hasSource || (source !== 'Blog' && source !== 'cms');
+    const articleColumns = includeScraped ? await getArticleColumns(db) : new Set();
+    const articlesTableExists = articleColumns.size > 0;
+    const canFilterSource = articleColumns.has('source');
+    const useSourceFilter = hasSource && source !== 'all' && canFilterSource;
+    const orderBy = articleOrderBy(articleColumns);
 
     let rows;
     let count;
     try {
       [rows, count] = await Promise.all([
-        includeScraped && scrapedLimit > 0 ? db.query(
-          hasSource && source !== 'all'
-            ? `SELECT * FROM articles WHERE source=$3 ORDER BY published_at DESC NULLS LAST, fetched_at DESC LIMIT $1 OFFSET $2`
-            : `SELECT * FROM articles ORDER BY published_at DESC NULLS LAST, fetched_at DESC LIMIT $1 OFFSET $2`,
-          hasSource && source !== 'all' ? [scrapedLimit, scrapedOffset, source] : [scrapedLimit, scrapedOffset]
+        includeScraped && articlesTableExists && scrapedLimit > 0 ? db.query(
+          useSourceFilter
+            ? `SELECT * FROM articles WHERE source=$3 ORDER BY ${orderBy} LIMIT $1 OFFSET $2`
+            : `SELECT * FROM articles ORDER BY ${orderBy} LIMIT $1 OFFSET $2`,
+          useSourceFilter ? [scrapedLimit, scrapedOffset, source] : [scrapedLimit, scrapedOffset]
         ) : Promise.resolve({ rows: [] }),
-        includeScraped ? db.query(
-          hasSource && source !== 'all'
+        includeScraped && articlesTableExists ? db.query(
+          useSourceFilter
             ? `SELECT COUNT(*) FROM articles WHERE source=$1`
             : `SELECT COUNT(*) FROM articles`,
-          hasSource && source !== 'all' ? [source] : []
+          useSourceFilter ? [source] : []
         ) : Promise.resolve({ rows: [{ count: 0 }] })
       ]);
     } catch (error) {

@@ -5,6 +5,7 @@ const { BASE_URL, listPublishedCmsTranslations } = require('../lib/cms');
 
 // Connection pool
 let pool;
+let articleColumnCache = null;
 function getPool() {
   const connectionString = process.env.POSTGRES_URL || process.env.DATABASE_URL;
   if (!connectionString) return null;
@@ -19,6 +20,30 @@ function getPool() {
     });
   }
   return pool;
+}
+
+async function getArticleColumns(db) {
+  if (articleColumnCache) return articleColumnCache;
+  try {
+    const result = await db.query(`
+      SELECT column_name
+      FROM information_schema.columns
+      WHERE table_schema = current_schema() AND table_name = 'articles'
+    `);
+    articleColumnCache = new Set(result.rows.map(row => row.column_name));
+    return articleColumnCache;
+  } catch {
+    return new Set();
+  }
+}
+
+function articleOrderBy(columns) {
+  const parts = [];
+  if (columns.has('fetched_at')) parts.push('fetched_at DESC NULLS LAST');
+  if (columns.has('published_at')) parts.push('published_at DESC NULLS LAST');
+  if (columns.has('date')) parts.push('date DESC NULLS LAST');
+  if (columns.has('id')) parts.push('id DESC');
+  return parts.length ? parts.join(', ') : 'title ASC';
 }
 
 function generateSlug(title) {
@@ -68,12 +93,23 @@ module.exports = async function handler(req, res) {
 
     if (db) {
       try {
-        const result = await db.query(
-          'SELECT title, published_at, fetched_at FROM articles ORDER BY fetched_at DESC LIMIT 1000'
-        );
-        articles = result.rows;
+        const columns = await getArticleColumns(db);
+        if (columns.size) {
+          const publishedExpr = columns.has('published_at')
+            ? 'published_at'
+            : columns.has('date')
+              ? 'date AS published_at'
+              : 'NULL AS published_at';
+          const fetchedExpr = columns.has('fetched_at') ? 'fetched_at' : 'NULL AS fetched_at';
+          const result = await db.query(
+            `SELECT title, ${publishedExpr}, ${fetchedExpr} FROM articles ORDER BY ${articleOrderBy(columns)} LIMIT 1000`
+          );
+          articles = result.rows;
+        } else {
+          articles = [];
+        }
       } catch (error) {
-        if (error.code !== '42P01') throw error;
+        if (error.code !== '42P01' && error.code !== '42703') throw error;
         articles = [];
       }
     } else {

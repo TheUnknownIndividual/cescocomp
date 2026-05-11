@@ -266,11 +266,7 @@
                 var articles = data.articles || [];
                 if (articles.length === 0) return fetchStaticFallback(cache);
                 saveCache(articles);
-                // Only re-render if we got different data than cache
-                var cacheLen = (cache && cache.articles) ? cache.articles.length : 0;
-                if (articles.length !== cacheLen || isCacheStale(cache)) {
-                    populateArticles(articles);
-                }
+                populateArticles(articles);
             })
             .catch(function (err) {
                 console.warn('[news] API fetch failed:', err.message);
@@ -294,10 +290,7 @@
                 var articles = data.articles || [];
                 if (articles.length === 0) return;
                 saveCache(articles);
-                var cacheLen = (cache && cache.articles) ? cache.articles.length : 0;
-                if (articles.length !== cacheLen || isCacheStale(cache)) {
-                    populateArticles(articles);
-                }
+                populateArticles(articles);
             });
     }
 
